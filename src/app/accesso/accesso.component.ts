@@ -3,15 +3,13 @@ import {FormGroup, FormBuilder} from '@angular/forms';
 import {Router} from '@angular/router';
 
 @Component({
-  selector: 'app-root',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
+  selector: 'app-accesso',
+  templateUrl: './accesso.component.html',
+  styleUrls: ['./accesso.component.css']
 })
+export class AccessoComponent implements OnInit {
 
-
-export class AppComponent implements OnInit {
   loginForm: FormGroup;
-  visualizzaForm = true;
 
   constructor(private formBuilder: FormBuilder, private router: Router) { }
 
@@ -20,16 +18,15 @@ export class AppComponent implements OnInit {
       username: [''],
       password: ['']
     });
+  }
 
-}
 
-onSubmit() {
-  console.log('funziona!');
-  console.log(this.loginForm.controls.username.value);
-  console.log(this.loginForm.controls.password.value);
-  this.visualizzaForm = false;
+  onSubmit() {
+    console.log('funziona!');
+    console.log(this.loginForm.controls.username.value);
+    console.log(this.loginForm.controls.password.value);
+    this.router.navigate(['/area-riservata']);
 
-}
-
+  }
 
 }
