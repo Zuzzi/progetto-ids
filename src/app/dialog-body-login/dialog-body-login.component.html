@@ -1,0 +1,21 @@
+
+<h2 mat-dialog-title>Accesso all'area riservata</h2>
+
+<mat-dialog-content>
+
+<p> Username </p>
+<mat-form-field>
+        <input matInput [(ngModel)]="username">
+</mat-form-field>
+
+
+<p> Password</p>
+<mat-form-field>
+        <input matInput [(ngModel)]="password">
+</mat-form-field>
+</mat-dialog-content>
+
+<mat-dialog-actions>
+        <button class="mat-raised-button" (click)="login()">Log in</button>
+</mat-dialog-actions>
+

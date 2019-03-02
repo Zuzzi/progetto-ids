@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import {FormGroup, FormBuilder} from '@angular/forms';
 import {Router} from '@angular/router';
+import { MatDialog} from '@angular/material';
+import { DialogBodyLoginComponent } from './dialog-body-login/dialog-body-login.component';
+
 
 @Component({
   selector: 'app-root',
@@ -13,7 +16,7 @@ export class AppComponent implements OnInit {
   loginForm: FormGroup;
   visualizzaForm = true;
 
-  constructor(private formBuilder: FormBuilder, private router: Router) { }
+  constructor(private formBuilder: FormBuilder, private router: Router, private dialog: MatDialog) { }
 
   ngOnInit() {
     this.loginForm = this.formBuilder.group({
@@ -29,6 +32,17 @@ onSubmit() {
   console.log(this.loginForm.controls.password.value);
   this.visualizzaForm = false;
 
+}
+
+
+openDialog() {
+  // const ogConfig = new MatDialogConfig();
+  // dialogConfig.data = 'some data';
+  const dialogRef = this.dialog.open(DialogBodyLoginComponent);
+  dialogRef.afterClosed().subscribe(value => {
+    console.log(`Dialog sent: ${value}`);
+    this.visualizzaForm = false;
+  });
 }
 
 
