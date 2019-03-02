@@ -8,7 +8,13 @@ import { DialogBodyLoginComponent } from './dialog-body-login/dialog-body-login.
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
+  styleUrls: [
+    './app.component.css',
+    './layout-first-page/vendor/bootstrap/css/bootstrap.min.css',
+    './layout-first-page/vendor/fontawesome-free/css/all.min.css',
+    './layout-first-page/vendor/simple-line-icons/css/simple-line-icons.css',
+    './layout-first-page/css/stylish-portfolio.min.css',
+]
 })
 
 

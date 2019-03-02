@@ -1,32 +1,27 @@
 
 <div *ngIf = "visualizzaForm">
-<h1>Smart Contract</h1>
 
-<!-- form da usare alternativamente al pulsante di login
 
+
+  <!-- Header -->
+  <header class="masthead d-flex">
+      <div class="container text-center my-auto">
+        <h1 class="mb-1">Smart Contract</h1>
+        <h3 class="mb-5">
+          <em>GUI user-friendly per l'utilizzo di smart contract nel dipartimento DICEA</em>
+        </h3>
+        <a class="btn btn-primary btn-xl js-scroll-trigger" (click) = "openDialog()">Log in</a>
+      </div>
+      <div class="overlay"></div>
+    </header>
   
-
-<form (ngSubmit) = "onSubmit()" [formGroup] = "loginForm">
-  Username: 
-  <input type = "text" formControlName="username">
-  <br>
-  Password:
-  <input type = "password" formControlName="password">
-  <br>
-  <input type = "submit" value = "Accedi">
-
-</form>
-
--->
-
-"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna
-aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis
-aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint
-occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
-
-<br>
-
-<button (click) = "openDialog()">Log in</button>
+    <!-- Footer -->
+    <footer class="footer text-center">
+      <div class="container">
+        <p class="text-muted small mb-0">Progetto di Ingegneria del Software A.A 2018/2019 - Prof. Luca Spalazzi</p>
+      <p class="text-muted small mb-0">Gruppo 1 - Sara, Morris, Davide, Luca, Carlo</p>
+      </div>
+    </footer>
 
 </div>
 <!-- FARE CONTROLLO SULL'ACCESSO -->
