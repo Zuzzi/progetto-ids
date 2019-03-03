@@ -10,6 +10,14 @@ import { NavbarComponent } from './navbar/navbar.component';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {MaterialModule} from './material';
 import { DialogBodyLoginComponent } from './dialog-body-login/dialog-body-login.component';
+import { WelcomeComponent } from './welcome/welcome.component';
+import { HomeComponent } from './home/home.component';
+import { GiornaleComponent } from './giornale/giornale.component';
+import { LibrettoComponent } from './libretto/libretto.component';
+import { RegistroComponent } from './registro/registro.component';
+import { SalComponent } from './sal/sal.component';
+import { ControlloComponent } from './controllo/controllo.component';
+import { GestioneComponent } from './gestione/gestione.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -17,6 +25,14 @@ import { DialogBodyLoginComponent } from './dialog-body-login/dialog-body-login.
     AreaRiservataComponent,
     NavbarComponent,
     DialogBodyLoginComponent,
+    WelcomeComponent,
+    HomeComponent,
+    GiornaleComponent,
+    LibrettoComponent,
+    RegistroComponent,
+    SalComponent,
+    ControlloComponent,
+    GestioneComponent,
   ],
   imports: [
     BrowserModule,

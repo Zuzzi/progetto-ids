@@ -1,5 +1,9 @@
 
 <h2 mat-dialog-title>Accesso all'area riservata</h2>
+<div *ngIf = "credentialsMistake" class="isa_error">
+        <i class="fa fa-times-circle"></i>
+        Accesso negato!
+</div>
 
 <mat-dialog-content>
 
@@ -16,5 +20,6 @@
 </mat-dialog-content>
 <mat-dialog-actions>
         <button class="mat-raised-button" (click)="login()">Log in</button>
+        <button class="mat-raised-button" (click)="close()">Close</button>
 </mat-dialog-actions>
 

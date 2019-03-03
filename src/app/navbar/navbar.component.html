@@ -1,10 +1,3 @@
-<!-- sub menù di N contratti da fare-->
-
-
-
-
-
-
 
 <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
 
@@ -16,79 +9,38 @@
   
             <ul id="menu-content" class="menu-content collapse out">
 
+              <div *ngFor = "let contratto of listaContratti">
 
-                <li  data-toggle="collapse" data-target="#products" class="collapsed active">
-                  <a href="#"><i class="glyphicon glyphicon-list-alt"></i> Contratto 1 <span class="arrow"></span></a>
+
+                <li  data-toggle="collapse" attr.data-target="#{{contratto.cssProperty}}" class="collapsed">
+                  <a><i  class="glyphicon glyphicon-list-alt"></i> {{contratto.nome}} <span class="arrow"></span></a>
                 </li>
-                <ul class="sub-menu collapse" id="products">
+                <ul class="sub-menu collapse" id="{{contratto.cssProperty}}">
                   <!-- 'active' indica la voce selezionata in questo momento
                     <li class="active"><a href="#">CSS3 Animation</a></li> -->
-                    <li><a href="#">Home Page</a></li>
-                    <li><a href="#">Giornale dei Lavori</a></li>
-                    <li><a href="#">Libretto delle Misure</a></li>
-                    <li><a href="#">Registro di Contabilità</a></li>
-                    <li><a href="#">Stato Avanzamento Lavori</a></li>
-                    <li><a href="#">Controllo Amministrativo</a></li>
-                    <li><a href="#">Gestione Dati</a></li>
+                    <li><a [routerLink]="['/area-riservata', {outlets: {'reserved': ['home']}}]" >Home Page</a></li>
+                    <li><a [routerLink]="['/area-riservata', {outlets: {'reserved': ['giornale']}}]">Giornale dei Lavori</a></li>
+                    <li><a [routerLink]="['/area-riservata', {outlets: {'reserved': ['libretto']}}]">Libretto delle Misure</a></li>
+                    <li><a [routerLink]="['/area-riservata', {outlets: {'reserved': ['registro']}}]">Registro di Contabilità</a></li>
+                    <li><a [routerLink]="['/area-riservata', {outlets: {'reserved': ['sal']}}]">Stato Avanzamento Lavori</a></li>
+                    <li><a [routerLink]="['/area-riservata', {outlets: {'reserved': ['controllo']}}]">Controllo Amministrativo</a></li>
+                    <li><a [routerLink]="['/area-riservata', {outlets: {'reserved': ['gestione']}}]">Gestione Dati</a></li>
                 </ul>
 
-
-                <li data-toggle="collapse" data-target="#service" class="collapsed">
-                  <a href="#"><i class="	glyphicon glyphicon-list-alt"></i> Contratto 2 <span class="arrow"></span></a>
-                </li>  
-                <ul class="sub-menu collapse" id="service">
-                  <!-- 'active' indica la voce selezionata in questo momento
-                    <li class="active"><a href="#">CSS3 Animation</a></li> -->
-                    <li><a href="#">Home Page</a></li>
-                    <li><a href="#">Giornale dei Lavori</a></li>
-                    <li><a href="#">Libretto delle Misure</a></li>
-                    <li><a href="#">Registro di Contabilità</a></li>
-                    <li><a href="#">Stato Avanzamento Lavori</a></li>
-                    <li><a href="#">Controllo Amministrativo</a></li>
-                    <li><a href="#">Gestione Dati</a></li>
-                </ul>
-
-
-
+                </div>
 
 
                  <li>
-                  <a href="#">
+                  <a href="">
                   <i class="	glyphicon glyphicon-plus-sign"></i> Inserisci Nuovo Contratto
                   </a>
                   </li>
 
                  <li>
-                  <a href="#">
+                  <a [routerLink]="['/', {outlets: {'primary': ['welcome']}}]">
                   <i class="	glyphicon glyphicon-log-out"></i> Log Out
                   </a>
                 </li>
             </ul>
      </div>
 </div>
-
-
-
-
-
-------------------------------
-
-<!--
-
-<div *ngFor="let contratto of lista" >
-    <button (onClick) = "showSubNavbar()">{{contratto.nome}}</button>
-  <div *ngIf="contratto.visible">
-  <ul>
-    <li><a routerLink = '\homepage'>Home Page</a></li>
-    <li><a routerLink = '\giornale'>Giornale dei Lavori</a></li>
-    <li><a routerLink = '\libretto'>Libretto delle Misure</a></li>
-    <li><a routerLink = '\registro'>Registro di Contabilità</a></li>
-    <li><a routerLink = '\sal'>Stato Avanzamento Lavori</a></li>
-    <li>Controllo Amministrativo</li>
-    <li>Gestione Dati</li>
-  </ul>
-  </div>
-  
-  </div>
-
--->

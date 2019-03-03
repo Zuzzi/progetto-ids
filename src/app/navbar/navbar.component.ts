@@ -8,34 +8,19 @@ import Contratto from '../model/Contratto';
 })
 export class NavbarComponent implements OnInit {
 
-  lista: any;
+  listaContratti: any;
 
   constructor() { }
 
   ngOnInit() {
-    const contratto1 = {
-      nome: 'Contratto1',
-      visible: true
-    };
 
-    const contratto2 = {
-      nome: 'Contratto2',
-      visible: false
-    };
+    this.listaContratti = [
+      new Contratto('Contratto 1', 'contratto1'),
+      new Contratto('Contratto 2', 'contratto2')
+    ];
 
-    const contratto3 = {
-      nome: 'Contratto3',
-      visible: false
-    };
-    this.lista = [contratto1, contratto2, contratto3];
-  }
-
-  showSubNavbar(nome) {
 
   }
-
-
-
 
 
 }

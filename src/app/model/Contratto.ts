@@ -1,7 +1,7 @@
 class Contratto {
   constructor(
     public nome: string,
-    public visibility: boolean
+    public cssProperty: string
   ) {}
 }
 
