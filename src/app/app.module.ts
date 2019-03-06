@@ -18,6 +18,7 @@ import { RegistroComponent } from './registro/registro.component';
 import { SalComponent } from './sal/sal.component';
 import { ControlloComponent } from './controllo/controllo.component';
 import { GestioneComponent } from './gestione/gestione.component';
+import { HeaderComponent } from './header/header.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -33,6 +34,7 @@ import { GestioneComponent } from './gestione/gestione.component';
     SalComponent,
     ControlloComponent,
     GestioneComponent,
+    HeaderComponent,
   ],
   imports: [
     BrowserModule,
