@@ -1,10 +1,15 @@
-<p>
-  area-riservata works!
-</p>
-<div id = "navbar" >
-<app-navbar></app-navbar>
-</div>
-<div id = "component">
-<router-outlet name = "reserved"></router-outlet>
-</div>
 
+
+
+
+<div class="container-fluid p-0 " >
+  <div class="row" >
+    <div class="col-md-4" style = "max-width: 300px;" >
+      <app-navbar></app-navbar>
+    </div>
+    <div class="col-md-8">
+      <div class = "row" id = "header">HEADER VA QUI</div>
+      <div class = "row" id = "content"><router-outlet name = "reserved"></router-outlet></div>
+    </div>
+  </div>
+</div>
