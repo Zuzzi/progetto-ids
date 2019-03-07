@@ -63,6 +63,17 @@
       <ul class="list-sidebar bg-defoult">
         <li> <a href="#" data-toggle="collapse" data-target="#dashboard" class="collapsed active" > <i class="fa fa-th-large"></i> <span class="nav-label"> Dashboards </span> <span class="fa fa-chevron-left pull-right"></span> </a>
         <ul class="sub-menu collapse" id="dashboard">
+            <li><a [routerLink]="['/area-riservata', {outlets: {'reserved': ['home']}}]" >Home Page</a></li>
+            <li><a [routerLink]="['/area-riservata', {outlets: {'reserved': ['giornale']}}]">Giornale dei Lavori</a></li>
+            <li><a [routerLink]="['/area-riservata', {outlets: {'reserved': ['libretto']}}]">Libretto delle Misure</a></li>
+            <li><a [routerLink]="['/area-riservata', {outlets: {'reserved': ['registro']}}]">Registro di Contabilità</a></li>
+            <li><a [routerLink]="['/area-riservata', {outlets: {'reserved': ['sal']}}]">Stato Avanzamento Lavori</a></li>
+            <li><a [routerLink]="['/area-riservata', {outlets: {'reserved': ['controllo']}}]">Controllo Amministrativo</a></li>
+            <li><a [routerLink]="['/area-riservata', {outlets: {'reserved': ['gestione']}}]">Gestione Dati</a></li>
+          
+          
+          
+          <!--
           <li class="active"><a href="#">CSS3 Animation</a></li>
           <li><a href="#">General</a></li>
           <li><a href="#">Buttons</a></li>
@@ -72,7 +83,7 @@
           <li><a href="#">Slider</a></li>
           <li><a href="#">Panels</a></li>
           <li><a href="#">Widgets</a></li>
-          <li><a href="#">Bootstrap Model</a></li>
+          <li><a href="#">Bootstrap Model</a></li>-->
         </ul>
       </li>
       <li> <a href="#"><i class="fa fa-diamond"></i> <span class="nav-label">Layouts</span></a> </li>
