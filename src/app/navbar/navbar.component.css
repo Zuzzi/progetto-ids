@@ -6,7 +6,7 @@
     background-color: #2e353d;
     top: 0px;
     /*position: fixed; */
-    width: 300px;
+    width: auto;
     height: 100%;
     color: #e1ffff;
   }
