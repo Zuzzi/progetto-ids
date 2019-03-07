@@ -9,6 +9,7 @@
     width: auto;
     height: 100%;
     color: #e1ffff;
+
   }
   .nav-side-menu .brand {
     background-color: #23282e;
@@ -16,9 +17,13 @@
     display: block;
     text-align: center;
     font-size: 14px;
+
+    
   }
   .nav-side-menu .toggle-btn {
     display: none;
+
+    
   }
   .nav-side-menu ul,
   .nav-side-menu li {
@@ -27,6 +32,7 @@
     margin: 0px;
     line-height: 35px;
     cursor: pointer;
+
     /*    
       .collapsed{
          .arrow:before{
