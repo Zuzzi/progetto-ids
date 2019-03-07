@@ -6,7 +6,6 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { AccessoComponent } from './accesso/accesso.component';
 import { AreaRiservataComponent } from './area-riservata/area-riservata.component';
-import { NavbarComponent } from './navbar/navbar.component';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {MaterialModule} from './material';
 import { DialogBodyLoginComponent } from './dialog-body-login/dialog-body-login.component';
@@ -23,7 +22,6 @@ import { GestioneComponent } from './gestione/gestione.component';
     AppComponent,
     AccessoComponent,
     AreaRiservataComponent,
-    NavbarComponent,
     DialogBodyLoginComponent,
     WelcomeComponent,
     HomeComponent,

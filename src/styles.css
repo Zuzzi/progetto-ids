@@ -1,15 +1,9 @@
 /* You can add global styles to this file, and also import other style files */
-@import '@angular/material/prebuilt-themes/indigo-pink.css';
+@import '~bootstrap/dist/css/bootstrap.css'; 
+@import '@angular/material/prebuilt-themes/indigo-pink.css'; 
 
 html, body{
     height: 100%;
     margin: 0;
     padding: 0;
-    overflow-x: hidden;
-
 }
-
-body {
-    
-  }
-  
