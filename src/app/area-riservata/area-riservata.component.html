@@ -26,25 +26,25 @@
       <div class="sidebar-heading">Direttore Shish </div>
       <div class="list-group list-group-flush">
         <ul class="list-group">
-            <li><a  class="list-group-item list-group-item-action bg-light">Grafico</a>
-              </li>
-              <li><a  class="list-group-item list-group-item-action bg-light">Libretto delle misure</a>
-              </li>
-                <li><a  class="list-group-item list-group-item-action bg-light">Diario Giornaliero</a>
-                </li>
-                  <li><a  class="list-group-item list-group-item-action bg-light">Boh</a>
-                  </li>
-                  <li><a  class="list-group-item list-group-item-action bg-light " id="btn-1" data-toggle="collapse" data-target="#submenu1">Boh1</a>
+                  <li><a  class="list-group-item list-group-item-action bg-light " id="btn-1" data-toggle="collapse" data-target="#submenu1">Contratto 1</a>
                   <ul class="list-group list-group-item-action bg-light collapse " id="submenu1"  >
-                  <li><a class="list-group-item list-group-item-action bg-light"href="#">Link 2.1</a>
+                  <li><a class="list-group-item list-group-item-action bg-light"[routerLink]="['/area-riservata',{outlets:{ 'reserved': ['home']}}]">Home Page</a>
                   </li>
-                  <li><a class="list-group-item list-group-item-action bg-light" href="#">Link 2.2</a>
+                  <li><a class="list-group-item list-group-item-action bg-light" [routerLink]="['/area-riservata',{outlets:{ 'reserved': ['giornale']}}]">Giornale dei Lavori</a>
                   </li>
-                  <li><a class="list-group-item list-group-item-action bg-light" href="#">Link 2.3</a>
+                  <li><a class="list-group-item list-group-item-action bg-light" [routerLink]="['/area-riservata',{outlets:{ 'reserved': ['libretto']}}]">Libretto delle Misure</a>
+                  </li>
+                  <li><a class="list-group-item list-group-item-action bg-light" [routerLink]="['/area-riservata',{outlets:{ 'reserved': ['registro']}}]">Registro di Contabilità</a>
+                  </li>
+                  <li><a class="list-group-item list-group-item-action bg-light" [routerLink]="['/area-riservata',{outlets:{ 'reserved': ['sal']}}]">Stato Avanzamento Lavori</a>
+                  </li>
+                  <li><a class="list-group-item list-group-item-action bg-light" [routerLink]="['/area-riservata',{outlets:{ 'reserved': ['controllo']}}]">Controlli Amministrativi</a>
+                  </li>
+                  <li><a class="list-group-item list-group-item-action bg-light" [routerLink]="['/area-riservata',{outlets:{ 'reserved': ['gestione']}}]">Gestione dei Dati</a>
                   </li>
                   </ul>
                 </li>
-        <a  class="list-group-item list-group-item-action bg-light">Boh2</a>
+        <a  class="list-group-item list-group-item-action bg-light">Inserisci Nuovo Contratto</a>
       </ul>
       </div>
     </div>
@@ -54,7 +54,6 @@
     <div id="page-content-wrapper">
 
       <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
-        <button class="btn btn-primary" id="menu-toggle">Toggle Menu</button>
 
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
@@ -84,9 +83,7 @@
       </nav>
 
       <div class="container-fluid">
-        <h1 class="mt-4">Simple Sidebar</h1>
-        <p>The starting state of the menu will appear collapsed on smaller screens, and will appear non-collapsed on larger screens. When toggled using the button below, the menu will change.</p>
-        <p>Make sure to keep all page content within the <code>#page-content-wrapper</code>. The top navbar is optional, and just for demonstration. Just create an element with the <code>#menu-toggle</code> ID which will toggle the menu when clicked.</p>
+        <router-outlet name = "reserved"></router-outlet>
       </div>
     </div>
     <!-- /#page-content-wrapper -->
@@ -99,8 +96,7 @@
   <!-- Menu Toggle Script -->
 
 
-  <script src="/layout-area-riservata/vendor/jquery/jquery.min.js"></script>
-  <script src="/layout-area-riservata/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
 
 
 <!--
