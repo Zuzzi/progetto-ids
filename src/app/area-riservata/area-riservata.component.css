@@ -1,2 +1,17 @@
 
+#navbar {
+    float:left;
+}
+
+#component {
+    float:left;    
+}
+
+
+@media screen and (min-width: 600px) {
+    #nav {
+        height:100vh;
+    }
+  }
+
 
