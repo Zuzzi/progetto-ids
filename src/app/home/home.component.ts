@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Chart } from 'chart.js';
+import { MatDialog} from '@angular/material';
+import {DialogBodyInfocontrattoComponent} from '../dialog-body-infocontratto/dialog-body-infocontratto.component';
 
 @Component({
   selector: 'app-home',
@@ -11,7 +13,7 @@ export class HomeComponent implements OnInit {
 
 
 
-  constructor() { }
+  constructor(private dialog: MatDialog) { }
 
   ngOnInit() {
     // Line chart:
@@ -54,6 +56,14 @@ options: {
  }
 }
 });
+  }
+
+
+  openDialog() {
+    const dialogRef = this.dialog.open(DialogBodyInfocontrattoComponent);
+    dialogRef.afterClosed().subscribe(value => {
+      console.log(`Dialog sent: ${value}`);
+    });
   }
 
 }
