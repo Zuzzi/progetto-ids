@@ -22,31 +22,29 @@
   <div class="d-flex" id="wrapper">
 
     <!-- Sidebar -->
-    
-    <div class="bg-light border-right" id="sidebar-wrapper">
-      <div class="sidebar-heading">MENU </div>
-    
+    <div class="bg-dark text-light" id="sidebar-wrapper">
+      <div class="sidebar-heading text-center"><h5>Direttore Shish</h5></div>
       <div class="list-group list-group-flush">
         <ul class="list-group">
-                  <li><a  class="list-group-item list-group-item-action bg-light " id="btn-1" data-toggle="collapse" data-target="#submenu1">Contratto 1</a>
-                  <ul class="list-group list-group-item-action bg-light collapse " id="submenu1"  >
-                  <li><a class="list-group-item list-group-item-action bg-light"[routerLink]="['/area-riservata',{outlets:{ 'reserved': ['home']}}]">Home Page</a>
+                  <li><a  class="list-group-item list-group-item-action bg-dark text-light" id="btn-1" data-toggle="collapse" data-target="#submenu1">Contratto 1</a>
+                  <ul class="list-group list-group-item-action bg-dark collapse " id="submenu1"  >
+                  <li><a class="list-group-item list-group-item-action bg-dark text-light"[routerLink]="['/area-riservata',{outlets:{ 'reserved': ['home']}}]">Home Page</a>
                   </li>
-                  <li><a class="list-group-item list-group-item-action bg-light" [routerLink]="['/area-riservata',{outlets:{ 'reserved': ['giornale']}}]">Giornale dei Lavori</a>
+                  <li><a class="list-group-item list-group-item-action bg-dark text-light" [routerLink]="['/area-riservata',{outlets:{ 'reserved': ['giornale']}}]">Giornale dei Lavori</a>
                   </li>
-                  <li><a class="list-group-item list-group-item-action bg-light" [routerLink]="['/area-riservata',{outlets:{ 'reserved': ['libretto']}}]">Libretto delle Misure</a>
+                  <li><a class="list-group-item list-group-item-action bg-dark text-light" [routerLink]="['/area-riservata',{outlets:{ 'reserved': ['libretto']}}]">Libretto delle Misure</a>
                   </li>
-                  <li><a class="list-group-item list-group-item-action bg-light" [routerLink]="['/area-riservata',{outlets:{ 'reserved': ['registro']}}]">Registro di Contabilità</a>
+                  <li><a class="list-group-item list-group-item-action bg-dark text-light" [routerLink]="['/area-riservata',{outlets:{ 'reserved': ['registro']}}]">Registro di Contabilità</a>
                   </li>
-                  <li><a class="list-group-item list-group-item-action bg-light" [routerLink]="['/area-riservata',{outlets:{ 'reserved': ['sal']}}]">Stato Avanzamento Lavori</a>
+                  <li><a class="list-group-item list-group-item-action bg-dark text-light" [routerLink]="['/area-riservata',{outlets:{ 'reserved': ['sal']}}]">Stato Avanzamento Lavori</a>
                   </li>
-                  <li><a class="list-group-item list-group-item-action bg-light" [routerLink]="['/area-riservata',{outlets:{ 'reserved': ['controllo']}}]">Controlli Amministrativi</a>
+                  <li><a class="list-group-item list-group-item-action bg-dark text-light" [routerLink]="['/area-riservata',{outlets:{ 'reserved': ['controllo']}}]">Controlli Amministrativi</a>
                   </li>
-                  <li><a class="list-group-item list-group-item-action bg-light" [routerLink]="['/area-riservata',{outlets:{ 'reserved': ['gestione']}}]">Gestione dei Dati</a>
+                  <li><a class="list-group-item list-group-item-action bg-dark text-light" [routerLink]="['/area-riservata',{outlets:{ 'reserved': ['gestione']}}]">Gestione dei Dati</a>
                   </li>
                   </ul>
                 </li>
-        <a  class="list-group-item list-group-item-action bg-light">Inserisci Nuovo Contratto</a>
+        <a  class="list-group-item list-group-item-action bg-dark text-light">Inserisci Nuovo Contratto</a>
       </ul>
       </div>
     </div>
@@ -55,19 +53,30 @@
     <!-- Page Content -->
     <div id="page-content-wrapper">
 
-      <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom navbar">
+      <nav class="navbar navbar-expand-lg navbar-dark">
 
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
 
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
-          <ul class="navbar-nav ml-auto mt-2 mt-lg-0">
+          <ul class="navbar-nav ml-auto mt-0 mb-0 mt-lg-1">
             <li class="nav-item active">
               <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="#">Link</a>
+            </li>
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Dropdown
+              </a>
+              <div class="dropdown-menu dropdown-menu-right bg-dark" aria-labelledby="navbarDropdown">
+                <a class="dropdown-item text-light" href="#">Action</a>
+                <a class="dropdown-item text-light" href="#">Another action</a>
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item text-light" href="#">Something else here</a>
+              </div>
             </li>
           </ul>
         </div>

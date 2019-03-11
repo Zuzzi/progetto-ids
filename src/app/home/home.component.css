@@ -1,9 +1,10 @@
 #progress-bar{
-    width: 50%;
+    width:50%;
     display: inline-block;
-    }
 
+}
 
-#etichetta{
+#label {
     display: inline-block;
+
 }
