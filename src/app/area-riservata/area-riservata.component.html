@@ -1,16 +1,107 @@
+<!--
+<!DOCTYPE html>
+<html lang="en">
 
-<div class="container-fluid p-0">
-  <div class="row">
-    <div class="col-md-2" style="height: 100%;">
-      <app-navbar></app-navbar>
-  </div>
-    <div class="col-md-auto" >
-        Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
-        Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
-        Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
-        Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
-        Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
-      <router-outlet name = "reserved"></router-outlet>
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <title>Simple Sidebar - Start Bootstrap Template</title>
+
+
+
+</head>
+n<body>
+
+-->
+
+
+  <div class="d-flex" id="wrapper">
+
+    <!-- Sidebar -->
+    <div class="bg-dark text-light" id="sidebar-wrapper">
+      <div class="sidebar-heading text-center"><h5>Direttore Shish</h5></div>
+      <div class="list-group list-group-flush">
+        <ul class="list-group">
+                  <li><a  class="list-group-item list-group-item-action bg-dark text-light" id="btn-1" data-toggle="collapse" data-target="#submenu1">Contratto 1</a>
+                  <ul class="list-group list-group-item-action bg-dark collapse " id="submenu1"  >
+                  <li><a class="list-group-item list-group-item-action bg-dark text-light"[routerLink]="['/area-riservata',{outlets:{ 'reserved': ['home']}}]">Home Page</a>
+                  </li>
+                  <li><a class="list-group-item list-group-item-action bg-dark text-light" [routerLink]="['/area-riservata',{outlets:{ 'reserved': ['giornale']}}]">Giornale dei Lavori</a>
+                  </li>
+                  <li><a class="list-group-item list-group-item-action bg-dark text-light" [routerLink]="['/area-riservata',{outlets:{ 'reserved': ['libretto']}}]">Libretto delle Misure</a>
+                  </li>
+                  <li><a class="list-group-item list-group-item-action bg-dark text-light" [routerLink]="['/area-riservata',{outlets:{ 'reserved': ['registro']}}]">Registro di Contabilità</a>
+                  </li>
+                  <li><a class="list-group-item list-group-item-action bg-dark text-light" [routerLink]="['/area-riservata',{outlets:{ 'reserved': ['sal']}}]">Stato Avanzamento Lavori</a>
+                  </li>
+                  <li><a class="list-group-item list-group-item-action bg-dark text-light" [routerLink]="['/area-riservata',{outlets:{ 'reserved': ['controllo']}}]">Controlli Amministrativi</a>
+                  </li>
+                  <li><a class="list-group-item list-group-item-action bg-dark text-light" [routerLink]="['/area-riservata',{outlets:{ 'reserved': ['gestione']}}]">Gestione dei Dati</a>
+                  </li>
+                  </ul>
+                </li>
+        <a  class="list-group-item list-group-item-action bg-dark text-light">Inserisci Nuovo Contratto</a>
+      </ul>
+      </div>
     </div>
+    <!-- /#sidebar-wrapper -->
+
+    <!-- Page Content -->
+    <div id="page-content-wrapper">
+
+      <nav class="navbar navbar-expand-lg navbar-dark">
+
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav ml-auto mt-0 mb-0 mt-lg-1">
+            <li class="nav-item active">
+              <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Link</a>
+            </li>
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Dropdown
+              </a>
+              <div class="dropdown-menu dropdown-menu-right bg-dark" aria-labelledby="navbarDropdown">
+                <a class="dropdown-item text-light" href="#">Action</a>
+                <a class="dropdown-item text-light" href="#">Another action</a>
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item text-light" href="#">Something else here</a>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </nav>
+
+      <div class="container-fluid">
+        <router-outlet name = "reserved"></router-outlet>
+      </div>
+    </div>
+    <!-- /#page-content-wrapper -->
+
   </div>
-</div>
+  <!-- /#wrapper -->
+
+  <!-- Bootstrap core JavaScript -->
+
+  <!-- Menu Toggle Script -->
+
+
+
+
+
+<!--
+</body>
+</html>
+
+
+-->

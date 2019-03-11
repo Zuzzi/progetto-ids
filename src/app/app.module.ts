@@ -2,11 +2,13 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 
+
+
+
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { AccessoComponent } from './accesso/accesso.component';
 import { AreaRiservataComponent } from './area-riservata/area-riservata.component';
-import { NavbarComponent } from './navbar/navbar.component';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {MaterialModule} from './material';
 import { DialogBodyLoginComponent } from './dialog-body-login/dialog-body-login.component';
@@ -18,12 +20,12 @@ import { RegistroComponent } from './registro/registro.component';
 import { SalComponent } from './sal/sal.component';
 import { ControlloComponent } from './controllo/controllo.component';
 import { GestioneComponent } from './gestione/gestione.component';
+import { DialogBodyInfocontrattoComponent } from './dialog-body-infocontratto/dialog-body-infocontratto.component';
 @NgModule({
   declarations: [
     AppComponent,
     AccessoComponent,
     AreaRiservataComponent,
-    NavbarComponent,
     DialogBodyLoginComponent,
     WelcomeComponent,
     HomeComponent,
@@ -33,6 +35,7 @@ import { GestioneComponent } from './gestione/gestione.component';
     SalComponent,
     ControlloComponent,
     GestioneComponent,
+    DialogBodyInfocontrattoComponent,
   ],
   imports: [
     BrowserModule,
@@ -44,6 +47,6 @@ import { GestioneComponent } from './gestione/gestione.component';
   ],
   providers: [],
   bootstrap: [AppComponent],
-  entryComponents: [DialogBodyLoginComponent]
+  entryComponents: [DialogBodyLoginComponent, DialogBodyInfocontrattoComponent]
 })
 export class AppModule { }
