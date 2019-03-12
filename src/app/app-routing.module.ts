@@ -11,7 +11,7 @@ import {ControlloComponent} from './controllo/controllo.component';
 import {GestioneComponent} from './gestione/gestione.component';
 
 const routes: Routes = [
-  {path: 'welcome', component: AreaRiservataComponent},
+  {path: 'welcome', component: WelcomeComponent},
   {path: 'area-riservata', component: AreaRiservataComponent, children: [
     {
       path: 'home',
