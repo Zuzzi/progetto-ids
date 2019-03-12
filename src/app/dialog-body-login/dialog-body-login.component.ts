@@ -25,8 +25,8 @@ export class DialogBodyLoginComponent implements OnInit {
       console.log('User authenticated!');
       this.credentialsMistake = false;
       this.dialogRef.close();
-      this.router.navigate(['/area-riservata']);
-    } else {
+      this.router.navigate(['/area-riservata', {outlets: { reserved: ['home']}}]);
+      } else {
       console.log('Access not allowed!');
       this.credentialsMistake = true;
     }
