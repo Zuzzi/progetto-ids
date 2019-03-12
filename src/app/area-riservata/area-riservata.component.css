@@ -88,12 +88,12 @@
 
   #page-content-wrapper .dropdown-menu{
     color: rgb(207, 204, 204);
-    background-color: black;
+    background-color: #343a40;
   }
 
   #page-content-wrapper .dropdown-item{
     color: rgb(207, 204, 204);
-    background-color: black;
+    background-color: #343a40;
   }
 
   #page-content-wrapper .dropdown-item:hover{
