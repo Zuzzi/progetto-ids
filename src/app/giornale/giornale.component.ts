@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 
+
 @Component({
   selector: 'app-giornale',
   templateUrl: './giornale.component.html',
@@ -7,9 +8,15 @@ import { Component, OnInit } from '@angular/core';
 })
 export class GiornaleComponent implements OnInit {
 
+  selectedDate: any;
+
   constructor() { }
 
   ngOnInit() {
+  }
+
+  onSelect(event) {
+    this.selectedDate = event;
   }
 
 }

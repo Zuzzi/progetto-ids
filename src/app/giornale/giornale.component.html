@@ -4,3 +4,110 @@
     Giornale dei Lavori
 </h1>
 <br>
+<p>
+    Completamento totale:   45%
+</p>
+<div class="container-fluid" style="max-height: 100%">
+    <div class="row">
+        <div class="col">
+        </div>
+        <div class="col">
+                <button type="button" class="btn btn-link" style="float: right">Inserisci nuova voce</button>
+        </div>
+    </div>
+    <div class= "row">
+        <div class="col-md-8" style="overflow-y:auto; max-height:55vh">
+            <div class="row">
+                <!--DESCRIZIONE LOCAZIONE-->
+                <fieldset class="scheduler-border">
+                        <legend class="scheduler-border"> Descrizione Locazione </legend>
+                        <div class="control-group">
+                            <div class="controls bootstrap-timepicker">
+                                <!-- <input type="text" class="datetime" id="startTime" name="startTime" placeholder="Start Time" /> -->
+                                Nuvoloso 16.0°C
+                                <br>
+                                Nuvoloso 16.0°C
+                                <br>
+                                Nuvoloso 16.0°C
+                                <br>
+                                Nuvoloso 16.0°C
+                                <br>
+                                Nuvoloso 16.0°C
+                                <br>
+                                Nuvoloso 16.0°C
+                                <br>
+                                Nuvoloso 16.0°C
+                                <br>
+                                Nuvoloso 16.0°C
+                                <br>
+                                Controllo delle armature metalliche in fondazione CORPO B
+                                <br>Verificati i ferri di armatura e casseforme
+                            </div>
+                        </div>
+                    </fieldset>
+            </div>
+            <div class="row">
+                    <fieldset class="scheduler-border">
+                            <legend class="scheduler-border"> Operai </legend>
+                            <div class="control-group">
+                                
+                                <div class="controls bootstrap-timepicker">
+                                    <!-- <input type="text" class="datetime" id="startTime" name="startTime" placeholder="Start Time" /> -->
+                                    Mario Rossi MDO - Operaio comune 8 ore
+                                    <br>Paolo Bianchi MDO - Operaio specializzato 8 ore
+                                    <br>Francesco Natale MDO - Capo squadra 6 ore
+                                </div>
+                            </div>
+                        </fieldset>
+            </div>
+        
+            <div class="row">
+                    <fieldset class="scheduler-border">
+                            <legend class="scheduler-border"> Attrezzatura </legend>
+                            <div class="control-group">
+                                <div class="controls bootstrap-timepicker">
+                                    <!-- <input type="text" class="datetime" id="startTime" name="startTime" placeholder="Start Time" /> -->
+                                    MAC - Autocarro a cassone ribaltabile da 15 t x3
+                                    <br>MAC - Dumper x1
+                                    <br>MAC - Gru a torre x3
+                                </div>
+                            </div>
+                        </fieldset>
+            </div>
+        </div>
+        <div class="col-md-4" style="max-width:100%;">
+                <!-- <mat-form-field>
+                       <input matInput [matDatepicker]="picker" placeholder="Choose a date">
+                       <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                        <mat-datepicker #picker ></mat-datepicker>
+                      </mat-form-field> -->
+
+<!-- 
+                      <div class="container" fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="0.5%" fxLayoutAlign="center">
+                        <div fxFlex="20%">
+                          <mat-card>
+                            <mat-calendar [selected]="selectedDate" (selectedChange)="onSelect($event)"></mat-calendar>
+                          </mat-card>
+                        </div>
+                      </div> -->
+                      
+                        
+                              <!-- <mat-card>
+                                <mat-calendar [selected]="selectedDate" style="max-height: 55vh" (selectedChange)="onSelect($event)"></mat-calendar>
+                              </mat-card> -->
+                            
+                               <mat-card style="max-width:100%">
+                                <mat-calendar  [selected]="selectedDate"  (selectedChange)="onSelect($event)"></mat-calendar>
+                              </mat-card> 
+
+                            <!-- <div data-date="03/11/19"></div> -->
+
+    
+        </div>
+    </div>
+   
+    <div class= "row">
+            <button type="button" class="btn btn-link" style="float: right">Visualizza Foto e Allegati</button> 
+            <i class="align-middle fas fa-paperclip"></i>
+        </div>
+</div>

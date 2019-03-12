@@ -5,11 +5,16 @@ import {MatDialogModule} from '@angular/material/dialog';
 import { FormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material';
 import {MatInputModule} from '@angular/material';
+import {MatDatepickerModule} from '@angular/material/datepicker';
+import {MatNativeDateModule} from '@angular/material';
+import {MatCardModule} from '@angular/material';
 
 
 @NgModule ({
-    imports: [MatButtonToggleModule, MatIconModule, MatDialogModule, FormsModule, MatFormFieldModule, MatInputModule],
-    exports: [MatButtonToggleModule, MatIconModule, MatDialogModule, FormsModule, MatFormFieldModule, MatInputModule],
+    // tslint:disable-next-line:max-line-length
+    imports: [MatButtonToggleModule, MatIconModule, MatDialogModule, FormsModule, MatFormFieldModule, MatInputModule, MatDatepickerModule, MatNativeDateModule, MatCardModule],
+    // tslint:disable-next-line:max-line-length
+    exports: [MatButtonToggleModule, MatIconModule, MatDialogModule, FormsModule, MatFormFieldModule, MatInputModule, MatDatepickerModule, MatNativeDateModule, MatCardModule],
 })
 
 export class MaterialModule {}

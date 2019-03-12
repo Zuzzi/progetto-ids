@@ -21,7 +21,7 @@
     /*modifica pannello direttore*/
     padding: 0.875rem 1.25rem;
     font-size: 1.2rem;
-    background-color: black;
+    background-color:#343a40;
   }
 
   #sidebar-wrapper .list-group {
@@ -36,7 +36,7 @@
     margin-left: 0;
   }
   
-  @media (min-width: 768px) {
+
     #sidebar-wrapper {
       margin-left: 0;
     }
@@ -52,12 +52,13 @@
 
     #page-content-wrapper .navbar{
       /*modifica la navbar in alto*/
-      background-color: black;
+      /* background-color: black; */
+      background-color:#343a40;
     }
 
     #sidebar-wrapper .list-group-item{
       /*modifica gli elementi della lista es. Contratto 1 */
     }
 
-  }
+  
   
