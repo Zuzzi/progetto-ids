@@ -3,20 +3,21 @@
     <i class="fas fa-book-open"></i>
     Giornale dei Lavori
 </h1>
-<br>
+<!-- <br>
 <p>
     Completamento totale:   45%
-</p>
-<div class="container-fluid" style="max-height: 100%">
+</p> -->
+<div class="container-fluid" style="max-height: 100%; margin-top: 3%">
     <div class="row">
-        <div class="col">
+        <div class="col-md">
+                Completamento totale:   45%
         </div>
-        <div class="col">
-                <button type="button" class="btn btn-link" style="float: right">Inserisci nuova voce</button>
+        <div class="col-md" style="text-align: center; margin-bottom: 10px">
+                <button type="button" class="btn btn-outline-warning btn-sm" style="float: right; position:relative">Inserisci nuova voce</button> 
         </div>
     </div>
-    <div class= "row">
-        <div class="col-md-8" style="overflow-y:auto; max-height:55vh">
+        <div class= "row">
+            <div class="col-md-8" style="overflow-y:auto; max-height:55vh">
             <div class="row">
                 <!--DESCRIZIONE LOCAZIONE-->
                 <fieldset class="scheduler-border">
@@ -45,8 +46,8 @@
                             </div>
                         </div>
                     </fieldset>
-            </div>
-            <div class="row">
+                </div>
+                <div class="row">
                     <fieldset class="scheduler-border">
                             <legend class="scheduler-border"> Operai </legend>
                             <div class="control-group">
@@ -74,8 +75,8 @@
                             </div>
                         </fieldset>
             </div>
-        </div>
-        <div class="col-md-4" style="max-width:100%;">
+            </div>
+            <div class="col-md-4" style="max-width:100%;">
                 <!-- <mat-form-field>
                        <input matInput [matDatepicker]="picker" placeholder="Choose a date">
                        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
@@ -107,6 +108,7 @@
     </div>
    
     <div class= "row">
-            <button type="button" class="btn btn-link" style="float: right">Visualizza Foto e Allegati <i class="align-middle fas fa-paperclip"></i></button> 
+            <!-- <button type="button" class="btn btn-link" style="float: right">Visualizza Foto e Allegati </button>  -->
+            <button type="button" class="btn btn-outline-warning btn-sm" style="float: right; position:relative">Visualizza Foto e Allegati <i class="align-middle fas fa-paperclip"></i></button> 
         </div>
 </div>
