@@ -2,9 +2,6 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 
-
-
-
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { AccessoComponent } from './accesso/accesso.component';
@@ -21,6 +18,9 @@ import { SalComponent } from './sal/sal.component';
 import { ControlloComponent } from './controllo/controllo.component';
 import { GestioneComponent } from './gestione/gestione.component';
 import { DialogBodyInfocontrattoComponent } from './dialog-body-infocontratto/dialog-body-infocontratto.component';
+import { DialogBodyInsgiornaleComponent } from './dialog-body-insgiornale/dialog-body-insgiornale.component';
+import { DialogBodyVisallegatiComponent } from './dialog-body-visallegati/dialog-body-visallegati.component';
+import { DialogBodyInsregistroComponent } from './dialog-body-insregistro/dialog-body-insregistro.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -36,6 +36,9 @@ import { DialogBodyInfocontrattoComponent } from './dialog-body-infocontratto/di
     ControlloComponent,
     GestioneComponent,
     DialogBodyInfocontrattoComponent,
+    DialogBodyInsgiornaleComponent,
+    DialogBodyVisallegatiComponent,
+    DialogBodyInsregistroComponent,
   ],
   imports: [
     BrowserModule,
@@ -47,6 +50,7 @@ import { DialogBodyInfocontrattoComponent } from './dialog-body-infocontratto/di
   ],
   providers: [],
   bootstrap: [AppComponent],
-  entryComponents: [DialogBodyLoginComponent, DialogBodyInfocontrattoComponent]
+  // tslint:disable-next-line:max-line-length
+  entryComponents: [DialogBodyLoginComponent, DialogBodyInfocontrattoComponent, DialogBodyInsgiornaleComponent, DialogBodyVisallegatiComponent, DialogBodyInsregistroComponent]
 })
 export class AppModule { }

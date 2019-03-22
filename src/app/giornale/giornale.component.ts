@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-
+import { MatDialog} from '@angular/material';
+import { DialogBodyInsgiornaleComponent } from '../dialog-body-insgiornale/dialog-body-insgiornale.component';
+import { DialogBodyVisallegatiComponent } from '../dialog-body-visallegati/dialog-body-visallegati.component';
 
 @Component({
   selector: 'app-giornale',
@@ -10,13 +12,27 @@ export class GiornaleComponent implements OnInit {
 
   selectedDate: any;
 
-  constructor() { }
+  constructor(private dialog: MatDialog) { }
 
   ngOnInit() {
   }
 
   onSelect(event) {
     this.selectedDate = event;
+  }
+
+  openDialogInserimento() {
+    const dialogRef = this.dialog.open(DialogBodyInsgiornaleComponent);
+    dialogRef.afterClosed().subscribe(value => {
+      console.log(`Dialog sent: ${value}`);
+    });
+  }
+
+  openDialogAllegati() {
+    const dialogRef = this.dialog.open(DialogBodyVisallegatiComponent);
+    dialogRef.afterClosed().subscribe(value => {
+      console.log(`Dialog sent: ${value}`);
+    });
   }
 
 }
