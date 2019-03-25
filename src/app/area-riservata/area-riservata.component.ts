@@ -19,9 +19,8 @@ export class AreaRiservataComponent implements OnInit {
   }
 
 
-  navbar(){
-    
-    if (!this.collapse) {
+  navbar() {
+       if (!this.collapse) {
       this.nascondi = 'toggled';
       this.arrow = 'arrowRight';
       this.collapse = true;

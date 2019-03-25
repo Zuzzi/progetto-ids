@@ -21,6 +21,7 @@ import { DialogBodyInfocontrattoComponent } from './dialog-body-infocontratto/di
 import { DialogBodyInsgiornaleComponent } from './dialog-body-insgiornale/dialog-body-insgiornale.component';
 import { DialogBodyVisallegatiComponent } from './dialog-body-visallegati/dialog-body-visallegati.component';
 import { DialogBodyInsregistroComponent } from './dialog-body-insregistro/dialog-body-insregistro.component';
+import { DialogBodyInslibrettoComponent } from './dialog-body-inslibretto/dialog-body-inslibretto.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -39,6 +40,7 @@ import { DialogBodyInsregistroComponent } from './dialog-body-insregistro/dialog
     DialogBodyInsgiornaleComponent,
     DialogBodyVisallegatiComponent,
     DialogBodyInsregistroComponent,
+    DialogBodyInslibrettoComponent,
   ],
   imports: [
     BrowserModule,
@@ -51,6 +53,6 @@ import { DialogBodyInsregistroComponent } from './dialog-body-insregistro/dialog
   providers: [],
   bootstrap: [AppComponent],
   // tslint:disable-next-line:max-line-length
-  entryComponents: [DialogBodyLoginComponent, DialogBodyInfocontrattoComponent, DialogBodyInsgiornaleComponent, DialogBodyVisallegatiComponent, DialogBodyInsregistroComponent]
+  entryComponents: [DialogBodyLoginComponent, DialogBodyInfocontrattoComponent, DialogBodyInsgiornaleComponent, DialogBodyVisallegatiComponent, DialogBodyInsregistroComponent, DialogBodyInslibrettoComponent]
 })
 export class AppModule { }
