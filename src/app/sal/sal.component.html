@@ -1,7 +1,87 @@
-
 <br>
 <h1>
-    <i class="fas fa-chart-line"></i>
+    <i class="fas fa-book"></i>
     Stato Avanzamento Lavori
 </h1>
-<br>
+
+<div class="container-fluid" style="max-height: 100%; margin-top: 3%">
+    <div class="row" style="margin-bottom: 10px">
+        <div class="col-md">
+                Completamento totale:   45%
+        </div>
+        <div class="col-md" style="text-align: center; margin-bottom: -15px">
+                <mat-form-field>
+                        <input matInput [matDatepicker]="picker" placeholder="Seleziona una data">
+                        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                        <mat-datepicker #picker></mat-datepicker>
+                        </mat-form-field>
+        </div>
+    </div>
+
+        <div class= "row">
+          <div class=col-md-1></div>
+          <div class="col-md-10">
+              
+                <div class="example-container mat-elevation-z8 scrollbar-black bordered-black thin" >
+                    
+                        <table mat-table [dataSource]="dataSource">
+                            
+                          
+                          <ng-container matColumnDef="id">
+                            <th mat-header-cell *matHeaderCellDef> No. </th>
+                            <td mat-cell *matCellDef="let element"> {{element.id}} </td>
+                          </ng-container>
+                      
+                          
+                          <ng-container matColumnDef="tariffa">
+                            <th mat-header-cell *matHeaderCellDef> Tariffa </th>
+                            <td mat-cell *matCellDef="let element"> {{element.tariffa}} </td>
+                          </ng-container>
+                      
+                         
+                          <ng-container matColumnDef="indicazione">
+                            <th mat-header-cell *matHeaderCellDef> Indicazione dei Lavori e delle Somministrazioni </th>
+                            <td mat-cell *matCellDef="let element"> {{element.indicazione}} </td>
+                          </ng-container>
+                      
+                         
+                          <ng-container matColumnDef="quantita">
+                            <th mat-header-cell *matHeaderCellDef> Quantità </th>
+                            <td mat-cell *matCellDef="let element"> {{element.quantita}} </td>
+                          </ng-container>
+
+
+                          <ng-container matColumnDef="importounitario">
+                              <th mat-header-cell *matHeaderCellDef> Importo UNITARIO </th>
+                              <td mat-cell *matCellDef="let element"> {{element.importounitario}} </td>
+                            </ng-container>
+                            
+
+                          <ng-container matColumnDef="aliquote1">
+                              <th mat-header-cell *matHeaderCellDef> Aliquote </th>
+                              <td mat-cell *matCellDef="let element"> {{element.aliquote1}} </td>
+                            </ng-container>
+                            
+
+                          <ng-container matColumnDef="importototale">
+                              <th mat-header-cell *matHeaderCellDef> Importo TOTALE </th>
+                              <td mat-cell *matCellDef="let element"> {{element.importototale}} </td>
+                            </ng-container>
+                            
+
+                          <ng-container matColumnDef="aliquote2">
+                              <th mat-header-cell *matHeaderCellDef> Aliquote </th>
+                              <td mat-cell *matCellDef="let element"> {{element.aliquote2}} </td>
+                            </ng-container>
+                      
+                          <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+                          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                        
+                       
+                        </table>
+                      </div>
+                    
+                    </div>
+                    <div class=col-md-1></div>
+    </div>
+</div>

@@ -31,6 +31,8 @@ data: {
  }]
 },
 options: {
+  responsive: true,
+  maintainAspectRatio: false,
  title: {
      display: true
  },
