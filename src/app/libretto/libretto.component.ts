@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog} from '@angular/material';
 import { DialogBodyInslibrettoComponent } from '../dialog-body-inslibretto/dialog-body-inslibretto.component';
+import { DialogBodyVisriservaComponent } from '../dialog-body-visriserva/dialog-body-visriserva.component';
 
 
 @Component({
@@ -20,6 +21,13 @@ export class LibrettoComponent implements OnInit {
 
   openDialogInserimento() {
     const dialogRef = this.dialog.open(DialogBodyInslibrettoComponent);
+    dialogRef.afterClosed().subscribe(value => {
+      console.log(`Dialog sent: ${value}`);
+    });
+  }
+
+  openDialogVisRiserva() {
+    const dialogRef = this.dialog.open(DialogBodyVisriservaComponent);
     dialogRef.afterClosed().subscribe(value => {
       console.log(`Dialog sent: ${value}`);
     });

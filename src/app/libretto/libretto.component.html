@@ -66,7 +66,7 @@
 
                           <ng-container matColumnDef="riserva">
                               <th mat-header-cell *matHeaderCellDef> Riserva </th>
-                              <td mat-cell *matCellDef="let element"> <a href = "">{{element.riserva}} </a></td>
+                              <td mat-cell *matCellDef="let element"> <button  (click) = "openDialogVisRiserva()">{{element.riserva}} </button></td>
                             </ng-container>
                       
                           <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
