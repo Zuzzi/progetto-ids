@@ -12,10 +12,22 @@ export class AreaRiservataComponent implements OnInit {
   collapse = false;
   nascondi = '';
   arrow = 'arrowLeft';
+  isDirettoreLogged: boolean;
+  isRupLogged: boolean;
+  isDittaLogged: boolean;
 
   constructor() { }
 
   ngOnInit() {
+    if (localStorage.getItem('user') !== null ) {
+      const user = localStorage.getItem('user');
+      console.log(user);
+      if (user.valueOf() === 'direttore'.valueOf()) {
+                this.isDirettoreLogged = true;
+                console.log('sono uguali');
+      } else {console.log('sono diversi');
+    }
+    }
   }
 
 

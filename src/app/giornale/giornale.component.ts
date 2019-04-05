@@ -11,10 +11,26 @@ import { DialogBodyVisallegatiComponent } from '../dialog-body-visallegati/dialo
 export class GiornaleComponent implements OnInit {
 
   selectedDate: any;
+  isDirettoreLogged: boolean;
+  isRupLogged: boolean;
+  isDittaLogged: boolean;
 
   constructor(private dialog: MatDialog) { }
 
   ngOnInit() {
+    if (localStorage.getItem('user') !== null ) {
+      const user = localStorage.getItem('user');
+      console.log(user);
+      if (user.valueOf() === 'direttore'.valueOf()) {
+                this.isDirettoreLogged = true;
+                console.log('sono uguali');
+      } else {
+        console.log('sono diversi');
+        this.isDirettoreLogged = false;
+
+    }
+    }
+
   }
 
   onSelect(event) {

@@ -2,14 +2,13 @@
 
 
 
-<form (ngSubmit) = "onSubmit()" [formGroup] = "loginForm">
-  Username: 
-  <input type = "text" formControlName="username">
+<form (ngSubmit)="onSubmit()" [formGroup]="loginForm">
+  Username:
+  <input type="text" formControlName="username">
   <br>
   Password:
-  <input type = "password" formControlName="password">
+  <input type="password" formControlName="password">
   <br>
-  <input type = "submit" value = "Accedi">
+  <input type="submit" value="Accedi">
 
 </form>
-

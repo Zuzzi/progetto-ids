@@ -1,142 +1,141 @@
-
 <mat-dialog-content class="scrollbar-black bordered-black thin">
-        <div class="container-fluid ">
+    <div class="container-fluid ">
         <div class="row">
-                <div class="col-md-4">
-                    <mat-form-field>
-                        <input matInput [matDatepicker]="picker" placeholder="Seleziona una data">
-                        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-                        <mat-datepicker #picker></mat-datepicker>
-                      </mat-form-field>
-            </div> 
             <div class="col-md-4">
-                <div class="row" >
+                <mat-form-field>
+                    <input matInput [matDatepicker]="picker" placeholder="Seleziona una data">
+                    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                    <mat-datepicker #picker></mat-datepicker>
+                </mat-form-field>
+            </div>
+            <div class="col-md-4">
+                <div class="row">
                     <div class="col-md" style="text-align: right;">
                         Allegati e Foto:
                     </div>
-                    <div class="col-md" >
-                    <!-- <button class="mat-raised-button" style="display:inline-block" >Carica File</button> -->
-                    <button md-raised-button color="primary" type="button" class="btn btn-light" (click)="fileInput.click()">Carica File</button>
-                    <input hidden type="file" #fileInput>
-                </div>
+                    <div class="col-md">
+                        <!-- <button class="mat-raised-button" style="display:inline-block" >Carica File</button> -->
+                        <button md-raised-button color="primary" type="button" class="btn btn-light"
+                            (click)="fileInput.click()">Carica File</button>
+                        <input hidden type="file" #fileInput>
                     </div>
-                    
                 </div>
-                    
-            
+
+            </div>
+
+
             <div class="col-md-4"></div>
         </div>
         <div class="row">
-                        <fieldset class="scheduler-border">
-                                        <legend class="scheduler-border"> Descrizione Locazione </legend>
-                                        <div class="control-group" >
-                                            <div class="controls bootstrap-timepicker" >
-                                                 <div class="input-group" >
-                                                        <textarea class="form-control" style="border:white" aria-label="With textarea"></textarea>
-                                                 </div>
-                                                
-                                            </div>
-                                        </div>
-                                    </fieldset>
+            <fieldset class="scheduler-border">
+                <legend class="scheduler-border"> Descrizione Locazione </legend>
+                <div class="control-group">
+                    <div class="controls bootstrap-timepicker">
+                        <div class="input-group">
+                            <textarea class="form-control" style="border:white" aria-label="With textarea"></textarea>
+                        </div>
+
+                    </div>
+                </div>
+            </fieldset>
         </div>
         <div class="row">
-                <fieldset class="scheduler-border" style="width: 100%">  
-                                <legend class="scheduler-border"> Operaio </legend>
-                                <div class="control-group" >
-                                    <div class="controls bootstrap-timepicker" >
-                                         <div class="input-group" >
-                <div class="col-md">
-                         Nome
-                         <input type="text" style="text-align: center" name='Operaio' class="form-control"/>
-                </div>
-                <div class="col-md">
+            <fieldset class="scheduler-border" style="width: 100%">
+                <legend class="scheduler-border"> Operaio </legend>
+                <div class="control-group">
+                    <div class="controls bootstrap-timepicker">
+                        <div class="input-group">
+                            <div class="col-md">
+                                Nome
+                                <input type="text" style="text-align: center" name='Operaio' class="form-control" />
+                            </div>
+                            <div class="col-md">
                                 Cognome
-                                <input type="text" style="text-align: center" name='Operaio' class="form-control"/>
-                       </div>
-                <div class="col-md">
-                         Qualifica
-                         <div data-name="Qualifica">
-                                                                        <select name="Qualifica">
-                                                                    <option value="">Selezione Qualifica</option>
-                                                                    <option value="1">MDO - Operaio Comune</option>
-                                                                    <option value="2">MDO - Operaio Specializzato</option>
-                                                                    <option value="3">MDO - Capo Squadra</option>
-                                                                        </select>
-                </div>
-                </div>
-                <div class="col-md">
-               
-                         Ore di Presenza
-                         <div class="row">
-                         <div class="col">
-                         <input type="text" name="Ore" style="text-align: center" class="form-control"/>
+                                <input type="text" style="text-align: center" name='Operaio' class="form-control" />
+                            </div>
+                            <div class="col-md">
+                                Qualifica
+                                <div data-name="Qualifica">
+                                    <select name="Qualifica">
+                                        <option value="">Selezione Qualifica</option>
+                                        <option value="1">MDO - Operaio Comune</option>
+                                        <option value="2">MDO - Operaio Specializzato</option>
+                                        <option value="3">MDO - Capo Squadra</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md">
+
+                                Ore di Presenza
+                                <div class="row">
+                                    <div class="col">
+                                        <input type="text" name="Ore" style="text-align: center" class="form-control" />
+                                    </div>
+                                    <div class="col-2">
+                                        <button name="del0" style="" class='btn btn-success'><i
+                                                class="fas fa-plus"></i></button>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                        <div class="col-2">
-                        <button name="del0" style=""class='btn btn-success'><i class="fas fa-plus"></i></button>
-                         </div>
-                         </div>
-                        </div>
+                    </div>
                 </div>
-                </div>
+            </fieldset>
         </div>
-                </fieldset>
-        </div>
-        
+
 
         <div class="row">
-                <fieldset class="scheduler-border" style="width: 100%">  
-                                <legend class="scheduler-border">Attrezzatura </legend>
-                                <div class="control-group" >
-                                    <div class="controls bootstrap-timepicker" >
-                                         <div class="input-group" >
+            <fieldset class="scheduler-border" style="width: 100%">
+                <legend class="scheduler-border">Attrezzatura </legend>
+                <div class="control-group">
+                    <div class="controls bootstrap-timepicker">
+                        <div class="input-group">
 
-                                                        <div class="col-md">
-                                                                        Attrezzatura
-                                                                        <div data-name="Qualifica">
-                                                                                                                       <select name="Qualifica">
-                                                                                                                   <option value="">Seleziona Attrezzatura</option>
-                                                                                                                   <option value="1">MAC - Dumper</option>
-                                                                                                                   <option value="2">MAC - Gru a Torre</option>
-                                                                                                                   <option value="3">MAC - Autocarro</option>
-                                                                                                                       </select>
-                                                               </div>
-                                                               </div>
-               
-                <div class="col-md">
-               
-                         Quantità
-                         <div class="row">
-                         <div class="col">
-                         <input type="text" name="Ore" style="text-align: center" class="form-control"/>
-                        </div>
-                        <div class="col-2">
-                        <button name="del0" style=""class='btn btn-success'><i class="fas fa-plus"></i></button>
-                         </div>
-                         </div>
-                        </div>
-                </div>
-                </div>
-     </div>
-                </fieldset>
-                </div>
+                            <div class="col-md">
+                                Attrezzatura
+                                <div data-name="Qualifica">
+                                    <select name="Qualifica">
+                                        <option value="">Seleziona Attrezzatura</option>
+                                        <option value="1">MAC - Dumper</option>
+                                        <option value="2">MAC - Gru a Torre</option>
+                                        <option value="3">MAC - Autocarro</option>
+                                    </select>
+                                </div>
+                            </div>
 
-</div>
+                            <div class="col-md">
+
+                                Quantità
+                                <div class="row">
+                                    <div class="col">
+                                        <input type="text" name="Ore" style="text-align: center" class="form-control" />
+                                    </div>
+                                    <div class="col-2">
+                                        <button name="del0" style="" class='btn btn-success'><i
+                                                class="fas fa-plus"></i></button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </fieldset>
+        </div>
+
+    </div>
 </mat-dialog-content>
-
-
 
 <mat-dialog-actions>
     <div class="container-fluid" style="align-items: center">
         <div class="row  text-center">
             <div class="col-md text-center">
-            <button mat-raised-button (click)="confirm()">Conferma</button>
-        </div>
+                <button mat-raised-button (click)="confirm()">Conferma</button>
+            </div>
         </div>
         <div class="row top-buffer">
             <div class="col-md text-center">
-            <button mat-raised-button (click)="close()">Annulla</button>
+                <button mat-raised-button (click)="close()">Annulla</button>
             </div>
         </div>
     </div>
 </mat-dialog-actions>
-

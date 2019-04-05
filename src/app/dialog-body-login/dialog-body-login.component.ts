@@ -38,14 +38,14 @@ export class DialogBodyLoginComponent implements OnInit {
 
   isAuthenticated() {
     let test = false;
-    if ((this.username === 'carlo') && (this.password === '123')) {
+    if (((this.username === 'direttore') || (this.username === 'rup') || (this.username === 'ditta')) && (this.password === '123')) {
 
       const user =  {
         username: this.username,
         password: this.password
       };
       console.log(JSON.stringify(user) + ' has been authenticated!');
-      // localStorage.setItem('user', JSON.stringify(user));
+      localStorage.setItem('user', user.username);
       test = true;
 
     } else {

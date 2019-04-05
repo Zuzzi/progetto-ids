@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialogRef } from '@angular/material';
-import {Router} from '@angular/router';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -10,7 +10,7 @@ import {Router} from '@angular/router';
 })
 export class DialogBodyInsgiornaleComponent implements OnInit {
 
- constructor(public dialogRef: MatDialogRef<DialogBodyInsgiornaleComponent>, private router: Router) { }
+  constructor(public dialogRef: MatDialogRef<DialogBodyInsgiornaleComponent>, private router: Router) { }
 
   ngOnInit() {
   }

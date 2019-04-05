@@ -8,7 +8,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class SalComponent implements OnInit {
 
-  displayedColumns = ['id', 'tariffa', 'indicazione', 'quantita', 'importounitario', 'aliquote1', 'importototale', 'aliquote2'];
+  displayedColumns = ['id', 'data', 'tariffa', 'indicazione', 'quantita', 'importounitario', 'aliquote1', 'importototale', 'aliquote2'];
   dataSource = ELEMENT_DATA;
 
   constructor() { }
@@ -22,35 +22,36 @@ export class SalComponent implements OnInit {
 
 const ELEMENT_DATA: PeriodicElement[] = [
   // tslint:disable-next-line:max-line-length
-  { id: 1 , tariffa: '1.000.001', indicazione: 'Categoria 1', quantita: 25, importounitario: 9.000, aliquote1: 10, importototale: 2.000, aliquote2: 2.3},
+  { id: 1 , data: '10/02/2019', tariffa: '1.000.001', indicazione: 'Categoria 1', quantita: 25, importounitario: 9.000, aliquote1: 10, importototale: 2.000, aliquote2: 2.3},
   // tslint:disable-next-line:max-line-length
-  { id: 1 , tariffa: '1.000.001', indicazione: 'Categoria 1', quantita: 25, importounitario: 9.000, aliquote1: 10, importototale: 2.000, aliquote2: 2.3},
+  { id: 1 , data: '10/02/2019',  tariffa: '1.000.001', indicazione: 'Categoria 1', quantita: 25, importounitario: 9.000, aliquote1: 10, importototale: 2.000, aliquote2: 2.3},
   // tslint:disable-next-line:max-line-length
-  { id: 1 , tariffa: '1.000.001', indicazione: 'Categoria 1', quantita: 25, importounitario: 9.000, aliquote1: 10, importototale: 2.000, aliquote2: 2.3},
+  { id: 1 , data: '10/02/2019',  tariffa: '1.000.001', indicazione: 'Categoria 1', quantita: 25, importounitario: 9.000, aliquote1: 10, importototale: 2.000, aliquote2: 2.3},
   // tslint:disable-next-line:max-line-length
-  { id: 1 , tariffa: '1.000.001', indicazione: 'Categoria 1', quantita: 25, importounitario: 9.000, aliquote1: 10, importototale: 2.000, aliquote2: 2.3},
+  { id: 1 , data: '10/02/2019',  tariffa: '1.000.001', indicazione: 'Categoria 1', quantita: 25, importounitario: 9.000, aliquote1: 10, importototale: 2.000, aliquote2: 2.3},
   // tslint:disable-next-line:max-line-length
-  { id: 1 , tariffa: '1.000.001', indicazione: 'Categoria 1', quantita: 25, importounitario: 9.000, aliquote1: 10, importototale: 2.000, aliquote2: 2.3},
+  { id: 1 , data: '10/02/2019',  tariffa: '1.000.001', indicazione: 'Categoria 1', quantita: 25, importounitario: 9.000, aliquote1: 10, importototale: 2.000, aliquote2: 2.3},
   // tslint:disable-next-line:max-line-length
-  { id: 1 , tariffa: '1.000.001', indicazione: 'Categoria 1', quantita: 25, importounitario: 9.000, aliquote1: 10, importototale: 2.000, aliquote2: 2.3},
+  { id: 1 , data: '10/02/2019',  tariffa: '1.000.001', indicazione: 'Categoria 1', quantita: 25, importounitario: 9.000, aliquote1: 10, importototale: 2.000, aliquote2: 2.3},
   // tslint:disable-next-line:max-line-length
-  { id: 1 , tariffa: '1.000.001', indicazione: 'Categoria 1', quantita: 25, importounitario: 9.000, aliquote1: 10, importototale: 2.000, aliquote2: 2.3},
+  { id: 1 , data: '10/02/2019',  tariffa: '1.000.001', indicazione: 'Categoria 1', quantita: 25, importounitario: 9.000, aliquote1: 10, importototale: 2.000, aliquote2: 2.3},
   // tslint:disable-next-line:max-line-length
-  { id: 1 , tariffa: '1.000.001', indicazione: 'Categoria 1', quantita: 25, importounitario: 9.000, aliquote1: 10, importototale: 2.000, aliquote2: 2.3},
+  { id: 1 , data: '10/02/2019',  tariffa: '1.000.001', indicazione: 'Categoria 1', quantita: 25, importounitario: 9.000, aliquote1: 10, importototale: 2.000, aliquote2: 2.3},
   // tslint:disable-next-line:max-line-length
-  { id: 1 , tariffa: '1.000.001', indicazione: 'Categoria 1', quantita: 25, importounitario: 9.000, aliquote1: 10, importototale: 2.000, aliquote2: 2.3},
+  { id: 1 , data: '10/02/2019',  tariffa: '1.000.001', indicazione: 'Categoria 1', quantita: 25, importounitario: 9.000, aliquote1: 10, importototale: 2.000, aliquote2: 2.3},
   // tslint:disable-next-line:max-line-length
-  { id: 1 , tariffa: '1.000.001', indicazione: 'Categoria 1', quantita: 25, importounitario: 9.000, aliquote1: 10, importototale: 2.000, aliquote2: 2.3},
+  { id: 1 , data: '10/02/2019',  tariffa: '1.000.001', indicazione: 'Categoria 1', quantita: 25, importounitario: 9.000, aliquote1: 10, importototale: 2.000, aliquote2: 2.3},
   // tslint:disable-next-line:max-line-length
-  { id: 1 , tariffa: '1.000.001', indicazione: 'Categoria 1', quantita: 25, importounitario: 9.000, aliquote1: 10, importototale: 2.000, aliquote2: 2.3},
+  { id: 1 , data: '10/02/2019',  tariffa: '1.000.001', indicazione: 'Categoria 1', quantita: 25, importounitario: 9.000, aliquote1: 10, importototale: 2.000, aliquote2: 2.3},
   // tslint:disable-next-line:max-line-length
-  { id: 1 , tariffa: '1.000.001', indicazione: 'Categoria 1', quantita: 25, importounitario: 9.000, aliquote1: 10, importototale: 2.000, aliquote2: 2.3},
+  { id: 1 , data: '10/02/2019',  tariffa: '1.000.001', indicazione: 'Categoria 1', quantita: 25, importounitario: 9.000, aliquote1: 10, importototale: 2.000, aliquote2: 2.3},
   // tslint:disable-next-line:max-line-length
-  { id: 1 , tariffa: '1.000.001', indicazione: 'Categoria 1', quantita: 25, importounitario: 9.000, aliquote1: 10, importototale: 2.000, aliquote2: 2.3}
+  { id: 1 , data: '10/02/2019',  tariffa: '1.000.001', indicazione: 'Categoria 1', quantita: 25, importounitario: 9.000, aliquote1: 10, importototale: 2.000, aliquote2: 2.3}
 ];
 
 export interface PeriodicElement {
   id: number;
+  data: string;
   tariffa: string;
   indicazione: string;
   quantita: number;

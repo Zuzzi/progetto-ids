@@ -1,0 +1,38 @@
+<mat-dialog-content class="scrollbar-black bordered-black thin">
+  <div class="container-fluid " style="width: 65vh">
+    <div class="row">
+
+      <fieldset class="scheduler-border">
+        <legend class="scheduler-border"> Dettagli Riserva</legend>
+        <div class="control-group">
+          <div class="controls bootstrap-timepicker">
+            <div class="input-group">
+              <textarea class="form-control" style="border:white" aria-label="With textarea"></textarea>
+            </div>
+
+          </div>
+        </div>
+      </fieldset>
+
+    </div>
+
+
+  </div>
+</mat-dialog-content>
+
+
+
+<mat-dialog-actions>
+  <div class="container-fluid" style="align-items: center">
+    <div class="row  text-center">
+      <div class="col-md text-center">
+        <button mat-raised-button (click)="confirm()">Conferma</button>
+      </div>
+    </div>
+    <div class="row top-buffer">
+      <div class="col-md text-center">
+        <button mat-raised-button (click)="close()">Annulla</button>
+      </div>
+    </div>
+  </div>
+</mat-dialog-actions>

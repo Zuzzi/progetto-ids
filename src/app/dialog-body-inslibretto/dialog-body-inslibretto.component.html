@@ -1,104 +1,104 @@
 <mat-dialog-content class="scrollbar-black bordered-black thin">
     <div class="container-fluid ">
-      <div class="row">
-        <div class="col-md-4">
-          <mat-form-field>
-            <input matInput [matDatepicker]="picker" placeholder="Seleziona una data">
-            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-            <mat-datepicker #picker></mat-datepicker>
-            </mat-form-field>
-        </div> 
-        <div class="col-md-4">
-            <div class="row" >
-                <div class="col-md" style="text-align: right;">
-                    Allegati e Foto:
-                </div>
-                <div class="col-md" >
-                <!-- <button class="mat-raised-button" style="display:inline-block" >Carica File</button> -->
-                <button md-raised-button color="primary" type="button" class="btn btn-light" (click)="fileInput.click()">Carica File</button>
-                <input hidden type="file" #fileInput>
+        <div class="row">
+            <div class="col-md-4">
+                <mat-form-field>
+                    <input matInput [matDatepicker]="picker" placeholder="Seleziona una data">
+                    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                    <mat-datepicker #picker></mat-datepicker>
+                </mat-form-field>
             </div>
+            <div class="col-md-4">
+                <div class="row">
+                    <div class="col-md" style="text-align: right;">
+                        Allegati e Foto:
+                    </div>
+                    <div class="col-md">
+                        <!-- <button class="mat-raised-button" style="display:inline-block" >Carica File</button> -->
+                        <button md-raised-button color="primary" type="button" class="btn btn-light"
+                            (click)="fileInput.click()">Carica File</button>
+                        <input hidden type="file" #fileInput>
+                    </div>
                 </div>
-                
+
             </div>
-                
-        
-        
+
+
+
+        </div>
+        <div class="row">
+            <fieldset class="scheduler-border">
+                <legend class="scheduler-border"> Dettagli Misura </legend>
+                <div class="control-group">
+                    <div class="controls bootstrap-timepicker">
+                        <div class="input-group">
+                            <div class="col-md">
+                                Tariffa
+                                <div data-name="Tariffa" style="width: 100%">
+                                    <select name="Tariffa">
+                                        <option value="">Selezione Tariffa</option>
+                                        <option value="1">001.002.001</option>
+                                        <option value="2">001.002.002</option>
+                                        <option value="3">001.002.003</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="col-md">
+                                Categoria Contabile
+                                <div data-name="Categoria">
+                                    <select name="Categoria">
+                                        <option value="">Selezione Categoria </option>
+                                        <option value="1">Struttura di Fondazione</option>
+                                        <option value="2">Struttura di Elevazione</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md" style="padding-bottom: 0; margin: 0">
+                                Percentuale
+
+                                <input mdInput type="number" min="0" max="100" />
+
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </fieldset>
+        </div>
+        <div class="row">
+
+            <fieldset class="scheduler-border">
+                <legend class="scheduler-border"> Descrizione </legend>
+                <div class="control-group">
+                    <div class="controls bootstrap-timepicker">
+                        <div class="input-group">
+                            <textarea class="form-control" style="border:white" aria-label="With textarea"></textarea>
+                        </div>
+
+                    </div>
+                </div>
+            </fieldset>
+
+        </div>
+
+
     </div>
-    <div class="row">
-        <fieldset class="scheduler-border">  
-                        <legend class="scheduler-border"> Dettagli Misura </legend>
-                        <div class="control-group" >
-                            <div class="controls bootstrap-timepicker" >
-                                 <div class="input-group" >
-        <div class="col-md">
-            Tariffa
-            <div data-name="Tariffa" style="width: 100%">
-                                                           <select name="Tariffa">
-                                                       <option value="">Selezione Tariffa</option>
-                                                       <option value="1">001.002.001</option>
-                                                       <option value="2">001.002.002</option>
-                                                       <option value="3">001.002.003</option>
-                                                           </select>
-   </div>
-        </div>
-        
-        <div class="col-md">
-                 Categoria Contabile
-                 <div data-name="Categoria">
-                                                                <select name="Categoria">
-                                                            <option value="">Selezione Categoria </option>
-                                                            <option value="1">Struttura di Fondazione</option>
-                                                            <option value="2">Struttura di Elevazione</option>
-                                                                </select>
-        </div>
-        </div>
-        <div class="col-md" style="padding-bottom: 0; margin: 0">
-            Percentuale
-
-              <input  mdInput type="number" min="0" max="100" />
-
-   </div>
-        
-        </div>
-        </div>
-</div>
-        </fieldset>
-</div>
-    <div class="row">
-      
-                    <fieldset class="scheduler-border">
-                                    <legend class="scheduler-border"> Descrizione </legend>
-                                    <div class="control-group" >
-                                        <div class="controls bootstrap-timepicker" >
-                                             <div class="input-group" >
-                                                    <textarea class="form-control" style="border:white" aria-label="With textarea"></textarea>
-                                             </div>
-                                            
-                                        </div>
-                                    </div>
-                                </fieldset>
-                              
-    </div>
-    
-
-</div>
 </mat-dialog-content>
 
 
 
 <mat-dialog-actions>
-<div class="container-fluid" style="align-items: center">
-    <div class="row  text-center">
-        <div class="col-md text-center">
-        <button mat-raised-button (click)="confirm()">Conferma</button>
-    </div>
-    </div>
-    <div class="row top-buffer">
-        <div class="col-md text-center">
-        <button mat-raised-button (click)="close()">Annulla</button>
+    <div class="container-fluid" style="align-items: center">
+        <div class="row  text-center">
+            <div class="col-md text-center">
+                <button mat-raised-button (click)="confirm()">Conferma</button>
+            </div>
+        </div>
+        <div class="row top-buffer">
+            <div class="col-md text-center">
+                <button mat-raised-button (click)="close()">Annulla</button>
+            </div>
         </div>
     </div>
-</div>
 </mat-dialog-actions>
-
