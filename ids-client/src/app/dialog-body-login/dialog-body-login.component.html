@@ -1,0 +1,23 @@
+<h2 mat-dialog-title>Accesso all'area riservata</h2>
+<div *ngIf="credentialsMistake" class="isa_error">
+        <i class="fa fa-times-circle"></i>
+        Accesso negato!
+</div>
+
+<mat-dialog-content>
+
+        <p> Username </p>
+        <mat-form-field>
+                <input matInput [(ngModel)]="username">
+        </mat-form-field>
+
+
+        <p> Password</p>
+        <mat-form-field>
+                <input matInput [(ngModel)]="password" type="password">
+        </mat-form-field>
+</mat-dialog-content>
+<mat-dialog-actions>
+        <button mat-raised-button (click)="validateLogin()">Log in</button>
+        <button mat-raised-button (click)="close()">Close</button>
+</mat-dialog-actions>
