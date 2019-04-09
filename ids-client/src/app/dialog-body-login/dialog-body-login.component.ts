@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialogRef } from '@angular/material';
 import {Router} from '@angular/router';
-import {UtilsService} from '../utils.service';
+import {AuthService} from '../auth.service';
 
 
 
@@ -17,30 +17,23 @@ export class DialogBodyLoginComponent implements OnInit {
   password: string;
   credentialsMistake: boolean;
 
-  constructor(public dialogRef: MatDialogRef<DialogBodyLoginComponent>, private router: Router, private utilsService: UtilsService) { }
+  constructor(public dialogRef: MatDialogRef<DialogBodyLoginComponent>, private router: Router, 
+              private authService: AuthService) { }
 
   ngOnInit() {
     this.credentialsMistake = false;
   }
 
-  login() {
-    if (this.utilsService.validateLogin(this.username, this.password)) {
-      console.log('User authenticated!');
-      this.credentialsMistake = false;
-      this.dialogRef.close();
-      this.router.navigate(['/area-riservata', {outlets: { reserved: ['home']}}]);
-      } else {
-      console.log('Access not allowed!');
-      this.credentialsMistake = true;
-    }
-  }
-
   validateLogin() {
     if (this.username && this.password) {
-        this.utilsService.validateLogin(this.username, this.password).subscribe(result => {
+        this.authService.validateLogin(this.username, this.password).subscribe(result => {
         console.log('result is ', result);
         if (result['status'] === 'success') {
-          alert('Correct credentials!');
+          const userTitle = result['data'][0].title;
+          console.log('user data: ' + userTitle);
+          localStorage.setItem('title', userTitle);
+          this.dialogRef.close();
+          this.router.navigate(['/area-riservata', {outlets: { reserved: ['home']}}]);
         } else {
           alert('Wrong credentials!');
         }

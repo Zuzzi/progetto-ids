@@ -4,7 +4,7 @@ import { DialogBodyInslibrettoComponent } from '../dialog-body-inslibretto/dialo
 import { DialogBodyVisriservaComponent } from '../dialog-body-visriserva/dialog-body-visriserva.component';
 import { DialogBodyVisallegatiComponent } from '../dialog-body-visallegati/dialog-body-visallegati.component';
 import { DialogBodyAddriservaComponent } from '../dialog-body-addriserva/dialog-body-addriserva.component';
-
+import {AuthService} from '../auth.service';
 
 @Component({
   selector: 'app-libretto',
@@ -20,24 +20,11 @@ export class LibrettoComponent implements OnInit {
   isRupLogged: boolean;
   isDittaLogged: boolean;
 
-  constructor(private dialog: MatDialog) { }
+  constructor(private dialog: MatDialog, private authService: AuthService) { }
 
   ngOnInit() {
-    if (localStorage.getItem('user') !== null ) {
-      const user = localStorage.getItem('user');
-      console.log(user);
-      if (user.valueOf() === 'direttore'.valueOf()) {
-                this.isDirettoreLogged = true;
-                console.log('sono uguali');
-      } else if (user.valueOf() === 'ditta'.valueOf()) {
-        this.isDittaLogged = true;
-        console.log('sono uguali');
-    } else {
-      console.log('sono diversi');
-      this.isDirettoreLogged = false;
-      this.isDittaLogged = false;
-    }
-  }
+    this.isDirettoreLogged = this.authService.titleCheck('direttore');
+    this.isDittaLogged = this.authService.titleCheck('ditta');
 }
 
   openDialogInserimento() {

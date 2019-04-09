@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import {AuthService} from '../auth.service';
+import {Router} from '@angular/router';
+
 
 @Component({
   selector: 'app-area-riservata',
@@ -16,18 +19,10 @@ export class AreaRiservataComponent implements OnInit {
   isRupLogged: boolean;
   isDittaLogged: boolean;
 
-  constructor() { }
+  constructor(private authService: AuthService, private router: Router) { }
 
   ngOnInit() {
-    if (localStorage.getItem('user') !== null ) {
-      const user = localStorage.getItem('user');
-      console.log(user);
-      if (user.valueOf() === 'direttore'.valueOf()) {
-                this.isDirettoreLogged = true;
-                console.log('sono uguali');
-      } else {console.log('sono diversi');
-    }
-    }
+    this.isDirettoreLogged = this.authService.titleCheck('direttore');
   }
 
 
@@ -44,6 +39,8 @@ export class AreaRiservataComponent implements OnInit {
     }
   }
 
-
-
+  logOut() {
+    localStorage.clear();
+    this.router.navigate(['/welcome']);
+  }
 }

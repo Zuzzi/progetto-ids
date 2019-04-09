@@ -3,7 +3,7 @@ const express = require('express')
 const bodyParser = require('body-parser')
 const app = express()
 const mongoose = require('mongoose');
-const url = 'mongodb://localhost/ProvaMongoDB';
+const url = 'mongodb://localhost/blogDb';
 const User = require('./model/user');
  
 app.use(bodyParser.json())
@@ -13,7 +13,7 @@ app.post('/api/user/login', (req, res) => {
     mongoose.connect(url,{ useMongoClient: true }, function(err){
         if(err) throw err;
         console.log('connected successfully, username is ',req.body.username,' password is ',req.body.password);
-        console.log('Searching into mongodb/ProvaMongoDB database..');
+        console.log('Searching into mongodb/blogDb database..');
 
         
         User.find({

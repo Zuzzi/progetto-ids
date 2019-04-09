@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { MatDialog} from '@angular/material';
 import { DialogBodyInsgiornaleComponent } from '../dialog-body-insgiornale/dialog-body-insgiornale.component';
 import { DialogBodyVisallegatiComponent } from '../dialog-body-visallegati/dialog-body-visallegati.component';
+import {AuthService} from '../auth.service';
 
 @Component({
   selector: 'app-giornale',
@@ -15,22 +16,10 @@ export class GiornaleComponent implements OnInit {
   isRupLogged: boolean;
   isDittaLogged: boolean;
 
-  constructor(private dialog: MatDialog) { }
+  constructor(private dialog: MatDialog, private authService: AuthService) { }
 
   ngOnInit() {
-    if (localStorage.getItem('user') !== null ) {
-      const user = localStorage.getItem('user');
-      console.log(user);
-      if (user.valueOf() === 'direttore'.valueOf()) {
-                this.isDirettoreLogged = true;
-                console.log('sono uguali');
-      } else {
-        console.log('sono diversi');
-        this.isDirettoreLogged = false;
-
-    }
-    }
-
+    this.isDirettoreLogged = this.authService.titleCheck('direttore');
   }
 
   onSelect(event) {
