@@ -15,17 +15,16 @@ import { GiornaleComponent } from './giornale/giornale.component';
 import { LibrettoComponent } from './libretto/libretto.component';
 import { RegistroComponent } from './registro/registro.component';
 import { SalComponent } from './sal/sal.component';
-import { ControlloComponent } from './controllo/controllo.component';
-import { GestioneComponent } from './gestione/gestione.component';
 import { DialogBodyInfocontrattoComponent } from './dialog-body-infocontratto/dialog-body-infocontratto.component';
 import { DialogBodyInsgiornaleComponent } from './dialog-body-insgiornale/dialog-body-insgiornale.component';
 import { DialogBodyVisallegatiComponent } from './dialog-body-visallegati/dialog-body-visallegati.component';
 import { DialogBodyInsregistroComponent } from './dialog-body-insregistro/dialog-body-insregistro.component';
 import { DialogBodyInslibrettoComponent } from './dialog-body-inslibretto/dialog-body-inslibretto.component';
 import { DialogBodyVisriservaComponent } from './dialog-body-visriserva/dialog-body-visriserva.component';
-import { DialogBodyAddriservaComponent } from './dialog-body-addriserva/dialog-body-addriserva.component';
 import { DialogBodyApprovazioneComponent } from './dialog-body-approvazione/dialog-body-approvazione.component';
 import { HttpClientModule } from '@angular/common/http';
+import { DialogBodyApprovazionemisureComponent } from './dialog-body-approvazionemisure/dialog-body-approvazionemisure.component';
+import { UserProfileComponent } from './user-profile/user-profile.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -38,16 +37,15 @@ import { HttpClientModule } from '@angular/common/http';
     LibrettoComponent,
     RegistroComponent,
     SalComponent,
-    ControlloComponent,
-    GestioneComponent,
     DialogBodyInfocontrattoComponent,
     DialogBodyInsgiornaleComponent,
     DialogBodyVisallegatiComponent,
     DialogBodyInsregistroComponent,
     DialogBodyInslibrettoComponent,
     DialogBodyVisriservaComponent,
-    DialogBodyAddriservaComponent,
     DialogBodyApprovazioneComponent,
+    DialogBodyApprovazionemisureComponent,
+    UserProfileComponent,
   ],
   imports: [
     BrowserModule,
@@ -62,6 +60,6 @@ import { HttpClientModule } from '@angular/common/http';
   // tslint:disable-next-line:max-line-length
   entryComponents: [DialogBodyLoginComponent, DialogBodyInfocontrattoComponent, DialogBodyInsgiornaleComponent,
                     DialogBodyVisallegatiComponent, DialogBodyInsregistroComponent, DialogBodyInslibrettoComponent,
-                    DialogBodyVisriservaComponent, DialogBodyAddriservaComponent, DialogBodyApprovazioneComponent]
+                    DialogBodyVisriservaComponent, DialogBodyApprovazioneComponent, DialogBodyApprovazionemisureComponent]
 })
 export class AppModule { }
