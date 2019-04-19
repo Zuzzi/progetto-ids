@@ -17,7 +17,7 @@ export class DialogBodyLoginComponent implements OnInit {
   password: string;
   credentialsMistake: boolean;
 
-  constructor(public dialogRef: MatDialogRef<DialogBodyLoginComponent>, private router: Router, 
+  constructor(public dialogRef: MatDialogRef<DialogBodyLoginComponent>, private router: Router,
               private authService: AuthService) { }
 
   ngOnInit() {
@@ -32,6 +32,11 @@ export class DialogBodyLoginComponent implements OnInit {
           const userTitle = result['data'][0].title;
           console.log('user data: ' + userTitle);
           localStorage.setItem('title', userTitle);
+          this.authService.getUser(this.username).subscribe(result2 => {
+            const user = result2['data'];
+            console.log('user', user);
+          });
+
           this.dialogRef.close();
           this.router.navigate(['/area-riservata', {outlets: { reserved: ['home']}}]);
         } else {

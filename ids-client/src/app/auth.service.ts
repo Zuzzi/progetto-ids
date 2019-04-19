@@ -11,8 +11,8 @@ export class AuthService {
   validateLogin(username, password) {
     console.log(username + ' ' + password);
     return this.http.post('/api/user/login', {
-      username : username,
-      password : password
+      username,
+      password
     });
   }
 
@@ -30,6 +30,10 @@ export class AuthService {
     }
     return test;
 
+  }
+
+  getUser(username) {
+    return this.http.post('/api/user/getUser', {username});
   }
 
 
