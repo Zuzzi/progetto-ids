@@ -4,76 +4,113 @@
   Opzioni Profilo
 </h1>
 
-<div class="container-fluid" style="max-height: 100%; margin-top: 3%">
-<form class="example-form">
+<div class="container-fluid" style="max-height: 100%; margin-top: 3%; font-family: Arial, Helvetica, sans-serif;">
+  <form class="example-form">
 
-  <table class="example-full-width" cellspacing="0">
-    <div class="row">
-    <div class="col-md-1"></div>
-    <div class="col-md-6">
-    <div class="row">
-    <mat-form-field class="col-md-6">
-      <input matInput placeholder="Nome">
-      </mat-form-field>
-      <mat-form-field class="col-md-6"><input matInput placeholder="Cognome"></mat-form-field>
-    </div>
-  <div class="row">
-    <div class="col-md">
-  <mat-form-field>
-    <input matInput [matDatepicker]="picker" placeholder="Data di Nascita">
-    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-    <mat-datepicker #picker></mat-datepicker>
-  </mat-form-field>
-</div>
-</div>
-<div class="row">
-  <div class="col-md">
-<mat-form-field class="example-full-width">
-      <input matInput #codiceFiscale maxlength="16" placeholder="Codice Fiscale">
-      <mat-hint>{{codiceFiscale.value.length}} / 16</mat-hint>
-    </mat-form-field>
-  </div>
-  <div class="col-md">
-    <mat-form-field class="example-full-width">
-      <input matInput placeholder="Residenza">
-    </mat-form-field>
-  </div>
-  </div>
-  <div class="row">
-    <div class="col-md">
-    <mat-form-field class="example-full-width">
-      <input matInput placeholder="E-Mail">
-    </mat-form-field>
-  </div>
-  </div>
-  <div class="row">
-    <div class="col-md">
-   <mat-form-field class="example-full-width">
-      <input matInput placeholder="Numero di Telefono">
-    </mat-form-field>
-  </div>
-  </div>
-    <div class="row">
-      <div class="col-md-4">
-    <mat-form-field class="example-full-width">
-      <input matInput placeholder="Città">
-    </mat-form-field>
-  </div>
-  <div class="col-md-4">
-    <mat-form-field class="example-full-width">
-      <input matInput placeholder="Provincia">
-    </mat-form-field>
-  </div>
-  <div class="col-md-4">
-    <mat-form-field class="example-full-width">
-      <input matInput #postalCode maxlength="5" placeholder="CAP" value="">
-      <mat-hint>{{postalCode.value.length}} / 5</mat-hint>
-    </mat-form-field>
-  </div>
-    </div>
-  </div>
-  <div class="col-md-5"></div>
-  </div>
-  </table>
-</form>
+    <table class="example-full-width" cellspacing="0">
+
+      <div class="row">
+        <div class="col-md-6">
+          <fieldset class="scheduler-border">
+            <legend class="scheduler-border"> Dati Personali </legend>
+            <div class="row">
+              <div class="col-md">
+                Nome: NomeDiProva
+                <br> <br>
+                Cognome: CognomeDiProva
+                <br> <br>
+                Data di Nascita: 25/12/1993
+                <br> <br>
+                Codice Fiscale: 1234567890123456
+                <br> <br>
+                Residenza: Ancona
+                <br> <br>
+                E-Mail: prova.prova@prova.com
+                <br> <br>
+                Numero di Telefono: 0716666666
+                <br> <br>
+                Città: Ancona
+                <br> <br>
+                Provincia: Ancona
+                <br> <br>
+                CAP: 60023
+              </div>
+            </div>
+          </fieldset>
+        </div>
+        <div class="col-md-1"></div>
+        <div class="col-md-5">
+          <fieldset class="scheduler-border">
+            <legend class="scheduler-border"> Modifica Campi </legend>
+            <div class="row">
+              <mat-form-field class="col-md-6">
+                <input matInput placeholder="Nome">
+              </mat-form-field>
+              <mat-form-field class="col-md-6"><input matInput placeholder="Cognome"></mat-form-field>
+            </div>
+            <div class="row">
+              <div class="col-md">
+                <mat-form-field>
+                  <input matInput [matDatepicker]="picker" placeholder="Data di Nascita">
+                  <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                  <mat-datepicker #picker></mat-datepicker>
+                </mat-form-field>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md">
+                <mat-form-field class="example-full-width">
+                  <input matInput #codiceFiscale maxlength="16" placeholder="Codice Fiscale">
+                  <mat-hint>{{codiceFiscale.value.length}} / 16</mat-hint>
+                </mat-form-field>
+              </div>
+              <div class="col-md">
+                <mat-form-field class="example-full-width">
+                  <input matInput placeholder="Residenza">
+                </mat-form-field>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md">
+                <mat-form-field class="example-full-width">
+                  <input matInput placeholder="E-Mail">
+                </mat-form-field>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md">
+                <mat-form-field class="example-full-width">
+                  <input matInput placeholder="Numero di Telefono">
+                </mat-form-field>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-4">
+                <mat-form-field class="example-full-width">
+                  <input matInput placeholder="Città">
+                </mat-form-field>
+              </div>
+              <div class="col-md-4">
+                <mat-form-field class="example-full-width">
+                  <input matInput placeholder="Provincia">
+                </mat-form-field>
+              </div>
+              <div class="col-md-4">
+                <mat-form-field class="example-full-width">
+                  <input matInput #postalCode maxlength="5" placeholder="CAP" value="">
+                  <mat-hint>{{postalCode.value.length}} / 5</mat-hint>
+                </mat-form-field>
+              </div>
+            </div>
+            <br>
+            <div class="container-fluid">
+              <div class="row " style="justify-content:center;">
+                <button mat-raised-button (click)="confirm()">Conferma</button>
+              </div>
+            </div>
+          </fieldset>
+        </div>
+      </div>
+    </table>
+  </form>
 </div>

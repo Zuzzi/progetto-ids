@@ -42,23 +42,20 @@
             <td mat-cell *matCellDef="let element"> {{element.id}} </td>
           </ng-container>
 
+          <ng-container matColumnDef="tariffa">
+            <th mat-header-cell *matHeaderCellDef> Tariffa </th>
+            <td mat-cell *matCellDef="let element"> {{element.tariffa}} </td>
+          </ng-container>
 
           <ng-container matColumnDef="data">
             <th mat-header-cell *matHeaderCellDef> Data </th>
             <td mat-cell *matCellDef="let element"> {{element.data}} </td>
           </ng-container>
 
-          <ng-container matColumnDef="tariffa">
-            <th mat-header-cell *matHeaderCellDef> Tariffa </th>
-            <td mat-cell *matCellDef="let element"> {{element.tariffa}} </td>
-          </ng-container>
-
-
           <ng-container matColumnDef="indicazione">
             <th mat-header-cell *matHeaderCellDef> Indicazione dei Lavori e delle Somministrazioni </th>
             <td mat-cell *matCellDef="let element"> {{element.indicazione}} </td>
           </ng-container>
-
 
           <ng-container matColumnDef="quantita">
             <th mat-header-cell *matHeaderCellDef> Quantità </th>

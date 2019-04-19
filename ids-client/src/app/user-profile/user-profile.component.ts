@@ -12,4 +12,8 @@ export class UserProfileComponent implements OnInit {
   ngOnInit() {
   }
 
+  confirm() {
+    console.log('funziona!');
+  }
+
 }
