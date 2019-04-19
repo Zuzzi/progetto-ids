@@ -7,8 +7,8 @@ import {GiornaleComponent} from './giornale/giornale.component';
 import {LibrettoComponent} from './libretto/libretto.component';
 import {RegistroComponent} from './registro/registro.component';
 import {SalComponent} from './sal/sal.component';
-import {ControlloComponent} from './controllo/controllo.component';
-import {GestioneComponent} from './gestione/gestione.component';
+import {UserProfileComponent} from './user-profile/user-profile.component';
+
 
 const routes: Routes = [
   {path: 'welcome', component: WelcomeComponent},
@@ -39,15 +39,10 @@ const routes: Routes = [
       outlet: 'reserved'
     },
     {
-      path: 'controllo',
-      component: ControlloComponent,
+      path: 'user-profile',
+      component: UserProfileComponent,
       outlet: 'reserved'
     },
-    {
-      path: 'gestione',
-      component: GestioneComponent,
-      outlet: 'reserved'
-    }
   ] },
 ];
 
