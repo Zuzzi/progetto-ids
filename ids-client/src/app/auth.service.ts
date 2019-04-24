@@ -20,9 +20,9 @@ export class AuthService {
     .pipe(map(result => {
       if (result['status'] === 'success' ) {
         this.user= result['data'];
-        return {success: true, userdetail: result['data']};
+        return {success: true, userDetail: result['data']};
       } else {
-        return {success: false, userdetail: null };
+        return {success: false, userDetail: null };
       }
     }));
   }

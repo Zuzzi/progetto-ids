@@ -41,7 +41,7 @@ app.post('/api/user/login', (req, res) => {
     });
 })
 
-app.post('/api/user/getUser',(req,res) => {
+app.post('/api/user/getUser', (req,res) => {
     mongoose.connect(url, function(err){
         if(err) throw err;
         let username = req.body.username
@@ -62,7 +62,7 @@ app.post('/api/user/getUser',(req,res) => {
     })
 })
 
-app.get('/api/contractSources/getContractSources/', () => {
+app.get('/api/contractSources/getContractSources/', (_req, res) => {
     mongoose.connect(url, function(err) {
         if(err) throw err;
         console.log('connected successfully, need to find contractSources');

@@ -14,7 +14,7 @@ export class HomeComponent implements OnInit {
 
 
 
-constructor(private dialog: MatDialog) {} // private blockchain: BlockchainService) { }
+constructor(private dialog: MatDialog, private blockchain: BlockchainService) {} // private blockchain: BlockchainService) { }
 
 ngOnInit() {
   // Line chart:
@@ -59,7 +59,7 @@ ngOnInit() {
    }
   }
   });
-  // this.blockchain.getMisure('5cb8aa3fd0c0660b2c8afd80').subscribe(result => console.log(result));
+  this.blockchain.getMisure('5cb8aa3fd0c0660b2c8afd80').subscribe(result => console.log(result));
 }
 
 
