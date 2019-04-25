@@ -11,6 +11,7 @@ import { BlockchainService } from '../blockchain.service';
 })
 export class HomeComponent implements OnInit {
   LineChart: any[];
+  misure: Array<any> = [];
 
 
 
@@ -59,7 +60,7 @@ ngOnInit() {
    }
   }
   });
-  this.blockchain.getMisure('5cb8aa3fd0c0660b2c8afd80').subscribe(result => console.log(result));
+  this.blockchain.getMisure('5cb8aa3fd0c0660b2c8afd80').subscribe(misura => {console.log(misura); this.misure.push(misura); });
 }
 
 

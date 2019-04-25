@@ -24,7 +24,7 @@ const routes: Routes = [
       outlet: 'reserved'
     },
     {
-      path: 'libretto',
+      path: 'libretto/:contractID',
       component: LibrettoComponent,
       outlet: 'reserved'
     },

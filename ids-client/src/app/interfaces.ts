@@ -1,10 +1,10 @@
 import { Unit } from 'web3-utils';
 
 export interface Misura {
-  no: string;
+  no: number;
   tariffa: string;
-  data: Date;
+  data: number;
   categoriaContabile: string;
   descrizione: string;
-  percentuale: Unit;
+  percentuale: number;
 }

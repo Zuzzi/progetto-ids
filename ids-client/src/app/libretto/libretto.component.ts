@@ -5,6 +5,9 @@ import { DialogBodyVisriservaComponent } from '../dialog-body-visriserva/dialog-
 import { DialogBodyVisallegatiComponent } from '../dialog-body-visallegati/dialog-body-visallegati.component';
 import { DialogBodyApprovazionemisureComponent } from '../dialog-body-approvazionemisure/dialog-body-approvazionemisure.component';
 import {AuthService} from '../auth.service';
+import { ActivatedRoute } from '@angular/router';
+import { BlockchainService } from '../blockchain.service';
+import {map} from 'rxjs/operators'
 
 @Component({
   selector: 'app-libretto',
@@ -14,18 +17,26 @@ import {AuthService} from '../auth.service';
 export class LibrettoComponent implements OnInit {
 
   displayedColumns = ['id', 'tariffa', 'data', 'categoriacontabile', 'descrizione', 'percentuale', 'allegati', 'riserva'];
-  dataSource = ELEMENT_DATA;
-
+  // dataSource = ELEMENT_DATA;
+  dataSource;
+  contractID: string;
   isDirettoreLogged: boolean;
   isRupLogged: boolean;
   isDittaLogged: boolean;
 
-  constructor(private dialog: MatDialog, private authService: AuthService) { }
+  constructor(private dialog: MatDialog, private authService: AuthService, private activatedRoute: ActivatedRoute, private blockchainService: BlockchainService) { }
 
   ngOnInit() {
     this.isRupLogged = this.authService.titleCheck('rup');
     this.isDirettoreLogged = this.authService.titleCheck('direttore');
     this.isDittaLogged = this.authService.titleCheck('ditta');
+    this.activatedRoute.params.subscribe(params =>
+      {this.contractID = params['contractID'];
+    });
+    console.log(this.contractID);
+    // this.blockchainService.getMisure(this.contractID).subscribe(misura => {console.log(misura); this.dataSource = [misura]; console.log(this.dataSource); });
+    this.dataSource = this.blockchainService.getMisure(this.contractID).pipe(map(result => [result]));
+
 }
 
   openDialogInserimento() {

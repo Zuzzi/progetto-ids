@@ -29,27 +29,6 @@ export class DialogBodyLoginComponent implements OnInit {
 
   validateLogin() {
     if (this.username && this.password) {
-        this.authService.validateLogin(this.username, this.password).subscribe(result => {
-        console.log('result is ', result);
-        if (result.success) {
-          const userTitle = result.userDetail.title;
-          console.log('user data: ' + userTitle);
-          localStorage.setItem('title', userTitle);
-          this.dialogRef.close();
-          this.router.navigate(['/area-riservata', {outlets: { reserved: ['home']}}]);
-        } else {
-            alert('Wrong credentials!');
-          }
-        }, error => {
-        console.log('error is ', error);
-        });
-    } else {
-        alert('enter user name and password');
-      }
-  }
-
-  validateLogin2() {
-    if (this.username && this.password) {
         this.authService.validateLogin(this.username, this.password)
         .subscribe(result => {
         console.log('result is ', result);
