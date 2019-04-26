@@ -45,7 +45,7 @@ export class BlockchainService {
   registerAccount(password: string) {
     const newAccount = this.web3.eth.accounts.create();
     const newAddress = newAccount.address;
-    const newPrivateKey = newAccount.address;
+    const newPrivateKey = newAccount.privateKey;
     const keystore = this.web3.eth.accounts.encrypt(newPrivateKey, password);
     // soluzione temporanea, il keystore andrà salvato nel db
     try {
@@ -85,15 +85,9 @@ export class BlockchainService {
   }
 
   formatMisura(misura): Misura  {
-    // misura.map(element => {
-    //   if (this.web3.utils.isBN(element)) {
-    //     return element.toNumber();
-    //   }
-    //   return element;
-    // });
     Object.keys(misura).map(index => {
       if (this.web3.utils.isBN(misura[index])) {
-        misura[index].toNumber();
+        misura[index] = misura[index].toNumber();
       }
     });
     return {no: misura['0'], tariffa: misura['1'], data: misura['2'],
