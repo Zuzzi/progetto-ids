@@ -1,14 +1,37 @@
-pragma solidity ^0.4.0;
-pragma experimental ABIEncoderV2;
-import "browser/Library.sol";
+pragma solidity >=0.4.22 <0.6.0;
 
 contract SmartContractIDS {
     
-    Library.Misura[] arrayMisure;
-    Library.Contabilita[] arrayContabilita;
+    struct Misura {
+    uint no;
+    string tariffa;
+    uint data;
+    string categoriaContabile;
+    string descrizione;
+    uint percentuale;
+    string riserva;
+    bool valida;
+    bool invalidabile;
+    }
+    
+    struct Contabilita {
+    uint no;
+    string tariffa;
+    string data;
+    string categoriaContabile;
+    string descrizione;
+    uint percentuale;
+    uint prezzoValore;
+    uint prezzoPercentuale;
+    uint debitoValore;
+    uint debitoPercentuale;
+    }
+    
+    Misura[] arrayMisure;
+    Contabilita[] arrayContabilita;
     
     address private rup;
-    address private direttore;
+    address  direttore;
     
     uint parzialeLavoroAcorpo;
     uint aliquota;
@@ -28,12 +51,22 @@ contract SmartContractIDS {
         rup = msg.sender;
     }
     
-    function inserisciMisura(Library.Misura nuovaMisura) public onlyDirettore {
+    
+    function inserisciMisura(uint no,
+    string memory tariffa,
+    uint data,
+    string memory categoriaContabile,
+    string memory descrizione,
+    uint percentuale,
+    string memory riserva,
+    bool valida,
+    bool invalidabile) public {
+        Misura memory nuovaMisura = Misura(no, tariffa, data, categoriaContabile, descrizione, percentuale, riserva, valida, invalidabile);
         arrayMisure.push(nuovaMisura);
     }
     
-    function getArrayMisure() public view returns (Library.Misura[] memory) {
-        return arrayMisure;
+    function getArrayMisure(uint index) public view returns (uint, string memory, uint, string memory, string memory, uint) {
+        return (arrayMisure[index].no, arrayMisure[index].tariffa, arrayMisure[index].data, arrayMisure[index].categoriaContabile, arrayMisure[index].descrizione, arrayMisure[index].percentuale);
     }
     
     function invalidaMisura(uint noDaInvalidare) public onlyDirettore {
@@ -48,17 +81,5 @@ contract SmartContractIDS {
         arrayMisure[posizione].valida = false;
     }
     
-    function getArrayContabilita() public view onlyRup returns (Library.Contabilita[] memory) {
-        return arrayContabilita;
-    }
-    
-    function aggiornaArrayContabilita() public onlyRup {
-        /*
-        questo metodo scorre arrayMisure e raggruppando le misure 
-        per categoria contabile somma le percentuali e fa calcoli (da controllare),
-        poi inserisce/aggiorna la riga corrispondente nel registro di contabilità,
-        cioè inserisce/aggiorna un elemento di arrayContabilità
-        */
-    }
     
 }
