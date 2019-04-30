@@ -29,8 +29,8 @@
   </div>
 
   <div class="row">
-    <div class=col-md-1></div>
-    <div class="col-md-10">
+    <!-- <div class=col-md-1></div> -->
+    <div class="col-md-12">
 
       <div class="example-container mat-elevation-z8 scrollbar-black bordered-black thin"
         style="text-align: center; height: 53vh;">
@@ -42,23 +42,20 @@
             <td mat-cell *matCellDef="let element"> {{element.id}} </td>
           </ng-container>
 
+          <ng-container matColumnDef="tariffa">
+            <th mat-header-cell *matHeaderCellDef> Tariffa </th>
+            <td mat-cell *matCellDef="let element"> {{element.tariffa}} </td>
+          </ng-container>
 
           <ng-container matColumnDef="data">
             <th mat-header-cell *matHeaderCellDef> Data </th>
             <td mat-cell *matCellDef="let element"> {{element.data}} </td>
           </ng-container>
 
-          <ng-container matColumnDef="tariffa">
-            <th mat-header-cell *matHeaderCellDef> Tariffa </th>
-            <td mat-cell *matCellDef="let element"> {{element.tariffa}} </td>
-          </ng-container>
-
-
           <ng-container matColumnDef="indicazione">
             <th mat-header-cell *matHeaderCellDef> Indicazione dei Lavori e delle Somministrazioni </th>
             <td mat-cell *matCellDef="let element"> {{element.indicazione}} </td>
           </ng-container>
-
 
           <ng-container matColumnDef="quantita">
             <th mat-header-cell *matHeaderCellDef> Quantità </th>
@@ -98,6 +95,6 @@
       </div>
 
     </div>
-    <div class=col-md-1></div>
+    <!-- <div class=col-md-1></div> -->
   </div>
 </div>

@@ -75,7 +75,7 @@
                 </fieldset>
             </div>
         </div>
-        <div class="col-md-4" style="max-width:100%;">
+        <div class="col-md-4" style="max-width:100%; ">
             <!-- <mat-form-field>
                        <input matInput [matDatepicker]="picker" placeholder="Choose a date">
                        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
@@ -96,6 +96,7 @@
                                 <mat-calendar [selected]="selectedDate" style="max-height: 55vh" (selectedChange)="onSelect($event)"></mat-calendar>
                               </mat-card> -->
 
+<<<<<<< HEAD
                               <mat-card style="max-width:100%">
                                 <mat-calendar [selected]="selectedDate" (selectedChange)="onSelect($event)"></mat-calendar>
                             </mat-card>
@@ -113,3 +114,22 @@
                                 class="align-middle fas fa-paperclip"></i></button>
                     </div>
                 </div>
+=======
+            <mat-card style="max-width:100%; ">
+                <mat-calendar [selected]="selectedDate" (selectedChange)="onSelect($event)"></mat-calendar>
+            </mat-card>
+
+            <!-- <div data-date="03/11/19"></div> -->
+
+
+        </div>
+    </div>
+
+    <div class="row">
+        <!-- <button type="button" class="btn btn-link" style="float: right">Visualizza Foto e Allegati </button>  -->
+        <button type="button" class="btn btn-outline-warning btn-sm" style="float: right; position:relative"
+            (click)='openDialogAllegati()'>Visualizza Foto e Allegati <i
+                class="align-middle fas fa-paperclip"></i></button>
+    </div>
+</div>
+>>>>>>> 2640bb3fd19e6156780acc1d94da09689eed8c9d
