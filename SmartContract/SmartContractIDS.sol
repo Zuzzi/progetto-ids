@@ -1,4 +1,4 @@
-pragma solidity >=0.4.22 <0.6.0;
+pragma solidity >=0.5 <0.6.0;
 
 contract SmartContractIDS {
     
@@ -60,13 +60,14 @@ contract SmartContractIDS {
     uint percentuale,
     string memory riserva,
     bool valida,
-    bool invalidabile) public {
+    bool invalidabile) public onlyDirettore {
         Misura memory nuovaMisura = Misura(no, tariffa, data, categoriaContabile, descrizione, percentuale, riserva, valida, invalidabile);
         arrayMisure.push(nuovaMisura);
     }
     
-    function getArrayMisure(uint index) public view returns (uint, string memory, uint, string memory, string memory, uint) {
-        return (arrayMisure[index].no, arrayMisure[index].tariffa, arrayMisure[index].data, arrayMisure[index].categoriaContabile, arrayMisure[index].descrizione, arrayMisure[index].percentuale);
+    function getArrayMisure(uint index) public view returns (uint, string memory, uint, string memory, uint, string memory,bool,bool) {
+        Misura memory mis = arrayMisure[index];
+        return (mis.no, mis.tariffa, mis.data, mis.descrizione, mis.percentuale, mis.riserva, mis.valida, mis.invalidabile);
     }
     
     function invalidaMisura(uint noDaInvalidare) public onlyDirettore {
@@ -81,5 +82,5 @@ contract SmartContractIDS {
         arrayMisure[posizione].valida = false;
     }
     
-    
 }
+    
