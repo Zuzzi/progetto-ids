@@ -65,7 +65,7 @@ contract SmartContractIDS {
         arrayMisure.push(nuovaMisura);
     }
     
-    function getArrayMisure(uint index) public view returns (uint, string memory, uint, string memory, uint, string memory,bool,bool) {
+    function getMisura(uint index) public view returns (uint, string memory, uint, string memory, uint, string memory,bool,bool) {
         Misura memory mis = arrayMisure[index];
         return (mis.no, mis.tariffa, mis.data, mis.descrizione, mis.percentuale, mis.riserva, mis.valida, mis.invalidabile);
     }
