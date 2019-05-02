@@ -57,7 +57,7 @@ sudo ./<byzantium/istanbul/raft...>-start.sh
 ```
 **Inizializzazione Blockchain:**
 ``` 
-sudo ./<byzantium/istanbul/raft...>-init.sh
+sudo ./</istanbul/raft...>-init.sh
 ```
 **Arresto:**
 ``` 
