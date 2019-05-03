@@ -9,7 +9,7 @@ npm install web3
 npm install -g npm-install-version
 
 cd %UserProfile%
-niv solc@0.4.25 
+niv solc@0.4.25cd 
 
 #rimuovere:
 
