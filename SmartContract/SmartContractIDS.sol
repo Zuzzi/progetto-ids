@@ -98,13 +98,25 @@ contract SmartContractIDS {
     function invalidaMisura(uint noDaInvalidare) public onlyDirettore {
         bool misuraTrovata = false;
         uint posizione = 0;
+        uint percentuale = 0;
+        string memory categoriaContabile;
         for (uint i = 0; i< arrayMisure.length && !misuraTrovata; i++) {
             if (arrayMisure[i].no == noDaInvalidare) {
                 misuraTrovata = true;
                 posizione = i;
+                categoriaContabile = arrayMisure[i].categoriaContabile;
+                percentuale = arrayMisure[i].percentuale;
             }
         }
         arrayMisure[posizione].valida = false;
+        stornoPercentuale(categoriaContabile, percentuale);
+    }
+    
+    function stornoPercentuale(string memory categoriaContabile, uint percentuale) private {
+        int posizioneCategoria = findPosizioneCategoria(categoriaContabile);
+        if( posizioneCategoria >= 0){
+                    arrayContabilita[uint(posizioneCategoria)].percentuale -= percentuale;
+                } 
     }
     
     
@@ -121,7 +133,7 @@ contract SmartContractIDS {
                     creaNuovaVoce(nuovaVoce, categoriaContabile, percentuale);
                     arrayContabilita.push(nuovaVoce);
                 }
-                
+                arrayMisure[i].approvata = true;
                 
             }
         }
@@ -175,6 +187,7 @@ contract SmartContractIDS {
                 arrayContabilita[posizione].categoriaContabile, arrayContabilita[posizione].descrizione, arrayContabilita[posizione].percentuale, arrayContabilita[posizione].prezzoValore,
                 arrayContabilita[posizione].prezzoPercentuale, arrayContabilita[posizione].debitoValore, arrayContabilita[posizione].debitoPercentuale);
     }
+        
         
         
         
