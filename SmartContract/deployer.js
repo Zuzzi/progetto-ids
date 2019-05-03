@@ -4,6 +4,7 @@ Va messo nella stessa directory del file .sol e
 richiede come argomento il nome del contratto che deve essere lo stesso del file .sol
 es. smartContract.sol -> smartContract contratto {...
 Produce un file in output che contiene l'ABI e l'Indirizzo nella blockchain dove riesede il contratto appena creato
+e un altro file che contiene il bytecode del contratto
 */
 
 // API node per interagire con il File System
@@ -53,17 +54,22 @@ console.log('Contract Compiled')
 // Estrae l'abi e il bytecode del contratto compilato
 const logStream = fs.createWriteStream(contractName+'.txt');
 logStream.write('Contract "'+contractName+'" Deploy Info\n\n');
-const abi = output.contracts[contractName + '.sol'][contractName].abi;
+var abi = output.contracts[contractName + '.sol'][contractName].abi;
 logStream.write('Contract ABI:\n'+ JSON.stringify(abi)+'\n\n');
-const bytecode = output.contracts[contractName + '.sol'][contractName].evm.bytecode.object;
+var bytecode = output.contracts[contractName + '.sol'][contractName].evm.bytecode.object;
 // Costruisce l'oggetto contratto (web3) dall'abi
 const contract = new web3.eth.Contract(abi);
 
+//Scrive il bytecode del contratto in un file .bin
+const binStream = fs.createWriteStream(contractName+'.bin');
+binStream.end('0x'+bytecode);
+
 // Parametri utilizzati nel deploy
 const deploy_options = {
-    data: '0x' + bytecode
-    //arguments: []
+    data: '0x' + bytecode,
+    arguments: []
 };
+
 // Deploy SmartContract con messaggi di log negli eventi delle varie fasi
 function deploy() {
 	console.log('Start Deploying Contract...');
