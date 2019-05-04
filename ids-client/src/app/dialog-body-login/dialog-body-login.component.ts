@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialogRef } from '@angular/material';
 import {Router} from '@angular/router';
-import {AuthService} from '../auth.service';
-import { BlockchainService } from '../blockchain.service';
+import {AuthService} from '@app/auth.service';
+import { BlockchainService } from '@app/blockchain.service';
 import {concatMap} from 'rxjs/operators';
 
 

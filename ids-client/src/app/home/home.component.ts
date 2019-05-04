@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Chart } from 'chart.js';
 import { MatDialog} from '@angular/material';
-import {DialogBodyInfocontrattoComponent} from '../dialog-body-infocontratto/dialog-body-infocontratto.component';
-import { BlockchainService } from '../blockchain.service';
+import {DialogBodyInfocontrattoComponent} from '@app/dialog-body-infocontratto/dialog-body-infocontratto.component';
+import { BlockchainService } from '@app/blockchain.service';
 
 @Component({
   selector: 'app-home',

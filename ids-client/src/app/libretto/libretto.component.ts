@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog} from '@angular/material';
-import { DialogBodyInslibrettoComponent } from '../dialog-body-inslibretto/dialog-body-inslibretto.component';
-import { DialogBodyVisriservaComponent } from '../dialog-body-visriserva/dialog-body-visriserva.component';
-import { DialogBodyVisallegatiComponent } from '../dialog-body-visallegati/dialog-body-visallegati.component';
-import { DialogBodyApprovazionemisureComponent } from '../dialog-body-approvazionemisure/dialog-body-approvazionemisure.component';
-import {AuthService} from '../auth.service';
+import { DialogBodyInslibrettoComponent } from '@app/dialog-body-inslibretto/dialog-body-inslibretto.component';
+import { DialogBodyVisriservaComponent } from '@app/dialog-body-visriserva/dialog-body-visriserva.component';
+import { DialogBodyVisallegatiComponent } from '@app/dialog-body-visallegati/dialog-body-visallegati.component';
+import { DialogBodyApprovazionemisureComponent } from '@app/dialog-body-approvazionemisure/dialog-body-approvazionemisure.component';
+import {AuthService} from '@app/auth.service';
 import { ActivatedRoute } from '@angular/router';
-import { BlockchainService } from '../blockchain.service';
+import { BlockchainService } from '@app/blockchain.service';
 import {map} from 'rxjs/operators'
 
 @Component({

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {Router} from '@angular/router';
 import { MatDialog} from '@angular/material';
-import { DialogBodyLoginComponent } from '../dialog-body-login/dialog-body-login.component';
+import { DialogBodyLoginComponent } from '@app/dialog-body-login/dialog-body-login.component';
 
 @Component({
   selector: 'app-welcome',

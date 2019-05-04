@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { DialogBodyInsregistroComponent } from '../dialog-body-insregistro/dialog-body-insregistro.component';
+import { DialogBodyInsregistroComponent } from '@app/dialog-body-insregistro/dialog-body-insregistro.component';
 import { MatDialog } from '@angular/material';
-import { DialogBodyApprovazioneComponent } from '../dialog-body-approvazione/dialog-body-approvazione.component';
-import {AuthService} from '../auth.service';
+import { DialogBodyApprovazioneComponent } from '@app/dialog-body-approvazione/dialog-body-approvazione.component';
+import {AuthService} from '@app/auth.service';
 
 @Component({
   selector: 'app-registro',

@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog} from '@angular/material';
-import { DialogBodyInsgiornaleComponent } from '../dialog-body-insgiornale/dialog-body-insgiornale.component';
-import { DialogBodyVisallegatiComponent } from '../dialog-body-visallegati/dialog-body-visallegati.component';
-import {AuthService} from '../auth.service';
+import { DialogBodyInsgiornaleComponent } from '@app/dialog-body-insgiornale/dialog-body-insgiornale.component';
+import { DialogBodyVisallegatiComponent } from '@app/dialog-body-visallegati/dialog-body-visallegati.component';
+import {AuthService} from '@app/auth.service';
 
 @Component({
   selector: 'app-giornale',
