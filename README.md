@@ -4,7 +4,7 @@
 ```
 npm install -g node-gyp
 npm install --globally --production windows-build-tools
-npm install solc
+npm install **solc@0.5.1**
 npm install web3
 ```
 ### Dopo aver installato _web3_,  opzionalmente rimuovere _windows-build-tools_:
