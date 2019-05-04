@@ -78,7 +78,7 @@ export class BlockchainService {
     const address: string = this.contracts.find(element => element._id === contractID).address;
     const abi = this.contractsSources.find(element => element.type === 'master').abi;
     const smartContract = new this.web3.eth.Contract(abi, address);
-    const misura = from(smartContract.methods.getArrayMisure(0).call())
+    const misura = from(smartContract.methods.getMisura(0).call())
     .pipe(map(result => this.formatMisura(result))
     );
     return misura;
