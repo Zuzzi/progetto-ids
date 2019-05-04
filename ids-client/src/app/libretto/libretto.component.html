@@ -28,9 +28,9 @@
         <table mat-table [dataSource]="dataSource">
 
 
-          <ng-container matColumnDef="id">
+          <ng-container matColumnDef="no">
             <th mat-header-cell *matHeaderCellDef> No. </th>
-            <td mat-cell *matCellDef="let element"> {{element.id}} </td>
+            <td mat-cell *matCellDef="let element"> {{element.no}} </td>
           </ng-container>
 
 
@@ -46,9 +46,9 @@
           </ng-container>
 
 
-          <ng-container matColumnDef="categoriacontabile">
+          <ng-container matColumnDef="categoriaContabile">
             <th mat-header-cell *matHeaderCellDef> Categoria Contabile </th>
-            <td mat-cell *matCellDef="let element"> {{element.categoriacontabile}} </td>
+            <td mat-cell *matCellDef="let element"> {{element.categoriaContabile}} </td>
           </ng-container>
 
 
@@ -75,7 +75,7 @@
             <th mat-header-cell *matHeaderCellDef> Riserva </th>
             <td mat-cell *matCellDef="let element">
                 <div class="row" style="justify-content: center">
-                  <button  (click)="openDialogVisRiserva()">{{element.riservaVis}}</button>
+                  <button  (click)="openDialogVisRiserva()">{{element.riserva}}</button>
                 </div>
             </td>
           </ng-container>

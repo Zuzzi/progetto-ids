@@ -7,4 +7,5 @@ export interface Misura {
   categoriaContabile: string;
   descrizione: string;
   percentuale: number;
+  riserva: string;
 }

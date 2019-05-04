@@ -85,13 +85,9 @@ export class BlockchainService {
   }
 
   formatMisura(misura): Misura  {
-    Object.keys(misura).map(index => {
-      if (this.web3.utils.isBN(misura[index])) {
-        misura[index] = misura[index].toNumber();
-      }
-    });
-    return {no: misura['0'], tariffa: misura['1'], data: misura['2'],
-      categoriaContabile: misura['3'], descrizione: misura['4'], percentuale: misura['5']};
+    return {no: misura['0'].toNumber(), tariffa: misura['1'], data: misura['2'].toNumber(),
+      categoriaContabile: misura['3'], descrizione: misura['4'], percentuale: misura['5'],
+      riserva: misura['6']};
   }
 
 }

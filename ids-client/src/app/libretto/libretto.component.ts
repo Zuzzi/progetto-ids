@@ -16,7 +16,7 @@ import {map} from 'rxjs/operators'
 })
 export class LibrettoComponent implements OnInit {
 
-  displayedColumns = ['id', 'tariffa', 'data', 'categoriacontabile', 'descrizione', 'percentuale', 'allegati', 'riserva'];
+  displayedColumns = ['no', 'tariffa', 'data', 'categoriaContabile', 'descrizione', 'percentuale', 'allegati', 'riserva'];
   // dataSource = ELEMENT_DATA;
   dataSource;
   contractID: string;
@@ -68,52 +68,3 @@ export class LibrettoComponent implements OnInit {
   }
 
 }
-
-const ELEMENT_DATA: PeriodicElement[] = [
-  // tslint:disable-next-line:max-line-length
-  { id: 1 , tariffa: '001.002.001', data: '10/12/2018', categoriacontabile: 'Struttura di Fondazione', descrizione: 'Fabbricato A struttura', percentuale: '10%', allegati: 'dfasvas', riservaVis: 'Visualizza'},
-  // tslint:disable-next-line:max-line-length
-  { id: 1 , tariffa: '001.002.001', data: '10/12/2018', categoriacontabile: 'Struttura di Fondazione', descrizione: 'Fabbricato A struttura', percentuale: '10%', allegati: 'dfasvas', riservaVis: 'Visualizza'},
-  // tslint:disable-next-line:max-line-length
-  { id: 1 , tariffa: '001.002.001', data: '10/12/2018', categoriacontabile: 'Struttura di Fondazione', descrizione: 'Fabbricato A struttura', percentuale: '10%', allegati: 'dfasvas', riservaVis: 'Visualizza'},
-  // tslint:disable-next-line:max-line-length
-  { id: 1 , tariffa: '001.002.001', data: '10/12/2018', categoriacontabile: 'Struttura di Fondazione', descrizione: 'Fabbricato A struttura', percentuale: '10%', allegati: 'dfasvas', riservaVis: 'Visualizza'},
-  // tslint:disable-next-line:max-line-length
-  { id: 1 , tariffa: '001.002.001', data: '10/12/2018', categoriacontabile: 'Struttura di Fondazione', descrizione: 'Fabbricato A struttura', percentuale: '10%', allegati: 'dfasvas', riservaVis: 'Visualizza'},
-  // tslint:disable-next-line:max-line-length
-  { id: 1 , tariffa: '001.002.001', data: '10/12/2018', categoriacontabile: 'Struttura di Fondazione', descrizione: 'Fabbricato A struttura', percentuale: '10%', allegati: 'dfasvas', riservaVis: 'Visualizza'},
-  // tslint:disable-next-line:max-line-length
-  { id: 1 , tariffa: '001.002.001', data: '10/12/2018', categoriacontabile: 'Struttura di Fondazione', descrizione: 'Fabbricato A struttura', percentuale: '10%', allegati: 'dfasvas', riservaVis: 'Visualizza'},
-  // tslint:disable-next-line:max-line-length
-  { id: 1 , tariffa: '001.002.001', data: '10/12/2018', categoriacontabile: 'Struttura di Fondazione', descrizione: 'Fabbricato A struttura', percentuale: '10%', allegati: 'dfasvas', riservaVis: 'Visualizza'},
-  // tslint:disable-next-line:max-line-length
-  { id: 1 , tariffa: '001.002.001', data: '10/12/2018', categoriacontabile: 'Struttura di Fondazione', descrizione: 'Fabbricato A struttura', percentuale: '10%', allegati: 'dfasvas', riservaVis: 'Visualizza'},
-  // tslint:disable-next-line:max-line-length
-  { id: 1 , tariffa: '001.002.001', data: '10/12/2018', categoriacontabile: 'Struttura di Fondazione', descrizione: 'Fabbricato A struttura', percentuale: '10%', allegati: 'dfasvas', riservaVis: 'Visualizza'},
-  // tslint:disable-next-line:max-line-length
-  { id: 1 , tariffa: '001.002.001', data: '10/12/2018', categoriacontabile: 'Struttura di Fondazione', descrizione: 'Fabbricato A struttura', percentuale: '10%', allegati: 'dfasvas', riservaVis: 'Visualizza'},
-  // tslint:disable-next-line:max-line-length
-  { id: 1 , tariffa: '001.002.001', data: '10/12/2018', categoriacontabile: 'Struttura di Fondazione', descrizione: 'Fabbricato A struttura', percentuale: '10%', allegati: 'dfasvas', riservaVis: 'Visualizza'},
-  // tslint:disable-next-line:max-line-length
-  { id: 1 , tariffa: '001.002.001', data: '10/12/2018', categoriacontabile: 'Struttura di Fondazione', descrizione: 'Fabbricato A struttura', percentuale: '10%', allegati: 'dfasvas', riservaVis: 'Visualizza'},
-  // tslint:disable-next-line:max-line-length
-  { id: 1 , tariffa: '001.002.001', data: '10/12/2018', categoriacontabile: 'Struttura di Fondazione', descrizione: 'Fabbricato A struttura', percentuale: '10%', allegati: 'dfasvas', riservaVis: 'Visualizza'},
-  // tslint:disable-next-line:max-line-length
-  { id: 1 , tariffa: '001.002.001', data: '10/12/2018', categoriacontabile: 'Struttura di Fondazione', descrizione: 'Fabbricato A struttura', percentuale: '10%', allegati: 'dfasvas', riservaVis: 'Visualizza'},
-  // tslint:disable-next-line:max-line-length
-  { id: 1 , tariffa: '001.002.001', data: '10/12/2018', categoriacontabile: 'Struttura di Fondazione', descrizione: 'Fabbricato A struttura', percentuale: '10%', allegati: 'dfasvas', riservaVis: 'Visualizza'}
-];
-
-export interface PeriodicElement {
-  id: number;
-  tariffa: string;
-  data: string;
-  categoriacontabile: string;
-  descrizione: string;
-  percentuale: string;
-  allegati: string;
-  riservaVis: string;
-
-}
-
-
