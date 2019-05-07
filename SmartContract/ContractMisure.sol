@@ -78,24 +78,6 @@ contract ContractMisure {
         return (mis.no, mis.tariffa, mis.data, mis.categoriaContabile, mis.descrizione, mis.percentuale, mis.riserva, mis.valida, mis.invalidabile, mis.approvata);
     }
     
-    /*function getMisuraByNo(uint index) public view returns (uint, string memory, uint, string memory, string memory, uint, string memory,bool,bool, bool) {
-        bool misuraTrovata = false;
-        uint posizione = 0;
-        for (uint i = 1; i<= numeroMisure && !misuraTrovata; i++) {
-            if (arrayMisure[i].no == index) {
-                misuraTrovata = true;
-                posizione = i;
-            }
-        }
-        return (arrayMisure[posizione].no, arrayMisure[posizione].tariffa, arrayMisure[posizione].data, arrayMisure[posizione].categoriaContabile, 
-                arrayMisure[posizione].descrizione, arrayMisure[posizione].percentuale, arrayMisure[posizione].riserva,
-                arrayMisure[posizione].valida, arrayMisure[posizione].invalidabile, arrayMisure[posizione].approvata);
-    }
-    
-    */
-    
-    
-    
     function invalidaMisura(uint noDaInvalidare) public onlyDirettore {
         bool misuraTrovata = false;
         uint posizione = 0;
