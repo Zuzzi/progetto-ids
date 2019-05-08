@@ -94,7 +94,7 @@ contract SmartContractIDS {
     }
     
     
-    
+    /*
     function invalidaMisura(uint noDaInvalidare) public onlyDirettore {
         bool misuraTrovata = false;
         uint posizione = 0;
@@ -109,7 +109,8 @@ contract SmartContractIDS {
             }
         }
         arrayMisure[posizione].valida = false;
-        stornoPercentuale(categoriaContabile, percentuale);
+        if (arrayMisure[posizione].approvata)
+            stornoPercentuale(categoriaContabile, percentuale);
     }
     
     function stornoPercentuale(string memory categoriaContabile, uint percentuale) private {
@@ -188,7 +189,7 @@ contract SmartContractIDS {
                 arrayContabilita[posizione].prezzoPercentuale, arrayContabilita[posizione].debitoValore, arrayContabilita[posizione].debitoPercentuale);
     }
         
-        
+      */  
         
         
     }
