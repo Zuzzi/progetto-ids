@@ -1,5 +1,5 @@
 /*
-Deployer Contratto singolo:
+Deployer Contratto SINGOLO:
 Va messo nella stessa directory del file .sol e 
 richiede come argomento il nome del contratto che deve essere lo stesso del file .sol
 es. smartContract.sol -> smartContract contratto {...
@@ -27,11 +27,18 @@ const options = {
 }
 // Costruisce il Wrapper di moduli ethereum web3
 // Per la comunicazione con il nodo utilizza il procollo Websocket
-const web3 = new Web3(new Web3.providers.WebsocketProvider("ws://localhost:22000"), null, options);
+const web3 = new Web3(new Web3.providers.WebsocketProvider("ws://localhost:22000",{
+  // Opzioni connection Websocket
+  clientConfig: {
+	// Disattiva la frammentazione dei messaggi in modo da non "spezzare"
+	// il bytecode dei contratti più grande di 16KB (valore default fragmentationThreshold")
+	fragmentOutgoingMessages: false,
+  }
+}),null,options);
 
 // Importa il codice dello smartcontract
 const inputfile = fs.readFileSync(contractName + '.sol').toString();
-//Costruisce la standard-JSON-input-interface (solc > 0.5)
+//Costruisce la standard-JSON-input-interface (solc web> 0.5)
 const input ={
 	language: 'Solidity',
 	sources : {
