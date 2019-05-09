@@ -5,6 +5,7 @@ import {map} from 'rxjs/operators';
 @Injectable({
   providedIn: 'root'
 })
+
 export class AuthService {
 // definire un'interfaccia per il tipo utente
   private user;
