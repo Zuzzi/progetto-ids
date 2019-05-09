@@ -1,6 +1,7 @@
 pragma solidity >=0.5 <0.6.0;
 
 import './ContractRegistro.sol';
+import './ContractParametri.sol';
 
 contract ContractMisure {
     
@@ -17,59 +18,42 @@ contract ContractMisure {
     bool approvata;
     }
     
-    
-    
-    uint parzialeLavoroAcorpo;
-    uint aliquota;
-    uint totale;
-    uint pagamento;
     uint public numeroMisure;
     ContractRegistro cr;
-    address direttore;
+    ContractParametri cp;
+    
     
     mapping (uint => Misura) public arrayMisure; 
-    
 
-    
-    
-    constructor() public {
-        direttore = msg.sender;
+    constructor() public  {
         numeroMisure = 0;
     }
     
-    
     modifier onlyDirettore {
-        require(direttore == msg.sender); _;
+        require(cp.getIndirizzoDirettore() == msg.sender); _;
     }
-    
     
     function setIndirizzoCr (address indirizzo) public {
         cr = ContractRegistro(indirizzo);
     }
     
+     function setIndirizzoCp (address indirizzo) public {
+        cp = ContractParametri(indirizzo);
+    }
     
-    function inserisciMisura(uint no,
-    string memory  tariffa,
-    uint data,
-    string memory categoriaContabile,
-    string memory descrizione,
-    uint percentuale,
-    string memory riserva,
-    bool valida,
-    bool invalidabile,
-    bool approvata) public onlyDirettore {
-        
-        arrayMisure[no].no = no;
-        arrayMisure[no].tariffa = tariffa;
-        arrayMisure[no].data = data;
-        arrayMisure[no].categoriaContabile = categoriaContabile;
-        arrayMisure[no].descrizione = descrizione;
-        arrayMisure[no].percentuale = percentuale;
-        arrayMisure[no].riserva = riserva;
-        arrayMisure[no].valida = valida;
-        arrayMisure[no].invalidabile = invalidabile;
-        arrayMisure[no].approvata = approvata;
-        //arrayMisure.push(nuovaMisura);
+    function inserisciMisura(string memory categoriaContabile,
+                             string memory descrizione, uint percentuale, string memory riserva) public onlyDirettore {
+        (string memory nomeCategoria, uint valore, string memory tariffa) = cp.getCategoriaContabileByNome(categoriaContabile);
+        arrayMisure[numeroMisure].no = numeroMisure;
+        arrayMisure[numeroMisure].tariffa = tariffa;
+        arrayMisure[numeroMisure].data = now;
+        arrayMisure[numeroMisure].categoriaContabile = categoriaContabile;
+        arrayMisure[numeroMisure].descrizione = descrizione;
+        arrayMisure[numeroMisure].percentuale = percentuale;
+        arrayMisure[numeroMisure].riserva = riserva;
+        arrayMisure[numeroMisure].valida = true;
+        arrayMisure[numeroMisure].invalidabile = true;
+        arrayMisure[numeroMisure].approvata = false;
         numeroMisure ++;
     }
     
@@ -78,25 +62,17 @@ contract ContractMisure {
         return (mis.no, mis.tariffa, mis.data, mis.categoriaContabile, mis.descrizione, mis.percentuale, mis.riserva, mis.valida, mis.invalidabile, mis.approvata);
     }
     
-    function invalidaMisura(uint noDaInvalidare) public onlyDirettore {
+    
+    function invalidaMisura(uint id) public onlyDirettore {
         bool misuraTrovata = false;
-        uint posizione = 0;
         uint percentuale = 0;
         string memory categoriaContabile;
-        for (uint i = 0; i< numeroMisure && !misuraTrovata; i++) {
-            if (arrayMisure[i].no == noDaInvalidare) {
-                misuraTrovata = true;
-                posizione = i;
-                categoriaContabile = arrayMisure[i].categoriaContabile;
-                percentuale = arrayMisure[i].percentuale;
-            }
-        }
-        arrayMisure[posizione].valida = false;
-        if (arrayMisure[posizione].approvata){
-            cr.stornoPercentuale(categoriaContabile, percentuale); 
+
+        arrayMisure[id].valida = false;
+        if (arrayMisure[id].approvata){
+            cr.stornoPercentuale(arrayMisure[id].categoriaContabile, arrayMisure[id].percentuale); 
         }
     }
-    
     
     function approvaMisura  (uint index) public {
         arrayMisure[index].approvata = true;
