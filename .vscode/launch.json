@@ -13,6 +13,14 @@
             "webRoot": "${workspaceFolder}/ids-client"
         },
         {
+            "name": "ng serve fire",
+            "type": "firefox",
+            "request": "launch",
+            "preLaunchTask": "test",
+            "url": "http://localhost:4200/#",
+            "webRoot": "${workspaceFolder}"
+          },
+        {
             "type": "node",
             "request": "launch",
             "name": "WebService (Mongo)",
