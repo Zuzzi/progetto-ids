@@ -81,6 +81,20 @@ npm start
 ~~Run `npm start` for a dev server.~~ 
 Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
 
+## Mongo Dump/Restore
+
+### Dump
+Nella cartella di installazione di mongo (generalmente `C://%programfiles%/MongoDB/Server/4.0/bin`) lanciare:
+```
+./mongodump.exe -d {nome-database} -o {path-to-backup-folder}
+```
+
+### Restore
+Nella cartella di installazione di mongo (generalmente `C://%programfiles%/MongoDB/Server/4.0/bin`) lanciare:
+```
+./mongorestore.exe --db {nome-database} {path-to-backup-folder}
+```
+
 ## Code scaffolding
 
 Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
