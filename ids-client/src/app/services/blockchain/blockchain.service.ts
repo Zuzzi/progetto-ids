@@ -1,11 +1,12 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Inject } from '@angular/core';
 import Web3 from 'web3';
+import {WEB3} from '@app/web3.token';
 import {writeFileSync, fstat} from 'fs';
 import { EncryptedKeystoreV3Json, Account } from 'web3-eth-accounts';
 import  { from, Observable } from 'rxjs';
 import {map} from 'rxjs/operators'
 import { HttpClient } from '@angular/common/http';
-import {Misura} from './interfaces';
+import {Misura} from '../../interfaces';
 
 
 @Injectable({
@@ -18,7 +19,7 @@ export class BlockchainService {
   private contracts: Array<any>;
   private contractsSources: Array<any>;
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient, @Inject(WEB3) private _web3: Web3 ) {
     const options = {
       defaultAccount: '0xed9d02e382b34818e88b88a309c7fe71e65f419d',
       defaultGasPrice: '0',
@@ -28,10 +29,11 @@ export class BlockchainService {
     //   'http://localhost:22000', {headers: [{name: 'Access-Control-Allow-Origin', value: '*'}]}),
     //   null,
     //   options);
-    this.web3 = new Web3(new Web3.providers.WebsocketProvider(
+    /* this.web3 = new Web3(new Web3.providers.WebsocketProvider(
       'ws://localhost:22000'),
       null,
-      options);
+      options); */
+      this.web3 = _web3;
     http.get('/api/contractSources/getContractSources').subscribe((result) => {
       if (result['status'] === 'success') {
         this.contractsSources = result['data']

@@ -4,9 +4,9 @@ import { DialogBodyInslibrettoComponent } from '@app/dialog-body-inslibretto/dia
 import { DialogBodyVisriservaComponent } from '@app/dialog-body-visriserva/dialog-body-visriserva.component';
 import { DialogBodyVisallegatiComponent } from '@app/dialog-body-visallegati/dialog-body-visallegati.component';
 import { DialogBodyApprovazionemisureComponent } from '@app/dialog-body-approvazionemisure/dialog-body-approvazionemisure.component';
-import {AuthService} from '@app/auth.service';
+import {AuthService} from '@app/services/auth/auth.service';
 import { ActivatedRoute } from '@angular/router';
-import { BlockchainService } from '@app/blockchain.service';
+import { BlockchainService } from '@app/services/blockchain/blockchain.service';
 import {map} from 'rxjs/operators'
 
 @Component({
