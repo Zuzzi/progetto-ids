@@ -1,13 +1,13 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import {AreaRiservataComponent} from './area-riservata/area-riservata.component';
-import { WelcomeComponent } from './welcome/welcome.component';
-import {HomeComponent} from './home/home.component';
-import {GiornaleComponent} from './giornale/giornale.component';
-import {LibrettoComponent} from './libretto/libretto.component';
-import {RegistroComponent} from './registro/registro.component';
-import {SalComponent} from './sal/sal.component';
-import {UserProfileComponent} from './user-profile/user-profile.component';
+import {AreaRiservataComponent} from './components/area-riservata/area-riservata.component';
+import { WelcomeComponent } from './components/welcome/welcome.component';
+import {HomeComponent} from './components/home/home.component';
+import {GiornaleComponent} from './components/giornale/giornale.component';
+import {LibrettoComponent} from './components/libretto/libretto.component';
+import {RegistroComponent} from './components/registro/registro.component';
+import {SalComponent} from './components/sal/sal.component';
+import {UserProfileComponent} from './components/user-profile/user-profile.component';
 
 
 const routes: Routes = [
