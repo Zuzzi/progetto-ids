@@ -1,14 +1,14 @@
 <mat-dialog-content class="scrollbar-black bordered-black thin">
     <div class="container-fluid ">
         <div class="row">
-            <div class="col-md-4">
+            <div class="col-md">
                 <mat-form-field>
                     <input matInput [matDatepicker]="picker" placeholder="Seleziona una data">
                     <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                     <mat-datepicker #picker></mat-datepicker>
                 </mat-form-field>
             </div>
-            <div class="col-md-4">
+            <div class="col-md">
                 <div class="row">
                     <div class="col-md" style="text-align: right;">
                         Allegati e Foto:
@@ -33,13 +33,13 @@
                     <div class="controls bootstrap-timepicker">
                         <div class="input-group">
                             <div class="col-md">
-                                Tariffa
-                                <div data-name="Tariffa" style="width: 100%">
-                                    <select name="Tariffa">
-                                        <option value="">Selezione Tariffa</option>
-                                        <option value="1">001.002.001</option>
-                                        <option value="2">001.002.002</option>
-                                        <option value="3">001.002.003</option>
+                                Designazione dei Lavori
+                                <div data-name="Designazione" style="width: 100%">
+                                    <select name="Designazione">
+                                        <option value="">Selezione Struttura</option>
+                                        <option value="1">Fabbricato A</option>
+                                        <option value="2">Fabbricato B</option>
+                                        <option value="3">Fabbricato C</option>
                                     </select>
                                 </div>
                             </div>
@@ -67,18 +67,6 @@
             </fieldset>
         </div>
         <div class="row">
-
-            <fieldset class="scheduler-border">
-                <legend class="scheduler-border"> Descrizione </legend>
-                <div class="control-group">
-                    <div class="controls bootstrap-timepicker">
-                        <div class="input-group">
-                            <textarea class="form-control" style="border:white" aria-label="With textarea"></textarea>
-                        </div>
-
-                    </div>
-                </div>
-            </fieldset>
 
         </div>
 
@@ -109,10 +97,7 @@
         <div class="row  text-center">
             <div class="col-md text-center">
                 <button mat-raised-button (click)="confirm()">Conferma</button>
-            </div>
-        </div>
-        <div class="row top-buffer">
-            <div class="col-md text-center">
+         
                 <button mat-raised-button (click)="close()">Annulla</button>
             </div>
         </div>

@@ -16,7 +16,7 @@ import {map} from 'rxjs/operators'
 })
 export class LibrettoComponent implements OnInit {
 
-  displayedColumns = ['no', 'tariffa', 'data', 'categoriaContabile', 'descrizione', 'percentuale', 'allegati', 'riserva'];
+  displayedColumns = ['no', 'tariffa', 'data', 'designazione', 'categoriaContabile', 'percentuale', 'allegati', 'riserva'];
   // dataSource = ELEMENT_DATA;
   dataSource;
   contractID: string;
