@@ -5,7 +5,7 @@ contract ContractParametri {
     address private indirizzoDirettore;
     address private indirizzoRup;
     address private indirizzoDitta;
-    uint[] private arraySoglie;
+    Soglia[] private arraySoglie;
     CategoriaContabile[] private arrayCategorieContabili;
     string[] private arrayQualifiche;
     string[] private arrayAttrezzature;
@@ -16,6 +16,11 @@ contract ContractParametri {
         string nome;
         uint valore;
         string tariffa;
+    }
+    
+    struct Soglia {
+        uint valore;
+        bool superata;
     }
     
     
@@ -50,13 +55,18 @@ contract ContractParametri {
         arrayCategorieContabili.push(cat3);
         arrayCategorieContabili.push(cat4);
         
-        arraySoglie.push(5000);
-        arraySoglie.push(10000);
-        arraySoglie.push(30000);
-        arraySoglie.push(50000);
-        arraySoglie.push(80000);
-        arraySoglie.push(100000);
-        
+        Soglia memory soglia1 = Soglia(5000, false);
+        arraySoglie.push(soglia1);
+        Soglia memory soglia2 = Soglia(10000, false);
+        arraySoglie.push(soglia2);
+        Soglia memory soglia3 = Soglia(30000, false);
+        arraySoglie.push(soglia3);
+        Soglia memory soglia4 = Soglia(50000, false);
+        arraySoglie.push(soglia4);
+        Soglia memory soglia5 = Soglia(80000, false);
+        arraySoglie.push(soglia5);
+        Soglia memory soglia6 = Soglia(100000, false);
+        arraySoglie.push(soglia6);
 
         
         arrayQualifiche.push("MDO - Operaio Comune");
@@ -84,8 +94,8 @@ contract ContractParametri {
                 return (indirizzoDitta);
     }
         
-    function getSoglia(uint id) public view returns (uint) {
-                return (arraySoglie[id]);
+    function getSoglia(uint id) public view returns (uint, bool) {
+                return (arraySoglie[id].valore, arraySoglie[id].superata);
     }   
      
      
@@ -134,6 +144,12 @@ contract ContractParametri {
     function compareStrings (string memory a, string memory b)  private  pure returns (bool) {
         return (keccak256(abi.encodePacked((a))) == keccak256(abi.encodePacked((b))) );
     }
+    
+    function getSoglieLength() public view returns (uint) {
+        return arraySoglie.length;
+    }
+    
+    
     
     
 

@@ -17,6 +17,7 @@ contract ContractRegistro {
     uint prezzoPercentuale;
     uint debitoValore;
     uint debitoPercentuale;
+    bool pagata;
     }
     
     mapping (uint => Contabilita) public arrayContabilita;
@@ -54,7 +55,7 @@ contract ContractRegistro {
                     arrayContabilita[uint(posizioneCategoria)].percentuale += percentuale;
                     arrayContabilita[uint(posizioneCategoria)].data = now;
                 } else {
-                    creaNuovaVoce(categoriaContabile, percentuale, descrizione);
+                    creaNuovaVoceRegistro(categoriaContabile, percentuale, descrizione);
                 }
                 cm.approvaMisura(i);
                 percentualeCompletamento = calcoloProgresso();
@@ -94,7 +95,7 @@ contract ContractRegistro {
         return (keccak256(abi.encodePacked((a))) == keccak256(abi.encodePacked((b))) );
        }
        
-    function creaNuovaVoce (string memory categoriaContabile, uint percentuale, string memory descrizione) private  {
+    function creaNuovaVoceRegistro (string memory categoriaContabile, uint percentuale, string memory descrizione) private  {
         (string memory nomeCategoria, uint valore, string memory tariffa) = cp.getCategoriaContabileByNome(categoriaContabile);
         uint valoreTotale = cp.getValoreTotale();
         uint prezzoPercentuale = (valore*100)/valoreTotale;
@@ -110,12 +111,15 @@ contract ContractRegistro {
         arrayContabilita[numeroContabilita].prezzoPercentuale = prezzoPercentuale;
         arrayContabilita[numeroContabilita].debitoValore = (valore*percentuale)/100;
         arrayContabilita[numeroContabilita].debitoPercentuale = (prezzoPercentuale*percentuale)/100;
+        arrayContabilita[numeroContabilita].pagata = false;
         numeroContabilita ++;
         }
         
-    function getContabilita(uint index) public view returns (uint, string memory, uint, string memory, string memory, uint, uint, uint, uint, uint) {
+    function getContabilita(uint index) public view returns (uint, string memory, uint, string memory, string memory, uint, uint, uint, uint, uint, bool) {
         Contabilita memory cont = arrayContabilita[index];
-        return (cont.no, cont.tariffa, cont.data, cont.categoriaContabile, cont.descrizione, cont.percentuale, cont.prezzoValore, cont.prezzoPercentuale, cont.debitoValore, cont.debitoPercentuale);
+        return (cont.no, cont.tariffa, cont.data, cont.categoriaContabile, cont.descrizione, 
+                cont.percentuale, cont.prezzoValore, cont.prezzoPercentuale, cont.debitoValore, 
+                cont.debitoPercentuale, cont.pagata);
     }
     
     
@@ -140,6 +144,21 @@ contract ContractRegistro {
         }
         return valoreParziale;
         
+    }
+    
+    function findMinSogliaNotSuperata() public returns (uint, bool) {
+        (uint minValue, bool minSuperata) = cp.getSoglia(0);
+        bool trovata = false;
+        for (uint i = 0; i<cp.getSoglieLength() && !trovata; i++) {
+            (uint value, bool superata) = cp.getSoglia(i);
+            if (minValue < value && !superata) {
+                minValue = value;
+                minSuperata = superata;
+                trovata = true;
+            }
+        }
+        
+        return (minValue, minSuperata);
     }
 }
     
