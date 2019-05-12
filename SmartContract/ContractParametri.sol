@@ -55,7 +55,8 @@ contract ContractParametri {
         arrayCategorieContabili.push(cat3);
         arrayCategorieContabili.push(cat4);
         
-        Soglia memory soglia1 = Soglia(5000, false);
+        //Soglia memory soglia1 = Soglia(5000, false);
+        Soglia memory soglia1 = Soglia(1, false);
         arraySoglie.push(soglia1);
         Soglia memory soglia2 = Soglia(10000, false);
         arraySoglie.push(soglia2);
@@ -68,8 +69,8 @@ contract ContractParametri {
         Soglia memory soglia6 = Soglia(100000, false);
         arraySoglie.push(soglia6);
 
-        
-        arrayQualifiche.push("MDO - Operaio Comune");
+
+arrayQualifiche.push("MDO - Operaio Comune");
         arrayQualifiche.push("MDO - Operaio Specializzato");
         arrayQualifiche.push("MDO - Capo Squadra");
         

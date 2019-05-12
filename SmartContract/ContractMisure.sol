@@ -23,7 +23,7 @@ contract ContractMisure {
     ContractParametri cp;
     
     
-    mapping (uint => Misura) public arrayMisure; 
+    mapping (uint => Misura) private arrayMisure; 
 
     constructor() public  {
         numeroMisure = 0;
@@ -64,9 +64,6 @@ contract ContractMisure {
     
     
     function invalidaMisura(uint id) public onlyDirettore {
-        bool misuraTrovata = false;
-        uint percentuale = 0;
-        string memory categoriaContabile;
 
         arrayMisure[id].valida = false;
         if (arrayMisure[id].approvata){
