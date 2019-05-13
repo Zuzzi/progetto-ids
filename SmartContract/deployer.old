@@ -10,7 +10,7 @@ e un altro file che contiene il bytecode del contratto
 // API node per interagire con il File System
 const fs = require('fs');
 // Solidity Compiler 
-//const solc = require('solc');
+const solc = require('solc');
 // API Ethereum 
 const Web3 = require('web3');
 
@@ -36,16 +36,44 @@ const web3 = new Web3(new Web3.providers.WebsocketProvider("ws://localhost:22000
   }
 }),null,options);
 
-//Legge il bytecode e l'ABI del contratto dai file generati dal compiler
-const bytecode =  fs.readFileSync(contractName + '.txt').toString();
-const abi = fs.readFileSync(contractName + '.bin').toString().match(/\[(.)*\]/)[0];
-
+// Importa il codice dello smartcontract
+const inputfile = fs.readFileSync(contractName + '.sol').toString();
+//Costruisce la standard-JSON-input-interface (solc web> 0.5)
+const input ={
+	language: 'Solidity',
+	sources : {
+		[contractName + '.sol']: {
+			content: inputfile
+		}
+	},
+	settings: {
+		outputSelection: {
+			'*': {
+				'*': ['*']
+			}
+		}
+	}
+};
+// Compila lo Smart Contract
+const compiled = solc.compile(JSON.stringify(input));
+const output = (JSON.parse(compiled));
+console.log('Contract Compiled')
+// Estrae l'abi e il bytecode del contratto compilato
+const logStream = fs.createWriteStream(contractName+'.txt');
+logStream.write('Contract "'+contractName+'" Deploy Info\n\n');
+var abi = output.contracts[contractName + '.sol'][contractName].abi;
+logStream.write('Contract ABI:\n'+ JSON.stringify(abi)+'\n\n');
+var bytecode = output.contracts[contractName + '.sol'][contractName].evm.bytecode.object;
 // Costruisce l'oggetto contratto (web3) dall'abi
 const contract = new web3.eth.Contract(abi);
 
+//Scrive il bytecode del contratto in un file .bin
+const binStream = fs.createWriteStream(contractName+'.bin');
+binStream.end('0x'+bytecode);
+
 // Parametri utilizzati nel deploy
 const deploy_options = {
-    data: bytecode,
+    data: '0x' + bytecode,
     arguments: []
 };
 
@@ -54,14 +82,14 @@ function deploy() {
 	console.log('Start Deploying Contract...');
 contract.deploy(deploy_options)
     .send()
-	.on('error', (error) => {console.log('Errore:' + error);
-							process.exit(1)})
+	.on('error', (error) => {console.log('Errore:' + error)})
 	.on('transactionHash', (transactionHash) => { console.log('Transaction Hash:' + transactionHash) })
 	.on('receipt', (receipt) => {
 		console.log('Receipt:' + receipt.contractAddress) // contains the new contract address
 	})
 	.on('confirmation', (confirmationNumber, receipt) => {console.log('Confirmation Number:' + confirmationNumber) })
 	.then((newContractInstance) => {console.log('New Contract Address:' + newContractInstance.options.address +'\nConstract Successfully Deployed!');
+									logStream.end('Deployed Contract Address:"'+ newContractInstance.options.address +'"\n');
 									process.exit(0);})
 	.catch(error => {console.log('Error occurred during deploy:\n'+ error);
 					process.exit(1)}); 
