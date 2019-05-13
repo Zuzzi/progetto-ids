@@ -64,7 +64,8 @@ contract ContractRegistro {
         }
    }
    
-    function findPosizioneCategoriaByDescrizione(string memory categoriaContabile, string memory descrizione) private view returns (int) {
+   
+    function findPosizioneCategoriaByDescrizione(string memory categoriaContabile, string memory descrizione) public view returns (int) {
         bool categoriaTrovata = false;
         int posizioneCategoria = -1;
         for (uint i = 0; i< numeroContabilita && !categoriaTrovata; i++) {
@@ -79,7 +80,7 @@ contract ContractRegistro {
    
    
    
-   function findPosizioneCategoria(string memory categoriaContabile) private view returns (int) {
+   function findPosizioneCategoria(string memory categoriaContabile) private returns (int) {
         bool categoriaTrovata = false;
         int posizioneCategoria = -1;
         for (uint i = 0; i< numeroContabilita && !categoriaTrovata; i++) {
@@ -95,7 +96,7 @@ contract ContractRegistro {
         return (keccak256(abi.encodePacked((a))) == keccak256(abi.encodePacked((b))) );
        }
        
-    function creaNuovaVoceRegistro (string memory categoriaContabile, uint percentuale, string memory descrizione) private  {
+    function creaNuovaVoceRegistro (string memory categoriaContabile, uint percentuale, string memory descrizione) public  {
         (string memory nomeCategoria, uint valore, string memory tariffa) = cp.getCategoriaContabileByNome(categoriaContabile);
         uint valoreTotale = cp.getValoreTotale();
         uint prezzoPercentuale = (valore*100)/valoreTotale;
@@ -130,12 +131,12 @@ contract ContractRegistro {
         }
     }
         
-    function calcoloProgresso() public returns (uint) {
+    function calcoloProgresso() public view returns (uint) {
         uint valoreParziale = calcoloValoreParziale();
         return (valoreParziale*100)/cp.getValoreTotale();
     }
     
-    function calcoloValoreParziale() public returns(uint) {
+    function calcoloValoreParziale() public view returns(uint) {
         uint valoreParziale = 0;
         for (uint i = 0; i<numeroContabilita; i++) {
             uint percentuale = arrayContabilita[i].percentuale;
@@ -146,12 +147,12 @@ contract ContractRegistro {
         
     }
     
-    function findMinSogliaNotSuperata() public returns (uint, bool) {
+    function findMinSogliaNotSuperata() public view returns (uint, bool) {
         (uint minValue, bool minSuperata) = cp.getSoglia(0);
         bool trovata = false;
         for (uint i = 0; i<cp.getSoglieLength() && !trovata; i++) {
             (uint value, bool superata) = cp.getSoglia(i);
-            if (minValue < value && !superata) {
+            if (value < minValue && !superata) {
                 minValue = value;
                 minSuperata = superata;
                 trovata = true;
@@ -160,9 +161,9 @@ contract ContractRegistro {
         
         return (minValue, minSuperata);
     }
+    
+    
+    function pagataContabilita  (uint index) public {
+        arrayContabilita[index].pagata = true;
+    }
 }
-    
-
-        
-    
-    

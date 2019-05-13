@@ -21,13 +21,12 @@ contract ContractSal {
     }
     
     mapping (uint => Sal) arraySal;
-    uint numeroSal;
+    uint public numeroSal;
     ContractParametri cp;
     ContractRegistro cr;
 
-    uint parzialeLavoroAcorpo; //somma degli importi a debito
+    uint totaleLavoriAcorpo; //somma degli importi a debito
     uint aliquota; // percentuale del parziale lavoro a corpo
-    uint totale; // è lo stesso valore del parziale lavoro a corpo
     uint pagamento; // valore della soglia
     
     modifier onlyRup {
@@ -62,10 +61,13 @@ contract ContractSal {
                 if (!pagata) {
                     creaNuovaVoceSal(tariffa, categoriaContabile, descrizione, percentuale, prezzoValore,
                                      prezzoPercentuale, debitoValore, debitoPercentuale);
-                    pagata = true;
-                    // calcolare le variabili del pagamento del sal
+                    cr.pagataContabilita(i);
                 }
             }
+            
+            totaleLavoriAcorpo = valoreParziale;
+            aliquota = (totaleLavoriAcorpo*100)/cp.getValoreTotale();
+            pagamento = minValue;
         }
         
     }
@@ -86,7 +88,14 @@ contract ContractSal {
                     arraySal[numeroSal].debitoPercentuale = debitoPercentuale;
                     numeroSal++;
                 
-                }
+    }
+    
+    function getSal(uint index) public view returns (uint, string memory, uint, string memory, string memory, uint, uint, uint, uint, uint) {
+        Sal memory sal = arraySal[index];
+        return (sal.no, sal.tariffa, sal.data, sal.categoriaContabile, sal.descrizione, 
+                sal.percentuale, sal.prezzoValore, sal.prezzoPercentuale, sal.debitoValore, 
+                sal.debitoPercentuale);
+    }
  
     
 }
