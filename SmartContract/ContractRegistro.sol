@@ -57,7 +57,7 @@ contract ContractRegistro {
                 if( posizioneCategoria >= 0){
                     arrayContabilita[uint(posizioneCategoria)].percentuale += percentuale;
                     arrayContabilita[uint(posizioneCategoria)].data = now;
-                    arrayContabilita[uint(posizioneCategoria)].debitoValore = (valore*percentuale)/100;;
+                    arrayContabilita[uint(posizioneCategoria)].debitoValore = (valore*percentuale)/100;
                     arrayContabilita[uint(posizioneCategoria)].debitoPercentuale = (prezzoPercentuale*percentuale)/100;
                 } else {
                     creaNuovaVoceRegistro(categoriaContabile, percentuale, descrizione, prezzoPercentuale, valoreTotale);
@@ -101,8 +101,8 @@ contract ContractRegistro {
         return (keccak256(abi.encodePacked((a))) == keccak256(abi.encodePacked((b))) );
        }
        
-    function creaNuovaVoceRegistro (string memory categoriaContabile, uint percentuale, string memory descrizione, uint prezzoPercentuale
-                                    uint valoreTotale) public  {
+    function creaNuovaVoceRegistro (string memory categoriaContabile, uint percentuale, string memory descrizione, 
+                                    uint prezzoPercentuale, uint valoreTotale) public  {
         
         arrayContabilita[numeroContabilita].no = numeroContabilita;
         arrayContabilita[numeroContabilita].tariffa = tariffa;
