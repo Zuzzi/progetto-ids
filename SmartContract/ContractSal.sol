@@ -50,11 +50,11 @@ contract ContractSal {
         se superata, tutti i valori di arrayContabilità vengono copiati sull'arraySal */
         
         uint valoreParziale = cr.calcoloValoreParziale();
-        (uint minValue, bool minSuperata) = cr.findMinSogliaNotSuperata();
+        (uint minValue, bool minSuperata, uint idSoglia) = cr.findMinSogliaNotSuperata();
         if (valoreParziale >= minValue && !minSuperata) {
             for (uint i = 0; i<cr.numeroContabilita(); i++) {
 
-                (uint no, string memory tariffa, uint data, string memory categoriaContabile, string memory descrizione, 
+                (, string memory tariffa,, string memory categoriaContabile, string memory descrizione, 
                 uint percentuale, uint prezzoValore, uint prezzoPercentuale, uint debitoValore, 
                 uint debitoPercentuale, bool pagata) = cr.getContabilita(i);
                 
@@ -68,6 +68,7 @@ contract ContractSal {
             totaleLavoriAcorpo = valoreParziale;
             aliquota = (totaleLavoriAcorpo*100)/cp.getValoreTotale();
             pagamento = minValue;
+            cp.setSogliaSuperata(idSoglia);
         }
         
     }

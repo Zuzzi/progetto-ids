@@ -150,7 +150,9 @@ arrayQualifiche.push("MDO - Operaio Comune");
         return arraySoglie.length;
     }
     
-    
+    function setSogliaSuperata(uint idSoglia) public {
+        arraySoglie[idSoglia].superata = true;
+    }
     
     
 

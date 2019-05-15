@@ -44,23 +44,26 @@ contract ContractRegistro {
         cp = ContractParametri(indirizzo);
     }
     
+    
+    
     function approvaMisure() public onlyRup {
 
        for (uint i = 0; i < cm.numeroMisure(); i++) {
-                (uint no, string memory tariffa, uint data, string memory categoriaContabile, string memory descrizione, 
-                 uint percentuale, string memory riserva, bool valida, bool invalidabile, bool approvata) = cm.getMisura(i);
+                (, string memory tariffa, uint data, string memory categoriaContabile, string memory descrizione, 
+                 uint percentuale,, bool valida, , bool approvata) = cm.getMisura(i);
             if (!approvata && valida) {
                 int posizioneCategoria = findPosizioneCategoriaByDescrizione(categoriaContabile, descrizione);
-                (string memory nomeCategoria, uint valore, string memory tariffa) = cp.getCategoriaContabileByNome(categoriaContabile);
+                (, uint valore,) = cp.getCategoriaContabileByNome(categoriaContabile);
                 uint valoreTotale = cp.getValoreTotale();
                 uint prezzoPercentuale = (valore*100)/valoreTotale;
                 if( posizioneCategoria >= 0){
-                    arrayContabilita[uint(posizioneCategoria)].percentuale += percentuale;
-                    arrayContabilita[uint(posizioneCategoria)].data = now;
-                    arrayContabilita[uint(posizioneCategoria)].debitoValore = (valore*percentuale)/100;
-                    arrayContabilita[uint(posizioneCategoria)].debitoPercentuale = (prezzoPercentuale*percentuale)/100;
+                    uint posizione = uint(posizioneCategoria);
+                    arrayContabilita[posizione].percentuale += percentuale;
+                    arrayContabilita[posizione].data = now;
+                    arrayContabilita[posizione].debitoValore = (valore*percentuale)/100;
+                    arrayContabilita[posizione].debitoPercentuale = (prezzoPercentuale*percentuale)/100;
                 } else {
-                    creaNuovaVoceRegistro(categoriaContabile, percentuale, descrizione, prezzoPercentuale, valoreTotale);
+                    creaNuovaVoceRegistro(categoriaContabile, percentuale, descrizione);
                 }
                 cm.approvaMisura(i);
                 percentualeCompletamento = calcoloProgresso();
@@ -68,6 +71,9 @@ contract ContractRegistro {
             }
         }
    }
+  
+   
+   
    
    
     function findPosizioneCategoriaByDescrizione(string memory categoriaContabile, string memory descrizione) public view returns (int) {
@@ -101,9 +107,10 @@ contract ContractRegistro {
         return (keccak256(abi.encodePacked((a))) == keccak256(abi.encodePacked((b))) );
        }
        
-    function creaNuovaVoceRegistro (string memory categoriaContabile, uint percentuale, string memory descrizione, 
-                                    uint prezzoPercentuale, uint valoreTotale) public  {
-        
+    function creaNuovaVoceRegistro (string memory categoriaContabile, uint percentuale, string memory descrizione) public  {
+        (, uint valore, string memory tariffa) = cp.getCategoriaContabileByNome(categoriaContabile);
+        uint valoreTotale = cp.getValoreTotale();
+        uint prezzoPercentuale = (valore*100)/valoreTotale;
         arrayContabilita[numeroContabilita].no = numeroContabilita;
         arrayContabilita[numeroContabilita].tariffa = tariffa;
         arrayContabilita[numeroContabilita].data = now;
@@ -149,8 +156,9 @@ contract ContractRegistro {
         
     }
     
-    function findMinSogliaNotSuperata() public view returns (uint, bool) {
-        (uint minValue, bool minSuperata) = cp.getSoglia(0);
+    function findMinSogliaNotSuperata() public view returns (uint, bool, uint) {
+         uint idSoglia = 0;
+        (uint minValue, bool minSuperata) = cp.getSoglia(idSoglia);
         bool trovata = false;
         for (uint i = 0; i<cp.getSoglieLength() && !trovata; i++) {
             (uint value, bool superata) = cp.getSoglia(i);
@@ -158,10 +166,12 @@ contract ContractRegistro {
                 minValue = value;
                 minSuperata = superata;
                 trovata = true;
+                idSoglia = i;
             }
+            
         }
         
-        return (minValue, minSuperata);
+        return (minValue, minSuperata, idSoglia);
     }
     
     
