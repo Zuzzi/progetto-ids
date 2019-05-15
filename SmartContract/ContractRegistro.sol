@@ -51,11 +51,16 @@ contract ContractRegistro {
                  uint percentuale, string memory riserva, bool valida, bool invalidabile, bool approvata) = cm.getMisura(i);
             if (!approvata && valida) {
                 int posizioneCategoria = findPosizioneCategoriaByDescrizione(categoriaContabile, descrizione);
+                (string memory nomeCategoria, uint valore, string memory tariffa) = cp.getCategoriaContabileByNome(categoriaContabile);
+                uint valoreTotale = cp.getValoreTotale();
+                uint prezzoPercentuale = (valore*100)/valoreTotale;
                 if( posizioneCategoria >= 0){
                     arrayContabilita[uint(posizioneCategoria)].percentuale += percentuale;
                     arrayContabilita[uint(posizioneCategoria)].data = now;
+                    arrayContabilita[uint(posizioneCategoria)].debitoValore = (valore*percentuale)/100;;
+                    arrayContabilita[uint(posizioneCategoria)].debitoPercentuale = (prezzoPercentuale*percentuale)/100;
                 } else {
-                    creaNuovaVoceRegistro(categoriaContabile, percentuale, descrizione);
+                    creaNuovaVoceRegistro(categoriaContabile, percentuale, descrizione, prezzoPercentuale, valoreTotale);
                 }
                 cm.approvaMisura(i);
                 percentualeCompletamento = calcoloProgresso();
@@ -96,11 +101,8 @@ contract ContractRegistro {
         return (keccak256(abi.encodePacked((a))) == keccak256(abi.encodePacked((b))) );
        }
        
-    function creaNuovaVoceRegistro (string memory categoriaContabile, uint percentuale, string memory descrizione) public  {
-        (string memory nomeCategoria, uint valore, string memory tariffa) = cp.getCategoriaContabileByNome(categoriaContabile);
-        uint valoreTotale = cp.getValoreTotale();
-        uint prezzoPercentuale = (valore*100)/valoreTotale;
-       
+    function creaNuovaVoceRegistro (string memory categoriaContabile, uint percentuale, string memory descrizione, uint prezzoPercentuale
+                                    uint valoreTotale) public  {
         
         arrayContabilita[numeroContabilita].no = numeroContabilita;
         arrayContabilita[numeroContabilita].tariffa = tariffa;
