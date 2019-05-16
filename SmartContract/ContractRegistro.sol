@@ -62,6 +62,7 @@ contract ContractRegistro {
                     arrayContabilita[posizione].data = now;
                     arrayContabilita[posizione].debitoValore = (valore*percentuale)/100;
                     arrayContabilita[posizione].debitoPercentuale = (prezzoPercentuale*percentuale)/100;
+                    arrayContabilita[posizione].pagata = false;
                 } else {
                     creaNuovaVoceRegistro(categoriaContabile, percentuale, descrizione);
                 }
