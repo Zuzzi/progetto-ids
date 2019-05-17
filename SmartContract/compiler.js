@@ -32,12 +32,22 @@ const input ={
 			'*': {
 				'*': ['*']
 			}
-		}
+		},
+		//evmVersion: "homestead"|"byzantium"|"costantinople" ecc.
 	}
 };
 // Compila gli Smart Contract
-const compiled = solc.compile(JSON.stringify(input));
+let compiled;
+try { 
+	compiled = solc.compile(JSON.stringify(input)); 
+}
+catch(error) {
+	console.log(error); 
+	process.exit(1);
+}
+
 const output = (JSON.parse(compiled));
+console.log(output);
 console.log('Contracts Compiled');
 
 const promises = [];
