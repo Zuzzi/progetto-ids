@@ -50,7 +50,7 @@ contract ContractSal {
     function approvaRegistro() public onlyRup {
         /* Calcolo valore parziale (metodo del ContractRegistro),
         confronto con la prima soglia da raggiungere,
-        se superata, tutti i valori di arrayContabilità vengono copiati sull'arraySal */
+        se superata, tutti i valori di arrayContabilit? vengono copiati sull'arraySal */
         
         int128 valoreParziale = cr.calcoloValoreParziale();
         (int128 minValue, bool minSuperata, uint idSoglia) = cr.findMinSogliaNotSuperata();

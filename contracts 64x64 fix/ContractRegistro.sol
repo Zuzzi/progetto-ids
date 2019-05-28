@@ -7,6 +7,7 @@ from "https://raw.githubusercontent.com/abdk-consulting/abdk-libraries-solidity/
 
 
 contract ContractRegistro {
+    event breakpoint(int128 value);
     
     struct Contabilita {
     uint no;
@@ -63,10 +64,12 @@ contract ContractRegistro {
                     uint posizione = uint(posizioneCategoria);
                     arrayContabilita[posizione].percentuale += percentuale;
                     arrayContabilita[posizione].data = now;
+                    //emit breakpoint(valore);
+                    //emit breakpoint(arrayContabilita[posizione].percentuale);
                     //arrayContabilita[posizione].debitoValore = (valore*percentuale)/100;
-                    arrayContabilita[posizione].debitoValore = Math64.div(Math64.mul(valore,percentuale),1.8446744073709552e21);
+                    arrayContabilita[posizione].debitoValore = Math64.div(Math64.mul(valore,arrayContabilita[posizione].percentuale),1.8446744073709552e21);
                     //arrayContabilita[posizione].debitoPercentuale = (prezzoPercentuale*percentuale)/100;
-                    arrayContabilita[posizione].debitoPercentuale = Math64.div(Math64.mul(prezzoPercentuale,percentuale),1.8446744073709552e21);
+                    arrayContabilita[posizione].debitoPercentuale = Math64.div(Math64.mul(prezzoPercentuale,arrayContabilita[posizione].percentuale),1.8446744073709552e21);
                     arrayContabilita[posizione].pagata = false;
                 } else {
                     creaNuovaVoceRegistro(categoriaContabile, percentuale, descrizione);
@@ -127,6 +130,7 @@ contract ContractRegistro {
         arrayContabilita[numeroContabilita].prezzoValore = valore;
         arrayContabilita[numeroContabilita].prezzoPercentuale = prezzoPercentuale;
         //arrayContabilita[numeroContabilita].debitoValore = (valore*percentuale)/100;
+
         arrayContabilita[numeroContabilita].debitoValore = Math64.div(Math64.mul(valore,percentuale),1.8446744073709552e21);
         //arrayContabilita[numeroContabilita].debitoPercentuale = (prezzoPercentuale*percentuale)/100;
         arrayContabilita[numeroContabilita].debitoPercentuale = Math64.div(Math64.mul(prezzoPercentuale,percentuale),1.8446744073709552e21);
