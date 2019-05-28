@@ -82,7 +82,7 @@ cd quorum-examples/7nodes
 ```
 fare un backup di `istanbul-genesis.json`
 ```
-sudo mv istanbul-genesis.json istanbul-genesis.old
+mv istanbul-genesis.json istanbul-genesis.old
 ```
 creare un nuovo file genesis
 ```
