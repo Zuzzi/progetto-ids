@@ -3,8 +3,8 @@ import Web3 from 'web3';
 import {WEB3} from '@app/web3.token';
 import {writeFileSync, fstat} from 'fs';
 import { EncryptedKeystoreV3Json, Account } from 'web3-eth-accounts';
-import  { from, Observable } from 'rxjs';
-import {map} from 'rxjs/operators'
+import { from, Observable } from 'rxjs';
+import {map} from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
 import {Misura} from '../../interfaces';
 
