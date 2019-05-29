@@ -175,20 +175,27 @@ contract ContractRegistro {
     
     function findMinSogliaNotSuperata() public view returns (int128, bool, uint) {
          uint idSoglia = 0;
-        (int128 minValue, bool minSuperata) = cp.getSoglia(idSoglia);
-        bool trovata = false;
-        for (uint i = 0; i<cp.getSoglieLength() && !trovata; i++) {
-            (int128 value, bool superata) = cp.getSoglia(i);
-            if (value < minValue && !superata) {
-                minValue = value;
-                minSuperata = superata;
-                trovata = true;
-                idSoglia = i;
+         int128 finalValue = 0;
+         bool finalSuperata = false;
+         bool trovata = false;
+         for (uint j = 0; j<cp.getSoglieLength() && !trovata; j++) {
+            (int128 nsValue, bool nsSuperata) = cp.getSoglia(j);
+            if (!nsSuperata) {
+                for (uint i = 0; i<cp.getSoglieLength() && !trovata; i++) {
+                    (int128 value, bool superata) = cp.getSoglia(i);
+                    if (value < nsValue && !superata) {
+                        finalValue = value;
+                        finalSuperata = superata;
+                        trovata = true;
+                        idSoglia = i;
+                   }
+                
+                }
+                
             }
-            
         }
-        
-        return (minValue, minSuperata, idSoglia);
+    
+        return (finalValue, finalSuperata, idSoglia);
     }
     
     

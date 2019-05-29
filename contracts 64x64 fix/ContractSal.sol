@@ -45,12 +45,15 @@ contract ContractSal {
     
     constructor() public  {
         numeroSal = 0;
+        totaleLavoriAcorpo = 0;
+        aliquota = 0;
+        pagamento = 0;
     }
     
     function approvaRegistro() public onlyRup {
         /* Calcolo valore parziale (metodo del ContractRegistro),
         confronto con la prima soglia da raggiungere,
-        se superata, tutti i valori di arrayContabilit? vengono copiati sull'arraySal */
+        se superata, tutti i valori di arrayContabilit� vengono copiati sull'arraySal */
         
         int128 valoreParziale = cr.calcoloValoreParziale();
         (int128 minValue, bool minSuperata, uint idSoglia) = cr.findMinSogliaNotSuperata();
@@ -93,6 +96,10 @@ contract ContractSal {
                     arraySal[numeroSal].debitoPercentuale = debitoPercentuale;
                     numeroSal++;
                 
+    }
+    
+    function getInfoPagamento() public view returns (int128, int128, int128) {
+        return (totaleLavoriAcorpo, aliquota, pagamento);
     }
     
     function getSal(uint index) public view returns (uint, string memory, uint, string memory, string memory, int128, int128, int128, int128, int128) {
