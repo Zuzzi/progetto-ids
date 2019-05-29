@@ -5,7 +5,7 @@
 </h1>
 
 <div class="container-fluid" style="max-height: 100%; margin-top: 3%; font-family: Arial, Helvetica, sans-serif;">
-  <form class="example-form">
+  <form class="example-form" [formGroup]="modificaUserForm" (ngSubmit)="setUser()">
 
     <table class="example-full-width" cellspacing="0">
 
@@ -15,25 +15,25 @@
             <legend class="scheduler-border"> Dati Personali </legend>
             <div class="row">
               <div class="col-md">
-                Nome: NomeDiProva
+                Nome: {{user.nome}}
                 <br> <br>
-                Cognome: CognomeDiProva
+                Cognome: {{user.cognome}}
                 <br> <br>
-                Data di Nascita: 25/12/1993
+                Data di Nascita: {{user.data}}
                 <br> <br>
-                Codice Fiscale: 1234567890123456
+                Codice Fiscale: {{user.codiceFiscale}}
                 <br> <br>
-                Residenza: Ancona
+                Residenza: {{user.residenza}}
                 <br> <br>
-                E-Mail: prova.prova@prova.com
+                E-Mail: {{user.email}}
                 <br> <br>
-                Numero di Telefono: 0716666666
+                Numero di Telefono: {{user.telefono}}
                 <br> <br>
-                Città: Ancona
+                Città: {{user.citta}}
                 <br> <br>
-                Provincia: Ancona
+                Provincia: {{user.provincia}}
                 <br> <br>
-                CAP: 60023
+                CAP: {{user.CAP}}
               </div>
             </div>
           </fieldset>
@@ -44,14 +44,14 @@
             <legend class="scheduler-border"> Modifica Campi </legend>
             <div class="row">
               <mat-form-field class="col-md-6">
-                <input matInput placeholder="Nome">
+                <input matInput placeholder="Nome" formControlName = "nome"> 
               </mat-form-field>
-              <mat-form-field class="col-md-6"><input matInput placeholder="Cognome"></mat-form-field>
+              <mat-form-field class="col-md-6"><input matInput placeholder="Cognome" formControlName = "cognome"></mat-form-field>
             </div>
             <div class="row">
               <div class="col-md">
                 <mat-form-field>
-                  <input matInput [matDatepicker]="picker" placeholder="Data di Nascita">
+                  <input matInput [matDatepicker]="picker" placeholder="Data di Nascita" formControlName = "data">
                   <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                   <mat-datepicker #picker></mat-datepicker>
                 </mat-form-field>
@@ -60,44 +60,44 @@
             <div class="row">
               <div class="col-md">
                 <mat-form-field class="example-full-width">
-                  <input matInput #codiceFiscale maxlength="16" placeholder="Codice Fiscale">
+                  <input matInput #codiceFiscale maxlength="16" placeholder="Codice Fiscale" formControlName = "codiceFiscale">
                   <mat-hint>{{codiceFiscale.value.length}} / 16</mat-hint>
                 </mat-form-field>
               </div>
               <div class="col-md">
                 <mat-form-field class="example-full-width">
-                  <input matInput placeholder="Residenza">
+                  <input matInput placeholder="Residenza" formControlName = "residenza">
                 </mat-form-field>
               </div>
             </div>
             <div class="row">
               <div class="col-md">
                 <mat-form-field class="example-full-width">
-                  <input matInput placeholder="E-Mail">
+                  <input matInput placeholder="E-Mail" formControlName = "email">
                 </mat-form-field>
               </div>
             </div>
             <div class="row">
               <div class="col-md">
                 <mat-form-field class="example-full-width">
-                  <input matInput placeholder="Numero di Telefono">
+                  <input matInput placeholder="Numero di Telefono" formControlName = "telefono">
                 </mat-form-field>
               </div>
             </div>
             <div class="row">
               <div class="col-md-4">
-                <mat-form-field class="example-full-width">
-                  <input matInput placeholder="Città">
+                <mat-form-field class="example-full-width" >
+                  <input matInput placeholder="Città" formControlName = "citta">
                 </mat-form-field>
               </div>
               <div class="col-md-4">
                 <mat-form-field class="example-full-width">
-                  <input matInput placeholder="Provincia">
+                  <input matInput placeholder="Provincia" formControlName = "provincia">
                 </mat-form-field>
               </div>
               <div class="col-md-4">
                 <mat-form-field class="example-full-width">
-                  <input matInput #postalCode maxlength="5" placeholder="CAP" value="">
+                  <input matInput #postalCode maxlength="5" placeholder="CAP" formControlName = "CAP">
                   <mat-hint>{{postalCode.value.length}} / 5</mat-hint>
                 </mat-form-field>
               </div>
@@ -105,7 +105,7 @@
             <br>
             <div class="container-fluid">
               <div class="row " style="justify-content:center;">
-                <button mat-raised-button (click)="confirm()">Conferma</button>
+                <input mat-raised-button type="submit" value="Conferma">
               </div>
             </div>
           </fieldset>
