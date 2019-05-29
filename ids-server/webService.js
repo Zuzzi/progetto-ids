@@ -62,6 +62,15 @@ app.post('/api/user/getUser', (req,res) => {
     })
 })
 
+app.post('/api/user/setUser', (req,res) => {
+    mongoose.connect(url, function(err){
+        if(err) throw err;
+        let username = req.body.username
+        User.findOne({username: username})
+    
+    })
+})
+
 app.get('/api/contractSources/getContractSources/', (_req, res) => {
     mongoose.connect(url, function(err) {
         if(err) throw err;
