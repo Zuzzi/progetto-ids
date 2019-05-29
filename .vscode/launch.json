@@ -8,7 +8,7 @@
             "name": "WebApp (ng serve)",
             "type": "chrome",
             "request": "launch",
-            "preLaunchTask": "test",
+            "preLaunchTask": "npm start",
             "url": "http://localhost:4200/#",
             "webRoot": "${workspaceFolder}/ids-client"
         },

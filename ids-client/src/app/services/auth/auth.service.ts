@@ -8,6 +8,7 @@ import { UserProfileComponent } from '@app/components/user-profile/user-profile.
 @Injectable({
   providedIn: 'root'
 })
+
 export class AuthService {
 
   private user: User;

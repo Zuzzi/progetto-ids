@@ -24,7 +24,9 @@ indivduando la riga con:
 cambiandola in:  
 >node: { crypto: true, stream: true, fs: 'empty', net: 'empty' }
 
-3. script per comunicazione __websocket__ con i nodi della blockchain (l'algoritmo di consenso è sempre `Istanbul`)
+## Script WebSocket Blockchain
+
+Procedura per inserire lo script che consente la comunicazione __websocket__ con la blockchain d'esempio 7nodes (l'algoritmo di consenso è sempre `Istanbul`)
 ```
 vagrant up  
 vagrant ssh  
@@ -46,6 +48,56 @@ per avviare i nodi:
 ```
 sudo ./byzantium-start.sh
 ```
+## Scritp RemixIDE Blockchain 
+
+Procedura per inserire lo script che consente a remixIDE di interfaccarsi con la blockchain d'esempio 7nodes
+```
+vagrant up  
+vagrant ssh  
+cd quorum-examples/7nodes  
+sudo nano istanbul-x-start.sh
+```
+copiare il contentuto del file [istanbul-x-start.sh](istanbul-x-start.sh) dalla repo 
+per incollarlo nell'editor nano: 
+>Click destro del mouse (su poweshell/cmd) o Ctrl+V (su bash) 
+
+per salvare il file: 
+>`Ctrl+O` quindi `Invio`
+
+rendere lo script eseguibile:
+```
+sudo chmod 777 istanbul-x-start.sh
+```
+per avviare i nodi:
+```
+sudo ./istanbul-x-start.sh
+```
+
+## Modifica Genesis file per supportare solc0.5.5+
+
+```
+vagrant up  
+vagrant ssh  
+cd quorum-examples/7nodes  
+```
+fare un backup di `istanbul-genesis.json`
+```
+sudo mv istanbul-genesis.json istanbul-genesis.old
+```
+creare un nuovo file genesis
+```
+sudo nano istanbul-genesis.json
+```
+copiare il contentuto del file [istanbul-genesis.json](istanbul-genesis.json) dalla repo 
+per incollarlo nell'editor nano: 
+>Click destro del mouse (su poweshell/cmd) o Ctrl+V (su bash) 
+
+per salvare il file: 
+>`Ctrl+O` quindi `Invio`
+
+**Nota: è necessario inizializzare la blockchain per utilizzare la configurazione del file genesis
+modificato**
+
 ## Avvio / Arrsto Blockchain Quorum 7nodes
 
 **Avvio:**
@@ -80,6 +132,20 @@ npm start
 ```
 ~~Run `npm start` for a dev server.~~ 
 Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+
+## Mongo Dump/Restore
+
+### Dump
+Nella cartella di installazione di mongo (generalmente `C://%programfiles%/MongoDB/Server/4.0/bin`) lanciare:
+```
+./mongodump.exe -d {nome-database} -o {path-to-backup-folder}
+```
+
+### Restore
+Nella cartella di installazione di mongo (generalmente `C://%programfiles%/MongoDB/Server/4.0/bin`) lanciare:
+```
+./mongorestore.exe --db {nome-database} {path-to-backup-folder}
+```
 
 ## Code scaffolding
 
