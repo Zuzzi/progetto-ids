@@ -78,6 +78,10 @@ export class AuthService {
 
   }
 
+  getAddress(type: string) {
+    this.user.contracts[0].module
+  }
+
 
 }
 

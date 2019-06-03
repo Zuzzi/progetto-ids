@@ -92,8 +92,8 @@ export class BlockchainService {
       riserva: misura['6']};
   }
 
-  getAbi() {
-    return '';
+  getAbi(type: string) {
+    return this.contractsSources.find(element => element.type === type).abi;
   }
 
   getAddress() {

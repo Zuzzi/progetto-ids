@@ -4,6 +4,8 @@ import {Misura} from '../../interfaces';
 import {WEB3} from '@app/web3.token';
 import Web3 from 'web3';
 import { Contract } from 'web3-eth-contract';
+import { BlockchainService } from '@app/services/blockchain/blockchain.service';
+import { AuthService } from '../auth/auth.service';
 
 @Injectable({
   providedIn: 'root'
@@ -13,15 +15,15 @@ export class BlockchainLibrettoService {
   dataStore: Misura[];
   private contract: Contract;
 
-  constructor(@Inject(WEB3) private web3: Web3) {
+  constructor(@Inject(WEB3) private web3: Web3, private blockchainService: BlockchainService, private authService: AuthService) {
     this.misureStream =  new BehaviorSubject([]) as BehaviorSubject<Misura[]>;
     this.dataStore = [];
    }
-   
+
    init() {
-     abi = this.blockchainService.getAbi();
-     address = this.blockchainService.getAddress();
-     this.contract = 
+     const abi = this.blockchainService.getAbi('libretto');
+     const address = this.authService.get();
+     this.contract = new this.web3.eth.Contract(abi,address);
 
   }
 
