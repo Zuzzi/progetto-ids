@@ -75,6 +75,10 @@ contract ContractMisure {
         arrayMisure[index].approvata = true;
     }
 
+    function getNumeroMisure() public view returns (uint) {
+        return (numeroMisure);
+    }
+
     
     
  

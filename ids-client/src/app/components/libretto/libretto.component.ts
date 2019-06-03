@@ -7,7 +7,8 @@ import { DialogBodyApprovazionemisureComponent } from '@app/components/dialog-bo
 import {AuthService} from '@app/services/auth/auth.service';
 import { ActivatedRoute } from '@angular/router';
 import { BlockchainService } from '@app/services/blockchain/blockchain.service';
-import {map} from 'rxjs/operators'
+import {map} from 'rxjs/operators';
+import {BlockchainLibrettoService} from '@app/services/blockchain-libretto/blockchain-libretto.service';
 
 @Component({
   selector: 'app-libretto',
@@ -24,7 +25,9 @@ export class LibrettoComponent implements OnInit {
   isRupLogged: boolean;
   isDittaLogged: boolean;
 
-  constructor(private dialog: MatDialog, private authService: AuthService, private activatedRoute: ActivatedRoute, private blockchainService: BlockchainService) { }
+  constructor(private dialog: MatDialog, private authService: AuthService, 
+              private activatedRoute: ActivatedRoute, private blockchainService: BlockchainService,
+              private blockchainLibrettoService: TodoService) { }
 
   ngOnInit() {
     this.isRupLogged = this.authService.titleCheck('rup');

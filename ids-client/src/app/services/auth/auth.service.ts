@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import {map} from 'rxjs/operators';
-import {User} from '@app/interfaces'
+import {User} from '@app/interfaces';
 import { userInfo } from 'os';
 import { UserProfileComponent } from '@app/components/user-profile/user-profile.component';
 

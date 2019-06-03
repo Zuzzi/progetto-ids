@@ -92,4 +92,12 @@ export class BlockchainService {
       riserva: misura['6']};
   }
 
+  getAbi() {
+    return '';
+  }
+
+  getAddress() {
+    return '';
+  }
+
 }
