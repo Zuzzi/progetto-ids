@@ -246,7 +246,20 @@
         "type": "function"
     },
     {
-        "inputs": [],
+        "inputs": [
+            {
+                "name": "direttore",
+                "type": "address"
+            },
+            {
+                "name": "rup",
+                "type": "address"
+            },
+            {
+                "name": "ditta",
+                "type": "address"
+            }
+        ],
         "payable": false,
         "stateMutability": "nonpayable",
         "type": "constructor"

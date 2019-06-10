@@ -26,10 +26,10 @@ contract ContractParametri {
     
     
     
-    constructor() public {
-        indirizzoDirettore = msg.sender;
-        indirizzoRup = msg.sender;
-        indirizzoDitta = msg.sender;
+    constructor(address direttore, address rup, address ditta ) public {
+        indirizzoDirettore = direttore;
+        indirizzoRup = rup;
+        indirizzoDitta = ditta;
         
         valoreTotale = 1.8446744073709552e24;
         
