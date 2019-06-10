@@ -1,0 +1,347 @@
+[
+    {
+        "constant": true,
+        "inputs": [],
+        "name": "numeroGiornale",
+        "outputs": [
+            {
+                "name": "",
+                "type": "uint256"
+            }
+        ],
+        "payable": false,
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "constant": true,
+        "inputs": [
+            {
+                "name": "index",
+                "type": "uint256"
+            }
+        ],
+        "name": "getAttrezzature",
+        "outputs": [
+            {
+                "name": "",
+                "type": "string"
+            },
+            {
+                "name": "",
+                "type": "uint256"
+            },
+            {
+                "name": "",
+                "type": "uint256"
+            }
+        ],
+        "payable": false,
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "constant": true,
+        "inputs": [
+            {
+                "name": "",
+                "type": "uint256"
+            }
+        ],
+        "name": "arrayOperai",
+        "outputs": [
+            {
+                "name": "nome",
+                "type": "string"
+            },
+            {
+                "name": "cognome",
+                "type": "string"
+            },
+            {
+                "name": "qualifica",
+                "type": "string"
+            },
+            {
+                "name": "orePresenza",
+                "type": "uint256"
+            },
+            {
+                "name": "data",
+                "type": "uint256"
+            }
+        ],
+        "payable": false,
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "constant": true,
+        "inputs": [
+            {
+                "name": "index",
+                "type": "uint256"
+            }
+        ],
+        "name": "getOperai",
+        "outputs": [
+            {
+                "name": "",
+                "type": "string"
+            },
+            {
+                "name": "",
+                "type": "string"
+            },
+            {
+                "name": "",
+                "type": "string"
+            },
+            {
+                "name": "",
+                "type": "uint256"
+            },
+            {
+                "name": "",
+                "type": "uint256"
+            }
+        ],
+        "payable": false,
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "constant": true,
+        "inputs": [],
+        "name": "numeroAttrezzature",
+        "outputs": [
+            {
+                "name": "",
+                "type": "uint256"
+            }
+        ],
+        "payable": false,
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "constant": true,
+        "inputs": [
+            {
+                "name": "",
+                "type": "uint256"
+            }
+        ],
+        "name": "arrayGiornale",
+        "outputs": [
+            {
+                "name": "no",
+                "type": "uint256"
+            },
+            {
+                "name": "data",
+                "type": "uint256"
+            },
+            {
+                "name": "descrizioneLocazione",
+                "type": "string"
+            },
+            {
+                "name": "allegati",
+                "type": "string"
+            }
+        ],
+        "payable": false,
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "constant": false,
+        "inputs": [
+            {
+                "name": "tipologia",
+                "type": "string"
+            },
+            {
+                "name": "quantita",
+                "type": "uint256"
+            },
+            {
+                "name": "data",
+                "type": "uint256"
+            }
+        ],
+        "name": "inserisciAttrezzatura",
+        "outputs": [],
+        "payable": false,
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "constant": false,
+        "inputs": [
+            {
+                "name": "nome",
+                "type": "string"
+            },
+            {
+                "name": "cognome",
+                "type": "string"
+            },
+            {
+                "name": "qualifica",
+                "type": "string"
+            },
+            {
+                "name": "orePresenza",
+                "type": "uint256"
+            },
+            {
+                "name": "data",
+                "type": "uint256"
+            }
+        ],
+        "name": "inserisciOperaio",
+        "outputs": [],
+        "payable": false,
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "constant": true,
+        "inputs": [
+            {
+                "name": "",
+                "type": "uint256"
+            }
+        ],
+        "name": "arrayAttrezzature",
+        "outputs": [
+            {
+                "name": "tipologia",
+                "type": "string"
+            },
+            {
+                "name": "quantita",
+                "type": "uint256"
+            },
+            {
+                "name": "data",
+                "type": "uint256"
+            }
+        ],
+        "payable": false,
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "constant": false,
+        "inputs": [
+            {
+                "name": "data",
+                "type": "uint256"
+            },
+            {
+                "name": "descrizioneLocazione",
+                "type": "string"
+            },
+            {
+                "name": "allegati",
+                "type": "string"
+            }
+        ],
+        "name": "inserisciVoceGiornale",
+        "outputs": [],
+        "payable": false,
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "constant": false,
+        "inputs": [
+            {
+                "name": "indirizzo",
+                "type": "address"
+            }
+        ],
+        "name": "setIndirizzoCp",
+        "outputs": [],
+        "payable": false,
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "constant": true,
+        "inputs": [
+            {
+                "name": "data",
+                "type": "uint256"
+            }
+        ],
+        "name": "getVoceGiornaleByData",
+        "outputs": [
+            {
+                "name": "",
+                "type": "uint256"
+            },
+            {
+                "name": "",
+                "type": "string"
+            },
+            {
+                "name": "",
+                "type": "string"
+            }
+        ],
+        "payable": false,
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "constant": true,
+        "inputs": [],
+        "name": "numeroOperai",
+        "outputs": [
+            {
+                "name": "",
+                "type": "uint256"
+            }
+        ],
+        "payable": false,
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "constant": true,
+        "inputs": [
+            {
+                "name": "index",
+                "type": "uint256"
+            }
+        ],
+        "name": "getVoceGiornale",
+        "outputs": [
+            {
+                "name": "",
+                "type": "uint256"
+            },
+            {
+                "name": "",
+                "type": "string"
+            },
+            {
+                "name": "",
+                "type": "string"
+            }
+        ],
+        "payable": false,
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [],
+        "payable": false,
+        "stateMutability": "nonpayable",
+        "type": "constructor"
+    }
+]

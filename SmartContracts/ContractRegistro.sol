@@ -2,8 +2,7 @@ pragma solidity >=0.5 <0.6.0;
 
 import './ContractMisure.sol';
 import './ContractParametri.sol';
-import { ABDKMath64x64 as Math64 } 
-from "https://raw.githubusercontent.com/abdk-consulting/abdk-libraries-solidity/master/ABDKMath64x64.sol";
+import { ABDKMath64x64 as Math64 } from './ABDKMath64x64.sol';
 
 
 contract ContractRegistro {

@@ -1,0 +1,178 @@
+[
+    {
+        "constant": true,
+        "inputs": [],
+        "name": "numeroSal",
+        "outputs": [
+            {
+                "name": "",
+                "type": "uint256"
+            }
+        ],
+        "payable": false,
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "constant": false,
+        "inputs": [
+            {
+                "name": "tariffa",
+                "type": "string"
+            },
+            {
+                "name": "categoriaContabile",
+                "type": "string"
+            },
+            {
+                "name": "descrizione",
+                "type": "string"
+            },
+            {
+                "name": "percentuale",
+                "type": "int128"
+            },
+            {
+                "name": "prezzoValore",
+                "type": "int128"
+            },
+            {
+                "name": "prezzoPercentuale",
+                "type": "int128"
+            },
+            {
+                "name": "debitoValore",
+                "type": "int128"
+            },
+            {
+                "name": "debitoPercentuale",
+                "type": "int128"
+            }
+        ],
+        "name": "creaNuovaVoceSal",
+        "outputs": [],
+        "payable": false,
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "constant": true,
+        "inputs": [],
+        "name": "getInfoPagamento",
+        "outputs": [
+            {
+                "name": "",
+                "type": "int128"
+            },
+            {
+                "name": "",
+                "type": "int128"
+            },
+            {
+                "name": "",
+                "type": "int128"
+            }
+        ],
+        "payable": false,
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "constant": false,
+        "inputs": [
+            {
+                "name": "indirizzo",
+                "type": "address"
+            }
+        ],
+        "name": "setIndirizzoCr",
+        "outputs": [],
+        "payable": false,
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "constant": true,
+        "inputs": [
+            {
+                "name": "index",
+                "type": "uint256"
+            }
+        ],
+        "name": "getSal",
+        "outputs": [
+            {
+                "name": "",
+                "type": "uint256"
+            },
+            {
+                "name": "",
+                "type": "string"
+            },
+            {
+                "name": "",
+                "type": "uint256"
+            },
+            {
+                "name": "",
+                "type": "string"
+            },
+            {
+                "name": "",
+                "type": "string"
+            },
+            {
+                "name": "",
+                "type": "int128"
+            },
+            {
+                "name": "",
+                "type": "int128"
+            },
+            {
+                "name": "",
+                "type": "int128"
+            },
+            {
+                "name": "",
+                "type": "int128"
+            },
+            {
+                "name": "",
+                "type": "int128"
+            }
+        ],
+        "payable": false,
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "constant": false,
+        "inputs": [
+            {
+                "name": "indirizzo",
+                "type": "address"
+            }
+        ],
+        "name": "setIndirizzoCp",
+        "outputs": [],
+        "payable": false,
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "constant": false,
+        "inputs": [],
+        "name": "approvaRegistro",
+        "outputs": [],
+        "payable": false,
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "inputs": [],
+        "payable": false,
+        "stateMutability": "nonpayable",
+        "type": "constructor"
+    }
+]

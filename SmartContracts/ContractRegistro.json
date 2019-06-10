@@ -1,0 +1,316 @@
+[
+    {
+        "constant": true,
+        "inputs": [],
+        "name": "findMinSogliaNotSuperata",
+        "outputs": [
+            {
+                "name": "",
+                "type": "int128"
+            },
+            {
+                "name": "",
+                "type": "bool"
+            },
+            {
+                "name": "",
+                "type": "uint256"
+            }
+        ],
+        "payable": false,
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "constant": false,
+        "inputs": [],
+        "name": "approvaMisure",
+        "outputs": [],
+        "payable": false,
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "constant": true,
+        "inputs": [
+            {
+                "name": "categoriaContabile",
+                "type": "string"
+            },
+            {
+                "name": "descrizione",
+                "type": "string"
+            }
+        ],
+        "name": "findPosizioneCategoriaByDescrizione",
+        "outputs": [
+            {
+                "name": "",
+                "type": "int256"
+            }
+        ],
+        "payable": false,
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "constant": false,
+        "inputs": [
+            {
+                "name": "categoriaContabile",
+                "type": "string"
+            },
+            {
+                "name": "percentuale",
+                "type": "int128"
+            },
+            {
+                "name": "descrizione",
+                "type": "string"
+            }
+        ],
+        "name": "creaNuovaVoceRegistro",
+        "outputs": [],
+        "payable": false,
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "constant": false,
+        "inputs": [
+            {
+                "name": "categoriaContabile",
+                "type": "string"
+            },
+            {
+                "name": "percentuale",
+                "type": "int128"
+            }
+        ],
+        "name": "stornoPercentuale",
+        "outputs": [],
+        "payable": false,
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "constant": true,
+        "inputs": [],
+        "name": "numeroContabilita",
+        "outputs": [
+            {
+                "name": "",
+                "type": "uint256"
+            }
+        ],
+        "payable": false,
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "constant": true,
+        "inputs": [
+            {
+                "name": "",
+                "type": "uint256"
+            }
+        ],
+        "name": "arrayContabilita",
+        "outputs": [
+            {
+                "name": "no",
+                "type": "uint256"
+            },
+            {
+                "name": "tariffa",
+                "type": "string"
+            },
+            {
+                "name": "data",
+                "type": "uint256"
+            },
+            {
+                "name": "categoriaContabile",
+                "type": "string"
+            },
+            {
+                "name": "descrizione",
+                "type": "string"
+            },
+            {
+                "name": "percentuale",
+                "type": "int128"
+            },
+            {
+                "name": "prezzoValore",
+                "type": "int128"
+            },
+            {
+                "name": "prezzoPercentuale",
+                "type": "int128"
+            },
+            {
+                "name": "debitoValore",
+                "type": "int128"
+            },
+            {
+                "name": "debitoPercentuale",
+                "type": "int128"
+            },
+            {
+                "name": "pagata",
+                "type": "bool"
+            }
+        ],
+        "payable": false,
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "constant": false,
+        "inputs": [
+            {
+                "name": "index",
+                "type": "uint256"
+            }
+        ],
+        "name": "pagataContabilita",
+        "outputs": [],
+        "payable": false,
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "constant": true,
+        "inputs": [],
+        "name": "calcoloValoreParziale",
+        "outputs": [
+            {
+                "name": "",
+                "type": "int128"
+            }
+        ],
+        "payable": false,
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "constant": false,
+        "inputs": [
+            {
+                "name": "indirizzo",
+                "type": "address"
+            }
+        ],
+        "name": "setIndirizzoCp",
+        "outputs": [],
+        "payable": false,
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "constant": true,
+        "inputs": [
+            {
+                "name": "index",
+                "type": "uint256"
+            }
+        ],
+        "name": "getContabilita",
+        "outputs": [
+            {
+                "name": "",
+                "type": "uint256"
+            },
+            {
+                "name": "",
+                "type": "string"
+            },
+            {
+                "name": "",
+                "type": "uint256"
+            },
+            {
+                "name": "",
+                "type": "string"
+            },
+            {
+                "name": "",
+                "type": "string"
+            },
+            {
+                "name": "",
+                "type": "int128"
+            },
+            {
+                "name": "",
+                "type": "int128"
+            },
+            {
+                "name": "",
+                "type": "int128"
+            },
+            {
+                "name": "",
+                "type": "int128"
+            },
+            {
+                "name": "",
+                "type": "int128"
+            },
+            {
+                "name": "",
+                "type": "bool"
+            }
+        ],
+        "payable": false,
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "constant": true,
+        "inputs": [],
+        "name": "calcoloProgresso",
+        "outputs": [
+            {
+                "name": "",
+                "type": "int128"
+            }
+        ],
+        "payable": false,
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "constant": false,
+        "inputs": [
+            {
+                "name": "indirizzo",
+                "type": "address"
+            }
+        ],
+        "name": "setIndirizzoCm",
+        "outputs": [],
+        "payable": false,
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "inputs": [],
+        "payable": false,
+        "stateMutability": "nonpayable",
+        "type": "constructor"
+    },
+    {
+        "anonymous": false,
+        "inputs": [
+            {
+                "indexed": false,
+                "name": "value",
+                "type": "int128"
+            }
+        ],
+        "name": "breakpoint",
+        "type": "event"
+    }
+]
