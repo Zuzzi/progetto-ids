@@ -136,13 +136,13 @@ Navigate to `http://localhost:4200/`. The app will automatically reload if you c
 ## Mongo Dump/Restore
 
 ### Dump
-Nella cartella di installazione di mongo (generalmente `C://%programfiles%/MongoDB/Server/4.0/bin`) lanciare:
+Nella cartella di installazione di mongo (generalmente `C:\%programfiles%/MongoDB/Server/4.0/bin`) lanciare:
 ```
 ./mongodump.exe -d {nome-database} -o {path-to-backup-folder}
 ```
 
 ### Restore
-Nella cartella di installazione di mongo (generalmente `C://%programfiles%/MongoDB/Server/4.0/bin`) lanciare:
+Nella cartella di installazione di mongo (generalmente `C:\%programfiles%/MongoDB/Server/4.0/bin`) lanciare:
 ```
 ./mongorestore.exe --db {nome-database} {path-to-backup-folder}
 ```
