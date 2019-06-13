@@ -133,10 +133,14 @@ npm start
 ~~Run `npm start` for a dev server.~~ 
 Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
 
-## Mongo Dump/Restore
+## MongoDB Dump/Restore
 
 ### Dump
-Nella cartella di installazione di mongo (generalmente `C:\%programfiles%/MongoDB/Server/4.0/bin`) lanciare:
+Nella cartella di installazione di mongo (generalmente `C:\%programfiles%/MongoDB/Server/4.0/bin`) lanciare in __cmd.exe__:
+```
+mongodump.exe -d {nome-database} -o {path-to-backup-folder}
+```
+in __powershell__:
 ```
 ./mongodump.exe -d {nome-database} -o {path-to-backup-folder}
 ```
@@ -145,6 +149,62 @@ Nella cartella di installazione di mongo (generalmente `C:\%programfiles%/MongoD
 Nella cartella di installazione di mongo (generalmente `C:\%programfiles%/MongoDB/Server/4.0/bin`) lanciare:
 ```
 ./mongorestore.exe --db {nome-database} {path-to-backup-folder}
+```
+
+## ChainData Backup/Restore 
+
+## Backup
+```
+vagrant up  
+vagrant ssh  
+cd quorum-examples/7nodes  
+sudo cp -a qdata/. qdata_backup
+```
+
+## Restore 
+```
+vagrant up  
+vagrant ssh  
+cd quorum-examples/7nodes  
+sudo ./stop.sh
+```
+se esiste eliminare la vecchia cartella `qdata`:
+```
+sudo rm -r qdata
+```
+quindi eseguire:
+```
+sudo cp -a qdata_backup/. qdata
+```
+
+## Spostare il backup all'interno e all'esterno della macchina virtuale
+utilizziamo la cartella condivisa  `/vagrant/vagrant` della macchina virtuale collegata all'esterno a `quorum-examples/vagrant`
+
+### Comprime e sposta all'esterno
+```
+vagrant up  
+vagrant ssh  
+cd quorum-examples/7nodes 
+sudo tar --format='gnu' -zcvf qdata_backup.gz qdata_backup/.
+mv qdata_backup.gz /vagrant/vagrant
+```
+
+### Sposta all'interno e decomprime
+
+N.B posiziona prima il file di backup compresso nella cartella condivisa `quorum-examples/vagrant`
+```
+vagrant up  
+vagrant ssh  
+cd quorum-examples/7nodes
+```
+se esiste eliminare la vecchia cartella `qdata_backup`:
+```
+sudo rm -r qdata_backup
+```
+quindi eseguire:
+```
+mv /vagrant/vagrant/qdata_backup.gz ./
+sudo tar -xf qdata_backup.gz
 ```
 
 ## Code scaffolding

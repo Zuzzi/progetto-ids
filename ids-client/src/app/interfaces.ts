@@ -25,5 +25,25 @@ export class User {
   citta: string;
   provincia: string;
   CAP: number;
-  contracts: [];
+  contracts: ContractSchema[];
+}
+
+export interface ContractSchema {
+  _id: string;
+  nome: string;
+  libretto: {
+    [address: string]: string
+  };
+  giornale: {
+    [address: string]: string
+  };
+  registro: {
+    [address: string]: string
+  };
+  parametri: {
+    [address: string]: string
+  };
+  sal: {
+    [address: string]: string
+  };
 }

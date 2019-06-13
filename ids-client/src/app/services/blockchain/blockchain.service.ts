@@ -7,6 +7,7 @@ import { from, Observable } from 'rxjs';
 import {map} from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
 import {Misura} from '../../interfaces';
+import contractAbi from '@app/model/ABIs/ContractParametri.json'
 
 
 @Injectable({
@@ -34,14 +35,15 @@ export class BlockchainService {
       null,
       options); */
       this.web3 = _web3;
-    http.get('/api/contractSources/getContractSources').subscribe((result) => {
-      if (result['status'] === 'success') {
-        this.contractsSources = result['data']
-      }
-      else {
-        console.log('Contract Sources not found');
-      }
-    });
+    // http.get('/api/contractSources/getContractSources').subscribe((result) => {
+    //   if (result['status'] === 'success') {
+    //     this.contractsSources = result['data']
+    //   }
+    //   else {
+    //     console.log('Contract Sources not found');
+    //   }
+    // });
+    console.log(contractAbi);
   }
 
   registerAccount(password: string) {

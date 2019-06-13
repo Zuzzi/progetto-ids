@@ -55,7 +55,7 @@ export class AuthService {
     return this.user;
   }
 
-  
+
   setUser(usermod){
     //Da implementare
     console.log("ciao" + usermod.nome);
@@ -78,8 +78,9 @@ export class AuthService {
 
   }
 
-  getAddress(type: string) {
-    this.user.contracts[0].module
+  getAddress(contractId: string, type: string) {
+    const contract = this.user.contracts.find(element => element._id === contractId);
+    return contract[type].address;
   }
 
 
