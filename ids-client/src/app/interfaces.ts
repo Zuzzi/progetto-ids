@@ -31,19 +31,13 @@ export class User {
 export interface ContractSchema {
   _id: string;
   nome: string;
-  libretto: {
-    [address: string]: string
-  };
-  giornale: {
-    [address: string]: string
-  };
-  registro: {
-    [address: string]: string
-  };
-  parametri: {
-    [address: string]: string
-  };
-  sal: {
-    [address: string]: string
-  };
+  libretto: SmartContractSchema;
+  giornale: SmartContractSchema;
+  registro: SmartContractSchema;
+  parametri: SmartContractSchema;
+  sal: SmartContractSchema;
 }
+
+export interface SmartContractSchema {
+  address: string;
+};

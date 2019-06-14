@@ -30,8 +30,8 @@
       </div>
       <div class="p-1 mb-1 bg-warning text-dark"></div>
       <ul class="list-group">
-        <li><a class="list-group-item list-group-item-action bg-dark text-light" id="btn-1" data-toggle="collapse"
-            data-target="#submenu1"><i class="fas fa-briefcase"></i> Contratto 1</a>
+        <li *ngFor="let contract of user.contracts;"><a class="list-group-item list-group-item-action bg-dark text-light" id="btn-1" data-toggle="collapse"
+            data-target="#submenu1"><i class="fas fa-briefcase"></i>{{contract.nome}}</a>
           <ul class="list-group list-group-item-action bg-dark collapse " id="submenu1">
             <li><a class="list-group-item list-group-item-action bg-dark text-light"
                 [routerLink]="['/area-riservata',{outlets:{ 'reserved': ['home']}}]">Home Page</a>
@@ -40,7 +40,7 @@
                 [routerLink]="['/area-riservata',{outlets:{ 'reserved': ['giornale']}}]">Giornale dei Lavori</a>
             </li>
             <li><a class="list-group-item list-group-item-action bg-dark text-light"
-                [routerLink]="['/area-riservata',{outlets:{ 'reserved': ['libretto','5cb8aa3fd0c0660b2c8afd80']}}]">Libretto delle Misure</a>
+                [routerLink]="['/area-riservata',{outlets:{ 'reserved': ['libretto', contract._id]}}]">Libretto delle Misure</a>
             </li>
             <li><a class="list-group-item list-group-item-action bg-dark text-light"
                 [routerLink]="['/area-riservata',{outlets:{ 'reserved': ['registro']}}]">Registro di Contabilità</a>
@@ -72,7 +72,7 @@
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
               aria-haspopup="true" aria-expanded="false">
-              <div class="d-inline">{{username}}</div>
+              <div class="d-inline">{{user.username}}</div>
               <img src="assets/images/user.png" style="max-width: 15%">
             </a>
 

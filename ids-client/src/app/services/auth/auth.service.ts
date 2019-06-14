@@ -48,11 +48,16 @@ export class AuthService {
     this.user.citta = input.citta;
     this.user.provincia = input.provincia;
     this.user.CAP = input.CAP;
+    this.user.contracts = input.contracts;
   }
 
   getUser() {
     console.log(this.user);
     return this.user;
+  }
+
+  getContracts() {
+    return this.user.contracts;
   }
 
 
@@ -78,7 +83,7 @@ export class AuthService {
 
   }
 
-  getAddress(contractId: string, type: string) {
+  getAddress(contractId: string, type: string): string {
     const contract = this.user.contracts.find(element => element._id === contractId);
     return contract[type].address;
   }

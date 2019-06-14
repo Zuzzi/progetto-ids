@@ -66,6 +66,10 @@ export class BlockchainService {
     return this.account;
   } */
 
+  getWeb3() {
+    return this.web3;
+  }
+
   loadContracts(contracts) {
     this.contracts = contracts;
   }
@@ -78,28 +82,37 @@ export class BlockchainService {
     delete this.account;
   }
 
-  getMisure(contractID) {
-    const address: string = this.contracts.find(element => element._id === contractID).address;
-    const abi = this.contractsSources.find(element => element.type === 'master').abi;
-    const smartContract = new this.web3.eth.Contract(abi, address);
-    const misura = from(smartContract.methods.getMisura(0).call())
-    .pipe(map(result => this.formatMisura(result))
-    );
-    return misura;
+  numberToSigned64x64(number: number): number {
+    return number * Math.pow(2, 64);
   }
 
-  formatMisura(misura): Misura  {
-    return {no: misura['0'].toNumber(), tariffa: misura['1'], data: misura['2'].toNumber(),
-      categoriaContabile: misura['3'], descrizione: misura['4'], percentuale: misura['5'],
-      riserva: misura['6']};
+  signed64x64ToNumber(signed64x64: number): number {
+    return signed64x64 / Math.pow(2, 64);
   }
 
-  getAbi(type: string) {
-    return this.contractsSources.find(element => element.type === type).abi;
-  }
 
-  getAddress() {
-    return '';
-  }
+  // getMisure(contractID) {
+  //   const address: string = this.contracts.find(element => element._id === contractID).address;
+  //   const abi = this.contractsSources.find(element => element.type === 'master').abi;
+  //   const smartContract = new this.web3.eth.Contract(abi, address);
+  //   const misura = from(smartContract.methods.getMisura(0).call())
+  //   .pipe(map(result => this.formatMisura(result))
+  //   );
+  //   return misura;
+  // }
+
+  // formatMisura(misura): Misura  {
+  //   return {no: misura['0'].toNumber(), tariffa: misura['1'], data: misura['2'].toNumber(),
+  //     categoriaContabile: misura['3'], descrizione: misura['4'], percentuale: misura['5'],
+  //     riserva: misura['6']};
+  // }
+
+  // getAbi(type: string) {
+  //   return this.contractsSources.find(element => element.type === type).abi;
+  // }
+
+  // getAddress() {
+  //   return '';
+  // }
 
 }

@@ -26,7 +26,8 @@ export class LibrettoComponent implements OnInit {
   isDittaLogged: boolean;
 
   constructor(private dialog: MatDialog, private authService: AuthService,
-              private activatedRoute: ActivatedRoute, private blockchainService: BlockchainService,) { }
+              private activatedRoute: ActivatedRoute, private blockchainService: BlockchainService,
+              private librettoService: LibrettoService) { }
 
   ngOnInit() {
     this.isRupLogged = this.authService.titleCheck('rup');
@@ -36,8 +37,12 @@ export class LibrettoComponent implements OnInit {
       {this.contractID = params['contractID'];
     });
     console.log(this.contractID);
+    this.librettoService.init(this.contractID);
+    this.dataSource = this.librettoService.misure;
+    this.librettoService.loadMisure();
+    console.log(this.dataSource)
     // this.blockchainService.getMisure(this.contractID).subscribe(misura => {console.log(misura); this.dataSource = [misura]; console.log(this.dataSource); });
-    this.dataSource = this.blockchainService.getMisure(this.contractID).pipe(map(result => [result]));
+    //this.dataSource = this.blockchainService.getMisure(this.contractID).pipe(map(result => [result]));
 
 }
 

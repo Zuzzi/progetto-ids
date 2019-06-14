@@ -18,13 +18,13 @@ export class AreaRiservataComponent implements OnInit {
   isDirettoreLogged: boolean;
   isRupLogged: boolean;
   isDittaLogged: boolean;
-  username: string;
+  user;
 
   constructor(private authService: AuthService, private router: Router) { }
 
   ngOnInit() {
     this.isDirettoreLogged = this.authService.titleCheck('direttore');
-    this.username = this.authService.getUser().username;
+    this.user = this.authService.getUser();
   }
 
 
