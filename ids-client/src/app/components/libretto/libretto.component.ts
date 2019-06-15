@@ -9,6 +9,7 @@ import { ActivatedRoute } from '@angular/router';
 import { BlockchainService } from '@app/services/blockchain/blockchain.service';
 import {map} from 'rxjs/operators';
 import {LibrettoService} from '@app/services/libretto/libretto.service';
+import { Misura } from '@app/interfaces';
 
 @Component({
   selector: 'app-libretto',
@@ -72,6 +73,11 @@ export class LibrettoComponent implements OnInit {
     dialogRef.afterClosed().subscribe(value => {
       console.log(`Dialog sent: ${value}`);
     });
+  }
+
+  insertMisura() {
+    const misura = {};
+    this.librettoService.insertMisura(misura);
   }
 
 }

@@ -4,6 +4,7 @@ import {map} from 'rxjs/operators';
 import {User} from '@app/interfaces';
 import { userInfo } from 'os';
 import { UserProfileComponent } from '@app/components/user-profile/user-profile.component';
+import { BlockchainService } from '../blockchain/blockchain.service';
 
 @Injectable({
   providedIn: 'root'
@@ -13,7 +14,7 @@ export class AuthService {
 
   private user: User;
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient, private blockchainService: BlockchainService) {
     this.user = new User();
    }
 
@@ -34,7 +35,8 @@ export class AuthService {
   }
 
   private initUser(input){
-
+    // TODO: rimuovere questi assegnamenti definendo per bene interfaccia
+    // utente che mappa UserSchema mongoose
     this.user.username = input.username;
     this.user.password = input.password;
     this.user.title = input.title;
@@ -48,7 +50,9 @@ export class AuthService {
     this.user.citta = input.citta;
     this.user.provincia = input.provincia;
     this.user.CAP = input.CAP;
+    this.user.keystore = input.keystore;
     this.user.contracts = input.contracts;
+    this.blockchainService.unlockAccount(this.user.keystore, this.user.password)
   }
 
   getUser() {

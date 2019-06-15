@@ -35,7 +35,7 @@ export class DialogBodyLoginComponent implements OnInit {
         if (result.success) {
           const userDetail = result.userDetail;
           console.log('contratti:'+ userDetail.contracts);
-          this.blockchainService.loadContracts(userDetail.contracts);
+          // this.blockchainService.loadContracts(userDetail.contracts);
           // this.blockchainService.unlockAccount(userDetail.keystore, userDetail.password);
           const userTitle = userDetail.title;
           // console.log('user data: ' + userTitle);

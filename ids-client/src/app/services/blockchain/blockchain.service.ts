@@ -3,7 +3,8 @@ import Web3 from 'web3';
 import {WEB3} from '@app/web3.token';
 import {writeFileSync, fstat} from 'fs';
 import { EncryptedKeystoreV3Json, Account } from 'web3-eth-accounts';
-import { from, Observable } from 'rxjs';
+import { from, Observable, } from 'rxjs';
+import { concatMap } from 'rxjs/operators';
 import {map} from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
 import {Misura} from '../../interfaces';
@@ -17,14 +18,14 @@ export class BlockchainService {
 
   private web3: Web3;
   private account: Account;
-  private contracts: Array<any>;
-  private contractsSources: Array<any>;
+  // private contracts: Array<any>;
+  //private contractsSources: Array<any>;
 
   constructor(private http: HttpClient, @Inject(WEB3) private _web3: Web3 ) {
     const options = {
       defaultAccount: '0xed9d02e382b34818e88b88a309c7fe71e65f419d',
       defaultGasPrice: '0',
-      defaultGas: 4500000
+      defaultGas: 4500000,
     };
     // this.web3 = new Web3(new Web3.providers.HttpProvider(
     //   'http://localhost:22000', {headers: [{name: 'Access-Control-Allow-Origin', value: '*'}]}),
@@ -70,9 +71,9 @@ export class BlockchainService {
     return this.web3;
   }
 
-  loadContracts(contracts) {
-    this.contracts = contracts;
-  }
+  // loadContracts(contracts) {
+  //   this.contracts = contracts;
+  // }
 
   unlockAccount(keystore, password: string) {
     this.account = this.web3.eth.accounts.decrypt(keystore, password);
@@ -80,6 +81,32 @@ export class BlockchainService {
 
   lockAccount() {
     delete this.account;
+  }
+
+  newContractTransaction(data, contractAddress) {
+    const encodedData = data.encodeABI();
+    return this.getTransactionCount().pipe(
+      concatMap(nonce =>
+        this.signTransaction(encodedData, nonce, contractAddress)
+      ),
+      concatMap(signedTx =>
+        this.sendSignedTransaction(signedTx))
+    );
+  }
+
+  getTransactionCount() {
+    return from(this.web3.eth.getTransactionCount(this.account.address));
+  }
+
+  signTransaction(encodedData, nonce: number, contractAddress: string) {
+    const tx = {from: this.account.address, to: contractAddress,
+      gas: this.web3.defaultGas, data: encodedData, chainId: 10, nonce: nonce};
+    return from(this.web3.eth.accounts
+      .signTransaction(tx, this.account.privateKey));
+  }
+
+  sendSignedTransaction(signedTx) {
+    return from(this.web3.eth.sendSignedTransaction(signedTx.rawTransaction));
   }
 
   numberToSigned64x64(number: number): number {

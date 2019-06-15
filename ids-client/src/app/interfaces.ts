@@ -25,6 +25,7 @@ export class User {
   citta: string;
   provincia: string;
   CAP: number;
+  keystore: any[];
   contracts: ContractSchema[];
 }
 

@@ -1,6 +1,6 @@
 import { Injectable, Inject } from '@angular/core';
 import { BehaviorSubject, Observable, from, forkJoin } from 'rxjs';
-import { concatMap } from 'rxjs/operators'
+import { concatMap } from 'rxjs/operators';
 import {Misura} from '../../interfaces';
 import {WEB3} from '@app/web3.token';
 import Web3 from 'web3';
@@ -14,6 +14,7 @@ import { AbiItem } from 'web3-utils';
   providedIn: 'root'
 })
 export class LibrettoService {
+  // TODO: definire un tipo di dato per il tipo di contratto
   private readonly TYPE = 'libretto';
   private misureStream: BehaviorSubject<Misura[]>;
   misure: Observable<Misura[]>;
@@ -51,6 +52,21 @@ export class LibrettoService {
       this.misureStore = this.formatMisure(misure);
       this.misureStream.next(Object.assign([], this.misureStore));
     });
+  }
+
+  insertMisura(misura) {
+    misura.percentuale = this.blockchainService.
+      numberToSigned64x64(misura.percentuale);
+
+    // const insert = this.contract.methods.inserisciMisura();
+    const insert = this.contract.methods.inserisciMisura("Pavimentazione", "Fabbricato A - Struttura", "276701161105643270000", "riserva");
+    this.blockchainService
+      .newContractTransaction(insert, this.contract.address)
+      .subscribe(() => {
+        console.log('Transaction completed');
+        this.misureStore.push(misura);
+        this.misureStream.next(Object.assign([], this.misureStore));
+      });
   }
 
   formatMisure(misure) {
