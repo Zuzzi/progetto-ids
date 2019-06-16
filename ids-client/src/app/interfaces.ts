@@ -1,6 +1,8 @@
 import { Unit } from 'web3-utils';
 import { Timestamp } from 'rxjs/internal/operators/timestamp';
 
+export type Type =  'libretto' | 'registro' | 'sal' | 'giornale';
+
 export interface Misura {
   no: number;
   tariffa: string;

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import {map} from 'rxjs/operators';
-import {User} from '@app/interfaces';
+import {User, Type} from '@app/interfaces';
 import { userInfo } from 'os';
 import { UserProfileComponent } from '@app/components/user-profile/user-profile.component';
 import { BlockchainService } from '../blockchain/blockchain.service';
@@ -26,7 +26,7 @@ export class AuthService {
     })
     .pipe(map(result => {
       if (result['status'] === 'success' ) {
-        this.initUser(result['data']);
+        this.user = result['data'];
         return {success: true, userDetail: result['data']};
       } else {
         return {success: false, userDetail: null };
@@ -70,7 +70,7 @@ export class AuthService {
     console.log("ciao" + usermod.nome);
     return this.http.post('/api/user/setUser', usermod);
   }
-
+  //TODO: non usare lo storage ma direttamente this.user
   titleCheck(title) {
     let test = false;
     if (localStorage.getItem('title') !== null ) {
@@ -87,7 +87,7 @@ export class AuthService {
 
   }
 
-  getAddress(contractId: string, type: string): string {
+  getAddress(contractId: string, type: Type): string {
     const contract = this.user.contracts.find(element => element._id === contractId);
     return contract[type].address;
   }
