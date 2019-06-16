@@ -63,7 +63,7 @@ export class LibrettoService {
     this.blockchainService
       .newContractTransaction(insert, this.contract.address)
       .subscribe(() => {
-        console.log('Transaction completed');
+        console.log('Transaction completed !');
         this.misureStore.push(misura);
         this.misureStream.next(Object.assign([], this.misureStore));
       });
@@ -79,19 +79,5 @@ export class LibrettoService {
     });
     return formatted;
   }
-
-  //  loadMisure() {
-  //   const contractID = '';
-  //   const address: string = this.contract.find(element => element._id === contractID).address;
-  //   const abi = this.contract.find(element => element.type === 'master').abi;
-  //   const smartContract = new this.web3.eth.Contract(abi, address);
-  //   const numeroMisure = smartContract.methods.getNumeroMisure().call();
-  //   let i;
-  //   for (i = 0; i < numeroMisure; i++) {
-  //     this.dataStore.push(smartContract.methods.getMisura(i).call());
-  //     this.misureStream.next(Object.assign({}, this.dataStore));
-  //   }
-
-  //  }
 
 }

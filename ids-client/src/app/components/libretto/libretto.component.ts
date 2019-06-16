@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { MatDialog} from '@angular/material';
 import { DialogBodyInslibrettoComponent } from '@app/components/dialog-body-inslibretto/dialog-body-inslibretto.component';
 import { DialogBodyVisriservaComponent } from '@app/components/dialog-body-visriserva/dialog-body-visriserva.component';
@@ -16,7 +16,7 @@ import { Misura } from '@app/interfaces';
   templateUrl: './libretto.component.html',
   styleUrls: ['./libretto.component.css']
 })
-export class LibrettoComponent implements OnInit {
+export class LibrettoComponent implements OnInit, OnDestroy {
 
   displayedColumns = ['no', 'tariffa', 'data', 'designazione', 'categoriaContabile', 'percentuale', 'allegati', 'riserva'];
   // dataSource = ELEMENT_DATA;
@@ -78,6 +78,9 @@ export class LibrettoComponent implements OnInit {
   insertMisura() {
     const misura = {};
     this.librettoService.insertMisura(misura);
+  }
+
+  ngOnDestroy(): void {
   }
 
 }

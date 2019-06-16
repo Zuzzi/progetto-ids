@@ -4,7 +4,7 @@ import {WEB3} from '@app/web3.token';
 import {writeFileSync, fstat} from 'fs';
 import { EncryptedKeystoreV3Json, Account } from 'web3-eth-accounts';
 import { from, Observable, } from 'rxjs';
-import { concatMap } from 'rxjs/operators';
+import { concatMap, take } from 'rxjs/operators';
 import {map} from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
 import {Misura} from '../../interfaces';
@@ -20,22 +20,23 @@ export class BlockchainService {
   private account: Account;
   // private contracts: Array<any>;
   //private contractsSources: Array<any>;
-
+  //TODO: eliminare web3 injectionProvider
   constructor(private http: HttpClient, @Inject(WEB3) private _web3: Web3 ) {
     const options = {
       defaultAccount: '0xed9d02e382b34818e88b88a309c7fe71e65f419d',
       defaultGasPrice: '0',
       defaultGas: 4500000,
+      transactionConfirmationBlocks: 1,
     };
     // this.web3 = new Web3(new Web3.providers.HttpProvider(
     //   'http://localhost:22000', {headers: [{name: 'Access-Control-Allow-Origin', value: '*'}]}),
     //   null,
     //   options);
-    /* this.web3 = new Web3(new Web3.providers.WebsocketProvider(
+    this.web3 = new Web3(new Web3.providers.WebsocketProvider(
       'ws://localhost:22000'),
       null,
-      options); */
-      this.web3 = _web3;
+      options);
+    //  this.web3 = _web3;
     // http.get('/api/contractSources/getContractSources').subscribe((result) => {
     //   if (result['status'] === 'success') {
     //     this.contractsSources = result['data']
@@ -86,27 +87,34 @@ export class BlockchainService {
   newContractTransaction(data, contractAddress) {
     const encodedData = data.encodeABI();
     return this.getTransactionCount().pipe(
-      concatMap(nonce =>
-        this.signTransaction(encodedData, nonce, contractAddress)
-      ),
-      concatMap(signedTx =>
-        this.sendSignedTransaction(signedTx))
-    );
+      take(1),
+      concatMap(nonce =>{
+        console.log('Transaction count: ' + nonce);
+        return this.signTransaction(encodedData, nonce, contractAddress);
+      }),
+      concatMap(signedTx => {
+        console.log('Transaction Signed!');
+        return this.sendSignedTransaction(signedTx);
+      }));
   }
 
-  getTransactionCount() {
+  private getTransactionCount() {
     return from(this.web3.eth.getTransactionCount(this.account.address));
   }
 
-  signTransaction(encodedData, nonce: number, contractAddress: string) {
+  private signTransaction(encodedData, nonce: number, contractAddress: string) {
     const tx = {from: this.account.address, to: contractAddress,
       gas: this.web3.defaultGas, data: encodedData, chainId: 10, nonce: nonce};
     return from(this.web3.eth.accounts
       .signTransaction(tx, this.account.privateKey));
   }
 
-  sendSignedTransaction(signedTx) {
-    return from(this.web3.eth.sendSignedTransaction(signedTx.rawTransaction));
+  private sendSignedTransaction(signedTx) {
+    console.log('Sending Transaction...');
+    return from(this.web3.eth.sendSignedTransaction(signedTx.rawTransaction)
+      .on('confirmation', confirmationNumber =>
+        console.log('Confirmation n. ' + confirmationNumber)
+      ));
   }
 
   numberToSigned64x64(number: number): number {
