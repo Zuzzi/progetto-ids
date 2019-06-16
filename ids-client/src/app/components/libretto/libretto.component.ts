@@ -34,10 +34,12 @@ export class LibrettoComponent implements OnInit, OnDestroy {
     this.isRupLogged = this.authService.titleCheck('rup');
     this.isDirettoreLogged = this.authService.titleCheck('direttore');
     this.isDittaLogged = this.authService.titleCheck('ditta');
-    this.activatedRoute.params.subscribe(params =>
-      {this.contractID = params['contractID'];
-    });
-    console.log(this.contractID);
+    // this.activatedRoute.params.subscribe(params =>
+    //   {this.contractID = params['contractID'];
+    // });
+    this.contractID = this.activatedRoute.snapshot.params.contractId ||
+      this.activatedRoute.snapshot.queryParams.contractId;
+    console.log(this.contractId);
     this.librettoService.init(this.contractID);
     this.dataSource = this.librettoService.misure;
     this.librettoService.loadMisure();
