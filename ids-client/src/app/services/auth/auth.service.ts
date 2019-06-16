@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import {map} from 'rxjs/operators';
-import {User, Type} from '@app/interfaces';
+import {User, ContractType} from '@app/interfaces';
 import { userInfo } from 'os';
 import { UserProfileComponent } from '@app/components/user-profile/user-profile.component';
 import { BlockchainService } from '../blockchain/blockchain.service';
@@ -27,32 +27,12 @@ export class AuthService {
     .pipe(map(result => {
       if (result['status'] === 'success' ) {
         this.user = result['data'];
+        this.blockchainService.unlockAccount(this.user.keystore, this.user.password);
         return {success: true, userDetail: result['data']};
       } else {
         return {success: false, userDetail: null };
       }
     }));
-  }
-
-  private initUser(input){
-    // TODO: rimuovere questi assegnamenti definendo per bene interfaccia
-    // utente che mappa UserSchema mongoose
-    this.user.username = input.username;
-    this.user.password = input.password;
-    this.user.title = input.title;
-    this.user.nome = input.nome;
-    this.user.cognome = input.cognome;
-    this.user.data = input.data;
-    this.user.codiceFiscale = input.codiceFiscale;
-    this.user.residenza = input.residenza;
-    this.user.email = input.email;
-    this.user.telefono = input.telefono;
-    this.user.citta = input.citta;
-    this.user.provincia = input.provincia;
-    this.user.CAP = input.CAP;
-    this.user.keystore = input.keystore;
-    this.user.contracts = input.contracts;
-    this.blockchainService.unlockAccount(this.user.keystore, this.user.password)
   }
 
   getUser() {
@@ -87,7 +67,7 @@ export class AuthService {
 
   }
 
-  getAddress(contractId: string, type: Type): string {
+  getAddress(contractId: string, type: ContractType): string {
     const contract = this.user.contracts.find(element => element._id === contractId);
     return contract[type].address;
   }

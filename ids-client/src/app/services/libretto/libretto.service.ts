@@ -1,7 +1,7 @@
 import { Injectable, Inject } from '@angular/core';
 import { BehaviorSubject, Observable, from, forkJoin } from 'rxjs';
 import { concatMap } from 'rxjs/operators';
-import {Misura, Type} from '@app/interfaces';
+import {Misura, ContractType} from '@app/interfaces';
 import {WEB3} from '@app/web3.token';
 import Web3 from 'web3';
 import { Contract } from 'web3-eth-contract';
@@ -15,7 +15,7 @@ import { AbiItem } from 'web3-utils';
 })
 export class LibrettoService {
   // TODO: definire un tipo di dato per il tipo di contratto
-  private readonly TYPE: Type = 'libretto';
+  private readonly TYPE: ContractType = 'libretto';
   private misureStream: BehaviorSubject<Misura[]>;
   misure: Observable<Misura[]>;
   private misureStore: Misura[];

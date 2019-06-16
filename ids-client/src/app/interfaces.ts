@@ -1,7 +1,10 @@
 import { Unit } from 'web3-utils';
 import { Timestamp } from 'rxjs/internal/operators/timestamp';
+import { EncryptedKeystoreV3Json } from 'web3-eth-accounts';
 
-export type Type =  'libretto' | 'registro' | 'sal' | 'giornale';
+export type ContractType =  'libretto' | 'registro' | 'sal' | 'giornale';
+
+export type UserType = 'direttore' | 'ditta' | 'rup';
 
 export interface Misura {
   no: number;
@@ -27,7 +30,7 @@ export class User {
   citta: string;
   provincia: string;
   CAP: number;
-  keystore: any[];
+  keystore: EncryptedKeystoreV3Json;
   contracts: ContractSchema[];
 }
 

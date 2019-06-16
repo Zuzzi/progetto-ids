@@ -36,16 +36,6 @@ export class BlockchainService {
       'ws://localhost:22000'),
       null,
       options);
-    //  this.web3 = _web3;
-    // http.get('/api/contractSources/getContractSources').subscribe((result) => {
-    //   if (result['status'] === 'success') {
-    //     this.contractsSources = result['data']
-    //   }
-    //   else {
-    //     console.log('Contract Sources not found');
-    //   }
-    // });
-    console.log(contractAbi);
   }
 
   registerAccount(password: string) {
@@ -140,14 +130,6 @@ export class BlockchainService {
   //   return {no: misura['0'].toNumber(), tariffa: misura['1'], data: misura['2'].toNumber(),
   //     categoriaContabile: misura['3'], descrizione: misura['4'], percentuale: misura['5'],
   //     riserva: misura['6']};
-  // }
-
-  // getAbi(type: string) {
-  //   return this.contractsSources.find(element => element.type === type).abi;
-  // }
-
-  // getAddress() {
-  //   return '';
   // }
 
 }

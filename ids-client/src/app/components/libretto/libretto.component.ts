@@ -43,10 +43,7 @@ export class LibrettoComponent implements OnInit, OnDestroy {
     this.librettoService.init(this.contractId);
     this.dataSource = this.librettoService.misure;
     this.librettoService.loadMisure();
-    console.log(this.dataSource)
-    // this.blockchainService.getMisure(this.contractID).subscribe(misura => {console.log(misura); this.dataSource = [misura]; console.log(this.dataSource); });
-    //this.dataSource = this.blockchainService.getMisure(this.contractID).pipe(map(result => [result]));
-
+    console.log(this.dataSource);
 }
 
   openDialogInserimento() {
