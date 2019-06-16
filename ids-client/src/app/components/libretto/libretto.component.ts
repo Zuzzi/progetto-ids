@@ -21,7 +21,7 @@ export class LibrettoComponent implements OnInit, OnDestroy {
   displayedColumns = ['no', 'tariffa', 'data', 'designazione', 'categoriaContabile', 'percentuale', 'allegati', 'riserva'];
   // dataSource = ELEMENT_DATA;
   dataSource;
-  contractID: string;
+  contractId: string;
   isDirettoreLogged: boolean;
   isRupLogged: boolean;
   isDittaLogged: boolean;
@@ -37,10 +37,10 @@ export class LibrettoComponent implements OnInit, OnDestroy {
     // this.activatedRoute.params.subscribe(params =>
     //   {this.contractID = params['contractID'];
     // });
-    this.contractID = this.activatedRoute.snapshot.params.contractId ||
+    this.contractId = this.activatedRoute.snapshot.params.contractId ||
       this.activatedRoute.snapshot.queryParams.contractId;
     console.log(this.contractId);
-    this.librettoService.init(this.contractID);
+    this.librettoService.init(this.contractId);
     this.dataSource = this.librettoService.misure;
     this.librettoService.loadMisure();
     console.log(this.dataSource)
