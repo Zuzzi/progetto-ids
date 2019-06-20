@@ -1,6 +1,6 @@
 import { Injectable, Inject } from '@angular/core';
 import { BehaviorSubject, Observable, from, forkJoin } from 'rxjs';
-import { concatMap } from 'rxjs/operators';
+import { concatMap, take } from 'rxjs/operators';
 import {Misura, ContractType} from '@app/interfaces';
 import {WEB3} from '@app/web3.token';
 import Web3 from 'web3';
@@ -8,7 +8,7 @@ import { Contract } from 'web3-eth-contract';
 import { BlockchainService } from '@app/services/blockchain/blockchain.service';
 import { AuthService } from '../auth/auth.service';
 import contractABI from '@app/model/ABIs/ContractMisure.json'
-import { AbiItem } from 'web3-utils';
+import { AbiItem, toChecksumAddress } from 'web3-utils';
 
 @Injectable({
   providedIn: 'root'
@@ -21,7 +21,8 @@ export class LibrettoService {
   private misureStore: Misura[];
   private contract: Contract;
 
-  constructor(private blockchainService: BlockchainService, private authService: AuthService) {
+  constructor(private blockchainService: BlockchainService,
+              private authService: AuthService) {
     this.misureStream =  new BehaviorSubject([]) as BehaviorSubject<Misura[]>;
     this.misureStore = [];
     this.misure = this.misureStream.asObservable();
@@ -40,6 +41,7 @@ export class LibrettoService {
 
   loadMisure() {
     from(this.contract.methods.getNumeroMisure().call()).pipe(
+      take(1),
       concatMap(numeroMisure => {
         const misure: any[] = [];
         for (let i = 0; i < numeroMisure; i++) {
