@@ -27,7 +27,7 @@ export class AuthService {
     .pipe(map(result => {
       if (result['status'] === 'success' ) {
         this.user = result['data'];
-        this.blockchainService.unlockAccount(this.user.keystore, this.user.password);
+        this.blockchainService.unlockAccount(this.user.keystore, password);
         return {success: true, userDetail: result['data']};
       } else {
         return {success: false, userDetail: null };

@@ -1,5 +1,7 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
+
+// TODO: eliminare questo model obsoleto
  
 // create a schema
 const contractSchema = new Schema({

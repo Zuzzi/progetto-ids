@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
+const bcrypt = require('bcrypt');
  
 // create a schema
 const userSchema = new Schema({
@@ -19,6 +20,13 @@ const userSchema = new Schema({
   keystore: { type: Object, required: true },
   contracts : { type: [{ type: Schema.Types.ObjectId, ref:'Contract' }] }
 }, { collection : 'Users' });
+
+userSchema.methods.comparePassword = function(candidatePassword, cb) {
+  bcrypt.compare(candidatePassword, this.password, (err, isMatch) => {
+    if (err) return cb(err);
+    cb(null, isMatch)
+  })
+}
  
 const User = mongoose.model('User', userSchema);
  

@@ -6,11 +6,13 @@ const mongoose = require('mongoose');
 const url = 'mongodb://localhost/Progetto_IDS';
 const User = require('./model/user');
 const Contract = require('./model/contract');
-const ContractSources = require('./model/contractSource')
+// const ContractSources = require('./model/contractSource');
  
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended : false}))
  
+
+// TODO: eliminare questa funzione obsoleta
 app.post('/api/user/login', (req, res) => {
     mongoose.connect(url, function(err){
         if(err) throw err;
@@ -45,18 +47,33 @@ app.post('/api/user/getUser', (req,res) => {
     mongoose.connect(url, function(err){
         if(err) throw err;
         let username = req.body.username
-        // rimuovere il primo log in futuro
+        let password = req.body.password
+        //TODO: rimuovere il primo log
         console.log('connected successfully, username is ', username);
         console.log('Searching into mongodb/ProgettoIDS database..');
-
+        
         User.findOne({username: username})
             .populate('contracts')
             .exec(function(err, user) {
                 if (err) throw err;
                 console.log(user);
-                return res.status(200).json({
-                    status: 'success',
-                    data: user
+                // TODO: Se l'utente non viene trovato?
+                user.comparePassword(password,(err, isMatch) => {
+                    if (err) throw err;
+                    if (isMatch === true) {
+                        return res.status(200).json({
+                            // TODO: status forse deve essere un boolean
+                            status: 'success',
+                            // TODO: è necessario/sicuro ritornare anche l'hash tra le varie informazioni?
+                            data: user
+                        });
+                    }
+                    else {
+                        return res.status(200).json({
+                            status: 'fail',
+                            data: null
+                        })
+                    }
                 })
             })
     })
@@ -70,7 +87,7 @@ app.post('/api/user/setUser', (req,res) => {
     
     })
 })
-
+// TODO: rimuovere questa funzione obsoleta
 app.get('/api/contractSources/getContractSources/', (_req, res) => {
     mongoose.connect(url, function(err) {
         if(err) throw err;
