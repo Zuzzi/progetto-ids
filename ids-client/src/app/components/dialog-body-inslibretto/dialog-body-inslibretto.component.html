@@ -35,11 +35,11 @@
                             <div class="col-md">
                                 Designazione dei Lavori
                                 <div data-name="Designazione" style="width: 100%">
-                                    <select name="Designazione">
+                                    <select [(ngModel)]="data.descrizione" name="Designazione">
                                         <option value="">Selezione Struttura</option>
-                                        <option value="1">Fabbricato A</option>
-                                        <option value="2">Fabbricato B</option>
-                                        <option value="3">Fabbricato C</option>
+                                        <option value="Fabbricato A">Fabbricato A</option>
+                                        <option value="Fabbricato B">Fabbricato B</option>
+                                        <option value="Fabbricato C">Fabbricato C</option>
                                     </select>
                                 </div>
                             </div>
@@ -47,17 +47,17 @@
                             <div class="col-md">
                                 Categoria Contabile
                                 <div data-name="Categoria">
-                                    <select name="Categoria">
+                                    <select [(ngModel)]="data.categoriaContabile" name="Categoria">
                                         <option value="">Selezione Categoria </option>
-                                        <option value="1">Struttura di Fondazione</option>
-                                        <option value="2">Struttura di Elevazione</option>
+                                        <option value="Pavimentazione">Pavimentazione</option>
+                                        <option value="Colonnato">Colonnato</option>
                                     </select>
                                 </div>
                             </div>
                             <div class="col-md" style="padding-bottom: 0; margin: 0">
                                 Percentuale
 
-                                <input mdInput type="number" min="0" max="100" />
+                                <input mdInput [(ngModel)]="data.percentuale" type="number" min="0" max="100" />
 
                             </div>
 
@@ -76,7 +76,7 @@
                 <div class="control-group">
                     <div class="controls bootstrap-timepicker">
                         <div class="input-group">
-                            <textarea class="form-control" style="border:white" aria-label="With textarea"></textarea>
+                            <textarea [(ngModel)]="data.riserva" class="form-control" style="border:white" aria-label="With textarea"></textarea>
                         </div>
 
                     </div>
@@ -96,8 +96,8 @@
     <div class="container-fluid" style="align-items: center">
         <div class="row  text-center">
             <div class="col-md text-center">
-                <button mat-raised-button (click)="confirm()">Conferma</button>
-         
+                <button mat-raised-button [mat-dialog-close]="data">Conferma</button>
+
                 <button mat-raised-button (click)="close()">Annulla</button>
             </div>
         </div>

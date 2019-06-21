@@ -74,7 +74,7 @@ export class BlockchainService {
     delete this.account;
   }
 
-  newContractTransaction(data, contractAddress) {
+  newTransaction(data, contractAddress) {
     const encodedData = data.encodeABI();
     return this.getTransactionCount().pipe(
       take(1),

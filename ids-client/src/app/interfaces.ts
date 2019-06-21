@@ -15,7 +15,12 @@ export interface Misura {
   percentuale: number;
   riserva: string;
 }
-
+export interface DialogInserimentoMisura {
+  categoriaContabile: string;
+  descrizione: string;
+  percentuale: number;
+  riserva: string;
+}
 export class User {
   username: string;
   password: string;

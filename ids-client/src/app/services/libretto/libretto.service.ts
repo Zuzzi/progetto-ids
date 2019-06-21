@@ -1,7 +1,7 @@
 import { Injectable, Inject } from '@angular/core';
 import { BehaviorSubject, Observable, from, forkJoin } from 'rxjs';
 import { concatMap, take } from 'rxjs/operators';
-import {Misura, ContractType} from '@app/interfaces';
+import {Misura, ContractType, DialogInserimentoMisura} from '@app/interfaces';
 import {WEB3} from '@app/web3.token';
 import Web3 from 'web3';
 import { Contract } from 'web3-eth-contract';
@@ -56,18 +56,20 @@ export class LibrettoService {
     });
   }
 
-  insertMisura(misura) {
-    misura.percentuale = this.blockchainService.
-      numberToSigned64x64(misura.percentuale);
-
+  insertMisura(misura: DialogInserimentoMisura) {
+    const percentuale = this.blockchainService
+    .numberToSigned64x64(misura.percentuale).toString().replace('+', '');
     // const insert = this.contract.methods.inserisciMisura();
-    const insert = this.contract.methods.inserisciMisura("Pavimentazione", "Fabbricato A - Struttura", "276701161105643270000", "riserva");
+    const insert = this.contract.methods.inserisciMisura(misura.categoriaContabile,
+      misura.descrizione, percentuale, misura.riserva);
     this.blockchainService
-      .newContractTransaction(insert, this.contract.address)
+      .newTransaction(insert, this.contract.address)
       .subscribe(() => {
         console.log('Transaction completed !');
-        this.misureStore.push(misura);
-        this.misureStream.next(Object.assign([], this.misureStore));
+        //TODO: la funzione di inserimento deve ritornare i dati perchè alcuni campi non si possono
+        // ricostruire prima dell'inserimento
+        //this.misureStore.push(misura);
+        //this.misureStream.next(Object.assign([], this.misureStore));
       });
   }
 

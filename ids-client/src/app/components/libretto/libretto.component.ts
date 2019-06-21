@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { MatDialog} from '@angular/material';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
 import { DialogBodyInslibrettoComponent } from '@app/components/dialog-body-inslibretto/dialog-body-inslibretto.component';
 import { DialogBodyVisriservaComponent } from '@app/components/dialog-body-visriserva/dialog-body-visriserva.component';
 import { DialogBodyVisallegatiComponent } from '@app/components/dialog-body-visallegati/dialog-body-visallegati.component';
@@ -7,24 +7,27 @@ import { DialogBodyApprovazionemisureComponent } from '@app/components/dialog-bo
 import {AuthService} from '@app/services/auth/auth.service';
 import { ActivatedRoute } from '@angular/router';
 import { BlockchainService } from '@app/services/blockchain/blockchain.service';
-import {map} from 'rxjs/operators';
+// import {map} from 'rxjs/operators';
 import {LibrettoService} from '@app/services/libretto/libretto.service';
-import { Misura } from '@app/interfaces';
+import { DialogInserimentoMisura } from '@app/interfaces';
+
 
 @Component({
   selector: 'app-libretto',
   templateUrl: './libretto.component.html',
   styleUrls: ['./libretto.component.css']
 })
+
 export class LibrettoComponent implements OnInit, OnDestroy {
 
   displayedColumns = ['no', 'tariffa', 'data', 'designazione', 'categoriaContabile', 'percentuale', 'allegati', 'riserva'];
-  // dataSource = ELEMENT_DATA;
   dataSource;
   contractId: string;
   isDirettoreLogged: boolean;
   isRupLogged: boolean;
   isDittaLogged: boolean;
+  dialogInserimentoData: DialogInserimentoMisura = {categoriaContabile: '',
+  descrizione: '', percentuale: null, riserva: ''};
 
   constructor(private dialog: MatDialog, private authService: AuthService,
               private activatedRoute: ActivatedRoute, private blockchainService: BlockchainService,
@@ -46,10 +49,16 @@ export class LibrettoComponent implements OnInit, OnDestroy {
     console.log(this.dataSource);
 }
 
-  openDialogInserimento() {
-    const dialogRef = this.dialog.open(DialogBodyInslibrettoComponent);
+  openDialogInserimento(): void {
+    const dialogRef = this.dialog.open(DialogBodyInslibrettoComponent, {
+      data: this.dialogInserimentoData
+    });
+
     dialogRef.afterClosed().subscribe(value => {
-      console.log(`Dialog sent: ${value}`);
+      if (value) {console.log('Dialog sent: ' + value);
+      this.dialogInserimentoData = value;
+      this.insertMisura();
+    }
     });
   }
 
@@ -75,8 +84,8 @@ export class LibrettoComponent implements OnInit, OnDestroy {
   }
 
   insertMisura() {
-    const misura = {};
-    this.librettoService.insertMisura(misura);
+    console.log(this.dialogInserimentoData);
+    this.librettoService.insertMisura(this.dialogInserimentoData);
   }
 
   ngOnDestroy(): void {
