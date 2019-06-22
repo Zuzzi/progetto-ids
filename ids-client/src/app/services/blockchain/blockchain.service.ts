@@ -3,8 +3,8 @@ import Web3 from 'web3';
 import {WEB3} from '@app/web3.token';
 import {writeFileSync, fstat} from 'fs';
 import { EncryptedKeystoreV3Json, Account } from 'web3-eth-accounts';
-import { from, Observable, } from 'rxjs';
-import { concatMap, take } from 'rxjs/operators';
+import { from, Observable, BehaviorSubject, ReplaySubject, Subject, } from 'rxjs';
+import { concatMap, take, tap } from 'rxjs/operators';
 import {map} from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
 import {Misura} from '../../interfaces';
@@ -18,6 +18,8 @@ export class BlockchainService {
 
   private web3: Web3;
   private account: Account;
+  private txEventsStream: Subject<any>;
+  txEvents: Observable<Misura[]>;
   // private contracts: Array<any>;
   //private contractsSources: Array<any>;
   //TODO: eliminare web3 injectionProvider
@@ -36,6 +38,8 @@ export class BlockchainService {
       'ws://localhost:22000'),
       null,
       options);
+    this.txEventsStream = new Subject();
+    this.txEvents = this.txEventsStream.asObservable();
   }
 
   registerAccount(password: string) {
@@ -78,14 +82,17 @@ export class BlockchainService {
     const encodedData = data.encodeABI();
     return this.getTransactionCount().pipe(
       take(1),
-      concatMap(nonce =>{
+      concatMap(nonce => {
         console.log('Transaction count: ' + nonce);
         return this.signTransaction(encodedData, nonce, contractAddress);
       }),
       concatMap(signedTx => {
         console.log('Transaction Signed!');
+        this.txEventsStream.next({type: 'signed', data: signedTx});
         return this.sendSignedTransaction(signedTx);
-      }));
+      }),
+      tap((receipt) => this.txEventsStream.next({type: 'completed', data: receipt}))
+    );
   }
 
   private getTransactionCount() {
@@ -101,10 +108,22 @@ export class BlockchainService {
 
   private sendSignedTransaction(signedTx) {
     console.log('Sending Transaction...');
+    //this.txEventsStream.next({type: 'sending', data: undefined});
     return from(this.web3.eth.sendSignedTransaction(signedTx.rawTransaction)
-      .on('confirmation', confirmationNumber =>
-        console.log('Confirmation n. ' + confirmationNumber)
-      ));
+      .on('transactionHash', hash => {
+        console.log('Transaction Hash ' + hash);
+        this.txEventsStream.next({type: 'confirmation', data: hash});
+      })
+      .on('receipt', receipt => {
+        console.log('Genereted Transaction Receipt');
+        this.txEventsStream.next({type: 'receipt', data: receipt});
+      })
+      .on('confirmation', confirmationNumber => {
+        console.log('Confirmation n. ' + confirmationNumber);
+        this.txEventsStream.next({type: 'confirmation',
+                                  data: confirmationNumber});
+      })
+    );
   }
 
   numberToSigned64x64(number: number): number {

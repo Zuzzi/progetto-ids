@@ -14,8 +14,8 @@ import { AbiItem, toChecksumAddress } from 'web3-utils';
   providedIn: 'root'
 })
 export class LibrettoService {
-  // TODO: definire un tipo di dato per il tipo di contratto
   private readonly TYPE: ContractType = 'libretto';
+  // TODO: valuta utilizzo replaysubject(1)
   private misureStream: BehaviorSubject<Misura[]>;
   misure: Observable<Misura[]>;
   private misureStore: Misura[];
@@ -40,7 +40,14 @@ export class LibrettoService {
   }
 
   loadMisure() {
-    from(this.contract.methods.getNumeroMisure().call()).pipe(
+    this.getMisure().subscribe(misure => {
+      this.misureStore = this.formatMisure(misure);
+      this.misureStream.next(Object.assign([], this.misureStore));
+    });
+  }
+
+  getMisure() {
+    return from(this.contract.methods.getNumeroMisure().call()).pipe(
       take(1),
       concatMap(numeroMisure => {
         const misure: any[] = [];
@@ -49,25 +56,23 @@ export class LibrettoService {
         }
         return forkJoin(misure);
       }),
-
-    ).subscribe(misure => {
-      this.misureStore = this.formatMisure(misure);
-      this.misureStream.next(Object.assign([], this.misureStore));
-    });
+    );
   }
 
   insertMisura(misura: DialogInserimentoMisura) {
     const percentuale = this.blockchainService
     .numberToSigned64x64(misura.percentuale).toString().replace('+', '');
-    // const insert = this.contract.methods.inserisciMisura();
     const insert = this.contract.methods.inserisciMisura(misura.categoriaContabile,
       misura.descrizione, percentuale, misura.riserva);
     this.blockchainService
       .newTransaction(insert, this.contract.address)
+      .pipe(
+      )
       .subscribe(() => {
         console.log('Transaction completed !');
         //TODO: la funzione di inserimento deve ritornare i dati perchè alcuni campi non si possono
-        // ricostruire prima dell'inserimento
+        // ricostruire prima dell'inserimento oppure è necessario fare una call dell'ultima misura
+
         //this.misureStore.push(misura);
         //this.misureStream.next(Object.assign([], this.misureStore));
       });

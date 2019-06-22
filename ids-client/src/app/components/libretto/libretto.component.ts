@@ -55,9 +55,10 @@ export class LibrettoComponent implements OnInit, OnDestroy {
     });
 
     dialogRef.afterClosed().subscribe(value => {
-      if (value) {console.log('Dialog sent: ' + value);
-      this.dialogInserimentoData = value;
-      this.insertMisura();
+      if (value) {
+        console.log('Dialog sent: ' + value);
+        this.dialogInserimentoData = value;
+        this.insertMisura();
     }
     });
   }
@@ -85,6 +86,8 @@ export class LibrettoComponent implements OnInit, OnDestroy {
 
   insertMisura() {
     console.log(this.dialogInserimentoData);
+    // TODO: Ripartire da qui per implemetare feedback eventi transazione ad utente
+    const txEvents = this.blockchainService.txEvents;
     this.librettoService.insertMisura(this.dialogInserimentoData);
   }
 
