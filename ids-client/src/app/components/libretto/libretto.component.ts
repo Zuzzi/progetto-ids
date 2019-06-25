@@ -10,6 +10,8 @@ import { BlockchainService } from '@app/services/blockchain/blockchain.service';
 // import {map} from 'rxjs/operators';
 import {LibrettoService} from '@app/services/libretto/libretto.service';
 import { DialogInserimentoMisura } from '@app/interfaces';
+import { DialogBodyInvalidamisuraComponent } from '@app/components/dialog-body-invalidamisura/dialog-body-invalidamisura.component';
+
 
 
 @Component({
@@ -20,7 +22,7 @@ import { DialogInserimentoMisura } from '@app/interfaces';
 
 export class LibrettoComponent implements OnInit, OnDestroy {
 
-  displayedColumns = ['no', 'tariffa', 'data', 'designazione', 'categoriaContabile', 'percentuale', 'allegati', 'riserva'];
+  displayedColumns = ['no', 'tariffa', 'data', 'designazione', 'categoriaContabile', 'percentuale', 'allegati', 'riserva', 'invalida'];
   dataSource;
   contractId: string;
   isDirettoreLogged: boolean;
@@ -78,6 +80,13 @@ export class LibrettoComponent implements OnInit, OnDestroy {
 
   openDialogConfermaLibretto() {
     const dialogRef = this.dialog.open(DialogBodyApprovazionemisureComponent);
+    dialogRef.afterClosed().subscribe(value => {
+      console.log(`Dialog sent: ${value}`);
+    });
+  }
+
+  openDialogInvalidaMisura() {
+    const dialogRef = this.dialog.open(DialogBodyInvalidamisuraComponent);
     dialogRef.afterClosed().subscribe(value => {
       console.log(`Dialog sent: ${value}`);
     });
