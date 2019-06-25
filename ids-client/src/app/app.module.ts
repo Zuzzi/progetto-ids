@@ -22,6 +22,7 @@ import { DialogBodyInsregistroComponent } from './components/dialog-body-insregi
 import { DialogBodyInslibrettoComponent } from './components/dialog-body-inslibretto/dialog-body-inslibretto.component';
 import { DialogBodyVisriservaComponent } from './components/dialog-body-visriserva/dialog-body-visriserva.component';
 import { DialogBodyApprovazioneComponent } from './components/dialog-body-approvazione/dialog-body-approvazione.component';
+import { DialogBodyInvalidamisuraComponent } from './components/dialog-body-invalidamisura/dialog-body-invalidamisura.component';
 import { HttpClientModule } from '@angular/common/http';
 import { DialogBodyApprovazionemisureComponent } from './components/dialog-body-approvazionemisure/dialog-body-approvazionemisure.component';
 import { UserProfileComponent } from './components/user-profile/user-profile.component';
@@ -46,6 +47,7 @@ import { UserProfileComponent } from './components/user-profile/user-profile.com
     DialogBodyApprovazioneComponent,
     DialogBodyApprovazionemisureComponent,
     UserProfileComponent,
+    DialogBodyInvalidamisuraComponent,
   ],
   imports: [
     BrowserModule,
@@ -60,6 +62,7 @@ import { UserProfileComponent } from './components/user-profile/user-profile.com
   // tslint:disable-next-line:max-line-length
   entryComponents: [DialogBodyLoginComponent, DialogBodyInfocontrattoComponent, DialogBodyInsgiornaleComponent,
                     DialogBodyVisallegatiComponent, DialogBodyInsregistroComponent, DialogBodyInslibrettoComponent,
-                    DialogBodyVisriservaComponent, DialogBodyApprovazioneComponent, DialogBodyApprovazionemisureComponent]
+                    DialogBodyVisriservaComponent, DialogBodyApprovazioneComponent, DialogBodyApprovazionemisureComponent,
+                    DialogBodyInvalidamisuraComponent]
 })
 export class AppModule { }
