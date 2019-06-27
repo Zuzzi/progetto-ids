@@ -41,7 +41,7 @@ export class BlockchainService {
     this.txEventsStream = new Subject();
     this.txEvents = this.txEventsStream.asObservable();
   }
-
+  // TODO: probabilmente questa funzione non serve
   registerAccount(password: string) {
     const newAccount = this.web3.eth.accounts.create();
     const newAddress = newAccount.address;
@@ -108,21 +108,22 @@ export class BlockchainService {
 
   private sendSignedTransaction(signedTx) {
     console.log('Sending Transaction...');
-    //this.txEventsStream.next({type: 'sending', data: undefined});
+    // TODO: implementare da soli la conversione da promise a observable
+    // per separare la promise dagli eventi (con from(promise.on()) non vengono emessi valori)
     return from(this.web3.eth.sendSignedTransaction(signedTx.rawTransaction)
-      .on('transactionHash', hash => {
-        console.log('Transaction Hash ' + hash);
-        this.txEventsStream.next({type: 'confirmation', data: hash});
-      })
-      .on('receipt', receipt => {
-        console.log('Genereted Transaction Receipt');
-        this.txEventsStream.next({type: 'receipt', data: receipt});
-      })
-      .on('confirmation', confirmationNumber => {
-        console.log('Confirmation n. ' + confirmationNumber);
-        this.txEventsStream.next({type: 'confirmation',
-                                  data: confirmationNumber});
-      })
+      // .on('transactionHash', hash => {
+      //   console.log('Transaction Hash ' + hash);
+      //   this.txEventsStream.next({type: 'confirmation', data: hash});
+      // })
+      // .on('receipt', receipt => {
+      //   console.log('Genereted Transaction Receipt');
+      //   this.txEventsStream.next({type: 'receipt', data: receipt});
+      // })
+      // .on('confirmation', confirmationNumber => {
+      //   console.log('Confirmation n. ' + confirmationNumber);
+      //   this.txEventsStream.next({type: 'confirmation',
+      //                             data: confirmationNumber});
+      // })
     );
   }
 

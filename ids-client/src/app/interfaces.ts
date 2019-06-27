@@ -21,6 +21,20 @@ export interface DialogInserimentoMisura {
   percentuale: number;
   riserva: string;
 }
+
+export interface VoceRegistro {
+  no: number;
+  tariffa: string;
+  data: number;
+  categoriaContabile: string;
+  descrizione: string;
+  percentuale: number;
+  prezzoValore: number;
+  prezzoPercentuale: number;
+  debitoValore: number;
+  debitoPercentuale: number;
+  pagata: boolean;
+}
 export class User {
   username: string;
   password: string;

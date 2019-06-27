@@ -7,7 +7,7 @@ import Web3 from 'web3';
 import { Contract } from 'web3-eth-contract';
 import { BlockchainService } from '@app/services/blockchain/blockchain.service';
 import { AuthService } from '../auth/auth.service';
-import contractABI from '@app/model/ABIs/ContractMisure.json'
+import contractABI from '@app/model/ABIs/ContractMisure.json';
 import { AbiItem, toChecksumAddress } from 'web3-utils';
 
 @Injectable({
@@ -66,23 +66,20 @@ export class LibrettoService {
       misura.descrizione, percentuale, misura.riserva);
     this.blockchainService
       .newTransaction(insert, this.contract.address)
-      .pipe(
-      )
       .subscribe(() => {
         console.log('Transaction completed !');
-        //TODO: la funzione di inserimento deve ritornare i dati perchè alcuni campi non si possono
-        // ricostruire prima dell'inserimento oppure è necessario fare una call dell'ultima misura
-
-        //this.misureStore.push(misura);
-        //this.misureStream.next(Object.assign([], this.misureStore));
+        this.loadMisure();
       });
   }
 
   formatMisure(misure) {
     const formatted: Misura[] = [];
     misure.forEach(misura => {
-      formatted.push({no: misura['0'], tariffa: misura['1'], data: misura['2'],
-      categoriaContabile: misura['3'], descrizione: misura['4'],
+      formatted.push({no: misura['0'],
+      tariffa: misura['1'],
+      data: misura['2'],
+      categoriaContabile: misura['3'],
+      descrizione: misura['4'],
       percentuale: this.blockchainService.signed64x64ToNumber(misura['5']),
       riserva: misura['6']});
     });
