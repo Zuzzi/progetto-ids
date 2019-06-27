@@ -29,7 +29,7 @@ const routes: Routes = [
       outlet: 'reserved'
     },
     {
-      path: 'registro',
+      path: 'registro/:contractId',
       component: RegistroComponent,
       outlet: 'reserved'
     },

@@ -15,6 +15,8 @@ export interface Misura {
   percentuale: number;
   riserva: string;
 }
+
+//TODO: cambiare nome a questa interfaccia
 export interface DialogInserimentoMisura {
   categoriaContabile: string;
   descrizione: string;

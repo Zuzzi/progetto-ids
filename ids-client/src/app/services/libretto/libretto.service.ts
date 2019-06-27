@@ -19,6 +19,7 @@ export class LibrettoService {
   private misureStream: BehaviorSubject<Misura[]>;
   misure: Observable<Misura[]>;
   private misureStore: Misura[];
+  private contractId: string;
   private contract: Contract;
 
   constructor(private blockchainService: BlockchainService,
@@ -31,12 +32,16 @@ export class LibrettoService {
   init(contractId: string) {
     this.misureStore = [];
     this.misureStream.next(Object.assign({}, this.misureStore));
-    const abi: AbiItem[] = contractABI as AbiItem[];
-    const address = this.authService.getAddress(contractId, this.TYPE);
-    // TODO: spostare creazione istanza contratto in blockchain
-    // in modo da non utilizzare web3 direttamente qui
-    const web3 = this.blockchainService.getWeb3();
-    this.contract = new web3.eth.Contract(abi, address);
+    if (!(this.contractId === contractId)) {
+      this.contractId = contractId;
+      const abi: AbiItem[] = contractABI as AbiItem[];
+      // TODO: gestire il caso in cui l'id del contratto non si trova tra quelli dell'utente
+      const address = this.authService.getAddress(contractId, this.TYPE);
+      // TODO: spostare creazione istanza contratto in blockchain
+      // in modo da non utilizzare web3 direttamente qui
+      const web3 = this.blockchainService.getWeb3();
+      this.contract = new web3.eth.Contract(abi, address);
+    }
   }
 
   loadMisure() {

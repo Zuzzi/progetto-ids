@@ -20,6 +20,7 @@ export class RegistroService {
   private vociRegistroStream: BehaviorSubject<VoceRegistro[]>;
   vociRegistro: Observable<VoceRegistro[]>;
   private vociRegistroStore: VoceRegistro[];
+  private contractId: string;
   private contract: Contract;
 
   constructor(private blockchainService: BlockchainService,
@@ -32,12 +33,16 @@ export class RegistroService {
   init(contractId: string) {
     this.vociRegistroStore = [];
     this.vociRegistroStream.next(Object.assign({}, this.vociRegistroStore));
-    const abi: AbiItem[] = contractABI as AbiItem[];
-    const address = this.authService.getAddress(contractId, this.TYPE);
-    // TODO: spostare creazione istanza contratto in blockchain
-    // in modo da non utilizzare web3 direttamente qui
-    const web3 = this.blockchainService.getWeb3();
-    this.contract = new web3.eth.Contract(abi, address);
+    if (!(this.contractId === contractId)) {
+      this.contractId = contractId;
+      const abi: AbiItem[] = contractABI as AbiItem[];
+      // TODO: gestire il caso in cui l'id del contratto non si trova tra quelli dell'utente
+      const address = this.authService.getAddress(contractId, this.TYPE);
+      // TODO: spostare creazione istanza contratto in blockchain
+      // in modo da non utilizzare web3 direttamente qui
+      const web3 = this.blockchainService.getWeb3();
+      this.contract = new web3.eth.Contract(abi, address);
+    }
   }
 
   loadContabilita() {
@@ -62,12 +67,11 @@ export class RegistroService {
 
   approvaMisure() {
     const approva = this.contract.methods.approvaMisure();
-    this.blockchainService
-      .newTransaction(approva, this.contract.address)
-      .subscribe(() => {
-        console.log('Transaction completed !');
-        this.loadContabilita();
-      });
+    return this.blockchainService
+      .newTransaction(approva, this.contract.address);
+      // .subscribe(() => {
+      //   console.log('Transaction completed !');
+      // });
   }
 
   formatContabilita(vociRegistro) {

@@ -11,6 +11,7 @@ import { BlockchainService } from '@app/services/blockchain/blockchain.service';
 import {LibrettoService} from '@app/services/libretto/libretto.service';
 import { DialogInserimentoMisura } from '@app/interfaces';
 import { DialogBodyInvalidamisuraComponent } from '@app/components/dialog-body-invalidamisura/dialog-body-invalidamisura.component';
+import { RegistroService } from '@app/services/registro/registro.service';
 
 
 
@@ -33,15 +34,13 @@ export class LibrettoComponent implements OnInit, OnDestroy {
 
   constructor(private dialog: MatDialog, private authService: AuthService,
               private activatedRoute: ActivatedRoute, private blockchainService: BlockchainService,
-              private librettoService: LibrettoService) { }
+              private librettoService: LibrettoService,
+              private registroService: RegistroService) { }
 
   ngOnInit() {
     this.isRupLogged = this.authService.titleCheck('rup');
     this.isDirettoreLogged = this.authService.titleCheck('direttore');
     this.isDittaLogged = this.authService.titleCheck('ditta');
-    // this.activatedRoute.params.subscribe(params =>
-    //   {this.contractID = params['contractID'];
-    // });
     this.contractId = this.activatedRoute.snapshot.params.contractId ||
       this.activatedRoute.snapshot.queryParams.contractId;
     console.log(this.contractId);
@@ -96,8 +95,14 @@ export class LibrettoComponent implements OnInit, OnDestroy {
   insertMisura() {
     console.log(this.dialogInserimentoData);
     // TODO: Ripartire da qui per implemetare feedback eventi transazione ad utente
-    const txEvents = this.blockchainService.txEvents;
+    // const txEvents = this.blockchainService.txEvents;
     this.librettoService.insertMisura(this.dialogInserimentoData);
+  }
+
+  approvaMisure() {
+    this.registroService.init(this.contractId);
+    this.registroService.approvaMisure().subscribe( () =>
+      this.librettoService.loadMisure());
   }
 
   ngOnDestroy(): void {
