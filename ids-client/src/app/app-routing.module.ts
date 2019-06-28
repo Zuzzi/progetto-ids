@@ -9,6 +9,7 @@ import {RegistroComponent} from './components/registro/registro.component';
 import {SalComponent} from './components/sal/sal.component';
 import {UserProfileComponent} from './components/user-profile/user-profile.component';
 
+// TODO: gestire url non consentiti (considera anche parametri illegali o nulli)
 
 const routes: Routes = [
   {path: 'welcome', component: WelcomeComponent},

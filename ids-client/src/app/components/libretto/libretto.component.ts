@@ -12,6 +12,7 @@ import {LibrettoService} from '@app/services/libretto/libretto.service';
 import { DialogInserimentoMisura } from '@app/interfaces';
 import { DialogBodyInvalidamisuraComponent } from '@app/components/dialog-body-invalidamisura/dialog-body-invalidamisura.component';
 import { RegistroService } from '@app/services/registro/registro.service';
+import { filter } from 'rxjs/operators';
 
 
 
@@ -49,7 +50,7 @@ export class LibrettoComponent implements OnInit, OnDestroy {
     this.librettoService.loadMisure();
     console.log(this.dataSource);
 }
-
+  // TODO: Modificare passaggio valori per renderlo più ordinato
   openDialogInserimento(): void {
     const dialogRef = this.dialog.open(DialogBodyInslibrettoComponent, {
       data: this.dialogInserimentoData
@@ -80,8 +81,9 @@ export class LibrettoComponent implements OnInit, OnDestroy {
 
   openDialogConfermaLibretto() {
     const dialogRef = this.dialog.open(DialogBodyApprovazionemisureComponent);
-    dialogRef.afterClosed().subscribe(value => {
-      console.log(`Dialog sent: ${value}`);
+    dialogRef.afterClosed().pipe(filter(action => action))
+      .subscribe( () => {
+      this.approvaMisure();
     });
   }
 
@@ -101,8 +103,10 @@ export class LibrettoComponent implements OnInit, OnDestroy {
 
   approvaMisure() {
     this.registroService.init(this.contractId);
-    this.registroService.approvaMisure().subscribe( () =>
-      this.librettoService.loadMisure());
+    this.registroService.approvaMisure().subscribe( () => {
+        console.log('Transaction Completed !');
+        this.librettoService.loadMisure();
+      });
   }
 
   ngOnDestroy(): void {

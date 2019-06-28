@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { MatDialogRef } from '@angular/material';
 import { Router } from '@angular/router';
 
+// TODO: sto component non ha motivo di esistere
+
 @Component({
   selector: 'app-dialog-body-approvazione',
   templateUrl: './dialog-body-approvazione.component.html',

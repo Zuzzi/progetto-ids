@@ -2,8 +2,6 @@ import { Injectable, Inject } from '@angular/core';
 import { BehaviorSubject, Observable, from, forkJoin } from 'rxjs';
 import { concatMap, take } from 'rxjs/operators';
 import {Misura, ContractType, DialogInserimentoMisura} from '@app/interfaces';
-import {WEB3} from '@app/web3.token';
-import Web3 from 'web3';
 import { Contract } from 'web3-eth-contract';
 import { BlockchainService } from '@app/services/blockchain/blockchain.service';
 import { AuthService } from '../auth/auth.service';

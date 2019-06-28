@@ -1,8 +1,8 @@
 <mat-dialog-content class="scrollbar-black bordered-black thin">
   <div class="container-fluid ">
   <div class="row" style="text-align: center">
-    Si desidera rendere definitiva l'approvazione <br> delle scritture del Libretto delle Misure?   
-    <br><br>                
+    Si desidera rendere definitiva l'approvazione <br> delle scritture del Libretto delle Misure?
+    <br><br>
   </div>
 </div>
 </mat-dialog-content>
@@ -12,8 +12,8 @@
   <div class="row" >
     <div class="col-md-1"></div>
     <div class="col-md-10">
-      <button mat-raised-button (click)="confirm()">Conferma</button>
-      <button mat-raised-button (click)="close()">Annulla</button>
+      <button mat-raised-button [mat-dialog-close]="true">Conferma</button>
+      <button mat-raised-button mat-dialog-close >Annulla</button>
     </div>
     <div class="col-md-1"></div>
   </div>

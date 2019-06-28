@@ -14,12 +14,14 @@ export class DialogBodyApprovazionemisureComponent implements OnInit {
   ngOnInit() {
   }
 
-  close() {
-    this.dialogRef.close();
-  }
+  //utilizzando la direttiva mat-dialog-close questi metodo non servono
 
-  confirm() {
-    console.log('funziona!');
-  }
+  // close() {
+  //   this.dialogRef.close();
+  // }
+
+  // confirm() {
+  //   this.dialogRef.close(true);
+  // }
 
 }

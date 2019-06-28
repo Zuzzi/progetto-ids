@@ -13,6 +13,8 @@ import { RegistroService } from '@app/services/registro/registro.service';
 })
 export class RegistroComponent implements OnInit {
 
+  displayedColumns = ['no', 'tariffa', 'data', 'designazione', 'categoriaContabile',
+   'percentuale', 'prezzoPercentuale', 'debitoValore', 'debitoPercentuale'];
   dataSource;
   contractId: string;
   isDirettoreLogged: boolean;
