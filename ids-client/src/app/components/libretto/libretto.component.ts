@@ -13,6 +13,7 @@ import { DialogInserimentoMisura, Misura } from '@app/interfaces';
 import { DialogBodyInvalidamisuraComponent } from '@app/components/dialog-body-invalidamisura/dialog-body-invalidamisura.component';
 import { RegistroService } from '@app/services/registro/registro.service';
 import { filter } from 'rxjs/operators';
+import {MatButtonModule} from '@angular/material/button';
 
 
 
