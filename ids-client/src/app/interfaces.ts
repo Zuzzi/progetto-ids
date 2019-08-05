@@ -14,6 +14,9 @@ export interface Misura {
   descrizione: string;
   percentuale: number;
   riserva: string;
+  valida: boolean;
+  invalidabile: boolean;
+  approvata: boolean;
 }
 
 //TODO: cambiare nome a questa interfaccia

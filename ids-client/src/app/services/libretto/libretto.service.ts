@@ -85,12 +85,15 @@ export class LibrettoService {
     const formatted: Misura[] = [];
     misure.forEach(misura => {
       formatted.push({no: misura['0'],
-      tariffa: misura['1'],
-      data: misura['2'],
-      categoriaContabile: misura['3'],
-      descrizione: misura['4'],
-      percentuale: this.blockchainService.signed64x64ToNumber(misura['5']),
-      riserva: misura['6']});
+        tariffa: misura['1'],
+        data: misura['2'],
+        categoriaContabile: misura['3'],
+        descrizione: misura['4'],
+        percentuale: this.blockchainService.signed64x64ToNumber(misura['5']),
+        riserva: misura['6'],
+        valida: misura['7'],
+        invalidabile: misura['8'],
+        approvata: misura['9']});
     });
     return formatted;
   }
