@@ -75,6 +75,12 @@ export class LibrettoService {
       });
   }
 
+  invalidaMisura(noMisura: Misura['no']) {
+    const invalidation = this.contract.methods.invalidaMisura(noMisura);
+    return this.blockchainService
+      .newTransaction(invalidation, this.contract.address);
+  }
+
   formatMisure(misure) {
     const formatted: Misura[] = [];
     misure.forEach(misura => {

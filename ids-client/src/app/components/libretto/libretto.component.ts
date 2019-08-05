@@ -9,7 +9,7 @@ import { ActivatedRoute } from '@angular/router';
 import { BlockchainService } from '@app/services/blockchain/blockchain.service';
 // import {map} from 'rxjs/operators';
 import {LibrettoService} from '@app/services/libretto/libretto.service';
-import { DialogInserimentoMisura } from '@app/interfaces';
+import { DialogInserimentoMisura, Misura } from '@app/interfaces';
 import { DialogBodyInvalidamisuraComponent } from '@app/components/dialog-body-invalidamisura/dialog-body-invalidamisura.component';
 import { RegistroService } from '@app/services/registro/registro.service';
 import { filter } from 'rxjs/operators';
@@ -87,10 +87,11 @@ export class LibrettoComponent implements OnInit, OnDestroy {
     });
   }
 
-  openDialogInvalidaMisura() {
+  openDialogInvalidaMisura(noMisura: Misura['no']) {
     const dialogRef = this.dialog.open(DialogBodyInvalidamisuraComponent);
-    dialogRef.afterClosed().subscribe(value => {
-      console.log(`Dialog sent: ${value}`);
+    dialogRef.afterClosed().pipe(filter(action => action))
+    .subscribe(() => {
+      this.invalidaMisura(noMisura);
     });
   }
 
@@ -103,10 +104,19 @@ export class LibrettoComponent implements OnInit, OnDestroy {
 
   approvaMisure() {
     this.registroService.init(this.contractId);
-    this.registroService.approvaMisure().subscribe( () => {
+    this.registroService.approvaMisure()
+      .subscribe( () => {
         console.log('Transaction Completed !');
         this.librettoService.loadMisure();
       });
+  }
+
+  invalidaMisura(noMisura: Misura['no']) {
+    this.librettoService.invalidaMisura(noMisura)
+    .subscribe(() => {
+      console.log('Transaction completed !');
+      this.librettoService.loadMisure();
+    });
   }
 
   ngOnDestroy(): void {

@@ -82,7 +82,7 @@
             <th mat-header-cell *matHeaderCellDef> Invalida Misura </th>
             <td mat-cell *matCellDef="let element">
                 <div class="row" style="justify-content: center">
-                  <button  (click)="openDialogInvalidamisura()">{{element.invalida}}</button>
+                  <button  (click)="openDialogInvalidamisura(element.id)">{{element.invalida}}</button>
                 </div>
             </td>
           </ng-container>
