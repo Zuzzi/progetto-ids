@@ -12,7 +12,7 @@ import {LibrettoService} from '@app/services/libretto/libretto.service';
 import { DialogInserimentoMisura, Misura } from '@app/interfaces';
 import { DialogBodyInvalidamisuraComponent } from '@app/components/dialog-body-invalidamisura/dialog-body-invalidamisura.component';
 import { RegistroService } from '@app/services/registro/registro.service';
-import { filter } from 'rxjs/operators';
+import { filter, switchMap } from 'rxjs/operators';
 import {MatButtonModule} from '@angular/material/button';
 
 
@@ -43,13 +43,15 @@ export class LibrettoComponent implements OnInit, OnDestroy {
     this.isRupLogged = this.authService.titleCheck('rup');
     this.isDirettoreLogged = this.authService.titleCheck('direttore');
     this.isDittaLogged = this.authService.titleCheck('ditta');
-    this.contractId = this.activatedRoute.snapshot.params.contractId ||
-      this.activatedRoute.snapshot.queryParams.contractId;
-    console.log(this.contractId);
-    this.librettoService.init(this.contractId);
     this.dataSource = this.librettoService.misure;
-    this.librettoService.loadMisure();
-    console.log(this.dataSource);
+    this.activatedRoute.parent.paramMap.pipe(
+      switchMap(params => {
+      this.contractId = params.get('contractId');
+      console.log(this.contractId);
+      // switchToContract per il titolo del contratto
+      return this.librettoService.loadLibretto(this.contractId);
+    }))
+    .subscribe();
 }
   // TODO: Modificare passaggio valori per renderlo più ordinato
   openDialogInserimento(): void {
@@ -100,24 +102,31 @@ export class LibrettoComponent implements OnInit, OnDestroy {
     console.log(this.dialogInserimentoData);
     // TODO: Ripartire da qui per implemetare feedback eventi transazione ad utente
     // const txEvents = this.blockchainService.txEvents;
-    this.librettoService.insertMisura(this.dialogInserimentoData);
+    this.librettoService.insertMisura(this.dialogInserimentoData).pipe(
+      switchMap(() => {
+        console.log('Transaction completed !');
+        return this.librettoService.loadMisure();
+      }))
+      .subscribe();
   }
 
   approvaMisure() {
-    this.registroService.init(this.contractId);
-    this.registroService.approvaMisure()
-      .subscribe( () => {
+    this.registroService.switchToContract(this.contractId);
+    this.registroService.approvaMisure().pipe(
+      switchMap( () => {
         console.log('Transaction Completed !');
-        this.librettoService.loadMisure();
-      });
+        return this.librettoService.loadMisure();
+      }))
+      .subscribe();
   }
 
   invalidaMisura(noMisura: Misura['no']) {
-    this.librettoService.invalidaMisura(noMisura)
-    .subscribe(() => {
+    this.librettoService.invalidaMisura(noMisura).pipe(
+    switchMap(() => {
       console.log('Transaction completed !');
-      this.librettoService.loadMisure();
-    });
+      return this.librettoService.loadMisure();
+    }))
+    .subscribe();
   }
 
   ngOnDestroy(): void {

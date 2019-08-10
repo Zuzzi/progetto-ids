@@ -25,6 +25,7 @@ export class AreaRiservataComponent implements OnInit {
   ngOnInit() {
     this.isDirettoreLogged = this.authService.titleCheck('direttore');
     this.user = this.authService.getUser();
+
   }
 
 

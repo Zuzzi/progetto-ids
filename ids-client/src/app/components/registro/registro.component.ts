@@ -5,6 +5,7 @@ import { DialogBodyApprovazioneComponent } from '@app/components/dialog-body-app
 import {AuthService} from '@app/services/auth/auth.service';
 import { ActivatedRoute } from '@angular/router';
 import { RegistroService } from '@app/services/registro/registro.service';
+import { switchMap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-registro',
@@ -28,11 +29,15 @@ export class RegistroComponent implements OnInit {
   ngOnInit() {
     this.isDirettoreLogged = this.authService.titleCheck('direttore');
     this.isRupLogged = this.authService.titleCheck('rup');
-    this.contractId = this.activatedRoute.snapshot.params.contractId ||
-      this.activatedRoute.snapshot.queryParams.contractId;
-    this.registroService.init(this.contractId);
     this.dataSource = this.registroService.vociRegistro;
-    this.registroService.loadContabilita();
+    this.activatedRoute.parent.paramMap.pipe(
+      switchMap(params => {
+      this.contractId = params.get('contractId');
+      console.log(this.contractId);
+      // switchToContract per il titolo del contratto
+      return this.registroService.loadRegistro(this.contractId);
+    }))
+    .subscribe();
   }
 
   // openDialogInserimentoRegistro() {

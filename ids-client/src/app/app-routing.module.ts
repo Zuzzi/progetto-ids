@@ -13,7 +13,7 @@ import {UserProfileComponent} from './components/user-profile/user-profile.compo
 
 const routes: Routes = [
   {path: 'welcome', component: WelcomeComponent},
-  {path: 'area-riservata', component: AreaRiservataComponent, children: [
+  {path: 'area-riservata/:contractId', component: AreaRiservataComponent, children: [
     {
       path: 'home',
       component: HomeComponent,
@@ -25,12 +25,12 @@ const routes: Routes = [
       outlet: 'reserved'
     },
     {
-      path: 'libretto/:contractId',
+      path: 'libretto',
       component: LibrettoComponent,
       outlet: 'reserved'
     },
     {
-      path: 'registro/:contractId',
+      path: 'registro',
       component: RegistroComponent,
       outlet: 'reserved'
     },

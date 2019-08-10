@@ -12,10 +12,10 @@
 
     <div class="col-md-6" style="text-align: center; margin-bottom: 10px">
 
-      <button *ngIf="isRupLogged" type="button" class="btn btn-outline-warning btn-sm"
+      <button *ngIf="isRupLogged && (dataSource | async)" type="button" class="btn btn-outline-warning btn-sm"
         style="float: right; top: 20%; position:relative" (click)='openDialogConfermaLibretto()'>Approva Misure</button>
 
-      <button *ngIf="isDirettoreLogged" type="button" class="btn btn-outline-warning btn-sm"
+      <button *ngIf="isDirettoreLogged && (dataSource | async)" type="button" class="btn btn-outline-warning btn-sm"
         style="float: right; position:relative" (click)='openDialogInserimento()'>Inserisci nuova voce</button>
     </div>
   </div>

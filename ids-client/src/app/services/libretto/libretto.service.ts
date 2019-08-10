@@ -1,6 +1,6 @@
 import { Injectable, Inject } from '@angular/core';
-import { BehaviorSubject, Observable, from, forkJoin } from 'rxjs';
-import { concatMap, take } from 'rxjs/operators';
+import { Subject, Observable, from, forkJoin } from 'rxjs';
+import { concatMap, take, map, tap } from 'rxjs/operators';
 import {Misura, ContractType, DialogInserimentoMisura} from '@app/interfaces';
 import { Contract } from 'web3-eth-contract';
 import { BlockchainService } from '@app/services/blockchain/blockchain.service';
@@ -14,7 +14,7 @@ import { AbiItem, toChecksumAddress } from 'web3-utils';
 export class LibrettoService {
   private readonly TYPE: ContractType = 'libretto';
   // TODO: valuta utilizzo replaysubject(1)
-  private misureStream: BehaviorSubject<Misura[]>;
+  private misureStream: Subject<Misura[]>;
   misure: Observable<Misura[]>;
   private misureStore: Misura[];
   private contractId: string;
@@ -22,14 +22,12 @@ export class LibrettoService {
 
   constructor(private blockchainService: BlockchainService,
               private authService: AuthService) {
-    this.misureStream =  new BehaviorSubject([]) as BehaviorSubject<Misura[]>;
+    this.misureStream =  new Subject() as Subject<Misura[]>;
     this.misureStore = [];
     this.misure = this.misureStream.asObservable();
   }
 
-  init(contractId: string) {
-    this.misureStore = [];
-    this.misureStream.next(Object.assign({}, this.misureStore));
+  switchToContract(contractId: string) {
     if (!(this.contractId === contractId)) {
       this.contractId = contractId;
       const abi: AbiItem[] = contractABI as AbiItem[];
@@ -42,11 +40,23 @@ export class LibrettoService {
     }
   }
 
+  loadLibretto(contractId) {
+    this.switchToContract(contractId);
+    return this.loadMisure();
+    // aggiorna titolo con info contratto
+  }
+
   loadMisure() {
-    this.getMisure().subscribe(misure => {
-      this.misureStore = this.formatMisure(misure);
-      this.misureStream.next(Object.assign([], this.misureStore));
-    });
+    return this.getMisure().pipe(
+      tap(misure => {
+        this.updateMisure(misure);
+      })
+    );
+  }
+
+  updateMisure(misure) {
+    this.misureStore = this.formatMisure(misure);
+    this.misureStream.next(Object.assign([], this.misureStore));
   }
 
   getMisure() {
@@ -67,12 +77,7 @@ export class LibrettoService {
     .numberToSigned64x64(misura.percentuale).toString().replace('+', '');
     const insert = this.contract.methods.inserisciMisura(misura.categoriaContabile,
       misura.descrizione, percentuale, misura.riserva);
-    this.blockchainService
-      .newTransaction(insert, this.contract.address)
-      .subscribe(() => {
-        console.log('Transaction completed !');
-        this.loadMisure();
-      });
+    return this.blockchainService .newTransaction(insert, this.contract.address);
   }
 
   invalidaMisura(noMisura: Misura['no']) {

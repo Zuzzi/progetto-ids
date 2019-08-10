@@ -41,7 +41,8 @@ export class DialogBodyLoginComponent implements OnInit {
           // console.log('user data: ' + userTitle);
           localStorage.setItem('title', userTitle);
           this.dialogRef.close();
-          this.router.navigate(['/area-riservata', {outlets: { reserved: ['home']}}]);
+          const firstContract = this.authService.getContracts()[0];
+          this.router.navigate(['/area-riservata', firstContract._id, {outlets: { reserved: ['home']}}]);
         } else {
             alert('Wrong credentials!');
           }

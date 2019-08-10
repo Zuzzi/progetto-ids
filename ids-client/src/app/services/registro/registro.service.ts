@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, from, forkJoin } from 'rxjs';
-import { concatMap, take } from 'rxjs/operators';
+import { concatMap, take, tap } from 'rxjs/operators';
 import {VoceRegistro, ContractType, DialogInserimentoMisura} from '@app/interfaces';
 import {WEB3} from '@app/web3.token';
 import Web3 from 'web3';
@@ -30,9 +30,7 @@ export class RegistroService {
     this.vociRegistro = this.vociRegistroStream.asObservable();
   }
 
-  init(contractId: string) {
-    this.vociRegistroStore = [];
-    this.vociRegistroStream.next(Object.assign({}, this.vociRegistroStore));
+  switchToContract(contractId: string) {
     if (!(this.contractId === contractId)) {
       this.contractId = contractId;
       const abi: AbiItem[] = contractABI as AbiItem[];
@@ -45,12 +43,25 @@ export class RegistroService {
     }
   }
 
-  loadContabilita() {
-    this.getContabilita().subscribe(vociRegistro => {
-      this.vociRegistroStore = this.formatContabilita(vociRegistro);
-      this.vociRegistroStream.next(Object.assign([], this.vociRegistroStore));
-    });
+  loadRegistro(contractId) {
+    this.switchToContract(contractId);
+    return this.loadContabilita();
+    // aggiorna titolo con info contratto
   }
+
+  loadContabilita() {
+    return this.getContabilita().pipe(
+      tap(vociRegistro => {
+        this.updateContabilita(vociRegistro);
+      })
+    );
+  }
+
+  updateContabilita(vociRegistro) {
+    this.vociRegistroStore = this.formatContabilita(vociRegistro);
+    this.vociRegistroStream.next(Object.assign([], this.vociRegistroStore));
+  }
+
 
   getContabilita() {
     return from(this.contract.methods.numeroContabilita().call()).pipe(
