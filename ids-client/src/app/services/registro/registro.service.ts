@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable, from, forkJoin } from 'rxjs';
+import { BehaviorSubject, Observable, from, forkJoin, Subject } from 'rxjs';
 import { concatMap, take, tap } from 'rxjs/operators';
 import {VoceRegistro, ContractType, DialogInserimentoMisura} from '@app/interfaces';
 import {WEB3} from '@app/web3.token';
@@ -17,7 +17,7 @@ export class RegistroService {
 
   private readonly TYPE: ContractType = 'registro';
   // TODO: valuta utilizzo replaysubject(1)
-  private vociRegistroStream: BehaviorSubject<VoceRegistro[]>;
+  private vociRegistroStream: Subject<VoceRegistro[]>;
   vociRegistro: Observable<VoceRegistro[]>;
   private vociRegistroStore: VoceRegistro[];
   private contractId: string;
@@ -25,7 +25,7 @@ export class RegistroService {
 
   constructor(private blockchainService: BlockchainService,
               private authService: AuthService) {
-    this.vociRegistroStream =  new BehaviorSubject([]) as BehaviorSubject<VoceRegistro[]>;
+    this.vociRegistroStream =  new Subject() as Subject<VoceRegistro[]>;
     this.vociRegistroStore = [];
     this.vociRegistro = this.vociRegistroStream.asObservable();
   }

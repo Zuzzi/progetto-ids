@@ -13,38 +13,34 @@ import {UserProfileComponent} from './components/user-profile/user-profile.compo
 
 const routes: Routes = [
   {path: 'welcome', component: WelcomeComponent},
-  {path: 'area-riservata/:contractId', component: AreaRiservataComponent, children: [
+  {path: 'area-riservata/contract/:contractId', component: AreaRiservataComponent, children: [
     {
       path: 'home',
       component: HomeComponent,
-      outlet: 'reserved'
     },
     {
       path: 'giornale',
       component: GiornaleComponent,
-      outlet: 'reserved'
     },
     {
       path: 'libretto',
       component: LibrettoComponent,
-      outlet: 'reserved'
     },
     {
       path: 'registro',
       component: RegistroComponent,
-      outlet: 'reserved'
     },
     {
       path: 'sal',
       component: SalComponent,
-      outlet: 'reserved'
     },
+  ]},
+  {path: 'area-riservata', component: AreaRiservataComponent, children: [
     {
       path: 'user-profile',
       component: UserProfileComponent,
-      outlet: 'reserved'
     },
-  ] },
+  ]}
 ];
 
 @NgModule({
