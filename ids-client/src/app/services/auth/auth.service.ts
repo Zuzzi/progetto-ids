@@ -1,10 +1,11 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import {map} from 'rxjs/operators';
-import {User, ContractType} from '@app/interfaces';
+import {User, SmartContractType, UserTitle} from '@app/interfaces';
 import { userInfo } from 'os';
 import { UserProfileComponent } from '@app/components/user-profile/user-profile.component';
-import { BlockchainService } from '../blockchain/blockchain.service';
+import { BlockchainService } from '@app/services/blockchain/blockchain.service';
+import { UserService} from '@app/services/user/user.service';
 
 @Injectable({
   providedIn: 'root'
@@ -12,10 +13,11 @@ import { BlockchainService } from '../blockchain/blockchain.service';
 
 export class AuthService {
 
-  private user: User;
+  // private user: User;
 
-  constructor(private http: HttpClient, private blockchainService: BlockchainService) {
-    this.user = new User();
+  constructor(private http: HttpClient, private blockchainService: BlockchainService,
+              private userService: UserService) {
+    // this.user = new User();
    }
 
   validateLogin(username, password) {
@@ -26,51 +28,41 @@ export class AuthService {
     })
     .pipe(map(result => {
       if (result['status'] === 'success' ) {
-        this.user = result['data'];
-        this.blockchainService.unlockAccount(this.user.keystore, password);
-        return {success: true, userDetail: result['data']};
+        const user = result['data'];
+        this.userService.setUser(user);
+        this.blockchainService.unlockAccount(user.keystore, password);
+        return {success: true, userDetail: user};
       } else {
         return {success: false, userDetail: null };
       }
     }));
   }
 
-  getUser() {
-    console.log(this.user);
-    return this.user;
-  }
+  // getUser() {
+  //   console.log(this.user);
+  //   return this.user;
+  // }
 
-  getContracts() {
-    return this.user.contracts;
-  }
+  // getContracts() {
+  //   return this.user.contracts;
+  // }
 
+  // titleCheck(title: UserTitle) {
+  //   let test = false;
+  //   if (this.user.title !== null ) {
+  //     if (this.user.title === title) {
+  //               test = true;
+  //     } else {
+  //       test = false;
+  //     }
+  //   }
+  //   return test;
+  // }
 
-  setUser(usermod){
-    //Da implementare
-    console.log("ciao" + usermod.nome);
-    return this.http.post('/api/user/setUser', usermod);
-  }
-  //TODO: non usare lo storage ma direttamente this.user
-  titleCheck(title) {
-    let test = false;
-    if (localStorage.getItem('title') !== null ) {
-      const titleStoraged = localStorage.getItem('title');
-      if (titleStoraged.valueOf() === title.valueOf()) {
-                test = true;
-                console.log('sono uguali');
-      } else {
-        console.log('sono diversi');
-        test = false;
-    }
-    }
-    return test;
-
-  }
-
-  getAddress(contractId: string, type: ContractType): string {
-    const contract = this.user.contracts.find(element => element._id === contractId);
-    return contract[type].address;
-  }
+  // getAddress(contractId: string, type: SmartContractType): string {
+  //   const contract = this.user.contracts.find(element => element._id === contractId);
+  //   return contract[type].address;
+  // }
 
 
 }

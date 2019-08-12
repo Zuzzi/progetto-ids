@@ -1,10 +1,30 @@
 import { Unit } from 'web3-utils';
 import { Timestamp } from 'rxjs/internal/operators/timestamp';
 import { EncryptedKeystoreV3Json } from 'web3-eth-accounts';
+import { Contract } from 'web3-eth-contract';
 
-export type ContractType =  'libretto' | 'registro' | 'sal' | 'giornale';
+export enum SmartContractType {
+  Libretto = 'libretto',
+  Registro = 'registro',
+  Sal = 'sal',
+  Giornale = 'giornale',
+  Parametri = 'parametri',
+}
 
-export type UserType = 'direttore' | 'ditta' | 'rup';
+export enum UserTitle {
+  Direttore = 'direttore',
+  Ditta = 'ditta',
+  Rup = 'rup',
+}
+
+export class SmartContract<T extends SmartContractType> {
+  type: T;
+  instance: Contract;
+  constructor(type: T, instance: Contract) {
+    this.type = type;
+    this.instance = instance;
+  }
+}
 
 export interface Misura {
   no: number;

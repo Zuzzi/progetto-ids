@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import {AuthService} from '@app/services/auth/auth.service';
 import {Router} from '@angular/router';
+import { UserTitle } from '@app/interfaces';
+import { UserService } from '@app/services/user/user.service';
 
 
 @Component({
@@ -20,11 +22,11 @@ export class AreaRiservataComponent implements OnInit {
   isDittaLogged: boolean;
   user;
 
-  constructor(private authService: AuthService, private router: Router) { }
+  constructor(private userService: UserService, private router: Router) { }
 
   ngOnInit() {
-    this.isDirettoreLogged = this.authService.titleCheck('direttore');
-    this.user = this.authService.getUser();
+    this.isDirettoreLogged = this.userService.titleCheck(UserTitle.Direttore);
+    this.user = this.userService.getUser();
 
   }
 

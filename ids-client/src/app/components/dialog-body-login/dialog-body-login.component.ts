@@ -4,6 +4,7 @@ import {Router} from '@angular/router';
 import {AuthService} from '@app/services/auth/auth.service';
 import { BlockchainService } from '@app/services/blockchain/blockchain.service';
 import {concatMap} from 'rxjs/operators';
+import { UserService } from '@app/services/user/user.service';
 
 
 
@@ -20,7 +21,7 @@ export class DialogBodyLoginComponent implements OnInit {
   credentialsMistake: boolean;
 
   constructor(public dialogRef: MatDialogRef<DialogBodyLoginComponent>, private router: Router,
-              private authService: AuthService,
+              private userService: UserService, private authService: AuthService,
               private blockchainService: BlockchainService) { }
 
   ngOnInit() {
@@ -31,17 +32,16 @@ export class DialogBodyLoginComponent implements OnInit {
     if (this.username && this.password) {
         this.authService.validateLogin(this.username, this.password)
         .subscribe(result => {
-        console.log('result is ', result);
         if (result.success) {
           const userDetail = result.userDetail;
           console.log('contratti:'+ userDetail.contracts);
           // this.blockchainService.loadContracts(userDetail.contracts);
           // this.blockchainService.unlockAccount(userDetail.keystore, userDetail.password);
-          const userTitle = userDetail.title;
+          //onst userTitle = userDetail.title;
           // console.log('user data: ' + userTitle);
-          localStorage.setItem('title', userTitle);
+          //localStorage.setItem('title', userTitle);
+          const firstContract = this.userService.getContracts()[0];
           this.dialogRef.close();
-          const firstContract = this.authService.getContracts()[0];
           this.router.navigate(['/area-riservata/contract', firstContract._id, 'home']);
         } else {
             alert('Wrong credentials!');

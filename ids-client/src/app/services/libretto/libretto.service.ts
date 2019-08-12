@@ -1,7 +1,7 @@
 import { Injectable, Inject } from '@angular/core';
 import { Subject, Observable, from, forkJoin } from 'rxjs';
 import { concatMap, take, map, tap } from 'rxjs/operators';
-import {Misura, ContractType, DialogInserimentoMisura} from '@app/interfaces';
+import {Misura, SmartContractType, DialogInserimentoMisura, SmartContract} from '@app/interfaces';
 import { Contract } from 'web3-eth-contract';
 import { BlockchainService } from '@app/services/blockchain/blockchain.service';
 import { AuthService } from '../auth/auth.service';
@@ -12,13 +12,12 @@ import { AbiItem, toChecksumAddress } from 'web3-utils';
   providedIn: 'root'
 })
 export class LibrettoService {
-  private readonly TYPE: ContractType = 'libretto';
-  // TODO: valuta utilizzo replaysubject(1)
+  // private readonly TYPE: ContractType = 'libretto';
   private misureStream: Subject<Misura[]>;
   misure: Observable<Misura[]>;
   private misureStore: Misura[];
-  private contractId: string;
-  private contract: Contract;
+  // private contractId: string;
+  // private contract: Contract;
 
   constructor(private blockchainService: BlockchainService,
               private authService: AuthService) {
@@ -27,63 +26,59 @@ export class LibrettoService {
     this.misure = this.misureStream.asObservable();
   }
 
-  switchToContract(contractId: string) {
-    if (!(this.contractId === contractId)) {
-      this.contractId = contractId;
-      const abi: AbiItem[] = contractABI as AbiItem[];
-      // TODO: gestire il caso in cui l'id del contratto non si trova tra quelli dell'utente
-      const address = this.authService.getAddress(contractId, this.TYPE);
-      // TODO: spostare creazione istanza contratto in blockchain
-      // in modo da non utilizzare web3 direttamente qui
-      const web3 = this.blockchainService.getWeb3();
-      this.contract = new web3.eth.Contract(abi, address);
-    }
-  }
+  // switchToContract(contractId: string) {
+  //   if (!(this.contractId === contractId)) {
+  //     this.contractId = contractId;
+  //     const abi: AbiItem[] = contractABI as AbiItem[];
+  //     // TODO: gestire il caso in cui l'id del contratto non si trova tra quelli dell'utente
+  //     const address = this.authService.getAddress(contractId, this.TYPE);
+  //     // TODO: spostare creazione istanza contratto in blockchain
+  //     // in modo da non utilizzare web3 direttamente qui
+  //     const web3 = this.blockchainService.getWeb3();
+  //     this.contract = new web3.eth.Contract(abi, address);
+  //   }
+  // }
 
-  loadLibretto(contractId) {
-    this.switchToContract(contractId);
-    return this.loadMisure();
-    // aggiorna titolo con info contratto
-  }
 
-  loadMisure() {
-    return this.getMisure().pipe(
-      tap(misure => {
-        this.updateMisure(misure);
+
+  loadMisure(contract: SmartContract<SmartContractType.Libretto>) {
+    return this.getMisure(contract).pipe(
+      map(misure => {
+        return this.formatMisure(misure);
       })
     );
   }
 
   updateMisure(misure) {
-    this.misureStore = this.formatMisure(misure);
+    this.misureStore = misure;
     this.misureStream.next(Object.assign([], this.misureStore));
   }
 
-  getMisure() {
-    return from(this.contract.methods.getNumeroMisure().call()).pipe(
-      take(1),
+  getMisure(contract: SmartContract<SmartContractType.Libretto>) {
+    return from(contract.instance.methods.getNumeroMisure().call()).pipe(
       concatMap(numeroMisure => {
         const misure: any[] = [];
         for (let i = 0; i < numeroMisure; i++) {
-          misure.push(from(this.contract.methods.getMisura(i).call()));
+          misure.push(from(contract.instance.methods.getMisura(i).call()));
         }
         return forkJoin(misure);
       }),
+      take(1), // per sicurezza anche se gli observable generati da promise completano dopo una singola emissione
     );
   }
 
-  insertMisura(misura: DialogInserimentoMisura) {
+  insertMisura(contract: SmartContract<SmartContractType.Libretto>, misura: DialogInserimentoMisura) {
     const percentuale = this.blockchainService
     .numberToSigned64x64(misura.percentuale).toString().replace('+', '');
-    const insert = this.contract.methods.inserisciMisura(misura.categoriaContabile,
+    const insert = contract.instance.methods.instance.inserisciMisura(misura.categoriaContabile,
       misura.descrizione, percentuale, misura.riserva);
-    return this.blockchainService .newTransaction(insert, this.contract.address);
+    return this.blockchainService.newTransaction(insert, contract.instance.address);
   }
 
-  invalidaMisura(noMisura: Misura['no']) {
-    const invalidation = this.contract.methods.invalidaMisura(noMisura);
+  invalidaMisura(contract: SmartContract<SmartContractType.Libretto>, noMisura: Misura['no']) {
+    const invalidation = contract.instance.methods.invalidaMisura(noMisura);
     return this.blockchainService
-      .newTransaction(invalidation, this.contract.address);
+      .newTransaction(invalidation, contract.instance.address);
   }
 
   formatMisure(misure) {

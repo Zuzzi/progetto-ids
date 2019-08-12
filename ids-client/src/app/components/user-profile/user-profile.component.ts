@@ -5,6 +5,7 @@ import { FormGroup, FormControlName } from '@angular/forms';
 import { FormBuilder } from '@angular/forms';
 import { formGroupNameProvider } from '@angular/forms/src/directives/reactive_directives/form_group_name';
 import { formControlBinding } from '@angular/forms/src/directives/ng_model';
+import { UserService } from '@app/services/user/user.service';
 
 @Component({
   selector: 'app-user-profile',
@@ -13,16 +14,16 @@ import { formControlBinding } from '@angular/forms/src/directives/ng_model';
 })
 export class UserProfileComponent implements OnInit {
 
-  modificaUserForm : FormGroup;
+  modificaUserForm: FormGroup;
   private user: User;
 
-  constructor(private authService: AuthService, private formBuilder: FormBuilder) { 
+  constructor(private userService: UserService, private formBuilder: FormBuilder) {
     this.user = new User();
   }
 
   ngOnInit() {
 
-    this.user = this.authService.getUser();
+    this.user = this.userService.getUser();
 
     this.modificaUserForm = this.formBuilder.group({
       nome: [this.user.nome],
@@ -39,23 +40,23 @@ export class UserProfileComponent implements OnInit {
   }
 
   setUser() {
-    let usermod: User;
-    usermod = new User();
+    // let usermod: User;
+    // usermod = new User();
 
-    console.log('valori tasto conferma: ' + this.modificaUserForm.controls.nome.value)
+    // console.log('valori tasto conferma: ' + this.modificaUserForm.controls.nome.value)
 
-    usermod.nome = this.modificaUserForm.controls.nome.value;
-    usermod.cognome = this.modificaUserForm.controls.cognome.value;
-    usermod.data = this.modificaUserForm.controls.data.value;
-    usermod.codiceFiscale = this.modificaUserForm.controls.codiceFiscale.value;
-    usermod.residenza = this.modificaUserForm.controls.residenza.value;
-    usermod.email = this.modificaUserForm.controls.email.value;
-    usermod.telefono = this.modificaUserForm.controls.telefono.value;
-    usermod.citta = this.modificaUserForm.controls.citta.value;
-    usermod.provincia = this.modificaUserForm.controls.provincia.value;
-    usermod.CAP = this.modificaUserForm.controls.CAP.value;
+    // usermod.nome = this.modificaUserForm.controls.nome.value;
+    // usermod.cognome = this.modificaUserForm.controls.cognome.value;
+    // usermod.data = this.modificaUserForm.controls.data.value;
+    // usermod.codiceFiscale = this.modificaUserForm.controls.codiceFiscale.value;
+    // usermod.residenza = this.modificaUserForm.controls.residenza.value;
+    // usermod.email = this.modificaUserForm.controls.email.value;
+    // usermod.telefono = this.modificaUserForm.controls.telefono.value;
+    // usermod.citta = this.modificaUserForm.controls.citta.value;
+    // usermod.provincia = this.modificaUserForm.controls.provincia.value;
+    // usermod.CAP = this.modificaUserForm.controls.CAP.value;
 
-    this.authService.setUser(usermod);
+    // this.authService.setUser(usermod);
   }
 
 }

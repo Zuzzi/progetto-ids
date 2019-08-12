@@ -9,11 +9,13 @@ import { ActivatedRoute } from '@angular/router';
 import { BlockchainService } from '@app/services/blockchain/blockchain.service';
 // import {map} from 'rxjs/operators';
 import {LibrettoService} from '@app/services/libretto/libretto.service';
-import { DialogInserimentoMisura, Misura } from '@app/interfaces';
+import { DialogInserimentoMisura, Misura, UserTitle, SmartContract, SmartContractType } from '@app/interfaces';
 import { DialogBodyInvalidamisuraComponent } from '@app/components/dialog-body-invalidamisura/dialog-body-invalidamisura.component';
 import { RegistroService } from '@app/services/registro/registro.service';
 import { filter, switchMap } from 'rxjs/operators';
 import {MatButtonModule} from '@angular/material/button';
+import { UserService } from '@app/services/user/user.service';
+import { Observable } from 'rxjs';
 
 
 
@@ -33,25 +35,33 @@ export class LibrettoComponent implements OnInit, OnDestroy {
   isDittaLogged: boolean;
   dialogInserimentoData: DialogInserimentoMisura = {categoriaContabile: '',
   descrizione: '', percentuale: null, riserva: ''};
+  libretto: SmartContract<SmartContractType.Libretto>;
+  registro: SmartContract<SmartContractType.Registro>;
+  routeSub: any;
 
-  constructor(private dialog: MatDialog, private authService: AuthService,
+  constructor(private dialog: MatDialog, private userService: UserService,
               private activatedRoute: ActivatedRoute, private blockchainService: BlockchainService,
               private librettoService: LibrettoService,
               private registroService: RegistroService) { }
 
   ngOnInit() {
-    this.isRupLogged = this.authService.titleCheck('rup');
-    this.isDirettoreLogged = this.authService.titleCheck('direttore');
-    this.isDittaLogged = this.authService.titleCheck('ditta');
+    this.isRupLogged = this.userService.titleCheck(UserTitle.Rup);
+    this.isDirettoreLogged = this.userService.titleCheck(UserTitle.Direttore);
+    this.isDittaLogged = this.userService.titleCheck(UserTitle.Ditta);
     this.dataSource = this.librettoService.misure;
-    this.activatedRoute.parent.paramMap.pipe(
+    this.routeSub = this.activatedRoute.parent.paramMap.pipe(
       switchMap(params => {
       this.contractId = params.get('contractId');
       console.log(this.contractId);
       // switchToContract per il titolo del contratto
-      return this.librettoService.loadLibretto(this.contractId);
-    }))
-    .subscribe();
+      this.libretto = this.blockchainService.getSmartContract(this.contractId,
+        SmartContractType.Libretto) as SmartContract<SmartContractType.Libretto>;
+      this.registro = this.blockchainService.getSmartContract(this.contractId,
+        SmartContractType.Registro) as SmartContract<SmartContractType.Registro>;
+      return this.librettoService.loadMisure(this.libretto);
+    })).subscribe(misure => {
+      this.librettoService.updateMisure(misure);
+    });
 }
   // TODO: Modificare passaggio valori per renderlo più ordinato
   openDialogInserimento(): void {
@@ -86,7 +96,7 @@ export class LibrettoComponent implements OnInit, OnDestroy {
     const dialogRef = this.dialog.open(DialogBodyApprovazionemisureComponent);
     dialogRef.afterClosed().pipe(filter(action => action))
       .subscribe( () => {
-      this.approvaMisure();
+        this.approvaMisure();
     });
   }
 
@@ -102,34 +112,37 @@ export class LibrettoComponent implements OnInit, OnDestroy {
     console.log(this.dialogInserimentoData);
     // TODO: Ripartire da qui per implemetare feedback eventi transazione ad utente
     // const txEvents = this.blockchainService.txEvents;
-    this.librettoService.insertMisura(this.dialogInserimentoData).pipe(
+    this.librettoService.insertMisura(this.libretto, this.dialogInserimentoData).pipe(
       switchMap(() => {
         console.log('Transaction completed !');
-        return this.librettoService.loadMisure();
+        return this.librettoService.loadMisure(this.libretto);
       }))
-      .subscribe();
+      .subscribe(misure =>
+        this.librettoService.updateMisure(misure));
   }
 
   approvaMisure() {
-    this.registroService.switchToContract(this.contractId);
-    this.registroService.approvaMisure().pipe(
+    this.registroService.approvaMisure(this.registro).pipe(
       switchMap( () => {
         console.log('Transaction Completed !');
-        return this.librettoService.loadMisure();
+        return this.librettoService.loadMisure(this.libretto);
       }))
-      .subscribe();
+      .subscribe(misure =>
+        this.librettoService.updateMisure(misure));
   }
 
   invalidaMisura(noMisura: Misura['no']) {
-    this.librettoService.invalidaMisura(noMisura).pipe(
-    switchMap(() => {
-      console.log('Transaction completed !');
-      return this.librettoService.loadMisure();
-    }))
-    .subscribe();
+    this.librettoService.invalidaMisura(this.libretto, noMisura).pipe(
+      switchMap(() => {
+        console.log('Transaction completed !');
+        return this.librettoService.loadMisure(this.libretto);
+      }))
+      .subscribe(misure =>
+      this.librettoService.updateMisure(misure));
   }
 
   ngOnDestroy(): void {
+    this.routeSub.unsubscribe();
   }
 
 }
