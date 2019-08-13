@@ -70,7 +70,7 @@ export class LibrettoService {
   insertMisura(contract: SmartContract<SmartContractType.Libretto>, misura: DialogInserimentoMisura) {
     const percentuale = this.blockchainService
     .numberToSigned64x64(misura.percentuale).toString().replace('+', '');
-    const insert = contract.instance.methods.instance.inserisciMisura(misura.categoriaContabile,
+    const insert = contract.instance.methods.inserisciMisura(misura.categoriaContabile,
       misura.descrizione, percentuale, misura.riserva);
     return this.blockchainService.newTransaction(insert, contract.instance.address);
   }
