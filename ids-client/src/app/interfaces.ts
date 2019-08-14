@@ -60,6 +60,19 @@ export interface VoceRegistro {
   debitoPercentuale: number;
   pagata: boolean;
 }
+
+export interface Sal {
+  no: number;
+  tariffa: string;
+  data: number;
+  categoriaContabile: string;
+  descrizione: string;
+  percentuale: number;
+  prezzoValore: number;
+  prezzoPercentuale: number;
+  debitoValore: number;
+  debitoPercentuale: number;
+}
 export class User {
   username: string;
   password: string;
@@ -77,6 +90,7 @@ export class User {
   keystore: EncryptedKeystoreV3Json;
   contracts: ContractSchema[];
 }
+
 
 export interface ContractSchema {
   _id: string;
