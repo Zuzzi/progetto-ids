@@ -7,12 +7,12 @@ import { Router } from '@angular/router';
   templateUrl: './dialog-body-approvazionemisure.component.html',
   styleUrls: ['./dialog-body-approvazionemisure.component.css']
 })
-export class DialogBodyApprovazionemisureComponent implements OnInit {
+export class DialogBodyApprovazionemisureComponent {
 
   constructor(public dialogRef: MatDialogRef<DialogBodyApprovazionemisureComponent>, private router: Router) { }
 
-  ngOnInit() {
-  }
+  // ngOnInit() {
+  // }
 
   //utilizzando la direttiva mat-dialog-close questi metodo non servono
 

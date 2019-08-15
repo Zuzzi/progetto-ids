@@ -5,10 +5,11 @@ import { DialogBodyApprovazioneComponent } from '@app/components/dialog-body-app
 import {AuthService} from '@app/services/auth/auth.service';
 import { ActivatedRoute } from '@angular/router';
 import { RegistroService } from '@app/services/registro/registro.service';
-import { switchMap } from 'rxjs/operators';
+import { switchMap, filter } from 'rxjs/operators';
 import { UserTitle, SmartContract, SmartContractType } from '@app/interfaces';
 import { BlockchainService } from '@app/services/blockchain/blockchain.service';
 import { UserService } from '@app/services/user/user.service';
+import { SalService } from '@app/services/sal/sal.service';
 
 @Component({
   selector: 'app-registro',
@@ -25,14 +26,17 @@ export class RegistroComponent implements OnInit, OnDestroy {
   isRupLogged: boolean;
   isDittaLogged: boolean;
   registro: SmartContract<SmartContractType.Registro>;
+  sal: SmartContract<SmartContractType.Sal>;
   routeSub: any;
 
   constructor(private dialog: MatDialog, private userService: UserService,
               private activatedRoute: ActivatedRoute, private blockchainService: BlockchainService,
-              private registroService: RegistroService) { }
+              private registroService: RegistroService, private salService: SalService) { }
 
   ngOnInit() {
-    this.isRupLogged = this.userService.titleCheck(UserTitle.Rup);
+    // TODO: rimuovere questa modifica temporanea per testare conferma registro.
+    // this.isRupLogged = this.userService.titleCheck(UserTitle.Rup);
+    this.isRupLogged = true;
     this.isDirettoreLogged = this.userService.titleCheck(UserTitle.Direttore);
     this.isDittaLogged = this.userService.titleCheck(UserTitle.Ditta);
     this.dataSource = this.registroService.vociRegistro;
@@ -43,6 +47,8 @@ export class RegistroComponent implements OnInit, OnDestroy {
       // switchToContract per il titolo del contratto
       this.registro = this.blockchainService.getSmartContract(this.contractId,
         SmartContractType.Registro) as SmartContract<SmartContractType.Registro>;
+      this.sal = this.blockchainService.getSmartContract(this.contractId,
+        SmartContractType.Sal) as SmartContract<SmartContractType.Sal>;
       return this.registroService.loadContabilita(this.registro);
     }))
     .subscribe(vociRegistro =>
@@ -58,9 +64,20 @@ export class RegistroComponent implements OnInit, OnDestroy {
 
   openDialogConfermaRegistro() {
     const dialogRef = this.dialog.open(DialogBodyApprovazioneComponent);
-    dialogRef.afterClosed().subscribe(value => {
-      console.log(`Dialog sent: ${value}`);
+    dialogRef.afterClosed().pipe(filter(action => action))
+      .subscribe( () => {
+        this.approvaRegistro();
     });
+  }
+
+  approvaRegistro() {
+    this.salService.approvaRegistro(this.sal).pipe(
+      switchMap( () => {
+        console.log('Transaction Completed !');
+        return this.registroService.loadContabilita(this.registro);
+      }))
+      .subscribe(vociRegistro =>
+        this.registroService.updateContabilita(vociRegistro));
   }
 
   ngOnDestroy() {

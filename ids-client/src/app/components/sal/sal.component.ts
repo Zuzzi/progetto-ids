@@ -1,5 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import {animate, state, style, transition, trigger} from '@angular/animations';
+import { SalService } from '@app/services/sal/sal.service';
+import { ActivatedRoute } from '@angular/router';
+import { switchMap } from 'rxjs/operators';
+import { SmartContract, SmartContractType } from '@app/interfaces';
+import { BlockchainService } from '@app/services/blockchain/blockchain.service';
 
 
 @Component({
@@ -14,16 +19,37 @@ import {animate, state, style, transition, trigger} from '@angular/animations';
     ]),
   ],
 })
-export class SalComponent implements OnInit {
+export class SalComponent implements OnInit, OnDestroy {
 
+  contractId: string;
   columnsToDisplay = ['id_soglia', 'importo', 'data_approvazione'];
   internalColumns = ['id', 'tariffa', 'data', 'indicazione', 'quantita', 'importounitario', 'aliquote1', 'importototale', 'aliquote2'];
   dataSource = ELEMENT_DATA;
   expandedElement: PeriodicElement | null;
+  routeSub: any;
+  sal: SmartContract<SmartContractType.Sal>;
 
-  constructor() { }
+  constructor(private salService: SalService, private activatedRoute: ActivatedRoute,
+              private blockchainService: BlockchainService) { }
 
   ngOnInit() {
+    // this.dataSource = this.salService.sal;
+    this.routeSub = this.activatedRoute.parent.paramMap.pipe(
+      switchMap(params => {
+      this.contractId = params.get('contractId');
+      console.log(this.contractId);
+      // switchToContract per il titolo del contratto
+      this.sal = this.blockchainService.getSmartContract(this.contractId,
+        SmartContractType.Sal) as SmartContract<SmartContractType.Sal>;
+      return this.salService.loadSal(this.sal);
+    })).subscribe(sal => {
+      this.salService.updateSal(sal);
+      console.log(sal);
+    });
+  }
+
+  ngOnDestroy(): void {
+    this.routeSub.unsubscribe();
   }
 }
 
@@ -40,8 +66,9 @@ export interface PeriodicElement {
   aliquote1: number;
   importototale: number;
   aliquote2: number;
-
  }
+
+
 
  const ELEMENT_DATA: PeriodicElement[] = [
    // tslint:disable-next-line:max-line-length
