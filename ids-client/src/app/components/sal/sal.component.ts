@@ -3,7 +3,7 @@ import {animate, state, style, transition, trigger} from '@angular/animations';
 import { SalService } from '@app/services/sal/sal.service';
 import { ActivatedRoute } from '@angular/router';
 import { switchMap } from 'rxjs/operators';
-import { SmartContract, SmartContractType } from '@app/interfaces';
+import { SmartContract, SmartContractType, Sal } from '@app/interfaces';
 import { BlockchainService } from '@app/services/blockchain/blockchain.service';
 
 
@@ -22,18 +22,20 @@ import { BlockchainService } from '@app/services/blockchain/blockchain.service';
 export class SalComponent implements OnInit, OnDestroy {
 
   contractId: string;
-  columnsToDisplay = ['id_soglia', 'importo', 'data_approvazione'];
-  internalColumns = ['id', 'tariffa', 'data', 'indicazione', 'quantita', 'importounitario', 'aliquote1', 'importototale', 'aliquote2'];
-  dataSource = ELEMENT_DATA;
-  expandedElement: PeriodicElement | null;
+  columnsToDisplay = ['no', 'valore', 'data'];
+  internalColumns = ['no', 'tariffa', 'data', 'categoriaContabile', 'descrizione',
+  'percentuale', 'prezzoValore', 'prezzoPercentuale', 'debitoValore', 'debitoPercentuale'];
+  dataSource;
+  expandedElement: Sal[] | null;
   routeSub: any;
   sal: SmartContract<SmartContractType.Sal>;
+  parametri: SmartContract<SmartContractType.Parametri>;
 
   constructor(private salService: SalService, private activatedRoute: ActivatedRoute,
               private blockchainService: BlockchainService) { }
 
   ngOnInit() {
-    // this.dataSource = this.salService.sal;
+    this.dataSource = this.salService.sal;
     this.routeSub = this.activatedRoute.parent.paramMap.pipe(
       switchMap(params => {
       this.contractId = params.get('contractId');
@@ -41,7 +43,9 @@ export class SalComponent implements OnInit, OnDestroy {
       // switchToContract per il titolo del contratto
       this.sal = this.blockchainService.getSmartContract(this.contractId,
         SmartContractType.Sal) as SmartContract<SmartContractType.Sal>;
-      return this.salService.loadSal(this.sal);
+      this.parametri = this.blockchainService.getSmartContract(this.contractId,
+        SmartContractType.Parametri) as SmartContract<SmartContractType.Parametri>;
+      return this.salService.loadSal(this.sal, this.parametri);
     })).subscribe(sal => {
       this.salService.updateSal(sal);
       console.log(sal);

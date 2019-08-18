@@ -91,6 +91,12 @@ export class User {
   contracts: ContractSchema[];
 }
 
+export interface Soglia {
+  no: number;
+  valore: number;
+  superata: boolean;
+}
+
 
 export interface ContractSchema {
   _id: string;
@@ -104,4 +110,4 @@ export interface ContractSchema {
 
 export interface SmartContractSchema {
   address: string;
-};
+}
