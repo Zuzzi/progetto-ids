@@ -7,6 +7,7 @@ import { SmartContractType, SmartContract } from '@app/interfaces';
 import { Observable, of, EMPTY, forkJoin } from 'rxjs';
 import { SalService } from '@app/services/sal/sal.service';
 import { RegistroService } from '@app/services/registro/registro.service';
+import { ParametriService } from '@app/services/parametri/parametri.service';
 
 @Component({
   selector: 'app-contratto',
@@ -20,11 +21,12 @@ export class ContrattoComponent implements OnInit, OnDestroy {
 
   constructor(private activatedRoute: ActivatedRoute, private librettoService: LibrettoService,
               private registroService: RegistroService, private salService: SalService,
+              private parametriService: ParametriService,
               private blockchainService: BlockchainService) { }
 
   ngOnInit() {
     this.routeSub = this.activatedRoute.paramMap.pipe(
-      tap(() => this.clear()),
+      // tap(() => this.clear()),
       map(params => {
         return params.get('contractId');
       }),
@@ -37,22 +39,26 @@ export class ContrattoComponent implements OnInit, OnDestroy {
     ).subscribe(valori => {
       this.librettoService.updateMisure(valori[0]);
       this.registroService.updateContabilita(valori[1]);
+      this.salService.updateSal(valori[2]);
     });
   }
 
-  clear() {
-    this.librettoService.clear();
-    this.registroService.clear();
-  }
+  // clear() {
+  //   this.librettoService.clear();
+  //   this.registroService.clear();
+  // }
 
   loadContract() {
     return forkJoin(this.librettoService.loadMisure(),
-    this.registroService.loadContabilita());
+      this.registroService.loadContabilita(), this.salService.loadSal(),
+     this.parametriService.loadSoglie());
   }
 
   switchToContract() {
     this.librettoService.switchToContract(this.contractId);
     this.registroService.switchToContract(this.contractId);
+    this.salService.switchToContract(this.contractId);
+    this.parametriService.switchToContract(this.contractId);
   }
 
   ngOnDestroy() {

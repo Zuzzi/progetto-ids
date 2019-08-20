@@ -75,7 +75,7 @@ export class RegistroComponent implements OnInit, OnDestroy {
   }
 
   approvaRegistro() {
-    this.salService.approvaRegistro(this.sal).pipe(
+    this.salService.approvaRegistro().pipe(
       switchMap( () => {
         console.log('Transaction Completed !');
         return this.registroService.loadContabilita();

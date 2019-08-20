@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable, from, forkJoin, Subject, ReplaySubject, EMPTY } from 'rxjs';
-import { concatMap, take, tap, map } from 'rxjs/operators';
+import { BehaviorSubject, Observable, from, forkJoin, Subject, ReplaySubject, EMPTY, combineLatest } from 'rxjs';
+import { concatMap, take, tap, map, filter } from 'rxjs/operators';
 import {VoceRegistro, DialogInserimentoMisura, SmartContractType, SmartContract} from '@app/interfaces';
 import {WEB3} from '@app/web3.token';
 import Web3 from 'web3';
@@ -19,14 +19,20 @@ export class RegistroService {
   private vociRegistroStream: Subject<VoceRegistro[]>;
   vociRegistro: Observable<VoceRegistro[]>;
   private vociRegistroStore: VoceRegistro[];
-  registro: SmartContract<SmartContractType.Registro>;
+  private isLoading: Subject<boolean>;
+  private registro: SmartContract<SmartContractType.Registro>;
   private contractId: string;
 
 
   constructor(private blockchainService: BlockchainService) {
     this.vociRegistroStream =  new ReplaySubject(1) as ReplaySubject<VoceRegistro[]>;
-    this.vociRegistroStore = [];
-    this.vociRegistro = this.vociRegistroStream.asObservable();
+    this.isLoading = new ReplaySubject(1) as ReplaySubject<boolean>;
+    this.vociRegistro = combineLatest(this.vociRegistroStream.asObservable(),
+    this.isLoading.asObservable()).pipe(
+      tap(([vociRegistro, isLoading]) => console.log('vociRegistro: ' + vociRegistro.length,'isloading: ' + isLoading)),
+      filter(([_, isLoading]) => !isLoading),
+      map(([vociRegistro, _]) => vociRegistro)
+    );
   }
 
   // switchToContract(contractId: string) {
@@ -48,11 +54,12 @@ export class RegistroService {
       SmartContractType.Registro) as SmartContract<SmartContractType.Registro>;
   }
 
-  clear() {
-    this.vociRegistroStream.next();
-  }
+  // clear() {
+  //   this.vociRegistroStream.next();
+  // }
 
   loadContabilita() {
+    this.isLoading.next(true);
     return this.getContabilita(this.registro).pipe(
       map(vociRegistro => {
         return this.formatContabilita(vociRegistro);
@@ -63,6 +70,7 @@ export class RegistroService {
   updateContabilita(vociRegistro) {
     this.vociRegistroStore = vociRegistro;
     this.vociRegistroStream.next(Object.assign([], this.vociRegistroStore));
+    this.isLoading.next(false);
   }
 
 

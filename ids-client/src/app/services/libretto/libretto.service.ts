@@ -1,6 +1,6 @@
 import { Injectable, Inject } from '@angular/core';
-import { Subject, Observable, from, forkJoin, ReplaySubject, BehaviorSubject, of, pipe, EMPTY } from 'rxjs';
-import { concatMap, take, map, tap, delay } from 'rxjs/operators';
+import { Subject, Observable, from, forkJoin, ReplaySubject, BehaviorSubject, of, pipe, EMPTY, combineLatest } from 'rxjs';
+import { concatMap, take, map, tap, delay, filter } from 'rxjs/operators';
 import {Misura, SmartContractType, DialogInserimentoMisura, SmartContract} from '@app/interfaces';
 import { Contract } from 'web3-eth-contract';
 import { BlockchainService } from '@app/services/blockchain/blockchain.service';
@@ -16,16 +16,22 @@ export class LibrettoService {
   private misureStream: Subject<Misura[]>;
   misure: Observable<Misura[]>;
   private misureStore: Misura[];
-  libretto: SmartContract<SmartContractType.Libretto>;
+  private isLoading: Subject<boolean>;
+  private libretto: SmartContract<SmartContractType.Libretto>;
   private contractId: string;
   // private contract: Contract;
 
-  constructor(private blockchainService: BlockchainService,
-              private authService: AuthService) {
+  constructor(private blockchainService: BlockchainService) {
     this.misureStream =  new ReplaySubject(1) as ReplaySubject<Misura[]>;
+    this.isLoading = new ReplaySubject(1) as ReplaySubject<boolean>;
     // this.misureStream.next([]);
     // this.misureStore = [];
-    this.misure = this.misureStream.asObservable();
+    this.misure = combineLatest(this.misureStream.asObservable(),
+      this.isLoading.asObservable()).pipe(
+        tap(([misure, isLoading]) => console.log('misure: ' + misure.length, 'isloading: ' + isLoading)),
+        filter(([_, isLoading]) => !isLoading),
+        map(([misure, _]) => misure)
+      );
   }
 
   switchToContract(contractId: string) {
@@ -48,12 +54,14 @@ export class LibrettoService {
   //   }
   // }
 
-  clear() {
-    this.misureStream.next();
-  }
+  // clear() {
+  //   this.misureStream.next();
+  // }
 
   loadMisure() {
+    this.isLoading.next(true);
     return this.getMisure().pipe(
+      delay(5000),
       map(misure => {
         return this.formatMisure(misure);
       })
@@ -63,6 +71,7 @@ export class LibrettoService {
   updateMisure(misure) {
     this.misureStore = misure;
     this.misureStream.next(Object.assign([], this.misureStore));
+    this.isLoading.next(false);
   }
 
   getMisure() {

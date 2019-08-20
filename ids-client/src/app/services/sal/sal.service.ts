@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Sal, SmartContractType, SmartContract } from '@app/interfaces';
-import { Observable, Subject, from, forkJoin } from 'rxjs';
-import { concatMap, take, map } from 'rxjs/operators';
+import { Observable, Subject, from, forkJoin, ReplaySubject, combineLatest } from 'rxjs';
+import { concatMap, take, map, tap, filter } from 'rxjs/operators';
 import { BlockchainService } from '../blockchain/blockchain.service';
 import { NumberFormatStyle } from '@angular/common';
 import { ParametriService } from '../parametri/parametri.service';
@@ -11,26 +11,40 @@ import { ParametriService } from '../parametri/parametri.service';
 })
 export class SalService {
 
-  private salStream: Subject<any>;
-  sal: Observable<any>;
-  private salStore: Sal[];
+  private vociSalStream: Subject<any>;
+  vociSal: Observable<any>;
+  private vociSalStore: Sal[];
+  private isLoading: Subject<boolean>;
+  sal: SmartContract<SmartContractType.Sal>;
+  private contractId: string;
   constructor(private blockchainService: BlockchainService,
               private parametriService: ParametriService) {
-    this.salStream =  new Subject() as Subject<any>;
-    this.salStore = [];
-    this.sal = this.salStream.asObservable();
+    this.vociSalStream =  new ReplaySubject(1) as ReplaySubject<any>;
+    this.isLoading = new ReplaySubject(1) as ReplaySubject<boolean>;
+    this.vociSal = combineLatest(this.vociSalStream.asObservable(),
+    this.isLoading.asObservable()).pipe(
+      tap(([vociSal, isLoading]) => console.log('misure: ' + vociSal.length, 'isloading: ' + isLoading)),
+      filter(([_, isLoading]) => !isLoading),
+      map(([vociSal, _]) => vociSal)
+    );
    }
+
+   switchToContract(contractId: string) {
+    this.contractId = contractId;
+    this.sal = this.blockchainService.getSmartContract(contractId,
+      SmartContractType.Sal) as SmartContract<SmartContractType.Sal>;
+  }
 
   // getInfoPagamento()
 
-  loadSal(contractSal: SmartContract<SmartContractType.Sal>,
-          contractParametri: SmartContract<SmartContractType.Parametri>) {
-    const vociSal = this.getSal(contractSal).pipe(
+  loadSal() {
+    this.isLoading.next(true);
+    const vociSal = this.getSal().pipe(
       map(sal => {
         return this.groupSal(this.formatSal(sal));
       })
     );
-    const soglie = this.parametriService.loadSoglie(contractParametri);
+    const soglie = this.parametriService.loadSoglie();
     return forkJoin(vociSal, soglie).pipe(
       map(sal => {
       const groupedSal = [];
@@ -45,16 +59,17 @@ export class SalService {
   }
 
   updateSal(sal) {
-    this.salStore = sal;
-    this.salStream.next(Object.assign([], this.salStore));
+    this.vociSalStore = sal;
+    this.vociSalStream.next(Object.assign([], this.vociSalStore));
+    this.isLoading.next(false);
   }
 
-  getSal(contract: SmartContract<SmartContractType.Sal>) {
-    return from(contract.instance.methods.numeroSal().call()).pipe(
+  getSal() {
+    return from(this.sal.instance.methods.numeroSal().call()).pipe(
       concatMap(numeroSal => {
         const sal: any[] = [];
         for (let i = 0; i < numeroSal; i++) {
-          sal.push(from(contract.instance.methods.getSal(i).call()));
+          sal.push(from(this.sal.instance.methods.getSal(i).call()));
         }
         return forkJoin(sal); // fare nested forkjoin con object of array
       }),
@@ -62,13 +77,13 @@ export class SalService {
     );
   }
 
-  getInfoPagamento(contract: SmartContract<SmartContractType.Sal>) {
-    return from(contract.instance.methods.getInfoPagamento().call());
+  getInfoPagamento() {
+    return from(this.sal.instance.methods.getInfoPagamento().call());
   }
 
-  approvaRegistro(contract: SmartContract<SmartContractType.Sal>) {
-    const approva = contract.instance.methods.approvaRegistro();
-    return this.blockchainService.newTransaction(approva, contract.instance.address);
+  approvaRegistro() {
+    const approva = this.sal.instance.methods.approvaRegistro();
+    return this.blockchainService.newTransaction(approva, this.sal.instance.address);
   }
 
   groupSal(sal: Sal[]) {

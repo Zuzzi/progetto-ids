@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { Subject, Observable, from, forkJoin } from 'rxjs';
+import { Subject, Observable, from, forkJoin, ReplaySubject, combineLatest } from 'rxjs';
 import { Soglia, SmartContract, SmartContractType } from '@app/interfaces';
-import { concatMap, take, map } from 'rxjs/operators';
+import { concatMap, take, map, filter, tap } from 'rxjs/operators';
 import { BlockchainService } from '../blockchain/blockchain.service';
 
 @Injectable({
@@ -9,30 +9,44 @@ import { BlockchainService } from '../blockchain/blockchain.service';
 })
 export class ParametriService {
 
-  private soglieStream: Subject<Soglia>;
-  soglie: Observable<Soglia>;
+  private soglieStream: Subject<Soglia[]>;
+  soglie: Observable<Soglia[]>;
   private soglieStore: Soglia[];
+  private isLoading: Subject<boolean>;
+  private contractId: string;
+  private parametri: SmartContract<SmartContractType.Parametri>;
 
   constructor(private blockchainService: BlockchainService, ) {
-    this.soglieStream = new Subject() as Subject<Soglia>
-    this.soglieStore = [];
-    this.soglie = this.soglieStream.asObservable();
+    this.soglieStream = new ReplaySubject() as ReplaySubject<Soglia[]>;
+    this.isLoading = new ReplaySubject() as ReplaySubject<boolean>;
+    this.soglie = combineLatest(this.soglieStream.asObservable(),
+    this.isLoading.asObservable()).pipe(
+      tap(([soglie, isLoading]) => console.log('misure: ' + soglie.length, 'isloading: ' + isLoading)),
+      filter(([_, isLoading]) => !isLoading),
+      map(([soglie, _]) => soglie)
+    );
   }
 
-  loadSoglie(contract: SmartContract<SmartContractType.Parametri>) {
-    return this.getSoglie(contract).pipe(
+  switchToContract(contractId: string) {
+    this.contractId = contractId;
+    this.parametri = this.blockchainService.getSmartContract(contractId,
+      SmartContractType.Parametri) as SmartContract<SmartContractType.Parametri>;  }
+
+  loadSoglie() {
+    this.isLoading.next(true);
+    return this.getSoglie().pipe(
       map(soglie => {
         return this.formatSoglie(soglie);
       })
     );
   }
 
-  getSoglie(contract: SmartContract<SmartContractType.Parametri>) {
-    return from(contract.instance.methods.getSoglieLength().call()).pipe(
+  getSoglie() {
+    return from(this.parametri.instance.methods.getSoglieLength().call()).pipe(
       concatMap(numeroSoglia => {
         const soglie: any[] = [];
         for (let i = 0; i < numeroSoglia; i++) {
-          soglie.push(from(contract.instance.methods.getSoglia(i).call()));
+          soglie.push(from(this.parametri.instance.methods.getSoglia(i).call()));
         }
         return forkJoin(soglie); // fare nested forkjoin con object of array
       }),
