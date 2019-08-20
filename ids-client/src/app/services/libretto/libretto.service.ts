@@ -1,6 +1,6 @@
 import { Injectable, Inject } from '@angular/core';
-import { Subject, Observable, from, forkJoin } from 'rxjs';
-import { concatMap, take, map, tap } from 'rxjs/operators';
+import { Subject, Observable, from, forkJoin, ReplaySubject, BehaviorSubject, of, pipe } from 'rxjs';
+import { concatMap, take, map, tap, delay } from 'rxjs/operators';
 import {Misura, SmartContractType, DialogInserimentoMisura, SmartContract} from '@app/interfaces';
 import { Contract } from 'web3-eth-contract';
 import { BlockchainService } from '@app/services/blockchain/blockchain.service';
@@ -13,17 +13,26 @@ import { AbiItem, toChecksumAddress } from 'web3-utils';
 })
 export class LibrettoService {
   // private readonly TYPE: ContractType = 'libretto';
-  private misureStream: Subject<Misura[]>;
-  misure: Observable<Misura[]>;
+  private misureStream: Subject<any>;
+  misure: Observable<any>;
   private misureStore: Misura[];
-  // private contractId: string;
+  libretto: SmartContract<SmartContractType.Libretto>;
+  private contractId: string;
   // private contract: Contract;
 
   constructor(private blockchainService: BlockchainService,
               private authService: AuthService) {
-    this.misureStream =  new Subject() as Subject<Misura[]>;
+    this.misureStream =  new ReplaySubject(1);
+    this.misureStream.next([]);
     this.misureStore = [];
     this.misure = this.misureStream.asObservable();
+  }
+
+  switchToContract(contractId: string) {
+    this.contractId = contractId;
+    this.libretto = this.blockchainService.getSmartContract(contractId,
+      SmartContractType.Libretto) as SmartContract<SmartContractType.Libretto>;
+    // this.loadMisure().subscribe(misure => this.updateMisure(misure));
   }
 
   // switchToContract(contractId: string) {
@@ -41,8 +50,8 @@ export class LibrettoService {
 
 
 
-  loadMisure(contract: SmartContract<SmartContractType.Libretto>) {
-    return this.getMisure(contract).pipe(
+  loadMisure() {
+    return this.getMisure(this.libretto).pipe(
       map(misure => {
         return this.formatMisure(misure);
       })
@@ -51,7 +60,7 @@ export class LibrettoService {
 
   updateMisure(misure) {
     this.misureStore = misure;
-    this.misureStream.next(Object.assign([], this.misureStore));
+    this.misureStream.next(Object.assign({}, {contractId: this.contractId, misure: this.misureStore}));
   }
 
   getMisure(contract: SmartContract<SmartContractType.Libretto>) {
