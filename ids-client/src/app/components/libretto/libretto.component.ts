@@ -50,33 +50,32 @@ export class LibrettoComponent implements OnInit, OnDestroy {
     // TODO: rimuovere questa modifica temporanea per testare conferma registro.
     // this.isRupLogged = this.userService.titleCheck(UserTitle.Rup);
     this.isRupLogged = true;
-    this.disableInput = new Subject();
+    // this.disableInput = new Subject();
     this.isDirettoreLogged = this.userService.titleCheck(UserTitle.Direttore);
     this.isDittaLogged = this.userService.titleCheck(UserTitle.Ditta);
-    // this.dataSource = this.librettoService.misure.pipe(
-    //   map(result => result.misure),
-    //   tap(value => console.log(value)),
-    //   shareReplay()
-    //   );
-    this.contractId = new ReplaySubject();
-    this.dataSource = combineLatest(this.librettoService.misure.pipe(tap((value)=>console.log(value))),
-    this.contractId.pipe(tap((value)=>console.log(value)))).pipe(
-      filter( result => {
-        console.log(result[0].contractId === result[1]);
-        return result[0].contractId === result[1];
-      }),
-      map(result => {
-        return result[0].misure;
-      }),
-      tap(() => this.disableInput.next(false)),
-      shareReplay(1)
-    );
+    this.dataSource = this.librettoService.misure.pipe(
+      tap(value => console.log(value)),
+      shareReplay()
+      );
+    // this.contractId = new ReplaySubject();
+    // this.dataSource = combineLatest(this.librettoService.misure.pipe(tap((value)=>console.log(value))),
+    // this.contractId.pipe(tap((value)=>console.log(value)))).pipe(
+    //   filter( result => {
+    //     console.log(result[0].contractId === result[1]);
+    //     return result[0].contractId === result[1];
+    //   }),
+    //   map(result => {
+    //     return result[0].misure;
+    //   }),
+    //   tap(() => this.disableInput.next(false)),
+    //   shareReplay(1)
+    // );
 
-    this.routeSub = this.activatedRoute.parent.paramMap
-      .subscribe(params => {
-      this.contractId.next(params.get('contractId'));
-      this.disableInput.next(true);
-      });
+    // this.routeSub = this.activatedRoute.parent.paramMap
+    //   .subscribe(params => {
+    //   this.contractId.next(params.get('contractId'));
+    //   this.disableInput.next(true);
+    //   });
     //   console.log(this.contractId);
     //   // switchToContract per il titolo del contratto
     //   this.libretto = this.blockchainService.getSmartContract(this.contractId,
@@ -137,38 +136,38 @@ export class LibrettoComponent implements OnInit, OnDestroy {
   insertMisura() {
     console.log(this.dialogInserimentoData);
     // TODO: Ripartire da qui per implemetare feedback eventi transazione ad utente
-    // const txEvents = this.blockchainService.txEvents;
-    // this.librettoService.insertMisura(this.libretto, this.dialogInserimentoData).pipe(
-    //   switchMap(() => {
-    //     console.log('Transaction completed !');
-    //     return this.librettoService.loadMisure(this.libretto);
-    //   }))
-    //   .subscribe(misure =>
-    //     this.librettoService.updateMisure(misure));
+    const txEvents = this.blockchainService.txEvents;
+    this.librettoService.insertMisura(this.dialogInserimentoData).pipe(
+      switchMap(() => {
+        console.log('Transaction completed !');
+        return this.librettoService.loadMisure();
+      }))
+      .subscribe(misure =>
+        this.librettoService.updateMisure(misure));
   }
 
   approvaMisure() {
-    // this.registroService.approvaMisure(this.registro).pipe(
-    //   switchMap( () => {
-    //     console.log('Transaction Completed !');
-    //     return this.librettoService.loadMisure(this.libretto);
-    //   }))
-    //   .subscribe(misure =>
-    //     this.librettoService.updateMisure(misure));
+    this.registroService.approvaMisure().pipe(
+      switchMap( () => {
+        console.log('Transaction Completed !');
+        return this.librettoService.loadMisure();
+      }))
+      .subscribe(misure =>
+        this.librettoService.updateMisure(misure));
   }
 
   invalidaMisura(noMisura: Misura['no']) {
-    // this.librettoService.invalidaMisura(this.libretto, noMisura).pipe(
-    //   switchMap(() => {
-    //     console.log('Transaction completed !');
-    //     return this.librettoService.loadMisure(this.libretto);
-    //   }))
-    //   .subscribe(misure =>
-    //   this.librettoService.updateMisure(misure));
+    this.librettoService.invalidaMisura(noMisura).pipe(
+      switchMap(() => {
+        console.log('Transaction completed !');
+        return this.librettoService.loadMisure();
+      }))
+      .subscribe(misure =>
+      this.librettoService.updateMisure(misure));
   }
 
   ngOnDestroy(): void {
-    this.routeSub.unsubscribe();
+    // this.routeSub.unsubscribe();
   }
 
 }

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable, from, forkJoin, Subject } from 'rxjs';
+import { BehaviorSubject, Observable, from, forkJoin, Subject, ReplaySubject, EMPTY } from 'rxjs';
 import { concatMap, take, tap, map } from 'rxjs/operators';
 import {VoceRegistro, DialogInserimentoMisura, SmartContractType, SmartContract} from '@app/interfaces';
 import {WEB3} from '@app/web3.token';
@@ -19,11 +19,12 @@ export class RegistroService {
   private vociRegistroStream: Subject<VoceRegistro[]>;
   vociRegistro: Observable<VoceRegistro[]>;
   private vociRegistroStore: VoceRegistro[];
-  // private contractId: string;
-  // private contract: Contract;
+  registro: SmartContract<SmartContractType.Registro>;
+  private contractId: string;
+
 
   constructor(private blockchainService: BlockchainService) {
-    this.vociRegistroStream =  new Subject() as Subject<VoceRegistro[]>;
+    this.vociRegistroStream =  new ReplaySubject(1) as ReplaySubject<VoceRegistro[]>;
     this.vociRegistroStore = [];
     this.vociRegistro = this.vociRegistroStream.asObservable();
   }
@@ -41,9 +42,18 @@ export class RegistroService {
   //   }
   // }
 
+  switchToContract(contractId: string) {
+    this.contractId = contractId;
+    this.registro = this.blockchainService.getSmartContract(contractId,
+      SmartContractType.Registro) as SmartContract<SmartContractType.Registro>;
+  }
 
-  loadContabilita(contract: SmartContract<SmartContractType.Registro>) {
-    return this.getContabilita(contract).pipe(
+  clear() {
+    this.vociRegistroStream.next();
+  }
+
+  loadContabilita() {
+    return this.getContabilita(this.registro).pipe(
       map(vociRegistro => {
         return this.formatContabilita(vociRegistro);
       })
@@ -57,11 +67,11 @@ export class RegistroService {
 
 
   getContabilita(contract: SmartContract<SmartContractType.Registro>) {
-    return from(contract.instance.methods.numeroContabilita().call()).pipe(
+    return from(this.registro.instance.methods.numeroContabilita().call()).pipe(
       concatMap(numerovociRegistro => {
         const vociRegistro: any[] = [];
         for (let i = 0; i < numerovociRegistro; i++) {
-          vociRegistro.push(from(contract.instance.methods.getContabilita(i).call()));
+          vociRegistro.push(from(this.registro.instance.methods.getContabilita(i).call()));
         }
         return forkJoin(vociRegistro);
       }),
@@ -69,9 +79,9 @@ export class RegistroService {
     );
   }
 
-  approvaMisure(contract: SmartContract<SmartContractType.Registro>) {
-    const approva = contract.instance.methods.approvaMisure();
-    return this.blockchainService.newTransaction(approva, contract.instance.address);
+  approvaMisure() {
+    const approva = this.registro.instance.methods.approvaMisure();
+    return this.blockchainService.newTransaction(approva, this.registro.instance.address);
   }
 
   formatContabilita(vociRegistro) {

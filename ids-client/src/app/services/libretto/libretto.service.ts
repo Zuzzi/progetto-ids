@@ -1,5 +1,5 @@
 import { Injectable, Inject } from '@angular/core';
-import { Subject, Observable, from, forkJoin, ReplaySubject, BehaviorSubject, of, pipe } from 'rxjs';
+import { Subject, Observable, from, forkJoin, ReplaySubject, BehaviorSubject, of, pipe, EMPTY } from 'rxjs';
 import { concatMap, take, map, tap, delay } from 'rxjs/operators';
 import {Misura, SmartContractType, DialogInserimentoMisura, SmartContract} from '@app/interfaces';
 import { Contract } from 'web3-eth-contract';
@@ -13,8 +13,8 @@ import { AbiItem, toChecksumAddress } from 'web3-utils';
 })
 export class LibrettoService {
   // private readonly TYPE: ContractType = 'libretto';
-  private misureStream: Subject<any>;
-  misure: Observable<any>;
+  private misureStream: Subject<Misura[]>;
+  misure: Observable<Misura[]>;
   private misureStore: Misura[];
   libretto: SmartContract<SmartContractType.Libretto>;
   private contractId: string;
@@ -22,9 +22,9 @@ export class LibrettoService {
 
   constructor(private blockchainService: BlockchainService,
               private authService: AuthService) {
-    this.misureStream =  new ReplaySubject(1);
-    this.misureStream.next([]);
-    this.misureStore = [];
+    this.misureStream =  new ReplaySubject(1) as ReplaySubject<Misura[]>;
+    // this.misureStream.next([]);
+    // this.misureStore = [];
     this.misure = this.misureStream.asObservable();
   }
 
@@ -48,10 +48,12 @@ export class LibrettoService {
   //   }
   // }
 
-
+  clear() {
+    this.misureStream.next();
+  }
 
   loadMisure() {
-    return this.getMisure(this.libretto).pipe(
+    return this.getMisure().pipe(
       map(misure => {
         return this.formatMisure(misure);
       })
@@ -60,15 +62,15 @@ export class LibrettoService {
 
   updateMisure(misure) {
     this.misureStore = misure;
-    this.misureStream.next(Object.assign({}, {contractId: this.contractId, misure: this.misureStore}));
+    this.misureStream.next(Object.assign([], this.misureStore));
   }
 
-  getMisure(contract: SmartContract<SmartContractType.Libretto>) {
-    return from(contract.instance.methods.getNumeroMisure().call()).pipe(
+  getMisure() {
+    return from(this.libretto.instance.methods.getNumeroMisure().call()).pipe(
       concatMap(numeroMisure => {
         const misure: any[] = [];
         for (let i = 0; i < numeroMisure; i++) {
-          misure.push(from(contract.instance.methods.getMisura(i).call()));
+          misure.push(from(this.libretto.instance.methods.getMisura(i).call()));
         }
         return forkJoin(misure);
       }),
@@ -76,18 +78,18 @@ export class LibrettoService {
     );
   }
 
-  insertMisura(contract: SmartContract<SmartContractType.Libretto>, misura: DialogInserimentoMisura) {
+  insertMisura(misura: DialogInserimentoMisura) {
     const percentuale = this.blockchainService
     .numberToSigned64x64(misura.percentuale).toString().replace('+', '');
-    const insert = contract.instance.methods.inserisciMisura(misura.categoriaContabile,
+    const insert = this.libretto.instance.methods.inserisciMisura(misura.categoriaContabile,
       misura.descrizione, percentuale, misura.riserva);
-    return this.blockchainService.newTransaction(insert, contract.instance.address);
+    return this.blockchainService.newTransaction(insert, this.libretto.instance.address);
   }
 
-  invalidaMisura(contract: SmartContract<SmartContractType.Libretto>, noMisura: Misura['no']) {
-    const invalidation = contract.instance.methods.invalidaMisura(noMisura);
+  invalidaMisura(noMisura: Misura['no']) {
+    const invalidation = this.libretto.instance.methods.invalidaMisura(noMisura);
     return this.blockchainService
-      .newTransaction(invalidation, contract.instance.address);
+      .newTransaction(invalidation, this.libretto.instance.address);
   }
 
   formatMisure(misure) {
