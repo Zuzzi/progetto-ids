@@ -5,6 +5,7 @@ import { concatMap, take, map, tap, filter, takeUntil } from 'rxjs/operators';
 import { BlockchainService } from '../blockchain/blockchain.service';
 import { NumberFormatStyle } from '@angular/common';
 import { ParametriService } from '../parametri/parametri.service';
+import { until } from 'protractor';
 
 @Injectable({
   providedIn: 'root'
@@ -46,13 +47,13 @@ export class SalService {
   loadSal() {
     this.isLoading.next(true);
     const vociSal = this.getSal().pipe(
-      takeUntil(this.isContractChanged.asObservable()),
       map(sal => {
         return this.groupSal(this.formatSal(sal));
       })
     );
     const soglie = this.parametriService.loadSoglie();
     return forkJoin(vociSal, soglie).pipe(
+      takeUntil(this.isContractChanged),
       map(sal => {
       const groupedSal = [];
       const vociSal = sal[0];
@@ -90,7 +91,9 @@ export class SalService {
 
   approvaRegistro() {
     const approva = this.sal.instance.methods.approvaRegistro();
-    return this.blockchainService.newTransaction(approva, this.sal.instance.address);
+    return this.blockchainService.newTransaction(approva, this.sal.instance.address).pipe(
+      takeUntil(this.isContractChanged)
+    );
   }
 
   groupSal(sal: Sal[]) {

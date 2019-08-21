@@ -41,7 +41,7 @@ export class ParametriService {
   loadSoglie() {
     this.isLoading.next(true);
     return this.getSoglie().pipe(
-      takeUntil(this.isContractChanged.asObservable()),
+      takeUntil(this.isContractChanged),
       map(soglie => {
         return this.formatSoglie(soglie);
       })

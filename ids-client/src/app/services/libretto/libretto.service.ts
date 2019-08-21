@@ -67,7 +67,7 @@ export class LibrettoService {
     this.isLoading.next(true);
     return this.getMisure().pipe(
       delay(5000),
-      takeUntil(this.isContractChanged.asObservable()),
+      takeUntil(this.isContractChanged),
       map(misure => {
         return this.formatMisure(misure);
       }),
@@ -98,13 +98,17 @@ export class LibrettoService {
     .numberToSigned64x64(misura.percentuale).toString().replace('+', '');
     const insert = this.libretto.instance.methods.inserisciMisura(misura.categoriaContabile,
       misura.descrizione, percentuale, misura.riserva);
-    return this.blockchainService.newTransaction(insert, this.libretto.instance.address);
+    return this.blockchainService.newTransaction(insert, this.libretto.instance.address).pipe(
+      takeUntil(this.isContractChanged)
+    );
   }
 
   invalidaMisura(noMisura: Misura['no']) {
     const invalidation = this.libretto.instance.methods.invalidaMisura(noMisura);
     return this.blockchainService
-      .newTransaction(invalidation, this.libretto.instance.address);
+      .newTransaction(invalidation, this.libretto.instance.address).pipe(
+        takeUntil(this.isContractChanged)
+      );
   }
 
   formatMisure(misure) {

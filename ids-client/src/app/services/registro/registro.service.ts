@@ -66,7 +66,7 @@ export class RegistroService {
   loadContabilita() {
     this.isLoading.next(true);
     return this.getContabilita().pipe(
-      takeUntil(this.isContractChanged.asObservable()),
+      takeUntil(this.isContractChanged),
       map(vociRegistro => {
         return this.formatContabilita(vociRegistro);
       })
