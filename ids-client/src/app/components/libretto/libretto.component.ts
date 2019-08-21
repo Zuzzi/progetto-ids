@@ -36,6 +36,7 @@ export class LibrettoComponent implements OnInit, OnDestroy {
   isDittaLogged: boolean;
   dialogInserimentoData: DialogInserimentoMisura = {categoriaContabile: '',
   descrizione: '', percentuale: null, riserva: ''};
+  isLoadingLibretto: Observable<boolean>;
   // libretto: SmartContract<SmartContractType.Libretto>;
   // registro: SmartContract<SmartContractType.Registro>;
   contractId: ReplaySubject<string>;
@@ -54,6 +55,10 @@ export class LibrettoComponent implements OnInit, OnDestroy {
     this.isDirettoreLogged = this.userService.titleCheck(UserTitle.Direttore);
     this.isDittaLogged = this.userService.titleCheck(UserTitle.Ditta);
     this.dataSource = this.librettoService.misure.pipe(
+      tap(value => console.log(value)),
+      shareReplay()
+    );
+    this.isLoadingLibretto = this.librettoService.isLoadingObs.pipe(
       tap(value => console.log(value)),
       shareReplay()
       );

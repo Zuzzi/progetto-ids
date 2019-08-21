@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Sal, SmartContractType, SmartContract } from '@app/interfaces';
 import { Observable, Subject, from, forkJoin, ReplaySubject, combineLatest } from 'rxjs';
-import { concatMap, take, map, tap, filter } from 'rxjs/operators';
+import { concatMap, take, map, tap, filter, takeUntil } from 'rxjs/operators';
 import { BlockchainService } from '../blockchain/blockchain.service';
 import { NumberFormatStyle } from '@angular/common';
 import { ParametriService } from '../parametri/parametri.service';
@@ -15,12 +15,17 @@ export class SalService {
   vociSal: Observable<any>;
   private vociSalStore: Sal[];
   private isLoading: Subject<boolean>;
+  isLoadingObs: Observable<boolean>;
+  private isContractChanged: Subject<any>;
   sal: SmartContract<SmartContractType.Sal>;
   private contractId: string;
+
   constructor(private blockchainService: BlockchainService,
               private parametriService: ParametriService) {
     this.vociSalStream =  new ReplaySubject(1) as ReplaySubject<any>;
     this.isLoading = new ReplaySubject(1) as ReplaySubject<boolean>;
+    this.isContractChanged = new Subject();
+    this.isLoadingObs = this.isLoading.asObservable();
     this.vociSal = combineLatest(this.vociSalStream.asObservable(),
     this.isLoading.asObservable()).pipe(
       tap(([vociSal, isLoading]) => console.log('misure: ' + vociSal.length, 'isloading: ' + isLoading)),
@@ -33,6 +38,7 @@ export class SalService {
     this.contractId = contractId;
     this.sal = this.blockchainService.getSmartContract(contractId,
       SmartContractType.Sal) as SmartContract<SmartContractType.Sal>;
+    this.isContractChanged.next();
   }
 
   // getInfoPagamento()
@@ -40,6 +46,7 @@ export class SalService {
   loadSal() {
     this.isLoading.next(true);
     const vociSal = this.getSal().pipe(
+      takeUntil(this.isContractChanged.asObservable()),
       map(sal => {
         return this.groupSal(this.formatSal(sal));
       })

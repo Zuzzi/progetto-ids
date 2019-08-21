@@ -10,6 +10,7 @@ import { UserTitle, SmartContract, SmartContractType } from '@app/interfaces';
 import { BlockchainService } from '@app/services/blockchain/blockchain.service';
 import { UserService } from '@app/services/user/user.service';
 import { SalService } from '@app/services/sal/sal.service';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-registro',
@@ -27,6 +28,7 @@ export class RegistroComponent implements OnInit, OnDestroy {
   isDittaLogged: boolean;
   registro: SmartContract<SmartContractType.Registro>;
   sal: SmartContract<SmartContractType.Sal>;
+  isLoadingRegistro: Observable<boolean>;
   routeSub: any;
 
   constructor(private dialog: MatDialog, private userService: UserService,
@@ -40,6 +42,10 @@ export class RegistroComponent implements OnInit, OnDestroy {
     this.isDirettoreLogged = this.userService.titleCheck(UserTitle.Direttore);
     this.isDittaLogged = this.userService.titleCheck(UserTitle.Ditta);
     this.dataSource = this.registroService.vociRegistro.pipe(
+      tap(value => console.log(value)),
+      shareReplay()
+      );
+    this.isLoadingRegistro = this.registroService.isLoadingObs.pipe(
       tap(value => console.log(value)),
       shareReplay()
       );

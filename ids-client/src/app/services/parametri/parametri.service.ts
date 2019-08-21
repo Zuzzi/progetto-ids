@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Subject, Observable, from, forkJoin, ReplaySubject, combineLatest } from 'rxjs';
 import { Soglia, SmartContract, SmartContractType } from '@app/interfaces';
-import { concatMap, take, map, filter, tap } from 'rxjs/operators';
+import { concatMap, take, map, filter, tap, takeUntil } from 'rxjs/operators';
 import { BlockchainService } from '../blockchain/blockchain.service';
 
 @Injectable({
@@ -13,14 +13,18 @@ export class ParametriService {
   soglie: Observable<Soglia[]>;
   private soglieStore: Soglia[];
   private isLoading: Subject<boolean>;
+  isLoadingObs: Observable<boolean>;
+  private isContractChanged: Subject<any>;
   private contractId: string;
   private parametri: SmartContract<SmartContractType.Parametri>;
 
   constructor(private blockchainService: BlockchainService, ) {
     this.soglieStream = new ReplaySubject() as ReplaySubject<Soglia[]>;
     this.isLoading = new ReplaySubject() as ReplaySubject<boolean>;
+    this.isLoadingObs = this.isLoading.asObservable();
+    this.isContractChanged = new Subject();
     this.soglie = combineLatest(this.soglieStream.asObservable(),
-    this.isLoading.asObservable()).pipe(
+      this.isLoading.asObservable()).pipe(
       tap(([soglie, isLoading]) => console.log('misure: ' + soglie.length, 'isloading: ' + isLoading)),
       filter(([_, isLoading]) => !isLoading),
       map(([soglie, _]) => soglie)
@@ -30,11 +34,14 @@ export class ParametriService {
   switchToContract(contractId: string) {
     this.contractId = contractId;
     this.parametri = this.blockchainService.getSmartContract(contractId,
-      SmartContractType.Parametri) as SmartContract<SmartContractType.Parametri>;  }
+      SmartContractType.Parametri) as SmartContract<SmartContractType.Parametri>;
+    this.isContractChanged.next();
+  }
 
   loadSoglie() {
     this.isLoading.next(true);
     return this.getSoglie().pipe(
+      takeUntil(this.isContractChanged.asObservable()),
       map(soglie => {
         return this.formatSoglie(soglie);
       })

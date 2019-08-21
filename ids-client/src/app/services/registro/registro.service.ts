@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, from, forkJoin, Subject, ReplaySubject, EMPTY, combineLatest } from 'rxjs';
-import { concatMap, take, tap, map, filter } from 'rxjs/operators';
+import { concatMap, take, tap, map, filter, takeUntil } from 'rxjs/operators';
 import {VoceRegistro, DialogInserimentoMisura, SmartContractType, SmartContract} from '@app/interfaces';
 import {WEB3} from '@app/web3.token';
 import Web3 from 'web3';
@@ -20,6 +20,8 @@ export class RegistroService {
   vociRegistro: Observable<VoceRegistro[]>;
   private vociRegistroStore: VoceRegistro[];
   private isLoading: Subject<boolean>;
+  isLoadingObs: Observable<boolean>;
+  private isContractChanged: Subject<any>;
   private registro: SmartContract<SmartContractType.Registro>;
   private contractId: string;
 
@@ -27,6 +29,8 @@ export class RegistroService {
   constructor(private blockchainService: BlockchainService) {
     this.vociRegistroStream =  new ReplaySubject(1) as ReplaySubject<VoceRegistro[]>;
     this.isLoading = new ReplaySubject(1) as ReplaySubject<boolean>;
+    this.isContractChanged = new Subject();
+    this.isLoadingObs = this.isLoading.asObservable();
     this.vociRegistro = combineLatest(this.vociRegistroStream.asObservable(),
     this.isLoading.asObservable()).pipe(
       tap(([vociRegistro, isLoading]) => console.log('vociRegistro: ' + vociRegistro.length,'isloading: ' + isLoading)),
@@ -52,6 +56,7 @@ export class RegistroService {
     this.contractId = contractId;
     this.registro = this.blockchainService.getSmartContract(contractId,
       SmartContractType.Registro) as SmartContract<SmartContractType.Registro>;
+    this.isContractChanged.next();
   }
 
   // clear() {
@@ -61,6 +66,7 @@ export class RegistroService {
   loadContabilita() {
     this.isLoading.next(true);
     return this.getContabilita(this.registro).pipe(
+      takeUntil(this.isContractChanged.asObservable()),
       map(vociRegistro => {
         return this.formatContabilita(vociRegistro);
       })

@@ -5,6 +5,7 @@ import { ActivatedRoute } from '@angular/router';
 import { switchMap, tap, shareReplay } from 'rxjs/operators';
 import { SmartContract, SmartContractType, Sal } from '@app/interfaces';
 import { BlockchainService } from '@app/services/blockchain/blockchain.service';
+import { Observable } from 'rxjs';
 
 
 @Component({
@@ -27,6 +28,7 @@ export class SalComponent implements OnInit, OnDestroy {
   'percentuale', 'prezzoValore', 'prezzoPercentuale', 'debitoValore', 'debitoPercentuale'];
   dataSource;
   expandedElement: Sal[] | null;
+  isLoadingSal: Observable<boolean>;
   routeSub: any;
   // sal: SmartContract<SmartContractType.Sal>;
   // parametri: SmartContract<SmartContractType.Parametri>;
@@ -38,7 +40,11 @@ export class SalComponent implements OnInit, OnDestroy {
     this.dataSource = this.salService.vociSal.pipe(
       tap(value => console.log(value)),
       shareReplay()
-      );
+    );
+    this.isLoadingSal = this.salService.isLoadingObs.pipe(
+      tap(value => console.log(value)),
+      shareReplay()
+    );
     // this.dataSource = this.salService.sal;
     // this.routeSub = this.activatedRoute.parent.paramMap.pipe(
     //   switchMap(params => {

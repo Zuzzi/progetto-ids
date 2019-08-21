@@ -6,6 +6,9 @@
 
 <div class="container-fluid" style="max-height: 100%; margin-top: 3%">
   <div class="row" style="margin-bottom: 10px">
+    <div *ngIf="isLoadingLibretto | async">
+      <h3>Loading</h3>
+    </div>
     <div class="col-md">
       Completamento totale: 45%
     </div>

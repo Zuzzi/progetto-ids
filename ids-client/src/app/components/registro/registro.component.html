@@ -6,6 +6,9 @@
 <br>
 <div class="container-fluid" style="max-height: 100%; font-size: 0.8rem;">
   <div class="row" style="margin-bottom: 10px">
+      <div *ngIf="isLoadingRegistro | async">
+          <h3>Loading</h3>
+        </div>
     <div class="col-md-6">
       <fieldset class="scheduler-border">
         <legend class="scheduler-border"> Lavori a Corpo </legend>

@@ -1,6 +1,6 @@
 import { Injectable, Inject } from '@angular/core';
 import { Subject, Observable, from, forkJoin, ReplaySubject, BehaviorSubject, of, pipe, EMPTY, combineLatest } from 'rxjs';
-import { concatMap, take, map, tap, delay, filter } from 'rxjs/operators';
+import { concatMap, take, map, tap, delay, filter, takeUntil } from 'rxjs/operators';
 import {Misura, SmartContractType, DialogInserimentoMisura, SmartContract} from '@app/interfaces';
 import { Contract } from 'web3-eth-contract';
 import { BlockchainService } from '@app/services/blockchain/blockchain.service';
@@ -17,6 +17,8 @@ export class LibrettoService {
   misure: Observable<Misura[]>;
   private misureStore: Misura[];
   private isLoading: Subject<boolean>;
+  isLoadingObs: Observable<boolean>;
+  private isContractChanged: Subject<any>;
   private libretto: SmartContract<SmartContractType.Libretto>;
   private contractId: string;
   // private contract: Contract;
@@ -24,8 +26,10 @@ export class LibrettoService {
   constructor(private blockchainService: BlockchainService) {
     this.misureStream =  new ReplaySubject(1) as ReplaySubject<Misura[]>;
     this.isLoading = new ReplaySubject(1) as ReplaySubject<boolean>;
+    this.isContractChanged = new Subject();
     // this.misureStream.next([]);
     // this.misureStore = [];
+    this.isLoadingObs = this.isLoading.asObservable();
     this.misure = combineLatest(this.misureStream.asObservable(),
       this.isLoading.asObservable()).pipe(
         tap(([misure, isLoading]) => console.log('misure: ' + misure.length, 'isloading: ' + isLoading)),
@@ -38,6 +42,7 @@ export class LibrettoService {
     this.contractId = contractId;
     this.libretto = this.blockchainService.getSmartContract(contractId,
       SmartContractType.Libretto) as SmartContract<SmartContractType.Libretto>;
+    this.isContractChanged.next();
     // this.loadMisure().subscribe(misure => this.updateMisure(misure));
   }
 
@@ -62,9 +67,10 @@ export class LibrettoService {
     this.isLoading.next(true);
     return this.getMisure().pipe(
       delay(5000),
+      takeUntil(this.isContractChanged.asObservable()),
       map(misure => {
         return this.formatMisure(misure);
-      })
+      }),
     );
   }
 
