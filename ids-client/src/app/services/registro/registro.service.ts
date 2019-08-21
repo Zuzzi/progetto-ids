@@ -65,7 +65,7 @@ export class RegistroService {
 
   loadContabilita() {
     this.isLoading.next(true);
-    return this.getContabilita(this.registro).pipe(
+    return this.getContabilita().pipe(
       takeUntil(this.isContractChanged.asObservable()),
       map(vociRegistro => {
         return this.formatContabilita(vociRegistro);
@@ -80,7 +80,7 @@ export class RegistroService {
   }
 
 
-  getContabilita(contract: SmartContract<SmartContractType.Registro>) {
+  getContabilita() {
     return from(this.registro.instance.methods.numeroContabilita().call()).pipe(
       concatMap(numerovociRegistro => {
         const vociRegistro: any[] = [];
