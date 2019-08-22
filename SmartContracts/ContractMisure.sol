@@ -18,20 +18,15 @@ contract ContractMisure {
     bool approvata;
     }
     
-    uint public numeroMisure;
     ContractRegistro cr;
     ContractParametri cp;
     
-    
-    mapping (uint => Misura) private arrayMisure; 
+    mapping (uint => Misura) misure; 
+    uint public numeroMisure = 0;
 
-    constructor() public  {
-        numeroMisure = 0;
-    }
+    constructor() public  { }
     
-    modifier onlyDirettore {
-        require(cp.getIndirizzoDirettore() == msg.sender); _;
-    }
+    modifier onlyDirettore { require(cp.getIndirizzoDirettore() == msg.sender); _;}
     
     function setIndirizzoCr (address indirizzo) public {
         cr = ContractRegistro(indirizzo);
@@ -41,47 +36,38 @@ contract ContractMisure {
         cp = ContractParametri(indirizzo);
     }
     
-    function inserisciMisura(string memory categoriaContabile,
-                             string memory descrizione, int128 percentuale, string memory riserva) public onlyDirettore {
-        (string memory nomeCategoria, int128 valore, string memory tariffa) = cp.getCategoriaContabileByNome(categoriaContabile);
-        arrayMisure[numeroMisure].no = numeroMisure;
-        arrayMisure[numeroMisure].tariffa = tariffa;
-        arrayMisure[numeroMisure].data = now;
-        arrayMisure[numeroMisure].categoriaContabile = categoriaContabile;
-        arrayMisure[numeroMisure].descrizione = descrizione;
-        arrayMisure[numeroMisure].percentuale = percentuale;
-        arrayMisure[numeroMisure].riserva = riserva;
-        arrayMisure[numeroMisure].valida = true;
-        arrayMisure[numeroMisure].invalidabile = true;
-        arrayMisure[numeroMisure].approvata = false;
-        numeroMisure ++;
-    }
-    
     function getMisura(uint index) public view returns (uint, string memory, uint, string memory, string memory, int128, string memory,bool,bool, bool) {
-        Misura memory mis = arrayMisure[index];
+        Misura memory mis = misure[index];
         return (mis.no, mis.tariffa, mis.data, mis.categoriaContabile, mis.descrizione, mis.percentuale, mis.riserva, mis.valida, mis.invalidabile, mis.approvata);
     }
     
+    function inserisciMisura(string memory categoriaContabile,
+                             string memory descrizione, int128 percentuale, string memory riserva) public onlyDirettore {
+        (string memory nomeCategoria, , string memory tariffa) = cp.getCategoriaContabileByNome(categoriaContabile);
+        misure[numeroMisure] = Misura({
+            no: numeroMisure,
+            tariffa: tariffa,
+            data: now,
+            categoriaContabile: nomeCategoria,
+            descrizione: descrizione,
+            percentuale: percentuale,
+            riserva: riserva,
+            valida: true,
+            invalidabile: true,
+            approvata: false
+        });
+        numeroMisure ++;
+    }
     
-    function invalidaMisura(uint id) public onlyDirettore {
-
-        arrayMisure[id].valida = false;
-        if (arrayMisure[id].approvata){
-            cr.stornoPercentuale(arrayMisure[id].categoriaContabile, arrayMisure[id].percentuale); 
+    function invalidaMisura(uint index) public onlyDirettore {
+        misure[index].valida = false;
+        if (misure[index].approvata){
+            cr.stornoPercentuale(misure[index].categoriaContabile, misure[index].percentuale); 
         }
     }
     
     function approvaMisura  (uint index) public {
-        arrayMisure[index].approvata = true;
+        misure[index].approvata = true;
     }
 
-    function getNumeroMisure() public view returns (uint) {
-        return (numeroMisure);
-    }
-
-    
-    
- 
-        
-        
-    }
+}

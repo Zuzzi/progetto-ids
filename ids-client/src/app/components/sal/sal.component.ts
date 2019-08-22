@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import {animate, state, style, transition, trigger} from '@angular/animations';
 import { SalService } from '@app/services/sal/sal.service';
 import { ActivatedRoute } from '@angular/router';
-import { switchMap, tap, shareReplay } from 'rxjs/operators';
+import { switchMap, tap, shareReplay, publishReplay, refCount } from 'rxjs/operators';
 import { SmartContract, SmartContractType, Sal } from '@app/interfaces';
 import { BlockchainService } from '@app/services/blockchain/blockchain.service';
 import { Observable } from 'rxjs';
@@ -39,11 +39,13 @@ export class SalComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.dataSource = this.salService.vociSal.pipe(
       tap(value => console.log(value)),
-      shareReplay()
+      publishReplay(1),
+      refCount()
     );
     this.isLoadingSal = this.salService.isLoadingObs.pipe(
       tap(value => console.log(value)),
-      shareReplay()
+      publishReplay(1),
+      refCount()
     );
     // this.dataSource = this.salService.sal;
     // this.routeSub = this.activatedRoute.parent.paramMap.pipe(

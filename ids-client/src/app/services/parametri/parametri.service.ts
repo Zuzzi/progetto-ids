@@ -44,12 +44,12 @@ export class ParametriService {
       takeUntil(this.isContractChanged),
       map(soglie => {
         return this.formatSoglie(soglie);
-      })
+      }),
     );
   }
 
   getSoglie() {
-    return from(this.parametri.instance.methods.getSoglieLength().call()).pipe(
+    return from(this.parametri.instance.methods.numeroSoglie().call()).pipe(
       concatMap(numeroSoglia => {
         const soglie: any[] = [];
         for (let i = 0; i < numeroSoglia; i++) {
@@ -63,10 +63,10 @@ export class ParametriService {
 
   formatSoglie(soglie) {
     const formatted: Soglia[] = [];
-    soglie.forEach((soglia, index) => {
-      formatted.push({no: index,
-      valore: soglia['0'],
-      superata: soglia['1']});
+    soglie.forEach(soglia => {
+      formatted.push({no: soglia['0'],
+      valore: soglia['1'],
+      superata: soglia['2']});
     });
     return formatted;
   }

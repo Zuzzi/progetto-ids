@@ -36,11 +36,7 @@ export class ContrattoComponent implements OnInit, OnDestroy {
       this.switchToContract();
       return this.loadContract();
       }),
-    ).subscribe(valori => {
-      this.librettoService.updateMisure(valori[0]);
-      this.registroService.updateContabilita(valori[1]);
-      this.salService.updateSal(valori[2]);
-    });
+    ).subscribe();
   }
 
   // clear() {

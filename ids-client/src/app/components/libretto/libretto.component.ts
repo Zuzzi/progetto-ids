@@ -12,7 +12,7 @@ import {LibrettoService} from '@app/services/libretto/libretto.service';
 import { DialogInserimentoMisura, Misura, UserTitle, SmartContract, SmartContractType } from '@app/interfaces';
 import { DialogBodyInvalidamisuraComponent } from '@app/components/dialog-body-invalidamisura/dialog-body-invalidamisura.component';
 import { RegistroService } from '@app/services/registro/registro.service';
-import { filter, switchMap, map, tap, delay, share, shareReplay } from 'rxjs/operators';
+import { filter, switchMap, map, tap, delay, share, shareReplay, concatMapTo, publishReplay, refCount } from 'rxjs/operators';
 import {MatButtonModule} from '@angular/material/button';
 import { UserService } from '@app/services/user/user.service';
 import { Observable, ReplaySubject, combineLatest, Subject, BehaviorSubject, zip } from 'rxjs';
@@ -56,11 +56,13 @@ export class LibrettoComponent implements OnInit, OnDestroy {
     this.isDittaLogged = this.userService.titleCheck(UserTitle.Ditta);
     this.dataSource = this.librettoService.misure.pipe(
       tap(value => console.log(value)),
-      shareReplay()
+      publishReplay(1),
+      refCount()
     );
     this.isLoadingLibretto = this.librettoService.isLoadingObs.pipe(
       tap(value => console.log(value)),
-      shareReplay()
+      publishReplay(1),
+      refCount()
       );
     // this.contractId = new ReplaySubject();
     // this.dataSource = combineLatest(this.librettoService.misure.pipe(tap((value)=>console.log(value))),
@@ -141,34 +143,20 @@ export class LibrettoComponent implements OnInit, OnDestroy {
   insertMisura() {
     console.log(this.dialogInserimentoData);
     // TODO: Ripartire da qui per implemetare feedback eventi transazione ad utente
-    const txEvents = this.blockchainService.txEvents;
-    this.librettoService.insertMisura(this.dialogInserimentoData).pipe(
-      switchMap(() => {
-        console.log('Transaction completed !');
-        return this.librettoService.loadMisure();
-      }))
-      .subscribe(misure =>
-        this.librettoService.updateMisure(misure));
+    // const txEvents = this.blockchainService.txEvents;
+    this.librettoService.insertMisura(this.dialogInserimentoData)
+      .subscribe();
   }
 
   approvaMisure() {
     this.registroService.approvaMisure().pipe(
-      switchMap( () => {
-        console.log('Transaction Completed !');
-        return this.librettoService.loadMisure();
-      }))
-      .subscribe(misure =>
-        this.librettoService.updateMisure(misure));
+      concatMapTo(this.librettoService.loadMisure())
+    ).subscribe();
   }
 
   invalidaMisura(noMisura: Misura['no']) {
-    this.librettoService.invalidaMisura(noMisura).pipe(
-      switchMap(() => {
-        console.log('Transaction completed !');
-        return this.librettoService.loadMisure();
-      }))
-      .subscribe(misure =>
-      this.librettoService.updateMisure(misure));
+    this.librettoService.invalidaMisura(noMisura)
+      .subscribe();
   }
 
   ngOnDestroy(): void {

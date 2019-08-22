@@ -3,7 +3,7 @@
         "constant": false,
         "inputs": [
             {
-                "name": "id",
+                "name": "index",
                 "type": "uint256"
             }
         ],
@@ -148,20 +148,6 @@
         "outputs": [],
         "payable": false,
         "stateMutability": "nonpayable",
-        "type": "function"
-    },
-    {
-        "constant": true,
-        "inputs": [],
-        "name": "getNumeroMisure",
-        "outputs": [
-            {
-                "name": "",
-                "type": "uint256"
-            }
-        ],
-        "payable": false,
-        "stateMutability": "view",
         "type": "function"
     },
     {

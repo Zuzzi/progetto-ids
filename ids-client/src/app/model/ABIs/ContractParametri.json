@@ -2,21 +2,7 @@
     {
         "constant": true,
         "inputs": [],
-        "name": "getStruttureLength",
-        "outputs": [
-            {
-                "name": "",
-                "type": "uint256"
-            }
-        ],
-        "payable": false,
-        "stateMutability": "view",
-        "type": "function"
-    },
-    {
-        "constant": true,
-        "inputs": [],
-        "name": "getSoglieLength",
+        "name": "numeroSoglie",
         "outputs": [
             {
                 "name": "",
@@ -31,11 +17,11 @@
         "constant": true,
         "inputs": [
             {
-                "name": "id",
+                "name": "index",
                 "type": "uint256"
             }
         ],
-        "name": "getStrutture",
+        "name": "getStruttura",
         "outputs": [
             {
                 "name": "",
@@ -76,23 +62,9 @@
     },
     {
         "constant": true,
-        "inputs": [],
-        "name": "getValoreTotale",
-        "outputs": [
-            {
-                "name": "",
-                "type": "int128"
-            }
-        ],
-        "payable": false,
-        "stateMutability": "view",
-        "type": "function"
-    },
-    {
-        "constant": true,
         "inputs": [
             {
-                "name": "id",
+                "name": "index",
                 "type": "uint256"
             }
         ],
@@ -108,10 +80,24 @@
         "type": "function"
     },
     {
+        "constant": true,
+        "inputs": [],
+        "name": "numeroStrutture",
+        "outputs": [
+            {
+                "name": "",
+                "type": "uint256"
+            }
+        ],
+        "payable": false,
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
         "constant": false,
         "inputs": [
             {
-                "name": "idSoglia",
+                "name": "index",
                 "type": "uint256"
             }
         ],
@@ -123,9 +109,23 @@
     },
     {
         "constant": true,
+        "inputs": [],
+        "name": "numeroAttrezzature",
+        "outputs": [
+            {
+                "name": "",
+                "type": "uint256"
+            }
+        ],
+        "payable": false,
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "constant": true,
         "inputs": [
             {
-                "name": "id",
+                "name": "index",
                 "type": "uint256"
             }
         ],
@@ -170,11 +170,39 @@
     {
         "constant": true,
         "inputs": [],
-        "name": "getCategoriaLength",
+        "name": "numeroQualifiche",
         "outputs": [
             {
                 "name": "",
                 "type": "uint256"
+            }
+        ],
+        "payable": false,
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "constant": true,
+        "inputs": [],
+        "name": "numeroCategorieContabili",
+        "outputs": [
+            {
+                "name": "",
+                "type": "uint256"
+            }
+        ],
+        "payable": false,
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "constant": true,
+        "inputs": [],
+        "name": "valoreTotale",
+        "outputs": [
+            {
+                "name": "",
+                "type": "int128"
             }
         ],
         "payable": false,
@@ -226,12 +254,16 @@
         "constant": true,
         "inputs": [
             {
-                "name": "id",
+                "name": "index",
                 "type": "uint256"
             }
         ],
         "name": "getSoglia",
         "outputs": [
+            {
+                "name": "",
+                "type": "uint256"
+            },
             {
                 "name": "",
                 "type": "int128"

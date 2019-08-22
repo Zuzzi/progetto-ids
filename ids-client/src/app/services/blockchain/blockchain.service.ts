@@ -130,10 +130,11 @@ export class BlockchainService {
       }),
       concatMap(signedTx => {
         console.log('Transaction Signed!');
-        this.txEventsStream.next({type: 'signed', data: signedTx});
+        // this.txEventsStream.next({type: 'signed', data: signedTx});
         return this.sendSignedTransaction(signedTx);
       }),
-      tap((receipt) => this.txEventsStream.next({type: 'completed', data: receipt})),
+      tap(() => console.log('Transaction Completed!')),
+      // tap((receipt) => this.txEventsStream.next({type: 'completed', data: receipt})),
       take(1), // per sicurezza anche se gli observable generati da promise completano dopo una singola emissione
     );
   }
@@ -177,22 +178,5 @@ export class BlockchainService {
   signed64x64ToNumber(signed64x64: number): number {
     return signed64x64 / Math.pow(2, 64);
   }
-
-
-  // getMisure(contractID) {
-  //   const address: string = this.contracts.find(element => element._id === contractID).address;
-  //   const abi = this.contractsSources.find(element => element.type === 'master').abi;
-  //   const smartContract = new this.web3.eth.Contract(abi, address);
-  //   const misura = from(smartContract.methods.getMisura(0).call())
-  //   .pipe(map(result => this.formatMisura(result))
-  //   );
-  //   return misura;
-  // }
-
-  // formatMisura(misura): Misura  {
-  //   return {no: misura['0'].toNumber(), tariffa: misura['1'], data: misura['2'].toNumber(),
-  //     categoriaContabile: misura['3'], descrizione: misura['4'], percentuale: misura['5'],
-  //     riserva: misura['6']};
-  // }
 
 }

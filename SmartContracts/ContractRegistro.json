@@ -108,65 +108,6 @@
         "type": "function"
     },
     {
-        "constant": true,
-        "inputs": [
-            {
-                "name": "",
-                "type": "uint256"
-            }
-        ],
-        "name": "arrayContabilita",
-        "outputs": [
-            {
-                "name": "no",
-                "type": "uint256"
-            },
-            {
-                "name": "tariffa",
-                "type": "string"
-            },
-            {
-                "name": "data",
-                "type": "uint256"
-            },
-            {
-                "name": "categoriaContabile",
-                "type": "string"
-            },
-            {
-                "name": "descrizione",
-                "type": "string"
-            },
-            {
-                "name": "percentuale",
-                "type": "int128"
-            },
-            {
-                "name": "prezzoValore",
-                "type": "int128"
-            },
-            {
-                "name": "prezzoPercentuale",
-                "type": "int128"
-            },
-            {
-                "name": "debitoValore",
-                "type": "int128"
-            },
-            {
-                "name": "debitoPercentuale",
-                "type": "int128"
-            },
-            {
-                "name": "pagata",
-                "type": "bool"
-            }
-        ],
-        "payable": false,
-        "stateMutability": "view",
-        "type": "function"
-    },
-    {
         "constant": false,
         "inputs": [
             {
@@ -300,17 +241,5 @@
         "payable": false,
         "stateMutability": "nonpayable",
         "type": "constructor"
-    },
-    {
-        "anonymous": false,
-        "inputs": [
-            {
-                "indexed": false,
-                "name": "value",
-                "type": "int128"
-            }
-        ],
-        "name": "breakpoint",
-        "type": "event"
     }
 ]

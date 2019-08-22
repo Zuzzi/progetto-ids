@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Sal, SmartContractType, SmartContract } from '@app/interfaces';
-import { Observable, Subject, from, forkJoin, ReplaySubject, combineLatest } from 'rxjs';
-import { concatMap, take, map, tap, filter, takeUntil } from 'rxjs/operators';
+import { Observable, Subject, from, forkJoin, ReplaySubject, combineLatest, of } from 'rxjs';
+import { concatMap, take, map, tap, filter, takeUntil, concatMapTo } from 'rxjs/operators';
 import { BlockchainService } from '../blockchain/blockchain.service';
 import { NumberFormatStyle } from '@angular/common';
 import { ParametriService } from '../parametri/parametri.service';
@@ -27,12 +27,12 @@ export class SalService {
     this.isLoading = new ReplaySubject(1) as ReplaySubject<boolean>;
     this.isContractChanged = new Subject();
     this.isLoadingObs = this.isLoading.asObservable();
-    this.vociSal = combineLatest(this.vociSalStream.asObservable(),
-    this.isLoading.asObservable()).pipe(
-      tap(([vociSal, isLoading]) => console.log('misure: ' + vociSal.length, 'isloading: ' + isLoading)),
-      filter(([_, isLoading]) => !isLoading),
-      map(([vociSal, _]) => vociSal)
-    );
+    this.vociSal = combineLatest(this.vociSalStream,
+      this.isLoading).pipe(
+        tap(([vociSal, isLoading]) => console.log('misure: ' + vociSal.length, 'isloading: ' + isLoading)),
+        filter(([_, isLoading]) => !isLoading),
+        map(([vociSal, _]) => vociSal)
+      );
    }
 
    switchToContract(contractId: string) {
@@ -63,7 +63,9 @@ export class SalService {
             data: vociSal[i][0].data, vociSal: vociSal[i]});
       }
       return groupedSal;
-    }));
+    }),
+    tap(sal => this.updateSal(sal))
+    );
   }
 
   updateSal(sal) {
@@ -75,23 +77,30 @@ export class SalService {
   getSal() {
     return from(this.sal.instance.methods.numeroSal().call()).pipe(
       concatMap(numeroSal => {
-        const sal: any[] = [];
-        for (let i = 0; i < numeroSal; i++) {
-          sal.push(from(this.sal.instance.methods.getSal(i).call()));
+        if (Number(numeroSal) !== 0) {
+          const sal: any[] = [];
+          for (let i = 0; i < numeroSal; i++) {
+            sal.push(from(this.sal.instance.methods.getSal(i).call()));
+          }
+          return forkJoin(sal); // fare nested forkjoin con object of array
+        } else {
+          return of([]);
         }
-        return forkJoin(sal); // fare nested forkjoin con object of array
       }),
       take(1), // per sicurezza anche se gli observable generati da promise completano dopo una singola emissione
     );
   }
 
   getInfoPagamento() {
-    return from(this.sal.instance.methods.getInfoPagamento().call());
+    return from(this.sal.instance.methods.getInfoPagamento().call().pipe(
+      takeUntil(this.isContractChanged)
+    ));
   }
 
   approvaRegistro() {
     const approva = this.sal.instance.methods.approvaRegistro();
     return this.blockchainService.newTransaction(approva, this.sal.instance.address).pipe(
+      concatMapTo(this.loadSal()),
       takeUntil(this.isContractChanged)
     );
   }

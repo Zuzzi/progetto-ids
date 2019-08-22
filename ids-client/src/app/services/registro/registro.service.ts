@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable, from, forkJoin, Subject, ReplaySubject, EMPTY, combineLatest } from 'rxjs';
-import { concatMap, take, tap, map, filter, takeUntil } from 'rxjs/operators';
+import { BehaviorSubject, Observable, from, forkJoin, Subject, ReplaySubject, EMPTY, combineLatest, of } from 'rxjs';
+import { concatMap, take, tap, map, filter, takeUntil, concatMapTo } from 'rxjs/operators';
 import {VoceRegistro, DialogInserimentoMisura, SmartContractType, SmartContract} from '@app/interfaces';
 import {WEB3} from '@app/web3.token';
 import Web3 from 'web3';
@@ -65,11 +65,13 @@ export class RegistroService {
 
   loadContabilita() {
     this.isLoading.next(true);
+    console.log('reload');
     return this.getContabilita().pipe(
       takeUntil(this.isContractChanged),
       map(vociRegistro => {
         return this.formatContabilita(vociRegistro);
-      })
+      }),
+      tap(vociRegistro => this.updateContabilita(vociRegistro))
     );
   }
 
@@ -83,11 +85,15 @@ export class RegistroService {
   getContabilita() {
     return from(this.registro.instance.methods.numeroContabilita().call()).pipe(
       concatMap(numerovociRegistro => {
-        const vociRegistro: any[] = [];
-        for (let i = 0; i < numerovociRegistro; i++) {
-          vociRegistro.push(from(this.registro.instance.methods.getContabilita(i).call()));
+        if (Number(numerovociRegistro) !== 0) {
+          const vociRegistro: any[] = [];
+          for (let i = 0; i < numerovociRegistro; i++) {
+            vociRegistro.push(from(this.registro.instance.methods.getContabilita(i).call()));
+          }
+          return forkJoin(vociRegistro);
+        } else {
+          return of([]);
         }
-        return forkJoin(vociRegistro);
       }),
       take(1), // per sicurezza anche se gli observable generati da promise completano dopo una singola emissione
     );
@@ -95,7 +101,10 @@ export class RegistroService {
 
   approvaMisure() {
     const approva = this.registro.instance.methods.approvaMisure();
-    return this.blockchainService.newTransaction(approva, this.registro.instance.address);
+    return this.blockchainService.newTransaction(approva, this.registro.instance.address).pipe(
+      concatMapTo(this.loadContabilita()),
+      takeUntil(this.isContractChanged)
+    );
   }
 
   formatContabilita(vociRegistro) {

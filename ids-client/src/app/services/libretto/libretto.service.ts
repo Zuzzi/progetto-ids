@@ -1,6 +1,6 @@
 import { Injectable, Inject } from '@angular/core';
 import { Subject, Observable, from, forkJoin, ReplaySubject, BehaviorSubject, of, pipe, EMPTY, combineLatest } from 'rxjs';
-import { concatMap, take, map, tap, delay, filter, takeUntil } from 'rxjs/operators';
+import { concatMap, take, map, tap, delay, filter, takeUntil, concatMapTo } from 'rxjs/operators';
 import {Misura, SmartContractType, DialogInserimentoMisura, SmartContract} from '@app/interfaces';
 import { Contract } from 'web3-eth-contract';
 import { BlockchainService } from '@app/services/blockchain/blockchain.service';
@@ -27,11 +27,9 @@ export class LibrettoService {
     this.misureStream =  new ReplaySubject(1) as ReplaySubject<Misura[]>;
     this.isLoading = new ReplaySubject(1) as ReplaySubject<boolean>;
     this.isContractChanged = new Subject();
-    // this.misureStream.next([]);
-    // this.misureStore = [];
     this.isLoadingObs = this.isLoading.asObservable();
-    this.misure = combineLatest(this.misureStream.asObservable(),
-      this.isLoading.asObservable()).pipe(
+    this.misure = combineLatest(this.misureStream,
+      this.isLoading).pipe(
         tap(([misure, isLoading]) => console.log('misure: ' + misure.length, 'isloading: ' + isLoading)),
         filter(([_, isLoading]) => !isLoading),
         map(([misure, _]) => misure)
@@ -43,7 +41,6 @@ export class LibrettoService {
     this.libretto = this.blockchainService.getSmartContract(contractId,
       SmartContractType.Libretto) as SmartContract<SmartContractType.Libretto>;
     this.isContractChanged.next();
-    // this.loadMisure().subscribe(misure => this.updateMisure(misure));
   }
 
   // switchToContract(contractId: string) {
@@ -66,11 +63,12 @@ export class LibrettoService {
   loadMisure() {
     this.isLoading.next(true);
     return this.getMisure().pipe(
-      delay(5000),
+      delay(3000),
       takeUntil(this.isContractChanged),
       map(misure => {
         return this.formatMisure(misure);
       }),
+      tap(misure => this.updateMisure(misure))
     );
   }
 
@@ -81,13 +79,17 @@ export class LibrettoService {
   }
 
   getMisure() {
-    return from(this.libretto.instance.methods.getNumeroMisure().call()).pipe(
+    return from(this.libretto.instance.methods.numeroMisure().call()).pipe(
       concatMap(numeroMisure => {
-        const misure: any[] = [];
-        for (let i = 0; i < numeroMisure; i++) {
-          misure.push(from(this.libretto.instance.methods.getMisura(i).call()));
+        if (Number(numeroMisure) !== 0) {
+          const misure: any[] = [];
+          for (let i = 0; i < numeroMisure; i++) {
+            misure.push(from(this.libretto.instance.methods.getMisura(i).call()));
+          }
+          return forkJoin(misure);
+        } else {
+          return of([]);
         }
-        return forkJoin(misure);
       }),
       take(1), // per sicurezza anche se gli observable generati da promise completano dopo una singola emissione
     );
@@ -99,7 +101,8 @@ export class LibrettoService {
     const insert = this.libretto.instance.methods.inserisciMisura(misura.categoriaContabile,
       misura.descrizione, percentuale, misura.riserva);
     return this.blockchainService.newTransaction(insert, this.libretto.instance.address).pipe(
-      takeUntil(this.isContractChanged)
+      concatMapTo(this.loadMisure()),
+      takeUntil(this.isContractChanged),
     );
   }
 
@@ -107,6 +110,7 @@ export class LibrettoService {
     const invalidation = this.libretto.instance.methods.invalidaMisura(noMisura);
     return this.blockchainService
       .newTransaction(invalidation, this.libretto.instance.address).pipe(
+        concatMapTo(this.loadMisure()),
         takeUntil(this.isContractChanged)
       );
   }
