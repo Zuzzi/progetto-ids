@@ -43,16 +43,15 @@ export class LibrettoService {
   }
 
   loadMisure() {
-    return concat(
-      of().pipe(
-        finalize(() => this.isLoading.next(true))),
-      this.getMisure().pipe(
-        takeUntil(this.isContractChanged),
-        map(misure => {
-          return this.formatMisure(misure);
-        }),
-        tap(misure => this.updateMisure(misure))
-      ));
+    return of(true).pipe(
+        tap(() => this.isLoading.next(true)),
+        concatMapTo(this.getMisure().pipe(
+          takeUntil(this.isContractChanged),
+          map(misure => {
+            return this.formatMisure(misure);
+          }),
+          tap(misure => this.updateMisure(misure))
+      )));
   }
 
   updateMisure(misure) {

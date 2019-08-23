@@ -45,14 +45,13 @@ export class SalService {
   // getInfoPagamento()
 
   loadSal() {
-    const vociSal = concat(
-      of().pipe(
-        finalize(() => this.isLoading.next(true))),
-      this.getSal().pipe(
+    const vociSal = of(true).pipe(
+        tap(() => this.isLoading.next(true)),
+      concatMapTo(this.getSal().pipe(
         map(sal => {
           return this.groupSal(this.formatSal(sal));
         })
-    ));
+    )));
     const soglie = this.parametriService.loadSoglie();
     return forkJoin(vociSal, soglie).pipe(
       takeUntil(this.isContractChanged),

@@ -46,16 +46,15 @@ export class RegistroService {
   }
 
   loadContabilita() {
-    return concat(
-      of().pipe(
-        finalize(() => this.isLoading.next(true))),
-      this.getContabilita().pipe(
+    return of(true).pipe(
+      tap(() => this.isLoading.next(true)),
+      concatMapTo(this.getContabilita().pipe(
         takeUntil(this.isContractChanged),
         map(vociRegistro => {
           return this.formatContabilita(vociRegistro);
         }),
-      tap(vociRegistro => this.updateContabilita(vociRegistro))
-    ));
+        tap(vociRegistro => this.updateContabilita(vociRegistro))
+    )));
   }
 
   updateContabilita(vociRegistro) {

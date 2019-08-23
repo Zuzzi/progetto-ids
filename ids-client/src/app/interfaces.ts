@@ -73,6 +73,17 @@ export interface Sal {
   debitoValore: number;
   debitoPercentuale: number;
 }
+
+export interface CategoriaContabile {
+  nome: string;
+  valore: number;
+  tariffa: string;
+}
+
+export interface Struttura {
+  nome: string;
+}
+
 export class User {
   username: string;
   password: string;
