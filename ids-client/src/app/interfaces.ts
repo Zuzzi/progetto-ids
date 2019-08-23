@@ -2,6 +2,7 @@ import { Unit } from 'web3-utils';
 import { Timestamp } from 'rxjs/internal/operators/timestamp';
 import { EncryptedKeystoreV3Json } from 'web3-eth-accounts';
 import { Contract } from 'web3-eth-contract';
+import { Observable } from 'rxjs';
 
 export enum SmartContractType {
   Libretto = 'libretto',
@@ -45,6 +46,8 @@ export interface DialogInserimentoMisura {
   descrizione: string;
   percentuale: number;
   riserva: string;
+  elencoCategorie: Observable<any>;
+  elencoStrutture: Observable<any>;
 }
 
 export interface VoceRegistro {

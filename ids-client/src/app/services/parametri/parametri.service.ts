@@ -13,12 +13,12 @@ export class ParametriService {
   soglie: Observable<Soglia[]>;
   private soglieStore: Soglia[];
 
-  private categorieStream: Subject<CategoriaContabile[]>;
-  categorie: Observable<CategoriaContabile[]>;
+  private categorieStream: Subject<CategoriaContabile[]> = new ReplaySubject();
+  categorie: Observable<CategoriaContabile[]> = this.categorieStream.asObservable();
   private categorieStore: CategoriaContabile[];
 
-  private struttureStream: Subject<Struttura[]>;
-  strutture: Observable<Struttura[]>;
+  private struttureStream: Subject<Struttura[]> = new ReplaySubject();
+  strutture: Observable<Struttura[]> = this.struttureStream.asObservable();
   private struttureStore: Struttura[];
 
   private isLoading: Subject<boolean>;
@@ -183,7 +183,7 @@ export class ParametriService {
   formatStrutture(strutture) {
     const formatted: Struttura[] = [];
     strutture.forEach(struttura => {
-      formatted.push({nome: struttura['0']});
+      formatted.push({nome: struttura});
     });
     return formatted;
   }

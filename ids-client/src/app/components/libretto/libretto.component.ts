@@ -16,6 +16,7 @@ import { filter, switchMap, map, tap, delay, share, shareReplay, concatMapTo, pu
 import {MatButtonModule} from '@angular/material/button';
 import { UserService } from '@app/services/user/user.service';
 import { Observable, ReplaySubject, combineLatest, Subject, BehaviorSubject, zip } from 'rxjs';
+import { ParametriService } from '@app/services/parametri/parametri.service';
 
 
 
@@ -35,7 +36,9 @@ export class LibrettoComponent implements OnInit, OnDestroy {
   isRupLogged: boolean;
   isDittaLogged: boolean;
   dialogInserimentoData: DialogInserimentoMisura = {categoriaContabile: '',
-  descrizione: '', percentuale: null, riserva: ''};
+  descrizione: '', percentuale: null, riserva: '',
+  elencoCategorie: this.parametriService.categorie.pipe(publishReplay(1), refCount()),
+  elencoStrutture: this.parametriService.strutture.pipe(publishReplay(1), refCount())};
   isLoadingLibretto: Observable<boolean>;
   // libretto: SmartContract<SmartContractType.Libretto>;
   // registro: SmartContract<SmartContractType.Registro>;
@@ -45,7 +48,8 @@ export class LibrettoComponent implements OnInit, OnDestroy {
   constructor(private dialog: MatDialog, private userService: UserService,
               private activatedRoute: ActivatedRoute, private blockchainService: BlockchainService,
               private librettoService: LibrettoService,
-              private registroService: RegistroService) {}
+              private registroService: RegistroService,
+              private parametriService: ParametriService) {}
 
   ngOnInit() {
     // TODO: rimuovere questa modifica temporanea per testare conferma registro.
@@ -66,9 +70,11 @@ export class LibrettoComponent implements OnInit, OnDestroy {
   }
   // TODO: Modificare passaggio valori per renderlo più ordinato
   openDialogInserimento(): void {
+    this.parametriService.loadCategorieContabili().subscribe();
+    this.parametriService.loadStrutture().subscribe();
     const dialogRef = this.dialog.open(DialogBodyInslibrettoComponent, {
-      data: this.dialogInserimentoData
-    });
+      data: this.dialogInserimentoData,
+    },);
 
     dialogRef.afterClosed().subscribe(value => {
       if (value) {
