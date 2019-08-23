@@ -22,14 +22,12 @@ export class RegistroComponent implements OnInit, OnDestroy {
   displayedColumns = ['no', 'tariffa', 'data', 'designazione', 'categoriaContabile',
    'percentuale', 'prezzoPercentuale', 'debitoValore', 'debitoPercentuale'];
   dataSource;
-  contractId: string;
   isDirettoreLogged: boolean;
   isRupLogged: boolean;
   isDittaLogged: boolean;
   registro: SmartContract<SmartContractType.Registro>;
   sal: SmartContract<SmartContractType.Sal>;
   isLoadingRegistro: Observable<boolean>;
-  routeSub: any;
 
   constructor(private dialog: MatDialog, private userService: UserService,
               private activatedRoute: ActivatedRoute, private blockchainService: BlockchainService,
@@ -46,26 +44,12 @@ export class RegistroComponent implements OnInit, OnDestroy {
       tap(value => console.log(value)),
       publishReplay(1),
       refCount()
-      );
+    );
     this.isLoadingRegistro = this.registroService.isLoadingObs.pipe(
       tap(value => console.log(value)),
       publishReplay(1),
       refCount()
-      );
-    // this.dataSource = this.registroService.vociRegistro;
-  //   this.routeSub = this.activatedRoute.parent.paramMap.pipe(
-  //     switchMap(params => {
-  //     this.contractId = params.get('contractId');
-  //     console.log(this.contractId);
-  //     // switchToContract per il titolo del contratto
-  //     this.registro = this.blockchainService.getSmartContract(this.contractId,
-  //       SmartContractType.Registro) as SmartContract<SmartContractType.Registro>;
-  //     this.sal = this.blockchainService.getSmartContract(this.contractId,
-  //       SmartContractType.Sal) as SmartContract<SmartContractType.Sal>;
-  //     return this.registroService.loadContabilita(this.registro);
-  //   }))
-  //   .subscribe(vociRegistro =>
-  //     this.registroService.updateContabilita(vociRegistro));
+    );
   }
 
   openDialogInserimentoRegistro() {
@@ -90,7 +74,6 @@ export class RegistroComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    // this.routeSub.unsubscribe();
   }
 
 }

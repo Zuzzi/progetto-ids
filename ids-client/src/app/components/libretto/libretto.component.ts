@@ -51,7 +51,6 @@ export class LibrettoComponent implements OnInit, OnDestroy {
     // TODO: rimuovere questa modifica temporanea per testare conferma registro.
     // this.isRupLogged = this.userService.titleCheck(UserTitle.Rup);
     this.isRupLogged = true;
-    // this.disableInput = new Subject();
     this.isDirettoreLogged = this.userService.titleCheck(UserTitle.Direttore);
     this.isDittaLogged = this.userService.titleCheck(UserTitle.Ditta);
     this.dataSource = this.librettoService.misure.pipe(
@@ -63,38 +62,8 @@ export class LibrettoComponent implements OnInit, OnDestroy {
       tap(value => console.log(value)),
       publishReplay(1),
       refCount()
-      );
-    // this.contractId = new ReplaySubject();
-    // this.dataSource = combineLatest(this.librettoService.misure.pipe(tap((value)=>console.log(value))),
-    // this.contractId.pipe(tap((value)=>console.log(value)))).pipe(
-    //   filter( result => {
-    //     console.log(result[0].contractId === result[1]);
-    //     return result[0].contractId === result[1];
-    //   }),
-    //   map(result => {
-    //     return result[0].misure;
-    //   }),
-    //   tap(() => this.disableInput.next(false)),
-    //   shareReplay(1)
-    // );
-
-    // this.routeSub = this.activatedRoute.parent.paramMap
-    //   .subscribe(params => {
-    //   this.contractId.next(params.get('contractId'));
-    //   this.disableInput.next(true);
-    //   });
-    //   console.log(this.contractId);
-    //   // switchToContract per il titolo del contratto
-    //   this.libretto = this.blockchainService.getSmartContract(this.contractId,
-    //     SmartContractType.Libretto) as SmartContract<SmartContractType.Libretto>;
-    //   this.registro = this.blockchainService.getSmartContract(this.contractId,
-    //     SmartContractType.Registro) as SmartContract<SmartContractType.Registro>;
-    //   return this.librettoService.loadMisure(this.libretto);
-    // })).subscribe(
-    //   misure => {
-    //   this.librettoService.updateMisure(misure);
-    // });
-}
+    );
+  }
   // TODO: Modificare passaggio valori per renderlo più ordinato
   openDialogInserimento(): void {
     const dialogRef = this.dialog.open(DialogBodyInslibrettoComponent, {
@@ -106,7 +75,7 @@ export class LibrettoComponent implements OnInit, OnDestroy {
         console.log('Dialog sent: ' + value);
         this.dialogInserimentoData = value;
         this.insertMisura();
-    }
+      }
     });
   }
 
@@ -160,7 +129,6 @@ export class LibrettoComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    // this.routeSub.unsubscribe();
   }
 
 }

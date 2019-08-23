@@ -22,16 +22,12 @@ import { Observable } from 'rxjs';
 })
 export class SalComponent implements OnInit, OnDestroy {
 
-  // contractId: string;
   columnsToDisplay = ['no', 'valore', 'data'];
   internalColumns = ['no', 'tariffa', 'data', 'categoriaContabile', 'descrizione',
   'percentuale', 'prezzoValore', 'prezzoPercentuale', 'debitoValore', 'debitoPercentuale'];
   dataSource;
   expandedElement: Sal[] | null;
   isLoadingSal: Observable<boolean>;
-  routeSub: any;
-  // sal: SmartContract<SmartContractType.Sal>;
-  // parametri: SmartContract<SmartContractType.Parametri>;
 
   constructor(private salService: SalService, private activatedRoute: ActivatedRoute,
               private blockchainService: BlockchainService) { }
@@ -47,69 +43,10 @@ export class SalComponent implements OnInit, OnDestroy {
       publishReplay(1),
       refCount()
     );
-    // this.dataSource = this.salService.sal;
-    // this.routeSub = this.activatedRoute.parent.paramMap.pipe(
-    //   switchMap(params => {
-    //   this.contractId = params.get('contractId');
-    //   console.log(this.contractId);
-    //   // switchToContract per il titolo del contratto
-    //   this.sal = this.blockchainService.getSmartContract(this.contractId,
-    //     SmartContractType.Sal) as SmartContract<SmartContractType.Sal>;
-    //   this.parametri = this.blockchainService.getSmartContract(this.contractId,
-    //     SmartContractType.Parametri) as SmartContract<SmartContractType.Parametri>;
-    //   return this.salService.loadSal(this.sal, this.parametri);
-    // })).subscribe(sal => {
-    //   this.salService.updateSal(sal);
-    //   console.log(sal);
-    // });
   }
 
   ngOnDestroy(): void {
-    // this.routeSub.unsubscribe();
   }
 }
-
-// export interface PeriodicElement {
-//   id_soglia: number;
-//   importo: number;
-//   data_approvazione: string;
-//   id: number;
-//   tariffa: string;
-//   data: string;
-//   indicazione: string;
-//   quantita: number;
-//   importounitario: number;
-//   aliquote1: number;
-//   importototale: number;
-//   aliquote2: number;
-//  }
-
-
-
-//  const ELEMENT_DATA: PeriodicElement[] = [
-//    // tslint:disable-next-line:max-line-length
-//    { id_soglia: 1 , importo: 100000, data_approvazione: '10/02/2019',id: 1 , tariffa: '1.000.001', data: '10/02/2019', indicazione: 'Categoria 1', quantita: 25, importounitario: 9.000, aliquote1: 10, importototale: 2.000, aliquote2: 2.3},
-//    // tslint:disable-next-line:max-line-length
-//    { id_soglia: 1 , importo: 100000, data_approvazione: '10/02/2019',id: 1 , tariffa: '1.000.001', data: '10/02/2019', indicazione: 'Categoria 1', quantita: 25, importounitario: 9.000, aliquote1: 10, importototale: 2.000, aliquote2: 2.3},
-//    // tslint:disable-next-line:max-line-length
-//    { id_soglia: 1 , importo: 100000, data_approvazione: '10/02/2019',id: 1 , tariffa: '1.000.001', data: '10/02/2019', indicazione: 'Categoria 1', quantita: 25, importounitario: 9.000, aliquote1: 10, importototale: 2.000, aliquote2: 2.3},
-//    // tslint:disable-next-line:max-line-length
-//    { id_soglia: 1 , importo: 100000, data_approvazione: '10/02/2019',id: 1 , tariffa: '1.000.001', data: '10/02/2019',  indicazione: 'Categoria 1', quantita: 25, importounitario: 9.000, aliquote1: 10, importototale: 2.000, aliquote2: 2.3},
-//    // tslint:disable-next-line:max-line-length
-//    { id_soglia: 1 , importo: 100000, data_approvazione: '10/02/2019',id: 1 , tariffa: '1.000.001', data: '10/02/2019', indicazione: 'Categoria 1', quantita: 25, importounitario: 9.000, aliquote1: 10, importototale: 2.000, aliquote2: 2.3},
-//    // tslint:disable-next-line:max-line-length
-//    { id_soglia: 1 , importo: 100000, data_approvazione: '10/02/2019',id: 1 , tariffa: '1.000.001', data: '10/02/2019', indicazione: 'Categoria 1', quantita: 25, importounitario: 9.000, aliquote1: 10, importototale: 2.000, aliquote2: 2.3},
-//    // tslint:disable-next-line:max-line-length
-//    { id_soglia: 1 , importo: 100000, data_approvazione: '10/02/2019',id: 1 , tariffa: '1.000.001', data: '10/02/2019', indicazione: 'Categoria 1', quantita: 25, importounitario: 9.000, aliquote1: 10, importototale: 2.000, aliquote2: 2.3},
-//    // tslint:disable-next-line:max-line-length
-//    { id_soglia: 1 , importo: 100000, data_approvazione: '10/02/2019',id: 1 , tariffa: '1.000.001', data: '10/02/2019',  indicazione: 'Categoria 1', quantita: 25, importounitario: 9.000, aliquote1: 10, importototale: 2.000, aliquote2: 2.3},
-//    { id_soglia: 1 , importo: 100000, data_approvazione: '10/02/2019',id: 1 , tariffa: '1.000.001', data: '10/02/2019', indicazione: 'Categoria 1', quantita: 25, importounitario: 9.000, aliquote1: 10, importototale: 2.000, aliquote2: 2.3},
-//    // tslint:disable-next-line:max-line-length
-//    { id_soglia: 1 , importo: 100000, data_approvazione: '10/02/2019',id: 1 , tariffa: '1.000.001', data: '10/02/2019', indicazione: 'Categoria 1', quantita: 25, importounitario: 9.000, aliquote1: 10, importototale: 2.000, aliquote2: 2.3},
-//    // tslint:disable-next-line:max-line-length
-//    { id_soglia: 1 , importo: 100000, data_approvazione: '10/02/2019',id: 1 , tariffa: '1.000.001', data: '10/02/2019',  indicazione: 'Categoria 1', quantita: 25, importounitario: 9.000, aliquote1: 10, importototale: 2.000, aliquote2: 2.3},
-//    // tslint:disable-next-line:max-line-length
-//  ];
-
 
 

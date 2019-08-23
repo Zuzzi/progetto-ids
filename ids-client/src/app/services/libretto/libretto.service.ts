@@ -12,7 +12,7 @@ import { AbiItem, toChecksumAddress } from 'web3-utils';
   providedIn: 'root'
 })
 export class LibrettoService {
-  // private readonly TYPE: ContractType = 'libretto';
+
   private misureStream: Subject<Misura[]>;
   misure: Observable<Misura[]>;
   private misureStore: Misura[];
@@ -21,7 +21,6 @@ export class LibrettoService {
   private isContractChanged: Subject<any>;
   private libretto: SmartContract<SmartContractType.Libretto>;
   private contractId: string;
-  // private contract: Contract;
 
   constructor(private blockchainService: BlockchainService) {
     this.misureStream =  new ReplaySubject(1) as ReplaySubject<Misura[]>;
@@ -42,23 +41,6 @@ export class LibrettoService {
       SmartContractType.Libretto) as SmartContract<SmartContractType.Libretto>;
     this.isContractChanged.next();
   }
-
-  // switchToContract(contractId: string) {
-  //   if (!(this.contractId === contractId)) {
-  //     this.contractId = contractId;
-  //     const abi: AbiItem[] = contractABI as AbiItem[];
-  //     // TODO: gestire il caso in cui l'id del contratto non si trova tra quelli dell'utente
-  //     const address = this.authService.getAddress(contractId, this.TYPE);
-  //     // TODO: spostare creazione istanza contratto in blockchain
-  //     // in modo da non utilizzare web3 direttamente qui
-  //     const web3 = this.blockchainService.getWeb3();
-  //     this.contract = new web3.eth.Contract(abi, address);
-  //   }
-  // }
-
-  // clear() {
-  //   this.misureStream.next();
-  // }
 
   loadMisure() {
     return concat(
