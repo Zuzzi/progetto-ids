@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable, from, forkJoin, Subject, ReplaySubject, EMPTY, combineLatest, of } from 'rxjs';
-import { concatMap, take, tap, map, filter, takeUntil, concatMapTo } from 'rxjs/operators';
+import { BehaviorSubject, Observable, from, forkJoin, Subject, ReplaySubject, EMPTY, combineLatest, of, concat, defer } from 'rxjs';
+import { concatMap, take, tap, map, filter, takeUntil, concatMapTo, finalize } from 'rxjs/operators';
 import {VoceRegistro, DialogInserimentoMisura, SmartContractType, SmartContract} from '@app/interfaces';
 import {WEB3} from '@app/web3.token';
 import Web3 from 'web3';
@@ -64,15 +64,16 @@ export class RegistroService {
   // }
 
   loadContabilita() {
-    this.isLoading.next(true);
-    console.log('reload');
-    return this.getContabilita().pipe(
-      takeUntil(this.isContractChanged),
-      map(vociRegistro => {
-        return this.formatContabilita(vociRegistro);
-      }),
+    return concat(
+      of().pipe(
+        finalize(() => this.isLoading.next(true))),
+      this.getContabilita().pipe(
+        takeUntil(this.isContractChanged),
+        map(vociRegistro => {
+          return this.formatContabilita(vociRegistro);
+        }),
       tap(vociRegistro => this.updateContabilita(vociRegistro))
-    );
+    ));
   }
 
   updateContabilita(vociRegistro) {
@@ -83,7 +84,9 @@ export class RegistroService {
 
 
   getContabilita() {
-    return from(this.registro.instance.methods.numeroContabilita().call()).pipe(
+    return defer(() =>
+    from(this.registro.instance.methods.numeroContabilita().call()))
+    .pipe(
       concatMap(numerovociRegistro => {
         if (Number(numerovociRegistro) !== 0) {
           const vociRegistro: any[] = [];

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Sal, SmartContractType, SmartContract } from '@app/interfaces';
-import { Observable, Subject, from, forkJoin, ReplaySubject, combineLatest, of } from 'rxjs';
-import { concatMap, take, map, tap, filter, takeUntil, concatMapTo } from 'rxjs/operators';
+import { Observable, Subject, from, forkJoin, ReplaySubject, combineLatest, of, concat, defer } from 'rxjs';
+import { concatMap, take, map, tap, filter, takeUntil, concatMapTo, finalize } from 'rxjs/operators';
 import { BlockchainService } from '../blockchain/blockchain.service';
 import { NumberFormatStyle } from '@angular/common';
 import { ParametriService } from '../parametri/parametri.service';
@@ -45,12 +45,14 @@ export class SalService {
   // getInfoPagamento()
 
   loadSal() {
-    this.isLoading.next(true);
-    const vociSal = this.getSal().pipe(
-      map(sal => {
-        return this.groupSal(this.formatSal(sal));
-      })
-    );
+    const vociSal = concat(
+      of().pipe(
+        finalize(() => this.isLoading.next(true))),
+      this.getSal().pipe(
+        map(sal => {
+          return this.groupSal(this.formatSal(sal));
+        })
+    ));
     const soglie = this.parametriService.loadSoglie();
     return forkJoin(vociSal, soglie).pipe(
       takeUntil(this.isContractChanged),
@@ -75,7 +77,9 @@ export class SalService {
   }
 
   getSal() {
-    return from(this.sal.instance.methods.numeroSal().call()).pipe(
+    return defer(() =>
+    from(this.sal.instance.methods.numeroSal().call()))
+    .pipe(
       concatMap(numeroSal => {
         if (Number(numeroSal) !== 0) {
           const sal: any[] = [];

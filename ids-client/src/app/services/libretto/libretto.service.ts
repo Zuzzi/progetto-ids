@@ -1,6 +1,6 @@
 import { Injectable, Inject } from '@angular/core';
-import { Subject, Observable, from, forkJoin, ReplaySubject, BehaviorSubject, of, pipe, EMPTY, combineLatest } from 'rxjs';
-import { concatMap, take, map, tap, delay, filter, takeUntil, concatMapTo } from 'rxjs/operators';
+import { Subject, Observable, from, forkJoin, ReplaySubject, BehaviorSubject, of, pipe, EMPTY, combineLatest, defer, empty, concat } from 'rxjs';
+import { concatMap, take, map, tap, delay, filter, takeUntil, concatMapTo, finalize } from 'rxjs/operators';
 import {Misura, SmartContractType, DialogInserimentoMisura, SmartContract} from '@app/interfaces';
 import { Contract } from 'web3-eth-contract';
 import { BlockchainService } from '@app/services/blockchain/blockchain.service';
@@ -61,15 +61,16 @@ export class LibrettoService {
   // }
 
   loadMisure() {
-    this.isLoading.next(true);
-    return this.getMisure().pipe(
-      delay(3000),
-      takeUntil(this.isContractChanged),
-      map(misure => {
-        return this.formatMisure(misure);
-      }),
-      tap(misure => this.updateMisure(misure))
-    );
+    return concat(
+      of().pipe(
+        finalize(() => this.isLoading.next(true))),
+      this.getMisure().pipe(
+        takeUntil(this.isContractChanged),
+        map(misure => {
+          return this.formatMisure(misure);
+        }),
+        tap(misure => this.updateMisure(misure))
+      ));
   }
 
   updateMisure(misure) {
@@ -79,7 +80,9 @@ export class LibrettoService {
   }
 
   getMisure() {
-    return from(this.libretto.instance.methods.numeroMisure().call()).pipe(
+    return defer(() =>
+    from(this.libretto.instance.methods.numeroMisure().call()))
+    .pipe(
       concatMap(numeroMisure => {
         if (Number(numeroMisure) !== 0) {
           const misure: any[] = [];
