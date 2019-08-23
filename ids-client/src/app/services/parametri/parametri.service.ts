@@ -65,7 +65,7 @@ export class ParametriService {
     const formatted: Soglia[] = [];
     soglie.forEach(soglia => {
       formatted.push({no: soglia['0'],
-      valore: soglia['1'],
+      valore: this.blockchainService.signed64x64ToNumber(soglia['1']),
       superata: soglia['2']});
     });
     return formatted;
