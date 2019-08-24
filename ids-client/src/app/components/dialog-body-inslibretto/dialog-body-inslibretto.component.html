@@ -36,7 +36,7 @@
                                 Designazione dei Lavori
                                 <div data-name="Designazione" style="width: 100%">
                                     <select [(ngModel)]="data.descrizione" name="Designazione">
-                                        <option *ngFor="let struttura of data.elencoStrutture | async">{{struttura.nome}}</option>
+                                        <option *ngFor="let struttura of (data.elencoStrutture | async)?.data" [value]="struttura.nome">{{struttura.nome}}</option>
                                         <!-- <option value="">Selezione Struttura</option>
                                         <option value="Fabbricato A">Fabbricato A</option>
                                         <option value="Fabbricato B">Fabbricato B</option>
@@ -49,7 +49,7 @@
                                 Categoria Contabile
                                 <div data-name="Categoria">
                                     <select [(ngModel)]="data.categoriaContabile" name="Categoria">
-                                        <option *ngFor="let categoria of data.elencoCategorie | async">{{categoria.nome}}</option>
+                                        <option *ngFor="let categoria of (data.elencoCategorie | async)?.data; let first = first;" [value]="categoria.nome">{{categoria.nome}}</option>
                                         <!-- <option value="">Selezione Categoria </option>
                                         <option value="Pavimentazione">Pavimentazione</option>
                                         <option value="Colonnato">Colonnato</option> -->

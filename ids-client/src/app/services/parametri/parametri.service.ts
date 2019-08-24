@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Subject, Observable, from, forkJoin, ReplaySubject, combineLatest, concat, of, defer } from 'rxjs';
 import { Soglia, SmartContract, SmartContractType, Struttura, CategoriaContabile } from '@app/interfaces';
-import { concatMap, take, map, filter, tap, takeUntil, finalize, concatMapTo } from 'rxjs/operators';
+import { concatMap, take, map, filter, tap, takeUntil, finalize, concatMapTo, withLatestFrom } from 'rxjs/operators';
 import { BlockchainService } from '../blockchain/blockchain.service';
 
 @Injectable({
@@ -10,34 +10,70 @@ import { BlockchainService } from '../blockchain/blockchain.service';
 export class ParametriService {
 
   private soglieStream: Subject<Soglia[]>;
-  soglie: Observable<Soglia[]>;
+  soglie: Observable<any>;
   private soglieStore: Soglia[];
+  private isLoadingSoglie: Subject<boolean> = new ReplaySubject(1);
 
-  private categorieStream: Subject<CategoriaContabile[]> = new ReplaySubject();
-  categorie: Observable<CategoriaContabile[]> = this.categorieStream.asObservable();
+  private categorieStream: Subject<CategoriaContabile[]> = new ReplaySubject(1);
+  categorie: Observable<any>;
   private categorieStore: CategoriaContabile[];
+  private isLoadingCategorie: Subject<boolean> = new ReplaySubject(1);
 
-  private struttureStream: Subject<Struttura[]> = new ReplaySubject();
-  strutture: Observable<Struttura[]> = this.struttureStream.asObservable();
+  private struttureStream: Subject<Struttura[]> = new ReplaySubject(1);
+  strutture: Observable<any>;
   private struttureStore: Struttura[];
+  private isLoadingStrutture: Subject<boolean> = new ReplaySubject(1);
 
-  private isLoading: Subject<boolean>;
-  isLoadingObs: Observable<boolean>;
+
+  // isLoadingObs: Observable<boolean>;
   private isContractChanged: Subject<any>;
   private contractId: string;
   private parametri: SmartContract<SmartContractType.Parametri>;
 
   constructor(private blockchainService: BlockchainService, ) {
-    this.soglieStream = new ReplaySubject() as ReplaySubject<Soglia[]>;
-    this.isLoading = new ReplaySubject() as ReplaySubject<boolean>;
-    this.isLoadingObs = this.isLoading.asObservable();
+    this.soglieStream = new ReplaySubject(1) as ReplaySubject<Soglia[]>;
+    // this.isLoading = new ReplaySubject() as ReplaySubject<boolean>;
+    // this.isLoadingObs = this.isLoading.asObservable();
     this.isContractChanged = new Subject();
-    this.soglie = combineLatest(this.soglieStream.asObservable(),
-      this.isLoading.asObservable()).pipe(
-      tap(([soglie, isLoading]) => console.log('misure: ' + soglie.length, 'isloading: ' + isLoading)),
-      filter(([_, isLoading]) => !isLoading),
-      map(([soglie, _]) => soglie)
+    this.soglie = this.isLoadingSoglie.pipe(
+      withLatestFrom(this.soglieStream),
+      tap(([isLoading, soglie]) => console.log('soglie: ' + soglie.length, 'isloading: ' + isLoading)),
+      map(([isLoading, soglie]) => {
+        if (isLoading) {
+          return {isLoading, data: []};
+        } else {
+          return {isLoading, data: soglie};
+        }
+      }),
     );
+    this.categorie = this.isLoadingCategorie.pipe(
+      withLatestFrom(this.categorieStream),
+      tap(([isLoading, categorie]) => console.log('categorie: ' + categorie.length, 'isloading: ' + isLoading)),
+      map(([isLoading, categorie]) => {
+        if (isLoading) {
+          return {isLoading, data: []};
+        } else {
+          return {isLoading, data: categorie};
+        }
+      }),
+    );
+    this.strutture = this.isLoadingStrutture.pipe(
+      withLatestFrom(this.struttureStream),
+      tap(([isLoading, strutture]) => console.log('strutture: ' + strutture.length, 'isloading: ' + isLoading)),
+      map(([isLoading, strutture]) => {
+        if (isLoading) {
+          return {isLoading, data: []};
+        } else {
+          return {isLoading, data: strutture};
+        }
+      }),
+    );
+    // this.soglie = combineLatest(this.soglieStream.asObservable(),
+    //   this.isLoading.asObservable()).pipe(
+    //   tap(([soglie, isLoading]) => console.log('misure: ' + soglie.length, 'isloading: ' + isLoading)),
+    //   filter(([_, isLoading]) => !isLoading),
+    //   map(([soglie, _]) => soglie)
+    // );
   }
 
   switchToContract(contractId: string) {
@@ -49,7 +85,7 @@ export class ParametriService {
 
   loadSoglie() {
     return of(true).pipe(
-        tap(() => this.isLoading.next(true)),
+        tap(() => this.isLoadingSoglie.next(true)),
         concatMapTo(this.getSoglie().pipe(
           takeUntil(this.isContractChanged),
           map(soglie => {
@@ -60,47 +96,45 @@ export class ParametriService {
   }
 
   loadCategorieContabili() {
-    return concat(
-      of().pipe(
-        finalize(() => this.isLoading.next(true))),
-      this.getCategorieContabili().pipe(
-        takeUntil(this.isContractChanged),
-        map(categorie => {
-          return this.formatCategorieContabili(categorie);
-        }),
-      tap(categorie => this.updateCategorieContabili(categorie))
-    ));
+    return of(true).pipe(
+        tap(() => this.isLoadingCategorie.next(true)),
+        concatMapTo(this.getCategorieContabili().pipe(
+          takeUntil(this.isContractChanged),
+          map(categorie => {
+            return this.formatCategorieContabili(categorie);
+          }),
+        tap(categorie => this.updateCategorieContabili(categorie))
+    )));
   }
 
   loadStrutture() {
-    return concat(
-      of().pipe(
-        finalize(() => this.isLoading.next(true))),
-      this.getStrutture().pipe(
+    return of(true).pipe(
+      tap(() => this.isLoadingStrutture.next(true)),
+      concatMapTo(this.getStrutture().pipe(
         takeUntil(this.isContractChanged),
         map(strutture => {
           return this.formatStrutture(strutture);
         }),
       tap(strutture => this.updateStrutture(strutture))
-    ));
+    )));
   }
 
   updateSoglie(soglie) {
     this.soglieStore = soglie;
     this.soglieStream.next(Object.assign([], this.soglieStore));
-    this.isLoading.next(false);
+    this.isLoadingSoglie.next(false);
   }
 
   updateCategorieContabili(categorie) {
     this.categorieStore = categorie;
     this.categorieStream.next(Object.assign([], this.categorieStore));
-    this.isLoading.next(false);
+    this.isLoadingCategorie.next(false);
   }
 
   updateStrutture(strutture) {
     this.struttureStore = strutture;
     this.struttureStream.next(Object.assign([], this.struttureStore));
-    this.isLoading.next(false);
+    this.isLoadingStrutture.next(false);
   }
 
   getSoglie() {

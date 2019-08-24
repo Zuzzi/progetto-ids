@@ -5,7 +5,7 @@ import { DialogBodyApprovazioneComponent } from '@app/components/dialog-body-app
 import {AuthService} from '@app/services/auth/auth.service';
 import { ActivatedRoute } from '@angular/router';
 import { RegistroService } from '@app/services/registro/registro.service';
-import { switchMap, filter, tap, shareReplay, concatMapTo, refCount, publishReplay } from 'rxjs/operators';
+import { switchMap, filter, tap, shareReplay, concatMapTo, refCount, publishReplay, pluck } from 'rxjs/operators';
 import { UserTitle, SmartContract, SmartContractType } from '@app/interfaces';
 import { BlockchainService } from '@app/services/blockchain/blockchain.service';
 import { UserService } from '@app/services/user/user.service';
@@ -21,7 +21,8 @@ export class RegistroComponent implements OnInit, OnDestroy {
 
   displayedColumns = ['no', 'tariffa', 'data', 'designazione', 'categoriaContabile',
    'percentuale', 'prezzoPercentuale', 'debitoValore', 'debitoPercentuale'];
-  dataSource;
+  vociRegistro;
+  vociRegistroSource;
   isDirettoreLogged: boolean;
   isRupLogged: boolean;
   isDittaLogged: boolean;
@@ -34,22 +35,23 @@ export class RegistroComponent implements OnInit, OnDestroy {
               private registroService: RegistroService, private salService: SalService) { }
 
   ngOnInit() {
-    console.log('creato')
     // TODO: rimuovere questa modifica temporanea per testare conferma registro.
     // this.isRupLogged = this.userService.titleCheck(UserTitle.Rup);
     this.isRupLogged = true;
     this.isDirettoreLogged = this.userService.titleCheck(UserTitle.Direttore);
     this.isDittaLogged = this.userService.titleCheck(UserTitle.Ditta);
-    this.dataSource = this.registroService.vociRegistro.pipe(
+    this.vociRegistroSource = this.registroService.vociRegistro.pipe(
       tap(value => console.log(value)),
       publishReplay(1),
       refCount()
     );
-    this.isLoadingRegistro = this.registroService.isLoadingObs.pipe(
-      tap(value => console.log(value)),
-      publishReplay(1),
-      refCount()
-    );
+    this.vociRegistro = this.vociRegistroSource.pipe(
+      pluck('data'));
+    // this.isLoadingRegistro = this.registroService.isLoadingObs.pipe(
+    //   tap(value => console.log(value)),
+    //   publishReplay(1),
+    //   refCount()
+    // );
   }
 
   openDialogInserimentoRegistro() {

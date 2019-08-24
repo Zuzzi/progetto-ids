@@ -8,17 +8,7 @@
                 <div class="control-group">
 
                     <div class="controls bootstrap-timepicker">
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
-                        labore et dolore magna
-                        aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-                        commodo consequat.
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
-                        labore et dolore magna
-                        aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-                        commodo consequat.                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
-                        labore et dolore magna
-                        aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-                        commodo consequat.
+                        <p>{{data.descrizione}}</p>
                     </div>
                 </div>
             </fieldset>
@@ -27,9 +17,7 @@
                 <div class="control-group">
 
                     <div class="controls bootstrap-timepicker" style="text-align: center">
-                        Costo totale dell'opera: 100000
-                        <br>
-                        5000 - 10000 - 30000 - 50000 - 80000 - 100000
+                      <p *ngFor="let soglia of (data.elencoSoglie | async)?.data">{{soglia}}</p>
                     </div>
                 </div>
             </fieldset>
@@ -39,9 +27,7 @@
                 <div class="control-group">
 
                     <div class="controls bootstrap-timepicker" style="text-align: center">
-                        Fabbricato A <br>
-                        Fabbricato B <br>
-                        Fabbricato C <br>
+                      <p *ngFor="let struttura of (data.elencoStrutture | async)?.data">{{struttura}}</p>
                     </div>
                 </div>
             </fieldset>
@@ -52,10 +38,11 @@
                 <div class="control-group">
 
                     <div class="controls bootstrap-timepicker" style="text-align: center">
-                        Struttura di Fondazione - 001.002.001 <br>
+                        <p *ngFor="let categoria of (data.elencoCategorie | async)?.data">{{categoria.no}}</p>
+                        <!-- Struttura di Fondazione - 001.002.001 <br>
                         Struttura di Elevazione - 002.002.002 <br>
                         Colonnato - 003.002.001<br>
-                        Pavimentazione - 003.003.002<br>
+                        Pavimentazione - 003.003.002<br> -->
                     </div>
                 </div>
             </fieldset>

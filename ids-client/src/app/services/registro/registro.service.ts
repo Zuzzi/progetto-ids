@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, from, forkJoin, Subject, ReplaySubject, EMPTY, combineLatest, of, concat, defer } from 'rxjs';
-import { concatMap, take, tap, map, filter, takeUntil, concatMapTo, finalize } from 'rxjs/operators';
+import { concatMap, take, tap, map, filter, takeUntil, concatMapTo, finalize, withLatestFrom } from 'rxjs/operators';
 import {VoceRegistro, DialogInserimentoMisura, SmartContractType, SmartContract} from '@app/interfaces';
 import {WEB3} from '@app/web3.token';
 import Web3 from 'web3';
@@ -16,7 +16,7 @@ import { AbiItem, toChecksumAddress } from 'web3-utils';
 export class RegistroService {
 
   private vociRegistroStream: Subject<VoceRegistro[]>;
-  vociRegistro: Observable<VoceRegistro[]>;
+  vociRegistro: Observable<any>;
   private vociRegistroStore: VoceRegistro[];
   private isLoading: Subject<boolean>;
   isLoadingObs: Observable<boolean>;
@@ -29,13 +29,24 @@ export class RegistroService {
     this.vociRegistroStream =  new ReplaySubject(1) as ReplaySubject<VoceRegistro[]>;
     this.isLoading = new ReplaySubject(1) as ReplaySubject<boolean>;
     this.isContractChanged = new Subject();
-    this.isLoadingObs = this.isLoading.asObservable();
-    this.vociRegistro = combineLatest(this.vociRegistroStream.asObservable(),
-    this.isLoading.asObservable()).pipe(
-      tap(([vociRegistro, isLoading]) => console.log('vociRegistro: ' + vociRegistro.length,'isloading: ' + isLoading)),
-      filter(([_, isLoading]) => !isLoading),
-      map(([vociRegistro, _]) => vociRegistro)
+    // this.isLoadingObs = this.isLoading.asObservable();
+    this.vociRegistro = this.isLoading.pipe(
+      withLatestFrom(this.vociRegistroStream),
+      tap(([isLoading, vociRegistro]) => console.log('vociRegistro: ' + vociRegistro.length, 'isloading: ' + isLoading)),
+      map(([isLoading, vociRegistro]) => {
+        if (isLoading) {
+          return {isLoading, data: []};
+        } else {
+          return {isLoading, data: vociRegistro};
+        }
+      }),
     );
+    // this.vociRegistro = combineLatest(this.vociRegistroStream.asObservable(),
+    // this.isLoading.asObservable()).pipe(
+    //   tap(([vociRegistro, isLoading]) => console.log('vociRegistro: ' + vociRegistro.length,'isloading: ' + isLoading)),
+    //   filter(([_, isLoading]) => !isLoading),
+    //   map(([vociRegistro, _]) => vociRegistro)
+    // );
   }
 
   switchToContract(contractId: string) {

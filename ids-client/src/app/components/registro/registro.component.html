@@ -6,7 +6,7 @@
 <br>
 <div class="container-fluid" style="max-height: 100%; font-size: 0.8rem;">
   <div class="row" style="margin-bottom: 10px">
-      <div *ngIf="isLoadingRegistro | async">
+      <div *ngIf="(vociRegistroSource | async)?.isLoading">
           <h3>Loading</h3>
         </div>
     <div class="col-md-6">
@@ -21,7 +21,7 @@
       </fieldset>
     </div>
     <div class="col-md-6" style="text-align: center; margin-bottom: 10px">
-      <button *ngIf="isRupLogged && ( dataSource | async)" type="button" class="btn btn-outline-warning btn-sm"
+      <button *ngIf="isRupLogged && !(vociRegistroSource | async)?.isLoading" type="button" class="btn btn-outline-warning btn-sm"
         style="float: right; top: 20%; position:relative" (click)='openDialogConfermaRegistro()'>Approva scritture
         Registro di Contabilità</button>
 
@@ -33,7 +33,7 @@
 
   <div class="row" style="max-width: 100%;">
     <div class="col-lg-8 scrollbar-black bordered-black thin" style="overflow-y:auto; max-height:60vh; min-width:auto;">
-      <table mat-table [dataSource]="dataSource">
+      <table mat-table [dataSource]="vociRegistro">
 
 
         <ng-container matColumnDef="no">

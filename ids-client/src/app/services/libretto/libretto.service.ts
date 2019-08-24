@@ -1,6 +1,6 @@
 import { Injectable, Inject } from '@angular/core';
 import { Subject, Observable, from, forkJoin, ReplaySubject, BehaviorSubject, of, pipe, EMPTY, combineLatest, defer, empty, concat } from 'rxjs';
-import { concatMap, take, map, tap, delay, filter, takeUntil, concatMapTo, finalize } from 'rxjs/operators';
+import { concatMap, take, map, tap, delay, filter, takeUntil, concatMapTo, finalize, withLatestFrom } from 'rxjs/operators';
 import {Misura, SmartContractType, DialogInserimentoMisura, SmartContract} from '@app/interfaces';
 import { Contract } from 'web3-eth-contract';
 import { BlockchainService } from '@app/services/blockchain/blockchain.service';
@@ -14,7 +14,7 @@ import { AbiItem, toChecksumAddress } from 'web3-utils';
 export class LibrettoService {
 
   private misureStream: Subject<Misura[]>;
-  misure: Observable<Misura[]>;
+  misure: Observable<any>;
   private misureStore: Misura[];
   private isLoading: Subject<boolean>;
   isLoadingObs: Observable<boolean>;
@@ -26,13 +26,24 @@ export class LibrettoService {
     this.misureStream =  new ReplaySubject(1) as ReplaySubject<Misura[]>;
     this.isLoading = new ReplaySubject(1) as ReplaySubject<boolean>;
     this.isContractChanged = new Subject();
-    this.isLoadingObs = this.isLoading.asObservable();
-    this.misure = combineLatest(this.misureStream,
-      this.isLoading).pipe(
-        tap(([misure, isLoading]) => console.log('misure: ' + misure.length, 'isloading: ' + isLoading)),
-        filter(([_, isLoading]) => !isLoading),
-        map(([misure, _]) => misure)
-      );
+    // this.isLoadingObs = this.isLoading.asObservable();
+    this.misure = this.isLoading.pipe(
+      withLatestFrom(this.misureStream),
+      tap(([isLoading, misure]) => console.log('misure: ' + misure.length, 'isloading: ' + isLoading)),
+      map(([isLoading, misure]) => {
+        if (isLoading) {
+          return {isLoading, data: []};
+        } else {
+          return {isLoading, data: misure};
+        }
+      }),
+    );
+    // this.misure = combineLatest(this.misureStream,
+    //   this.isLoading).pipe(
+    //     tap(([misure, isLoading]) => console.log('misure: ' + misure.length, 'isloading: ' + isLoading)),
+    //     filter(([_, isLoading]) => !isLoading),
+    //     map(([misure, _]) => misure)
+    //   );
   }
 
   switchToContract(contractId: string) {
@@ -50,7 +61,7 @@ export class LibrettoService {
           map(misure => {
             return this.formatMisure(misure);
           }),
-          tap(misure => this.updateMisure(misure))
+          tap(misure => this.updateMisure(misure)),
       )));
   }
 

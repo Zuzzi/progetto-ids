@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Sal, SmartContractType, SmartContract } from '@app/interfaces';
 import { Observable, Subject, from, forkJoin, ReplaySubject, combineLatest, of, concat, defer } from 'rxjs';
-import { concatMap, take, map, tap, filter, takeUntil, concatMapTo, finalize } from 'rxjs/operators';
+import { concatMap, take, map, tap, filter, takeUntil, concatMapTo, finalize, withLatestFrom } from 'rxjs/operators';
 import { BlockchainService } from '../blockchain/blockchain.service';
 import { NumberFormatStyle } from '@angular/common';
 import { ParametriService } from '../parametri/parametri.service';
@@ -26,13 +26,24 @@ export class SalService {
     this.vociSalStream =  new ReplaySubject(1) as ReplaySubject<any>;
     this.isLoading = new ReplaySubject(1) as ReplaySubject<boolean>;
     this.isContractChanged = new Subject();
-    this.isLoadingObs = this.isLoading.asObservable();
-    this.vociSal = combineLatest(this.vociSalStream,
-      this.isLoading).pipe(
-        tap(([vociSal, isLoading]) => console.log('misure: ' + vociSal.length, 'isloading: ' + isLoading)),
-        filter(([_, isLoading]) => !isLoading),
-        map(([vociSal, _]) => vociSal)
-      );
+    // this.isLoadingObs = this.isLoading.asObservable();
+    this.vociSal = this.isLoading.pipe(
+      withLatestFrom(this.vociSalStream),
+      tap(([isLoading, vociSal]) => console.log('vociSal: ' + vociSal.length, 'isloading: ' + isLoading)),
+      map(([isLoading, vociSal]) => {
+        if (isLoading) {
+          return {isLoading, data: []};
+        } else {
+          return {isLoading, data: vociSal};
+        }
+      }),
+    );
+    // this.vociSal = combineLatest(this.vociSalStream,
+    //   this.isLoading).pipe(
+    //     tap(([vociSal, isLoading]) => console.log('misure: ' + vociSal.length, 'isloading: ' + isLoading)),
+    //     filter(([_, isLoading]) => !isLoading),
+    //     map(([vociSal, _]) => vociSal)
+    //   );
    }
 
    switchToContract(contractId: string) {

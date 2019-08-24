@@ -50,6 +50,13 @@ export interface DialogInserimentoMisura {
   elencoStrutture: Observable<any>;
 }
 
+export interface DialogInfoContratto {
+  descrizione: string;
+  elencoCategorie: Observable<any>;
+  elencoStrutture: Observable<any>;
+  elencoSoglie: Observable<any>;
+}
+
 export interface VoceRegistro {
   no: number;
   tariffa: string;

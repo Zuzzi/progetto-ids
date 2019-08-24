@@ -12,7 +12,7 @@ import {LibrettoService} from '@app/services/libretto/libretto.service';
 import { DialogInserimentoMisura, Misura, UserTitle, SmartContract, SmartContractType } from '@app/interfaces';
 import { DialogBodyInvalidamisuraComponent } from '@app/components/dialog-body-invalidamisura/dialog-body-invalidamisura.component';
 import { RegistroService } from '@app/services/registro/registro.service';
-import { filter, switchMap, map, tap, delay, share, shareReplay, concatMapTo, publishReplay, refCount } from 'rxjs/operators';
+import { filter, switchMap, map, tap, delay, share, shareReplay, concatMapTo, publishReplay, refCount, pluck } from 'rxjs/operators';
 import {MatButtonModule} from '@angular/material/button';
 import { UserService } from '@app/services/user/user.service';
 import { Observable, ReplaySubject, combineLatest, Subject, BehaviorSubject, zip } from 'rxjs';
@@ -29,21 +29,39 @@ import { ParametriService } from '@app/services/parametri/parametri.service';
 export class LibrettoComponent implements OnInit, OnDestroy {
 
   displayedColumns = ['no', 'tariffa', 'data', 'designazione', 'categoriaContabile', 'percentuale', 'allegati', 'riserva', 'invalida'];
-  dataSource;
-  disableInput: Subject<boolean>;
+  misure;
+  misureSource = this.librettoService.misure.pipe(
+    tap(value => console.log(value)),
+    publishReplay(1),
+    refCount()
+  );
+  categorieSource = this.parametriService.categorie.pipe(
+    publishReplay(1),
+    refCount()
+  );
+  struttureSource = this.parametriService.strutture.pipe(
+    publishReplay(1),
+    refCount()
+  );
+  dialogInserimentoData: DialogInserimentoMisura = {
+    descrizione: '',
+    categoriaContabile: '',
+    percentuale: null,
+    riserva: '',
+    elencoCategorie: this.categorieSource,
+    elencoStrutture: this.struttureSource,
+  };
+  // disableInput: Subject<boolean>;
   // contractId: string;
   isDirettoreLogged: boolean;
   isRupLogged: boolean;
   isDittaLogged: boolean;
-  dialogInserimentoData: DialogInserimentoMisura = {categoriaContabile: '',
-  descrizione: '', percentuale: null, riserva: '',
-  elencoCategorie: this.parametriService.categorie.pipe(publishReplay(1), refCount()),
-  elencoStrutture: this.parametriService.strutture.pipe(publishReplay(1), refCount())};
+
   isLoadingLibretto: Observable<boolean>;
   // libretto: SmartContract<SmartContractType.Libretto>;
   // registro: SmartContract<SmartContractType.Registro>;
   contractId: ReplaySubject<string>;
-  routeSub: any;
+  // routeSub: any;
 
   constructor(private dialog: MatDialog, private userService: UserService,
               private activatedRoute: ActivatedRoute, private blockchainService: BlockchainService,
@@ -57,25 +75,28 @@ export class LibrettoComponent implements OnInit, OnDestroy {
     this.isRupLogged = true;
     this.isDirettoreLogged = this.userService.titleCheck(UserTitle.Direttore);
     this.isDittaLogged = this.userService.titleCheck(UserTitle.Ditta);
-    this.dataSource = this.librettoService.misure.pipe(
-      tap(value => console.log(value)),
-      publishReplay(1),
-      refCount()
-    );
-    this.isLoadingLibretto = this.librettoService.isLoadingObs.pipe(
-      tap(value => console.log(value)),
-      publishReplay(1),
-      refCount()
-    );
+    // this.misureSource = this.librettoService.misure.pipe(
+    //   tap(value => console.log(value)),
+    //   publishReplay(1),
+    //   refCount()
+    // );
+    this.misure = this.misureSource.pipe(
+      pluck('data'));
+    // this.struttureSource = this.parametriService.strutture.pipe(
+    //   publishReplay(1),
+    //   refCount()
+    // );
+    // this.isLoadingLibretto = this.librettoService.isLoadingObs.pipe(
+    //   tap(value => console.log(value)),
+    //   publishReplay(1),
+    //   refCount()
+    // );
   }
   // TODO: Modificare passaggio valori per renderlo più ordinato
   openDialogInserimento(): void {
-    this.parametriService.loadCategorieContabili().subscribe();
-    this.parametriService.loadStrutture().subscribe();
-    const dialogRef = this.dialog.open(DialogBodyInslibrettoComponent, {
-      data: this.dialogInserimentoData,
-    },);
-
+    const dialogRef = this.dialog.open(DialogBodyInslibrettoComponent,
+      { data: this.dialogInserimentoData }
+    );
     dialogRef.afterClosed().subscribe(value => {
       if (value) {
         console.log('Dialog sent: ' + value);

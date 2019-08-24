@@ -6,7 +6,7 @@
 
 <div class="container-fluid" style="max-height: 100%; margin-top: 3%">
   <div class="row" style="margin-bottom: 10px">
-    <div *ngIf="isLoadingLibretto | async">
+    <div *ngIf="(misureSource | async)?.isLoading">
       <h3>Loading</h3>
     </div>
     <div class="col-md">
@@ -15,10 +15,10 @@
 
     <div class="col-md-6" style="text-align: center; margin-bottom: 10px">
 
-      <button *ngIf="isRupLogged && (dataSource | async)" type="button" class="btn btn-outline-warning btn-sm"
+      <button *ngIf="isRupLogged && !(misureSource | async)?.isLoading" type="button" class="btn btn-outline-warning btn-sm"
         style="float: right; top: 20%; position:relative" (click)='openDialogConfermaLibretto()'>Approva Misure</button>
 
-      <button *ngIf="isDirettoreLogged && (dataSource | async)" type="button" class="btn btn-outline-warning btn-sm"
+      <button *ngIf="isDirettoreLogged && !(misureSource | async)?.isLoading" type="button" class="btn btn-outline-warning btn-sm"
         style="float: right; position:relative" (click)='openDialogInserimento()'>Inserisci nuova voce</button>
     </div>
   </div>
@@ -28,7 +28,7 @@
 
       <div class="example-container mat-elevation-z8 scrollbar-black bordered-black thin">
 
-        <table mat-table [dataSource]="dataSource">
+        <table mat-table [dataSource]="misure">
 
 
           <ng-container matColumnDef="no">
