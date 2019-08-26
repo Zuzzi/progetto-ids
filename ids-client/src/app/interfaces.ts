@@ -46,8 +46,6 @@ export interface DialogInserimentoMisura {
   descrizione: string;
   percentuale: number;
   riserva: string;
-  elencoCategorie: Observable<any>;
-  elencoStrutture: Observable<any>;
 }
 
 export interface DialogInfoContratto {

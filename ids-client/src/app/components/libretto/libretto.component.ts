@@ -43,14 +43,6 @@ export class LibrettoComponent implements OnInit, OnDestroy {
     publishReplay(1),
     refCount()
   );
-  dialogInserimentoData: DialogInserimentoMisura = {
-    descrizione: '',
-    categoriaContabile: '',
-    percentuale: null,
-    riserva: '',
-    elencoCategorie: this.categorieSource,
-    elencoStrutture: this.struttureSource,
-  };
   // disableInput: Subject<boolean>;
   // contractId: string;
   isDirettoreLogged: boolean;
@@ -95,14 +87,14 @@ export class LibrettoComponent implements OnInit, OnDestroy {
   // TODO: Modificare passaggio valori per renderlo più ordinato
   openDialogInserimento(): void {
     const dialogRef = this.dialog.open(DialogBodyInslibrettoComponent,
-      { data: this.dialogInserimentoData }
-    );
-    dialogRef.afterClosed().subscribe(value => {
-      if (value) {
-        console.log('Dialog sent: ' + value);
-        this.dialogInserimentoData = value;
-        this.insertMisura();
+      {data: {elencoCategorie: this.categorieSource,
+              elencoStrutture: this.struttureSource}
       }
+    );
+    dialogRef.afterClosed().pipe(filter(action => action))
+      .subscribe(value => {
+        console.log('Dialog sent: ' + value);
+        this.insertMisura(value);
     });
   }
 
@@ -136,11 +128,11 @@ export class LibrettoComponent implements OnInit, OnDestroy {
     });
   }
 
-  insertMisura() {
-    console.log(this.dialogInserimentoData);
+  insertMisura(misura) {
+    console.log(misura);
     // TODO: Ripartire da qui per implemetare feedback eventi transazione ad utente
     // const txEvents = this.blockchainService.txEvents;
-    this.librettoService.insertMisura(this.dialogInserimentoData)
+    this.librettoService.insertMisura(misura)
       .subscribe();
   }
 

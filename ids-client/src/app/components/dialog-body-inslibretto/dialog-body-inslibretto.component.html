@@ -1,4 +1,4 @@
-<mat-dialog-content class="scrollbar-black bordered-black thin">
+<mat-dialog-content [formGroup]="form" class="scrollbar-black bordered-black thin">
     <div class="container-fluid ">
         <div class="row">
             <div class="col-md">
@@ -35,8 +35,9 @@
                             <div class="col-md">
                                 Designazione dei Lavori
                                 <div data-name="Designazione" style="width: 100%">
-                                    <select [(ngModel)]="data.descrizione" name="Designazione">
-                                        <option *ngFor="let struttura of (data.elencoStrutture | async)?.data" [value]="struttura.nome">{{struttura.nome}}</option>
+                                    <!-- <select [(ngModel)]="data.descrizione" name="Designazione"> -->
+                                    <select id="descrizione" formControlName="descrizione" name="Designazione">
+                                        <option *ngFor="let struttura of (selectOptions.elencoStrutture | async)?.data" [value]="struttura.nome">{{struttura.nome}}</option>
                                         <!-- <option value="">Selezione Struttura</option>
                                         <option value="Fabbricato A">Fabbricato A</option>
                                         <option value="Fabbricato B">Fabbricato B</option>
@@ -48,8 +49,9 @@
                             <div class="col-md">
                                 Categoria Contabile
                                 <div data-name="Categoria">
-                                    <select [(ngModel)]="data.categoriaContabile" name="Categoria">
-                                        <option *ngFor="let categoria of (data.elencoCategorie | async)?.data; let first = first;" [value]="categoria.nome">{{categoria.nome}}</option>
+                                    <!-- <select [(ngModel)]="data.categoriaContabile" name="Categoria"> -->
+                                    <select id="categoriaContabile" formControlName="categoriaContabile" name="Categoria">
+                                        <option *ngFor="let categoria of (selectOptions.elencoCategorie | async)?.data; let first = first;" [value]="categoria.nome">{{categoria.nome}}</option>
                                         <!-- <option value="">Selezione Categoria </option>
                                         <option value="Pavimentazione">Pavimentazione</option>
                                         <option value="Colonnato">Colonnato</option> -->
@@ -59,8 +61,8 @@
                             <div class="col-md" style="padding-bottom: 0; margin: 0">
                                 Percentuale
 
-                                <input mdInput [(ngModel)]="data.percentuale" type="number" min="0" max="100" />
-
+                                <!-- <input mdInput [(ngModel)]="data.percentuale" type="number" min="0" max="100" /> -->
+                                <input mdInput id="percentuale" formControlName="percentuale" type="number" min="0" max="100" />
                             </div>
 
                         </div>
@@ -78,7 +80,8 @@
                 <div class="control-group">
                     <div class="controls bootstrap-timepicker">
                         <div class="input-group">
-                            <textarea [(ngModel)]="data.riserva" class="form-control" style="border:white" aria-label="With textarea"></textarea>
+                            <!-- <textarea [(ngModel)]="data.riserva" class="form-control" style="border:white" aria-label="With textarea"></textarea> -->
+                            <textarea id="riserva" formControlName="riserva" class="form-control" style="border:white" aria-label="With textarea"></textarea>
                         </div>
 
                     </div>
@@ -98,7 +101,7 @@
     <div class="container-fluid" style="align-items: center">
         <div class="row  text-center">
             <div class="col-md text-center">
-                <button mat-raised-button [mat-dialog-close]="data">Conferma</button>
+                <button mat-raised-button [mat-dialog-close]="form.value">Conferma</button>
 
                 <button mat-raised-button (click)="close()">Annulla</button>
             </div>
