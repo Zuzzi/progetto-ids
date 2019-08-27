@@ -46,7 +46,7 @@
                                         <option value="Fabbricato C">Fabbricato C</option> -->
                                     </select>
                                     <div *ngIf="descrizione.invalid && (descrizione.dirty || descrizione.touched)" class="alert alert-danger">
-                                        <div *ngIf="descrizione.errors.required">Inserire un valore!</div>
+                                        <div *ngIf="descrizione.hasError('required')">Inserire un valore!</div>
                                       </div>
                                 </div>
                             </div>
@@ -63,7 +63,7 @@
                                         <option value="Colonnato">Colonnato</option> -->
                                     </select>
                                     <div *ngIf="categoriaContabile.invalid && (categoriaContabile.dirty || categoriaContabile.touched)" class="alert alert-danger">
-                                      <div *ngIf="categoriaContabile.errors.required">Inserire un valore!</div>
+                                      <div *ngIf="categoriaContabile.hasError('required')">Inserire un valore!</div>
                                     </div>
                                 </div>
                             </div>
@@ -72,11 +72,12 @@
 
                                 <!-- <input mdInput [(ngModel)]="data.percentuale" type="number" min="0" max="100" /> -->
                                 <input mdInput id="percentuale" formControlName="percentuale" type="number" min="0" max="100" />
-                                <div *ngIf="percentuale.invalid && (percentuale.dirty || percentuale.touched)" class="alert alert-danger">
-                                    <div *ngIf="percentuale.errors.required">Inserire un valore!</div>
-                                    <div *ngIf="percentuale.errors.max || percentuale.errors.min">Inserisci un valore intero compreso tra 1 e 100 !</div>
-                                    <div *ngIf="form.hasError('maxPercentuale')">La percentuale totale è oltre il 100%</div>
+                                <div *ngIf="(percentuale.invalid || form.hasError('maxPercentuale')) && (percentuale.dirty || percentuale.touched)" class="alert alert-danger">
+                                    <div *ngIf="percentuale.hasError('required')">Inserire un valore!</div>
+                                    <div *ngIf="percentuale.hasError('max') || percentuale.hasError('min')">Inserisci un valore intero compreso tra 1 e 100 !</div>
+                                    <div *ngIf="form.hasError('maxPercentuale') && !percentuale.hasError('max')">La percentuale totale è oltre il 100%</div>
                                   </div>
+
                             </div>
 
                         </div>
@@ -116,7 +117,7 @@
     <div class="container-fluid" style="align-items: center">
         <div class="row  text-center">
             <div class="col-md text-center">
-                <button mat-raised-button [mat-dialog-close]="form.value">Conferma</button>
+                <button mat-raised-button [disabled]="form.invalid" (click)="onSubmit()">Conferma</button>
 
                 <button mat-raised-button (click)="close()">Annulla</button>
             </div>
