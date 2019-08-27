@@ -47,7 +47,7 @@
           </ng-container>
 
           <ng-container matColumnDef="data">
-            <th mat-header-cell *matHeaderCellDef style="font-family: Helvetica;"> Data </th>
+            <th mat-header-cell *matHeaderCellDef style="font-family: Helvetica;"> Data del Pagamento</th>
             <td mat-cell *matCellDef="let element"> {{element.data | date:'dd/MM/yyyy'}} </td>
           </ng-container>
 
@@ -70,8 +70,8 @@
                           <td mat-cell *matCellDef="let element"> {{element.tariffa}} </td>
                         </ng-container>
 
-                        <ng-container matColumnDef="Data del Pagamento">
-                          <th mat-header-cell *matHeaderCellDef> Data </th>
+                        <ng-container matColumnDef="data">
+                          <th mat-header-cell *matHeaderCellDef> Data del Pagamento</th>
                           <td mat-cell *matCellDef="let element"> {{element.data | date:'dd/MM/yyyy'}} </td>
                         </ng-container>
 
