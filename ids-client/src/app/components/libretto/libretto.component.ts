@@ -99,8 +99,8 @@ export class LibrettoComponent implements OnInit, OnDestroy {
     });
   }
 
-  openDialogVisRiserva() {
-    const dialogRef = this.dialog.open(DialogBodyVisriservaComponent);
+  openDialogVisRiserva(riserva) {
+    const dialogRef = this.dialog.open(DialogBodyVisriservaComponent, {data: riserva});
     dialogRef.afterClosed().subscribe(value => {
       console.log(`Dialog sent: ${value}`);
     });

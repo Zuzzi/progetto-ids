@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { MatDialogRef } from '@angular/material';
+import { Component, OnInit, Inject } from '@angular/core';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import {Router} from '@angular/router';
 
 @Component({
@@ -8,8 +8,11 @@ import {Router} from '@angular/router';
   styleUrls: ['./dialog-body-visriserva.component.css']
 })
 export class DialogBodyVisriservaComponent implements OnInit {
+  riserva: string;
 
-  constructor(public dialogRef: MatDialogRef<DialogBodyVisriservaComponent>, private router: Router) { }
+  constructor(public dialogRef: MatDialogRef<DialogBodyVisriservaComponent>,  @Inject(MAT_DIALOG_DATA) public data) {
+    this.riserva = data;
+   }
 
   ngOnInit() {
   }
