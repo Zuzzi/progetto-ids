@@ -22,8 +22,8 @@ import { Observable } from 'rxjs';
 })
 export class SalComponent implements OnInit, OnDestroy {
 
-  columnsToDisplay = ['no', 'valore', 'data'];
-  internalColumns = ['no', 'tariffa', 'data', 'categoriaContabile', 'descrizione',
+  columnsToDisplay = ['no', 'valore', 'Data del Pagamento'];
+  internalColumns = ['no', 'tariffa', 'Data del Pagamento', 'categoriaContabile', 'descrizione',
   'percentuale', 'prezzoValore', 'prezzoPercentuale', 'debitoValore', 'debitoPercentuale'];
   vociSal;
   vociSalSource;
@@ -66,10 +66,12 @@ export class SalComponent implements OnInit, OnDestroy {
   }
 
   controllo(parola) {
-    if (parola === 'data') {
+    if (parola === 'Data del Pagamento') {
       return true;
+      
     } else {
       return false;
+      
     }
 
   }
