@@ -38,7 +38,7 @@
         <table mat-table [dataSource]="vociSal" multiTemplateDataRows class="mat-elevation-z8">
           <ng-container matColumnDef="{{column}}" *ngFor="let column of columnsToDisplay">
             <th mat-header-cell *matHeaderCellDef style="font-family: Helvetica;"> {{column}} </th>
-            <td mat-cell *matCellDef="let element"> {{element[column]}} </td>
+            <td mat-cell *matCellDef="let element"><div *ngIf="controllo(column)">{{cambioData(element.data)[2] + "/" + cambioData(element.data)[1] + "/" + cambioData(element.data)[0]}}</div><div *ngIf="!controllo(column)">{{element[column]}} </div></td>
           </ng-container>
 
           <!-- Expanded Content Column - The detail row is made up of this one column that spans across all columns -->
@@ -62,7 +62,7 @@
 
                         <ng-container matColumnDef="data">
                           <th mat-header-cell *matHeaderCellDef> Data </th>
-                          <td mat-cell *matCellDef="let element"> {{element.data}} </td>
+                          <td mat-cell *matCellDef="let element"> {{cambioData(element.data)[2] + "/" + cambioData(element.data)[1] + "/" + cambioData(element.data)[0]}} </td>
                         </ng-container>
 
                         <ng-container matColumnDef="categoriaContabile">

@@ -51,6 +51,29 @@ export class SalComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
   }
+
+  cambioData(timestamp) {
+    const date = new Date(timestamp * 1000);
+    const datevalues = [
+     date.getFullYear(),
+     date.getMonth() + 1,
+     date.getDate(),
+     date.getHours(),
+     date.getMinutes(),
+     date.getSeconds(),
+    ];
+    return(datevalues);
+  }
+
+  controllo(parola) {
+    if (parola === 'data') {
+      return true;
+    } else {
+      return false;
+    }
+
+  }
+
 }
 
 

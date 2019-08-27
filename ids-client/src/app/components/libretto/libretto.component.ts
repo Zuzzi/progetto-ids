@@ -3,6 +3,7 @@ import { MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialo
 import { DialogBodyInslibrettoComponent } from '@app/components/dialog-body-inslibretto/dialog-body-inslibretto.component';
 import { DialogBodyVisriservaComponent } from '@app/components/dialog-body-visriserva/dialog-body-visriserva.component';
 import { DialogBodyVisallegatiComponent } from '@app/components/dialog-body-visallegati/dialog-body-visallegati.component';
+// tslint:disable-next-line:max-line-length
 import { DialogBodyApprovazionemisureComponent } from '@app/components/dialog-body-approvazionemisure/dialog-body-approvazionemisure.component';
 import {AuthService} from '@app/services/auth/auth.service';
 import { ActivatedRoute } from '@angular/router';
@@ -17,6 +18,7 @@ import {MatButtonModule} from '@angular/material/button';
 import { UserService } from '@app/services/user/user.service';
 import { Observable, ReplaySubject, combineLatest, Subject, BehaviorSubject, zip } from 'rxjs';
 import { ParametriService } from '@app/services/parametri/parametri.service';
+import { testAddress } from 'web3-utils';
 
 
 
@@ -149,6 +151,19 @@ export class LibrettoComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
+  }
+
+  cambioData(timestamp) {
+    const date = new Date(timestamp * 1000);
+    const datevalues = [
+     date.getFullYear(),
+     date.getMonth() + 1,
+     date.getDate(),
+     date.getHours(),
+     date.getMinutes(),
+     date.getSeconds(),
+    ];
+    return(datevalues);
   }
 
 }

@@ -78,4 +78,17 @@ export class RegistroComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
   }
 
+  cambioData(timestamp) {
+    const date = new Date(timestamp * 1000);
+    const datevalues = [
+     date.getFullYear(),
+     date.getMonth() + 1,
+     date.getDate(),
+     date.getHours(),
+     date.getMinutes(),
+     date.getSeconds(),
+    ];
+    return(datevalues);
+  }
+
 }
