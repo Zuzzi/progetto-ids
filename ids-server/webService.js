@@ -48,23 +48,18 @@ app.post('/api/user/getUser', (req,res) => {
         if(err) throw err;
         let username = req.body.username
         let password = req.body.password
-        //TODO: rimuovere il primo log
         console.log('connected successfully, username is ', username);
-        console.log('Searching into mongodb/ProgettoIDS database..');
-        
+        console.log('Searching into mongodb/ProgettoIDS database..');   
         User.findOne({username: username})
             .populate('contracts')
             .exec(function(err, user) {
                 if (err) throw err;
                 console.log(user);
-                // TODO: Se l'utente non viene trovato?
                 user.comparePassword(password,(err, isMatch) => {
                     if (err) throw err;
                     if (isMatch === true) {
                         return res.status(200).json({
-                            // TODO: status forse deve essere un boolean
                             status: 'success',
-                            // TODO: è necessario/sicuro ritornare anche l'hash tra le varie informazioni?
                             data: user
                         });
                     }

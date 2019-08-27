@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { Router } from '@angular/router';
-
 @Component({
   selector: 'app-accesso',
   templateUrl: './accesso.component.html',
@@ -20,7 +19,6 @@ export class AccessoComponent implements OnInit {
     });
   }
 
-
   onSubmit() {
     console.log('funziona!');
     console.log(this.loginForm.controls.username.value);
@@ -28,5 +26,4 @@ export class AccessoComponent implements OnInit {
     this.router.navigate(['/area-riservata']);
 
   }
-
 }
