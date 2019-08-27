@@ -20,13 +20,6 @@ export class HomeComponent implements OnInit {
   struttureSource;
   soglieSource;
 
-  dialogInfoContratto: DialogInfoContratto = {
-    descrizione: '',
-    elencoCategorie: this.categorieSource,
-    elencoSoglie: this.soglieSource,
-    elencoStrutture: this.struttureSource,
-  };
-
   constructor(private dialog: MatDialog,
               private parametriService: ParametriService ) {}
   ngOnInit() {
@@ -87,8 +80,14 @@ export class HomeComponent implements OnInit {
   }
 
   openDialog() {
+    const dialogInfoContratto: DialogInfoContratto = {
+      descrizione: '',
+      elencoCategorie: this.categorieSource,
+      elencoSoglie: this.soglieSource,
+      elencoStrutture: this.struttureSource,
+    };
     const dialogRef = this.dialog.open(DialogBodyInfocontrattoComponent,
-      { data: this.dialogInfoContratto }
+      { data: dialogInfoContratto }
     );
     dialogRef.afterClosed().subscribe(value => {
       console.log(`Dialog sent: ${value}`);

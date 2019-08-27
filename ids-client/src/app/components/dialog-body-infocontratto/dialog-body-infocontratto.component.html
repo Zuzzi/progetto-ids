@@ -17,7 +17,7 @@
                 <div class="control-group">
 
                     <div class="controls bootstrap-timepicker" style="text-align: center">
-                      <p *ngFor="let soglia of (data.elencoSoglie | async)?.data">{{soglia}}</p>
+                      <p *ngFor="let soglia of (data.elencoSoglie | async)?.data">{{soglia.no}}: {{soglia.valore}}</p>
                     </div>
                 </div>
             </fieldset>
@@ -27,7 +27,7 @@
                 <div class="control-group">
 
                     <div class="controls bootstrap-timepicker" style="text-align: center">
-                      <p *ngFor="let struttura of (data.elencoStrutture | async)?.data">{{struttura}}</p>
+                      <p *ngFor="let struttura of (data.elencoStrutture | async)?.data">{{struttura.nome}}</p>
                     </div>
                 </div>
             </fieldset>
@@ -38,7 +38,7 @@
                 <div class="control-group">
 
                     <div class="controls bootstrap-timepicker" style="text-align: center">
-                        <p *ngFor="let categoria of (data.elencoCategorie | async)?.data">{{categoria.no}}</p>
+                        <p *ngFor="let categoria of (data.elencoCategorie | async)?.data">{{categoria.nome}}</p>
                         <!-- Struttura di Fondazione - 001.002.001 <br>
                         Struttura di Elevazione - 002.002.002 <br>
                         Colonnato - 003.002.001<br>
