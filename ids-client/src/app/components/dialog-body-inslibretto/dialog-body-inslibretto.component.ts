@@ -25,6 +25,7 @@ export class DialogBodyInslibrettoComponent implements OnInit {
   }
 
   ngOnInit() {
+    console.log(this.formOptions.percentualiParziali);
     const formValues = {
       descrizione: ['', [Validators.required]],
       categoriaContabile: ['', [Validators.required]],
@@ -34,13 +35,6 @@ export class DialogBodyInslibrettoComponent implements OnInit {
       riserva: ['', []],
     };
     this.form = this.fb.group(formValues, { validator: maxPercentualeValidator(this.formOptions.percentualiParziali)});
-    // this.form = new FormGroup({
-    //   descrizione: new FormControl('', [Validators.required]),
-    //   categoriaContabile: new FormControl('', [Validators.required]),
-    //   percentuale: new FormControl(1, [Validators.required, Validators.min(1), Validators.max(100),
-    //     Validators.pattern('/^-?[0-9][^\.]*$/'), maxPercentualeValidator(this.formOptions.percentualiParziali)]),
-    //   riserva: new FormControl('')
-    // });
   }
 
   get percentuale() {
@@ -59,9 +53,11 @@ export class DialogBodyInslibrettoComponent implements OnInit {
     this.dialogRef.close();
   }
 
-  // confirm() {
-  //   console.log('funziona!');
-  // }
+  onSubmit() {
+    if (this.form.valid) {
+      this.dialogRef.close(this.form.value);
+    }
+  }
 }
 
 function maxPercentualeValidator(percentualiParziali: Map<string, number>): ValidatorFn {
