@@ -106,7 +106,7 @@ export class RegistroService {
     vociRegistro.forEach(voceRegistro => {
       formatted.push({no: voceRegistro['0'],
       tariffa: voceRegistro['1'],
-      data: voceRegistro['2'],
+      data: this.blockchainService.epochToDate(voceRegistro['2']),
       categoriaContabile: voceRegistro['3'],
       descrizione: voceRegistro['4'],
       percentuale: this.blockchainService.signed64x64ToNumber(voceRegistro['5']),

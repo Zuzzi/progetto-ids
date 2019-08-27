@@ -122,10 +122,11 @@ export class SalService {
   groupSal(sal: Sal[]) {
     const groupedMap = new Map();
     sal.forEach(item => {
-      const key = Number(item.data);
-      const collection = groupedMap.get(key);
+      const key = item.data;
+      key.setHours(0, 0, 0, 0);
+      const collection = groupedMap.get(key.getTime());
       if (!collection) {
-        groupedMap.set(key, [item]);
+        groupedMap.set(key.getTime(), [item]);
       } else {
         collection.push(item);
       }
@@ -142,7 +143,7 @@ export class SalService {
     sal.forEach(sal => {
       formatted.push({no: sal['0'],
       tariffa: sal['1'],
-      data: sal['2'],
+      data: this.blockchainService.epochToDate(sal['2']),
       categoriaContabile: sal['3'],
       descrizione: sal['4'],
       percentuale: this.blockchainService.signed64x64ToNumber(sal['5']),

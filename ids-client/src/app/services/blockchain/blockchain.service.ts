@@ -179,4 +179,12 @@ export class BlockchainService {
     return signed64x64 / Math.pow(2, 64);
   }
 
+  epochToDate(epoch: number): Date {
+    return new Date(epoch * 1000);
+  }
+
+  dateToEpoch(date: Date): number {
+    return date.getTime() / 1000.0;
+  }
+
 }

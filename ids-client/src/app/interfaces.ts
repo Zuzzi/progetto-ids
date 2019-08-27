@@ -30,7 +30,7 @@ export class SmartContract<T extends SmartContractType> {
 export interface Misura {
   no: number;
   tariffa: string;
-  data: number;
+  data: Date;
   categoriaContabile: string;
   descrizione: string;
   percentuale: number;
@@ -58,7 +58,7 @@ export interface DialogInfoContratto {
 export interface VoceRegistro {
   no: number;
   tariffa: string;
-  data: number;
+  data: Date;
   categoriaContabile: string;
   descrizione: string;
   percentuale: number;
@@ -72,7 +72,7 @@ export interface VoceRegistro {
 export interface Sal {
   no: number;
   tariffa: string;
-  data: number;
+  data: Date;
   categoriaContabile: string;
   descrizione: string;
   percentuale: number;

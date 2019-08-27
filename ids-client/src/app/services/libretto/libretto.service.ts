@@ -116,7 +116,7 @@ export class LibrettoService {
     misure.forEach(misura => {
       formatted.push({no: misura['0'],
         tariffa: misura['1'],
-        data: misura['2'],
+        data: this.blockchainService.epochToDate(misura['2']),
         categoriaContabile: misura['3'],
         descrizione: misura['4'],
         percentuale: this.blockchainService.signed64x64ToNumber(misura['5']),
