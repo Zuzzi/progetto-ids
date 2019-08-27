@@ -88,7 +88,8 @@ export class LibrettoComponent implements OnInit, OnDestroy {
   openDialogInserimento(): void {
     const dialogRef = this.dialog.open(DialogBodyInslibrettoComponent,
       {data: {elencoCategorie: this.categorieSource,
-              elencoStrutture: this.struttureSource}
+              elencoStrutture: this.struttureSource,
+              percentualiParziali: this.librettoService.getPercentualiParziali() }
       }
     );
     dialogRef.afterClosed().pipe(filter(action => action))

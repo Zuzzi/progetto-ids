@@ -7,6 +7,7 @@ import { BlockchainService } from '@app/services/blockchain/blockchain.service';
 import { AuthService } from '../auth/auth.service';
 import contractABI from '@app/model/ABIs/ContractMisure.json';
 import { AbiItem, toChecksumAddress } from 'web3-utils';
+import { group } from '@angular/animations';
 
 @Injectable({
   providedIn: 'root'
@@ -125,6 +126,20 @@ export class LibrettoService {
         approvata: misura['9']});
     });
     return formatted;
+  }
+
+  getPercentualiParziali() {
+    const groupedMap = new Map();
+    this.misureStore.forEach(item => {
+      const key = item.categoriaContabile;
+      const collection = groupedMap.get(key);
+      if (!collection) {
+        groupedMap.set(key, item.percentuale);
+      } else {
+        groupedMap.set(key, collection + item.percentuale);
+      }
+    });
+    return groupedMap;
   }
 
 }
