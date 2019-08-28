@@ -60,14 +60,22 @@ contract ContractMisure {
     }
     
     function invalidaMisura(uint index) public onlyDirettore {
-        misure[index].valida = false;
-        if (misure[index].approvata){
-            cr.stornoPercentuale(misure[index].categoriaContabile, misure[index].percentuale); 
+        if (misure[index].invalidabile) {
+            misure[index].valida = false;
+            if (misure[index].approvata){
+            cr.stornoPercentuale(misure[index].categoriaContabile, misure[index].percentuale, misure[index].descrizione); 
+                
+            }
         }
+
     }
     
     function approvaMisura  (uint index) public {
         misure[index].approvata = true;
+    }
+    
+    function rendiInvalidabileMisura(uint id) public {
+        misure[id].invalidabile = false;
     }
 
 }

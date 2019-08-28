@@ -35,7 +35,7 @@ contract ContractParametri {
     
     int128 public valoreTotale;
     
-    constructor(address direttore, address rup, address ditta ) public {
+    constructor(address direttore, address rup,address ditta) public {
         indirizzoDirettore = direttore;
         indirizzoRup = rup;
         indirizzoDitta = ditta;

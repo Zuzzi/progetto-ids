@@ -3,6 +3,7 @@ pragma solidity >=0.5 <0.6.0;
 import './ContractRegistro.sol';
 import './ContractParametri.sol';
 import { ABDKMath64x64 as Math64 } from './ABDKMath64x64.sol';
+import './ContractMisure.sol';
 
 contract ContractSal {
 
@@ -21,6 +22,10 @@ contract ContractSal {
     
     ContractParametri cp;
     ContractRegistro cr;
+    ContractMisure cm;
+    
+    bool public entratoPrimoIf = false;
+    bool public entratoSecondoIf = false;
     
     mapping (uint => Sal) sal;
     uint public numeroSal = 0;
@@ -36,6 +41,10 @@ contract ContractSal {
     }
     function setIndirizzoCr (address indirizzo) public {
         cr = ContractRegistro(indirizzo);
+    }
+    
+    function setIndirizzoCm (address indirizzo) public {
+        cm = ContractMisure(indirizzo);
     }
     
     constructor() public  { }
@@ -54,6 +63,7 @@ contract ContractSal {
         int128 valoreParziale = cr.calcoloValoreParziale();
         (int128 minValue, bool minSuperata, uint idSoglia) = cr.findMinSogliaNotSuperata();
         if (valoreParziale >= minValue && !minSuperata) {
+            entratoPrimoIf = true;
             for (uint i = 0; i<cr.numeroContabilita(); i++) {
 
                 (, string memory tariffa,, string memory categoriaContabile, string memory descrizione, 
@@ -61,9 +71,16 @@ contract ContractSal {
                 int128 debitoPercentuale, bool pagata) = cr.getContabilita(i);
                 
                 if (!pagata) {
+                    entratoSecondoIf = true;
                     creaNuovaVoceSal(tariffa, categoriaContabile, descrizione, percentuale, prezzoValore,
                                      prezzoPercentuale, debitoValore, debitoPercentuale);
                     cr.pagataContabilita(i);
+                    for (uint j = 0; j<cm.numeroMisure(); j++) {
+                        (uint id,,, string memory categoriaContabileMisura, string memory descrizioneMisura,,,,, bool approvata) = cm.getMisura(j);
+                        if(cr.compareStrings(categoriaContabileMisura, categoriaContabile) && cr.compareStrings(descrizioneMisura, descrizione) && approvata)
+                            cm.rendiInvalidabileMisura(id);
+                    }
+                    
                 }
             }
             totaleLavoriAcorpo = valoreParziale;
@@ -74,6 +91,9 @@ contract ContractSal {
         }
         
     }
+    
+    
+
     
     function creaNuovaVoceSal(string memory tariffa, string memory categoriaContabile, string memory descrizione, 
                 int128 percentuale, int128 prezzoValore, int128 prezzoPercentuale, int128 debitoValore, 

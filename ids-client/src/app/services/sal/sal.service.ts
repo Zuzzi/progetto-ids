@@ -123,7 +123,6 @@ export class SalService {
     const groupedMap = new Map();
     sal.forEach(item => {
       const key = item.data;
-      key.setHours(0, 0, 0, 0);
       const collection = groupedMap.get(key.getTime());
       if (!collection) {
         groupedMap.set(key.getTime(), [item]);

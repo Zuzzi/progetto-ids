@@ -103,7 +103,7 @@ contract ContractRegistro {
         return posizioneCategoria;
         }
     
-    function compareStrings (string memory a, string memory b)  private  pure returns (bool) {
+    function compareStrings (string memory a, string memory b) public pure returns (bool) {
         return (keccak256(abi.encodePacked((a))) == keccak256(abi.encodePacked((b))) );
        }
        
@@ -146,8 +146,8 @@ contract ContractRegistro {
         
     }
     
-    function stornoPercentuale(string memory categoriaContabile, int128 percentuale) public {
-        int posizioneCategoria = findPosizioneCategoria(categoriaContabile);
+    function stornoPercentuale(string memory categoriaContabile, int128 percentuale, string memory descrizione) public {
+        int posizioneCategoria = findPosizioneCategoriaByDescrizione(categoriaContabile, descrizione);
         if(posizioneCategoria >= 0){
                     //contabilita[uint(posizioneCategoria)].percentuale -= percentuale;
                     contabilita[uint(posizioneCategoria)].percentuale = 

@@ -93,7 +93,7 @@ export class LibrettoService {
 
   insertMisura(misura: DialogInserimentoMisura) {
     const percentuale = this.blockchainService
-    .numberToSigned64x64(misura.percentuale).toString().replace('+', '');
+    .numberToSigned64x64(misura.percentuale);
     const insert = this.libretto.instance.methods.inserisciMisura(misura.categoriaContabile,
       misura.descrizione, percentuale, misura.riserva);
     return this.blockchainService.newTransaction(insert, this.libretto.instance.address).pipe(
