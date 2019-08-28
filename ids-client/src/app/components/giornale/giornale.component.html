@@ -5,16 +5,26 @@
 </h1>
 
 <div class="container-fluid" style="max-height: 100%; margin-top: 3%">
-    <div class="row">
-        <div class="col-md" style=" margin-bottom: 10px">
-            Completamento totale: 45%
-        </div>
+    <div class="row" style="margin-bottom: 10px; font-family: Arial, Helvetica, sans-serif; font-size: 0.8rem;">
+            <div class="col-md-6">
+                    <fieldset class="scheduler-border">
+                      <legend class="scheduler-border"> Lavori a Corpo </legend>
+                      <div class="control-group">
+                        <div class="controls bootstrap-timepicker">
+                          <!-- <input type="text" class="datetime" id="startTime" name="startTime" placeholder="Start Time" /> -->
+                          Progetto euro 90.792,33 <br>
+                          Totale valore realizzato: 6.177,90<br>
+                          Completamento totale: 45%
+                        </div>
+                      </div>
+                    </fieldset>
+                  </div>
         <div class="col-md" style="text-align: center; margin-bottom: 10px">
             <button *ngIf="isDirettoreLogged" type="button" class="btn btn-outline-warning btn-sm"
                 style="float: right; position:relative" (click)='openDialogInserimento()'>Inserisci nuova voce</button>
         </div>
     </div>
-    <div class="row">
+    <div class="row" style="margin-bottom: 10px; font-family: Arial, Helvetica, sans-serif; font-size: 0.8rem;">
         <div class="col-md-8 scrollbar-black bordered-black thin" style="overflow-y:auto; max-height:60vh ">
             <div class="row">
                 <!--DESCRIZIONE LOCAZIONE-->
@@ -46,13 +56,13 @@
                     </div>
                 </fieldset>
             </div>
-            <div class="row">
+            <div class="row" >
                 <fieldset class="scheduler-border">
                     <legend class="scheduler-border"> Operai </legend>
                     <div class="control-group">
 
                         <div class="controls bootstrap-timepicker">
-                            <!-- <input type="text" class="datetime" id="startTime" name="startTime" placeholder="Start Time" /> -->
+                            
                             Mario Rossi MDO - Operaio comune 8 ore
                             <br>Paolo Bianchi MDO - Operaio specializzato 8 ore
                             <br>Francesco Natale MDO - Capo squadra 6 ore
@@ -66,7 +76,7 @@
                     <legend class="scheduler-border"> Attrezzatura </legend>
                     <div class="control-group">
                         <div class="controls bootstrap-timepicker">
-                            <!-- <input type="text" class="datetime" id="startTime" name="startTime" placeholder="Start Time" /> -->
+                            
                             MAC - Autocarro a cassone ribaltabile da 15 t x3
                             <br>MAC - Dumper x1
                             <br>MAC - Gru a torre x3
@@ -76,38 +86,20 @@
             </div>
         </div>
         <div class="col-md-4" style="max-width:100%; ">
-            <!-- <mat-form-field>
-                       <input matInput [matDatepicker]="picker" placeholder="Choose a date">
-                       <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-                        <mat-datepicker #picker ></mat-datepicker>
-                      </mat-form-field> -->
-
-<!--
-                      <div class="container" fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="0.5%" fxLayoutAlign="center">
-                        <div fxFlex="20%">
-                          <mat-card>
-                            <mat-calendar [selected]="selectedDate" (selectedChange)="onSelect($event)"></mat-calendar>
-                          </mat-card>
-                        </div>
-                      </div> -->
-
-
-            <!-- <mat-card>
-                                <mat-calendar [selected]="selectedDate" style="max-height: 55vh" (selectedChange)="onSelect($event)"></mat-calendar>
-                              </mat-card> -->
+          
 
             <mat-card style="max-width:100%; ">
                 <mat-calendar [selected]="selectedDate" (selectedChange)="onSelect($event)"></mat-calendar>
             </mat-card>
 
-            <!-- <div data-date="03/11/19"></div> -->
+  
 
 
         </div>
     </div>
 
     <div class="row">
-        <!-- <button type="button" class="btn btn-link" style="float: right">Visualizza Foto e Allegati </button>  -->
+    
         <button type="button" class="btn btn-outline-warning btn-sm" style="float: right; position:relative"
             (click)='openDialogAllegati()'>Visualizza Foto e Allegati <i
                 class="align-middle fas fa-paperclip"></i></button>
