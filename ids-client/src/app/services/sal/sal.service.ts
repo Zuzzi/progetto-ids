@@ -60,7 +60,6 @@ export class SalService {
         tap(() => this.isLoading.next(true)),
       concatMapTo(this.getSal().pipe(
         map(sal => {
-          console.log(sal);
           return this.groupSal(this.formatSal(sal));
         })
     )));
@@ -124,7 +123,6 @@ export class SalService {
     const groupedMap = new Map();
     sal.forEach(item => {
       const key = item.data;
-      key.setHours(0, 0, 0, 0);
       const collection = groupedMap.get(key.getTime());
       if (!collection) {
         groupedMap.set(key.getTime(), [item]);
