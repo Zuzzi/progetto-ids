@@ -171,8 +171,8 @@ export class BlockchainService {
     );
   }
 
-  numberToSigned64x64(number: number): number {
-    return number * Math.pow(2, 64);
+  numberToSigned64x64(number: number): string {
+    return '0x' + (number * Math.pow(2, 64)).toString(16);
   }
 
   signed64x64ToNumber(signed64x64: number): number {

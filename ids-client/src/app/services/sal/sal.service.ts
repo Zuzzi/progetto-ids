@@ -60,6 +60,7 @@ export class SalService {
         tap(() => this.isLoading.next(true)),
       concatMapTo(this.getSal().pipe(
         map(sal => {
+          console.log(sal);
           return this.groupSal(this.formatSal(sal));
         })
     )));
