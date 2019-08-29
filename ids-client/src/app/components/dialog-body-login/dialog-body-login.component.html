@@ -17,15 +17,22 @@
                 <input matInput [(ngModel)]="password" type="password" style="width: 100%">
         </mat-form-field>
 </mat-dialog-content>
-<mat-dialog-actions >
-        <div class="container-fluid" >
-                <div class="row" style=" font-family: Arial, Helvetica, sans-serif; font-size: 1rem; text-align:center">
-                  <div class="col-md-1"></div>
-                  <div class="col-md-10">
-        <button type="button" class="btn btn-outline-secondary btn-sm" style="margin-right: 2%;" (click)="validateLogin()">Log in</button>
- <button type="button" class="btn btn-outline-secondary btn-sm" (click)="close()">Close</button>
-</div>
-</div>
-</div>
- <div class="col-md-1"></div>
+
+
+<mat-dialog-actions>
+        <div class="container-fluid" style="align-items: center">
+                <div class="row" style=" font-family: Arial, Helvetica, sans-serif; font-size: 1rem; ">
+                        <div class="col-md text-center">
+                       
+                                <button type="button" class="btn btn-outline-secondary btn-sm" style="margin-right: 2%;"
+                                        (click)="validateLogin()">Log in</button>
+                                <button type="button" class="btn btn-outline-secondary btn-sm"
+                                        (click)="close()">Close</button>
+                        </div>
+                        
+                </div>
+        </div>
+        
 </mat-dialog-actions>
+
+
