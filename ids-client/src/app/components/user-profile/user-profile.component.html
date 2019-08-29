@@ -4,12 +4,12 @@
   Opzioni Profilo
 </h1>
 
-<div class="container-fluid" style="max-height: 100%; margin-top: 3%; font-family: Arial, Helvetica, sans-serif;">
+<div class="container-fluid" style="max-height: 100%; margin-top: 4%; font-family: Arial, Helvetica, sans-serif;">
   <form class="example-form" [formGroup]="modificaUserForm" (ngSubmit)="setUser()">
 
     <table class="example-full-width" cellspacing="0">
 
-      <div class="row">
+      <div class="row" style="font-family: Arial, Helvetica, sans-serif; font-size: 0.9rem;">
         <div class="col-md-6">
           <fieldset class="scheduler-border">
             <legend class="scheduler-border"> Dati Personali </legend>
@@ -105,7 +105,7 @@
             <br>
             <div class="container-fluid">
               <div class="row " style="justify-content:center;">
-                <input mat-raised-button type="submit" value="Conferma">
+                  <button type="button" class="btn btn-outline-secondary btn-sm" value="Conferma">Conferma</button>
               </div>
             </div>
           </fieldset>

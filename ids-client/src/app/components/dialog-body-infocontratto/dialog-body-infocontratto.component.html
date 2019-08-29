@@ -1,7 +1,7 @@
 
 <mat-dialog-content class="scrollbar-black bordered-black thin">
     <div class="container-fluid">
-        <div class="row">
+        <div class="row" style=" font-family: Arial, Helvetica, sans-serif; font-size: 1rem; text-align:center">
             
             <fieldset class="scheduler-border">
                 <legend class="scheduler-border">Valore dell'opera e Soglie di Pagamento </legend>
@@ -12,7 +12,9 @@
                     </div>
                 </div>
             </fieldset>
-            <div class="col-md">
+        </div>
+        <div class="row"  style=" font-family: Arial, Helvetica, sans-serif; font-size: 1rem; text-align:center">
+            
             <fieldset class="scheduler-border">
                 <legend class="scheduler-border">Strutture </legend>
                 <div class="control-group">
@@ -23,7 +25,8 @@
                 </div>
             </fieldset>
         </div>
-            <div class="col-md">
+        <div class="row"  style=" font-family: Arial, Helvetica, sans-serif; font-size: 1rem; text-align:center">
+            
             <fieldset class="scheduler-border">
                 <legend class="scheduler-border">Categorie Contabili </legend>
                 <div class="control-group">
@@ -35,7 +38,7 @@
                 </div>
             </fieldset>
         </div>
-        </div>
+        
     </div>
 
 </mat-dialog-content>
@@ -43,7 +46,7 @@
     <div class="container-fluid" style="align-items: center">
         <div class="row top-buffer">
             <div class="col-md text-center">
-                <button mat-raised-button (click)="close()">Indietro</button>
+                    <button type="button" class="btn btn-outline-secondary btn-sm" (click)="close()">Indietro</button>
             </div>
         </div>
     </div>
