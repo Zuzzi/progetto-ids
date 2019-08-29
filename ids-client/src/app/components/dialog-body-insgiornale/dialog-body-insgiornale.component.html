@@ -1,28 +1,23 @@
 <mat-dialog-content class="scrollbar-black bordered-black thin">
     <div class="container-fluid ">
-        <div class="row" style="font-family: Arial, Helvetica, sans-serif; font-size: 1rem;">
-            <div class="col-md-8">
- 
-            </div>
-            <div class="col-md-4">
-                <div class="row" style="font-family: Arial, Helvetica, sans-serif; font-size: 1rem;margin-top:1%">
-                       
-                    <div class="col-md" style="text-align: right;">
+        <div class="row" style="font-family: Arial, Helvetica, sans-serif; font-size: 1rem; margin-top:1%">
+                <div class="col-md" ></div>
+            
+            <div class="col-md" >
+                        <div class="row" >
+                                <div class="col-md" style="text-align: right;">
                         Allegati e Foto:
                     </div>
-                    <div class="col-md">
+                    <div class="col-md" >
                         <!-- <button class="mat-raised-button" style="display:inline-block" >Carica File</button> -->
                         <button type="button" class="btn btn-light btn-sm"
                             (click)="fileInput.click()">Carica File</button>
     
                         <input hidden type="file" #fileInput>
                     </div>
-                </div>
+                    </div>
+                    </div>
 
-            </div>
-
-
-            <div class="col-md-4"></div>
         </div>
         <div class="row" style="font-family: Arial, Helvetica, sans-serif; font-size: 1rem;">
             <fieldset class="scheduler-border">
@@ -43,7 +38,8 @@
                 <div class="control-group">
                     <div class="controls bootstrap-timepicker">
                         <div class="input-group">
-                
+                            <div class="container fluid">
+                <div class="row">
                             <div class="col-md">
                                 Nome
                                 <input type="text" style="text-align: center" name='Operaio' class="form-control" />
@@ -52,6 +48,8 @@
                                 Cognome
                                 <input type="text" style="text-align: center" name='Operaio' class="form-control" />
                             </div>
+                        </div>
+                        <div class="row" style=" margin-top:2%">
                             <div class="col-md">
                                 Qualifica
                                 <div data-name="Qualifica">
@@ -70,14 +68,27 @@
                                     <div class="col">
                                         <input type="text" name="Ore" style="text-align: center" class="form-control" />
                                     </div>
-                                    <div class="col-2">
-                                        <button name="del0" style="" class='btn btn-success'><i
-                                                class="fas fa-plus"></i></button>
-                                    </div>
                                 </div>
                             </div>
                         </div>
+                    
+
+                        <div class="row" style="text-align: center; margin-top:4%">
+                                <div class="col-md"></div>
+                                <div class="col-md">
+                                        <button type="button" name="del0" class='btn btn-outline-success btn-sm'>Aggiungi altro</button>
+                                    </div>
+                                        <div class="col-md"></div>
+                                               
+                                    
+                                
+                                    </div>
+                              
+
+                        </div>
                     </div>
+                        </div>
+                
                 </div>
             </fieldset>
         </div>
@@ -110,8 +121,7 @@
                                         <input type="text" name="Ore" style="text-align: center" class="form-control" />
                                     </div>
                                     <div class="col-2">
-                                        <button name="del0" style="" class='btn btn-success'><i
-                                                class="fas fa-plus"></i></button>
+                                            <button type="button" name="del0" style="" class='btn btn-outline-success  btn-sm'>Aggiungi altro</button>
                                     </div>
                                 </div>
                             </div>
