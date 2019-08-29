@@ -1,7 +1,7 @@
 <mat-dialog-content  class="scrollbar-black bordered-black thin">
   <form [formGroup]="form">
     <div class="container-fluid ">
-        <div class="row">
+        <div class="row" style=" font-family: Arial, Helvetica, sans-serif; font-size: 1rem; margin-top:1%">
             <div class="col-md">
                 <!-- <mat-form-field>
                     <input matInput [matDatepicker]="picker" placeholder="Seleziona una data">
@@ -16,7 +16,7 @@
                     </div>
                     <div class="col-md">
                         <!-- <button class="mat-raised-button" style="display:inline-block" >Carica File</button> -->
-                        <button md-raised-button color="primary" type="button" class="btn btn-light"
+                        <button type="button" class="btn btn-light btn-sm"
                             (click)="fileInput.click()">Carica File</button>
                         <input hidden type="file" #fileInput>
                     </div>
@@ -27,7 +27,7 @@
 
 
         </div>
-        <div class="row">
+        <div class="row" style=" font-family: Arial, Helvetica, sans-serif; font-size: 1rem;">
             <fieldset class="scheduler-border">
                 <legend class="scheduler-border"> Dettagli Misura </legend>
                 <div class="control-group">
@@ -89,7 +89,7 @@
 
         </div>
 
-        <div class="row">
+        <div class="row" style=" font-family: Arial, Helvetica, sans-serif; font-size: 1rem;">
             <fieldset class="scheduler-border">
                 <legend class="scheduler-border"> Riserva (Opzionale)</legend>
                 <div class="control-group">
@@ -115,11 +115,11 @@
 
 <mat-dialog-actions>
     <div class="container-fluid" style="align-items: center">
-        <div class="row  text-center">
+        <div class="row  text-center" style=" font-family: Arial, Helvetica, sans-serif; font-size: 1rem;">
             <div class="col-md text-center">
-                <button mat-raised-button [disabled]="form.invalid" (click)="onSubmit()">Conferma</button>
+                <button type="button" class="btn btn-outline-secondary btn-sm" style="margin-right: 2%" [disabled]="form.invalid" (click)="onSubmit()">Conferma</button>
 
-                <button mat-raised-button (click)="close()">Annulla</button>
+                <button type="button" class="btn btn-outline-secondary btn-sm" (click)="close()">Annulla</button>
             </div>
         </div>
     </div>

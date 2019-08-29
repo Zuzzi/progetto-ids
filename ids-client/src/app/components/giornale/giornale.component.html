@@ -5,7 +5,7 @@
 </h1>
 
 <div class="container-fluid" style="max-height: 100%; margin-top: 3%">
-    <div class="row" style="margin-bottom: 10px; font-family: Arial, Helvetica, sans-serif; font-size: 0.8rem;">
+    <div class="row" style="margin-bottom: 0.5%; font-family: Arial, Helvetica, sans-serif; font-size: 0.8rem;">
             <div class="col-md-6">
                     <fieldset class="scheduler-border">
                       <legend class="scheduler-border"> Lavori a Corpo </legend>
@@ -21,12 +21,14 @@
                   </div>
         <div class="col-md" style="text-align: center; margin-bottom: 10px">
             <button *ngIf="isDirettoreLogged" type="button" class="btn btn-outline-warning btn-sm"
-                style="float: right; position:relative" (click)='openDialogInserimento()'>Inserisci nuova voce</button>
-        </div>
+                style="float: right;top: 60%; position:relative; font-size: 0.8rem;" (click)='openDialogInserimento()'>Inserisci nuova voce</button>
+        
+            </div>
     </div>
-    <div class="row" style="margin-bottom: 10px; font-family: Arial, Helvetica, sans-serif; font-size: 0.8rem;">
-        <div class="col-md-8 scrollbar-black bordered-black thin" style="overflow-y:auto; max-height:60vh ">
+    <div class="row" style="margin-bottom: 10px; font-family: Arial, Helvetica, sans-serif; font-size: 0.8rem; height:51vh">
+        <div class="col-md-8 scrollbar-black bordered-black thin" style="overflow-y:auto; max-height:51vh ">
             <div class="row">
+             <div class="col-md">
                 <!--DESCRIZIONE LOCAZIONE-->
                 <fieldset class="scheduler-border">
                     <legend class="scheduler-border"> Descrizione Locazione </legend>
@@ -55,8 +57,11 @@
                         </div>
                     </div>
                 </fieldset>
+                </div>
+          
             </div>
             <div class="row" >
+                <div class="col-md">
                 <fieldset class="scheduler-border">
                     <legend class="scheduler-border"> Operai </legend>
                     <div class="control-group">
@@ -70,8 +75,10 @@
                     </div>
                 </fieldset>
             </div>
+            </div>
 
             <div class="row">
+                <div class="col-md">
                 <fieldset class="scheduler-border">
                     <legend class="scheduler-border"> Attrezzatura </legend>
                     <div class="control-group">
@@ -84,11 +91,19 @@
                     </div>
                 </fieldset>
             </div>
+            </div>
+            <div class="row">
+                <div class="col-md">
+                <button type="button" class="btn btn-outline-warning btn-sm" style=" position:relative; margin-bottom:1%; font-size: 0.8rem;"
+                    (click)='openDialogAllegati()'>Visualizza Foto e Allegati <i
+                        class="align-middle fas fa-paperclip"></i></button>
+                    </div>
+            </div>
         </div>
-        <div class="col-md-4" style="max-width:100%; ">
+        <div class="col-md-4" style="max-width:100%;">
           
 
-            <mat-card style="max-width:100%; ">
+            <mat-card style="max-width:100%;">
                 <mat-calendar [selected]="selectedDate" (selectedChange)="onSelect($event)"></mat-calendar>
             </mat-card>
 
@@ -98,10 +113,5 @@
         </div>
     </div>
 
-    <div class="row">
-    
-        <button type="button" class="btn btn-outline-warning btn-sm" style="float: right; position:relative"
-            (click)='openDialogAllegati()'>Visualizza Foto e Allegati <i
-                class="align-middle fas fa-paperclip"></i></button>
-    </div>
+
 </div>

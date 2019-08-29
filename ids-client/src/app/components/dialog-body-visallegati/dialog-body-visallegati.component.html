@@ -1,4 +1,4 @@
-<h2 mat-dialog-title>Visualizzazione foto e allegati</h2>
+<h2 mat-dialog-title style="margin-bottom: 0.5%; font-family: Arial, Helvetica, sans-serif; font-size: 1rem;">Foto e Allegati</h2>
 
 <mat-dialog-content class="scrollbar-black bordered-black thin">
 
@@ -30,6 +30,14 @@
     </div>
 
 </mat-dialog-content>
+
 <mat-dialog-actions>
-    <button mat-raised-button (click)="close()">Indietro</button>
-</mat-dialog-actions>
+        <div class="container-fluid" style="align-items: center">
+                <div class="row top-buffer"style=" font-family: Arial, Helvetica, sans-serif; font-size: 1rem;">
+                  <div class="col-md text-center">
+    <button type="button" class="btn btn-outline-secondary btn-sm" (click)="close()">Indietro</button>
+
+            </div>
+          </div>
+        </div>
+      </mat-dialog-actions>
