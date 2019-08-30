@@ -20,7 +20,7 @@
                     </fieldset>
                   </div>
         <div class="col-md" style="text-align: center; margin-bottom: 10px">
-            <button *ngIf="isDirettoreLogged" type="button" class="btn btn-outline-warning btn-sm"
+            <button *ngIf="isDirettoreLogged && !((giornaleSource | async)?.isLoading) && ((giornaleSource | async)?.data.no == 0)" type="button" class="btn btn-outline-warning btn-sm"
                 style="float: right;top: 60%; position:relative; font-size: 0.8rem;" (click)='openDialogInserimento()'>Inserisci nuova voce</button>
 
             </div>
@@ -35,25 +35,7 @@
                     <div class="control-group">
                         <div class="controls bootstrap-timepicker">
                             <!-- <input type="text" class="datetime" id="startTime" name="startTime" placeholder="Start Time" /> -->
-                            Nuvoloso 16.0°C
-                            <br>
-                            Nuvoloso 16.0°C
-                            <br>
-                            Nuvoloso 16.0°C
-                            <br>
-                            Nuvoloso 16.0°C
-                            <br>
-                            Nuvoloso 16.0°C
-                            <br>
-                            Nuvoloso 16.0°C
-                            <br>
-                            Nuvoloso 16.0°C
-                            <br>
-                            Nuvoloso 16.0°C
-                            <br>
-
-                            Controllo delle armature metalliche in fondazione CORPO B
-                            <br>Verificati i ferri di armatura e casseforme
+                            {{(giornaleSource | async)?.data.descrizioneLocazione}}
                         </div>
                     </div>
                 </fieldset>
@@ -67,7 +49,7 @@
                     <div class="control-group">
 
                         <div class="controls bootstrap-timepicker">
-                            <p *ngFor="let operaio of (giornaleSource | async)?.operai">{{operaio}}</p>
+                            <p *ngFor="let operaio of (giornaleSource | async)?.data.operai">{{operaio}}</p>
                         </div>
                     </div>
                 </fieldset>
@@ -80,7 +62,7 @@
                     <legend class="scheduler-border"> Attrezzatura </legend>
                     <div class="control-group">
                         <div class="controls bootstrap-timepicker">
-                          <p *ngFor="let attrezzatura of (giornaleSource | async)?.attrezzature">{{attrezzatura}}</p>
+                          <p *ngFor="let attrezzatura of (giornaleSource | async)?.data.attrezzature">{{attrezzatura}}</p>
                         </div>
                     </div>
                 </fieldset>

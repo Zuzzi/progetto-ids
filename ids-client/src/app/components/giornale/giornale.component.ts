@@ -39,16 +39,16 @@ export class GiornaleComponent implements OnInit, OnDestroy {
       const today = new Date();
       today.setHours(0, 0, 0, 0);
       this.date = today;
-      console.log(today);
+      console.log(this.date);
       this.giornaleService.switchToContract(params.get('contractId'));
-      this.giornaleService.loadGiornale(today).subscribe();
+      this.giornaleService.loadGiornale(this.date).subscribe();
       console.log(params.get('contractId'));
     });
   }
 
   onDateChange(type: string, event: MatDatepickerInputEvent<Date>) {
     this.date = event;
-    console.log('attivo reperimento dei dati');
+    this.giornaleService.loadGiornale(this.date).subscribe();
     console.log(this.date);
   }
 

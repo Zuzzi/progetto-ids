@@ -12,7 +12,7 @@ export class GiornaleService {
   private giornaleStream: Subject<Giornale>;
   vocegiornale: Observable<any>;
   private giornaleStore: Giornale;
-  private isLoading:  Subject<boolean>;
+  private isLoading: Subject<boolean>;
   private isContractChanged: Subject<any>;
   private giornale: SmartContract<SmartContractType.Giornale>;
   private contractId: string;
@@ -55,7 +55,7 @@ export class GiornaleService {
 
   updateGiornale(giornale) {
     this.giornaleStore = giornale;
-    this.giornaleStream.next(Object.assign([], this.giornaleStore));
+    this.giornaleStream.next(Object.assign({}, this.giornaleStore));
     this.isLoading.next(false);
   }
 
