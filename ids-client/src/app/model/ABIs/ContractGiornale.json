@@ -1,154 +1,71 @@
 [
     {
         "constant": true,
-        "inputs": [],
-        "name": "numeroGiornale",
-        "outputs": [
-            {
-                "name": "",
-                "type": "uint256"
-            }
-        ],
-        "payable": false,
-        "stateMutability": "view",
-        "type": "function"
-    },
-    {
-        "constant": true,
         "inputs": [
-            {
-                "name": "index",
-                "type": "uint256"
-            }
-        ],
-        "name": "getAttrezzature",
-        "outputs": [
-            {
-                "name": "",
-                "type": "string"
-            },
-            {
-                "name": "",
-                "type": "uint256"
-            },
-            {
-                "name": "",
-                "type": "uint256"
-            }
-        ],
-        "payable": false,
-        "stateMutability": "view",
-        "type": "function"
-    },
-    {
-        "constant": true,
-        "inputs": [
-            {
-                "name": "",
-                "type": "uint256"
-            }
-        ],
-        "name": "arrayOperai",
-        "outputs": [
-            {
-                "name": "nome",
-                "type": "string"
-            },
-            {
-                "name": "cognome",
-                "type": "string"
-            },
-            {
-                "name": "qualifica",
-                "type": "string"
-            },
-            {
-                "name": "orePresenza",
-                "type": "uint256"
-            },
             {
                 "name": "data",
                 "type": "uint256"
             }
         ],
-        "payable": false,
-        "stateMutability": "view",
-        "type": "function"
-    },
-    {
-        "constant": true,
-        "inputs": [
-            {
-                "name": "index",
-                "type": "uint256"
-            }
-        ],
-        "name": "getOperai",
+        "name": "getGiornale",
         "outputs": [
             {
+                "components": [
+                    {
+                        "name": "no",
+                        "type": "uint256"
+                    },
+                    {
+                        "name": "data",
+                        "type": "uint256"
+                    },
+                    {
+                        "name": "descrizioneLocazione",
+                        "type": "string"
+                    },
+                    {
+                        "name": "allegati",
+                        "type": "string"
+                    }
+                ],
                 "name": "",
-                "type": "string"
+                "type": "tuple"
             },
             {
+                "components": [
+                    {
+                        "name": "nome",
+                        "type": "string"
+                    },
+                    {
+                        "name": "cognome",
+                        "type": "string"
+                    },
+                    {
+                        "name": "qualifica",
+                        "type": "string"
+                    },
+                    {
+                        "name": "orePresenza",
+                        "type": "uint256"
+                    }
+                ],
                 "name": "",
-                "type": "string"
+                "type": "tuple[]"
             },
             {
+                "components": [
+                    {
+                        "name": "tipologia",
+                        "type": "string"
+                    },
+                    {
+                        "name": "quantita",
+                        "type": "uint256"
+                    }
+                ],
                 "name": "",
-                "type": "string"
-            },
-            {
-                "name": "",
-                "type": "uint256"
-            },
-            {
-                "name": "",
-                "type": "uint256"
-            }
-        ],
-        "payable": false,
-        "stateMutability": "view",
-        "type": "function"
-    },
-    {
-        "constant": true,
-        "inputs": [],
-        "name": "numeroAttrezzature",
-        "outputs": [
-            {
-                "name": "",
-                "type": "uint256"
-            }
-        ],
-        "payable": false,
-        "stateMutability": "view",
-        "type": "function"
-    },
-    {
-        "constant": true,
-        "inputs": [
-            {
-                "name": "",
-                "type": "uint256"
-            }
-        ],
-        "name": "arrayGiornale",
-        "outputs": [
-            {
-                "name": "no",
-                "type": "uint256"
-            },
-            {
-                "name": "data",
-                "type": "uint256"
-            },
-            {
-                "name": "descrizioneLocazione",
-                "type": "string"
-            },
-            {
-                "name": "allegati",
-                "type": "string"
+                "type": "tuple[]"
             }
         ],
         "payable": false,
@@ -159,98 +76,65 @@
         "constant": false,
         "inputs": [
             {
-                "name": "tipologia",
-                "type": "string"
+                "components": [
+                    {
+                        "name": "no",
+                        "type": "uint256"
+                    },
+                    {
+                        "name": "data",
+                        "type": "uint256"
+                    },
+                    {
+                        "name": "descrizioneLocazione",
+                        "type": "string"
+                    },
+                    {
+                        "name": "allegati",
+                        "type": "string"
+                    }
+                ],
+                "name": "nuovoGiornale",
+                "type": "tuple"
             },
             {
-                "name": "quantita",
-                "type": "uint256"
+                "components": [
+                    {
+                        "name": "nome",
+                        "type": "string"
+                    },
+                    {
+                        "name": "cognome",
+                        "type": "string"
+                    },
+                    {
+                        "name": "qualifica",
+                        "type": "string"
+                    },
+                    {
+                        "name": "orePresenza",
+                        "type": "uint256"
+                    }
+                ],
+                "name": "nuoviOperai",
+                "type": "tuple[]"
             },
             {
-                "name": "data",
-                "type": "uint256"
+                "components": [
+                    {
+                        "name": "tipologia",
+                        "type": "string"
+                    },
+                    {
+                        "name": "quantita",
+                        "type": "uint256"
+                    }
+                ],
+                "name": "nuoveAttrezzature",
+                "type": "tuple[]"
             }
         ],
-        "name": "inserisciAttrezzatura",
-        "outputs": [],
-        "payable": false,
-        "stateMutability": "nonpayable",
-        "type": "function"
-    },
-    {
-        "constant": false,
-        "inputs": [
-            {
-                "name": "nome",
-                "type": "string"
-            },
-            {
-                "name": "cognome",
-                "type": "string"
-            },
-            {
-                "name": "qualifica",
-                "type": "string"
-            },
-            {
-                "name": "orePresenza",
-                "type": "uint256"
-            },
-            {
-                "name": "data",
-                "type": "uint256"
-            }
-        ],
-        "name": "inserisciOperaio",
-        "outputs": [],
-        "payable": false,
-        "stateMutability": "nonpayable",
-        "type": "function"
-    },
-    {
-        "constant": true,
-        "inputs": [
-            {
-                "name": "",
-                "type": "uint256"
-            }
-        ],
-        "name": "arrayAttrezzature",
-        "outputs": [
-            {
-                "name": "tipologia",
-                "type": "string"
-            },
-            {
-                "name": "quantita",
-                "type": "uint256"
-            },
-            {
-                "name": "data",
-                "type": "uint256"
-            }
-        ],
-        "payable": false,
-        "stateMutability": "view",
-        "type": "function"
-    },
-    {
-        "constant": false,
-        "inputs": [
-            {
-                "name": "data",
-                "type": "uint256"
-            },
-            {
-                "name": "descrizioneLocazione",
-                "type": "string"
-            },
-            {
-                "name": "allegati",
-                "type": "string"
-            }
-        ],
-        "name": "inserisciVoceGiornale",
+        "name": "inserisciGiornale",
         "outputs": [],
         "payable": false,
         "stateMutability": "nonpayable",
@@ -268,74 +152,6 @@
         "outputs": [],
         "payable": false,
         "stateMutability": "nonpayable",
-        "type": "function"
-    },
-    {
-        "constant": true,
-        "inputs": [
-            {
-                "name": "data",
-                "type": "uint256"
-            }
-        ],
-        "name": "getVoceGiornaleByData",
-        "outputs": [
-            {
-                "name": "",
-                "type": "uint256"
-            },
-            {
-                "name": "",
-                "type": "string"
-            },
-            {
-                "name": "",
-                "type": "string"
-            }
-        ],
-        "payable": false,
-        "stateMutability": "view",
-        "type": "function"
-    },
-    {
-        "constant": true,
-        "inputs": [],
-        "name": "numeroOperai",
-        "outputs": [
-            {
-                "name": "",
-                "type": "uint256"
-            }
-        ],
-        "payable": false,
-        "stateMutability": "view",
-        "type": "function"
-    },
-    {
-        "constant": true,
-        "inputs": [
-            {
-                "name": "index",
-                "type": "uint256"
-            }
-        ],
-        "name": "getVoceGiornale",
-        "outputs": [
-            {
-                "name": "",
-                "type": "uint256"
-            },
-            {
-                "name": "",
-                "type": "string"
-            },
-            {
-                "name": "",
-                "type": "string"
-            }
-        ],
-        "payable": false,
-        "stateMutability": "view",
         "type": "function"
     },
     {

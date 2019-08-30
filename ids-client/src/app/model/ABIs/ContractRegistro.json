@@ -76,24 +76,6 @@
         "type": "function"
     },
     {
-        "constant": false,
-        "inputs": [
-            {
-                "name": "categoriaContabile",
-                "type": "string"
-            },
-            {
-                "name": "percentuale",
-                "type": "int128"
-            }
-        ],
-        "name": "stornoPercentuale",
-        "outputs": [],
-        "payable": false,
-        "stateMutability": "nonpayable",
-        "type": "function"
-    },
-    {
         "constant": true,
         "inputs": [],
         "name": "numeroContabilita",
@@ -111,6 +93,28 @@
         "constant": false,
         "inputs": [
             {
+                "name": "categoriaContabile",
+                "type": "string"
+            },
+            {
+                "name": "percentuale",
+                "type": "int128"
+            },
+            {
+                "name": "descrizione",
+                "type": "string"
+            }
+        ],
+        "name": "stornoPercentuale",
+        "outputs": [],
+        "payable": false,
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "constant": false,
+        "inputs": [
+            {
                 "name": "index",
                 "type": "uint256"
             }
@@ -119,6 +123,29 @@
         "outputs": [],
         "payable": false,
         "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "constant": true,
+        "inputs": [
+            {
+                "name": "a",
+                "type": "string"
+            },
+            {
+                "name": "b",
+                "type": "string"
+            }
+        ],
+        "name": "compareStrings",
+        "outputs": [
+            {
+                "name": "",
+                "type": "bool"
+            }
+        ],
+        "payable": false,
+        "stateMutability": "pure",
         "type": "function"
     },
     {

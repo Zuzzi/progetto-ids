@@ -30,6 +30,7 @@ export class DialogBodyInslibrettoComponent implements OnInit {
       descrizione: ['', [Validators.required]],
       categoriaContabile: ['', [Validators.required]],
       percentuale: [1, [Validators.required, Validators.min(1), Validators.max(100),
+        //TODO:
         // Validators.pattern('/^-?[0-9][^\.]*$/'),
       ]],
       riserva: ['', []],
