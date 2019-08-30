@@ -1,12 +1,12 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { MatDialog, MatDatepickerInputEvent} from '@angular/material';
+import { MatDialog, MatDatepickerInputEvent, MatButtonToggleGroupMultiple} from '@angular/material';
 import { DialogBodyInsgiornaleComponent } from '@app/components/dialog-body-insgiornale/dialog-body-insgiornale.component';
 import { DialogBodyVisallegatiComponent } from '@app/components/dialog-body-visallegati/dialog-body-visallegati.component';
 import {AuthService} from '@app/services/auth/auth.service';
 import { ActivatedRoute } from '@angular/router';
 import { UserTitle } from '@app/interfaces';
 import { UserService } from '@app/services/user/user.service';
-import { FormBuilder, FormControl } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { GiornaleService } from '@app/services/giornale/giornale.service';
 import { tap, publishReplay, refCount } from 'rxjs/operators';
 
@@ -17,8 +17,8 @@ import { tap, publishReplay, refCount } from 'rxjs/operators';
 })
 export class GiornaleComponent implements OnInit, OnDestroy {
 
-  // date = new FormControl();
   date;
+  formInserimento;
   isDirettoreLogged: boolean;
   isRupLogged: boolean;
   isDittaLogged: boolean;
@@ -42,7 +42,35 @@ export class GiornaleComponent implements OnInit, OnDestroy {
       console.log(this.date);
       this.giornaleService.switchToContract(params.get('contractId'));
       this.giornaleService.loadGiornale(this.date).subscribe();
+      this.formInserimento = this.createFormInserimento();
       console.log(params.get('contractId'));
+    });
+  }
+
+  createFormInserimento() {
+    return this.fb.group({
+      no: 1,
+      data: this.date,
+      descrizioneLocazione: '',
+      allegati: '',
+      operai: this.fb.array([this.createFormOperai()]),
+      attrezzature: this.fb.array([this.createFormAttrezzature()]),
+    });
+  }
+
+  createFormOperai() {
+    return new FormGroup({
+      nome: new FormControl(''),
+      cognome: new FormControl(''),
+      qualifica: new FormControl(''),
+      orePresenza: new FormControl(null),
+    });
+  }
+
+  createFormAttrezzature() {
+    return new FormGroup({
+      tipologia: new FormControl(''),
+      quantita: new FormControl(''),
     });
   }
 
@@ -54,7 +82,14 @@ export class GiornaleComponent implements OnInit, OnDestroy {
 
 
   openDialogInserimento() {
-    const dialogRef = this.dialog.open(DialogBodyInsgiornaleComponent);
+    const options = {
+      data: {
+        formInserimento: this.formInserimento,
+        createFormOperai: this.createFormOperai,
+        createFormAttrezzature: this.createFormAttrezzature,
+      }
+    };
+    const dialogRef = this.dialog.open(DialogBodyInsgiornaleComponent, options);
     dialogRef.afterClosed().subscribe(value => {
       console.log(`Dialog sent: ${value}`);
     });

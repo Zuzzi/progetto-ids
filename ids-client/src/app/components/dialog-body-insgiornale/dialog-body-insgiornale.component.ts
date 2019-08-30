@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { MatDialogRef } from '@angular/material';
+import { Component, OnInit, Inject } from '@angular/core';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { Router } from '@angular/router';
 
 
@@ -10,9 +10,34 @@ import { Router } from '@angular/router';
 })
 export class DialogBodyInsgiornaleComponent implements OnInit {
 
-  constructor(public dialogRef: MatDialogRef<DialogBodyInsgiornaleComponent>, private router: Router) { }
+  form;
+  createFormOperai;
+  createFormAttrezzature;
+
+  constructor(public dialogRef: MatDialogRef<DialogBodyInsgiornaleComponent>, @Inject(MAT_DIALOG_DATA) public data) {
+    this.form = this.data.formInserimento;
+    this.createFormOperai = this.data.createFormOperai;
+    this.createFormAttrezzature = this.data.createFormAttrezzature;
+   }
 
   ngOnInit() {
+
+  }
+
+  addOperaio() {
+    this.form.get('operai').push(this.createFormOperai());
+  }
+
+  removeOperaio(index: number) {
+    this.form.get('operai').removeAt(index);
+  }
+
+  addAttrezzatura() {
+    this.form.get('attrezzature').push(this.createFormAttrezzature());
+  }
+
+  removeAttrezzatura(index: number) {
+    this.form.get('attrezzature').removeAt(index);
   }
 
 
