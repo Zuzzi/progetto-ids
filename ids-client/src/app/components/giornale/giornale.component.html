@@ -22,7 +22,7 @@
         <div class="col-md" style="text-align: center; margin-bottom: 10px">
             <button *ngIf="isDirettoreLogged" type="button" class="btn btn-outline-warning btn-sm"
                 style="float: right;top: 60%; position:relative; font-size: 0.8rem;" (click)='openDialogInserimento()'>Inserisci nuova voce</button>
-        
+
             </div>
     </div>
     <div class="row" style="margin-bottom: 10px; font-family: Arial, Helvetica, sans-serif; font-size: 0.8rem; height:51vh">
@@ -58,7 +58,7 @@
                     </div>
                 </fieldset>
                 </div>
-          
+
             </div>
             <div class="row" >
                 <div class="col-md">
@@ -67,10 +67,7 @@
                     <div class="control-group">
 
                         <div class="controls bootstrap-timepicker">
-                            
-                            Mario Rossi MDO - Operaio comune 8 ore
-                            <br>Paolo Bianchi MDO - Operaio specializzato 8 ore
-                            <br>Francesco Natale MDO - Capo squadra 6 ore
+                            <p *ngFor="let operaio of (giornaleSource | async)?.operai">{{operaio}}</p>
                         </div>
                     </div>
                 </fieldset>
@@ -83,10 +80,7 @@
                     <legend class="scheduler-border"> Attrezzatura </legend>
                     <div class="control-group">
                         <div class="controls bootstrap-timepicker">
-                            
-                            MAC - Autocarro a cassone ribaltabile da 15 t x3
-                            <br>MAC - Dumper x1
-                            <br>MAC - Gru a torre x3
+                          <p *ngFor="let attrezzatura of (giornaleSource | async)?.attrezzature">{{attrezzatura}}</p>
                         </div>
                     </div>
                 </fieldset>
@@ -101,13 +95,18 @@
             </div>
         </div>
         <div class="col-md-4" style="max-width:100%;">
-          
+
+          <!-- <mat-form-field>
+            <input matInput [matDatepicker]="picker" placeholder="Angular forms" [formControl]="date" (dateChange)="onDateChange('change', $event)">
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+          </mat-form-field> -->
 
             <mat-card style="max-width:100%;">
-                <mat-calendar [selected]="selectedDate" (selectedChange)="onSelect($event)"></mat-calendar>
+                <mat-calendar [selected]="date" (selectedChange)="onDateChange('change',$event)"></mat-calendar>
             </mat-card>
 
-  
+
 
 
         </div>

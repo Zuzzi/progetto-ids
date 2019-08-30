@@ -116,6 +116,29 @@ export interface Soglia {
   superata: boolean;
 }
 
+export interface Giornale {
+  no: number;
+  data: Date;
+  descrizioneLocazione: string;
+  allegati: string;
+  operai: Operai[];
+  attrezzature: Attrezzatura[];
+}
+
+export interface Operai {
+  nome: string;
+  cognome: string;
+  qualifica: string;
+  orePresenza: number;
+}
+
+export interface Attrezzatura {
+  tipologia: string;
+  quantita: string;
+}
+
+
+
 
 export interface ContractSchema {
   _id: string;
