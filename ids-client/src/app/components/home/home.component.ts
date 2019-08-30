@@ -47,7 +47,7 @@ export class HomeComponent implements OnInit {
          yAxes: [{
            scaleLabel: {
              display: true,
-             labelString: '% Valore Monetario Realizzato'
+             labelString: '% Soglia Monetaria Superata'
            },
              ticks: {
                  beginAtZero: true
