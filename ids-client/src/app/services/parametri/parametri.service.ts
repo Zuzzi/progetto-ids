@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Subject, Observable, from, forkJoin, ReplaySubject, combineLatest, concat, of, defer } from 'rxjs';
-import { Soglia, SmartContract, SmartContractType, Struttura, CategoriaContabile } from '@app/interfaces';
+import { Soglia, SmartContract, SmartContractType, Struttura, CategoriaContabile, Qualifica, Tipologia } from '@app/interfaces';
 import { concatMap, take, map, filter, tap, takeUntil, finalize, concatMapTo, withLatestFrom } from 'rxjs/operators';
 import { BlockchainService } from '../blockchain/blockchain.service';
 
@@ -23,6 +23,16 @@ export class ParametriService {
   strutture: Observable<any>;
   private struttureStore: Struttura[];
   private isLoadingStrutture: Subject<boolean> = new ReplaySubject(1);
+
+  private qualificheStream: Subject<Qualifica[]> = new ReplaySubject(1);
+  qualifiche: Observable<any>;
+  private qualificheStore: Qualifica[];
+  private isLoadingQualifiche: Subject<boolean> = new ReplaySubject(1);
+
+  private attrezzatureStream: Subject<Tipologia[]> = new ReplaySubject(1);
+  attrezzature: Observable<any>;
+  private attrezzatureStore: Tipologia[];
+  private isLoadingAttrezzature: Subject<boolean> = new ReplaySubject(1);
 
 
   // isLoadingObs: Observable<boolean>;
@@ -68,12 +78,30 @@ export class ParametriService {
         }
       }),
     );
-    // this.soglie = combineLatest(this.soglieStream.asObservable(),
-    //   this.isLoading.asObservable()).pipe(
-    //   tap(([soglie, isLoading]) => console.log('misure: ' + soglie.length, 'isloading: ' + isLoading)),
-    //   filter(([_, isLoading]) => !isLoading),
-    //   map(([soglie, _]) => soglie)
-    // );
+
+    this.qualifiche = this.isLoadingQualifiche.pipe(
+      withLatestFrom(this.qualificheStream),
+      tap(([isLoading, qualifiche]) => console.log('qualifiche: ' + qualifiche.length, 'isloading: ' + isLoading)),
+      map(([isLoading, qualifiche]) => {
+        if (isLoading) {
+          return {isLoading, data: []};
+        } else {
+          return {isLoading, data: qualifiche};
+        }
+      }),
+    );
+
+    this.attrezzature = this.isLoadingAttrezzature.pipe(
+      withLatestFrom(this.attrezzatureStream),
+      tap(([isLoading, attrezzature]) => console.log('attrezzature: ' + attrezzature.length, 'isloading: ' + isLoading)),
+      map(([isLoading, attrezzature]) => {
+        if (isLoading) {
+          return {isLoading, data: []};
+        } else {
+          return {isLoading, data: attrezzature};
+        }
+      }),
+    );
   }
 
   switchToContract(contractId: string) {
@@ -119,6 +147,30 @@ export class ParametriService {
     )));
   }
 
+  loadQualifiche() {
+    return of(true).pipe(
+      tap(() => this.isLoadingQualifiche.next(true)),
+      concatMapTo(this.getQualifiche().pipe(
+        takeUntil(this.isContractChanged),
+        map(qualifiche => {
+          return this.formatQualifiche(qualifiche);
+        }),
+      tap(qualifiche => this.updateQualifiche(qualifiche))
+    )));
+  }
+
+  loadAttrezzature() {
+    return of(true).pipe(
+      tap(() => this.isLoadingAttrezzature.next(true)),
+      concatMapTo(this.getAttrezzature().pipe(
+        takeUntil(this.isContractChanged),
+        map(attrezzature => {
+          return this.formatAttrezzature(attrezzature);
+        }),
+      tap(attrezzature => this.updateAttrezzature(attrezzature))
+    )));
+  }
+
   updateSoglie(soglie) {
     this.soglieStore = soglie;
     this.soglieStream.next(Object.assign([], this.soglieStore));
@@ -135,6 +187,18 @@ export class ParametriService {
     this.struttureStore = strutture;
     this.struttureStream.next(Object.assign([], this.struttureStore));
     this.isLoadingStrutture.next(false);
+  }
+
+  updateQualifiche(qualifiche) {
+    this.qualificheStore = qualifiche;
+    this.qualificheStream.next(Object.assign([], this.qualificheStore));
+    this.isLoadingQualifiche.next(false);
+  }
+
+  updateAttrezzature(attrezzature) {
+    this.attrezzatureStore = attrezzature;
+    this.attrezzatureStream.next(Object.assign([], this.attrezzatureStore));
+    this.isLoadingAttrezzature.next(false);
   }
 
   getSoglie() {
@@ -194,6 +258,44 @@ export class ParametriService {
     );
   }
 
+  getQualifiche() {
+    return defer(() =>
+    from(this.parametri.instance.methods.numeroQualifiche().call()))
+    .pipe(
+      concatMap(numeroQualifiche => {
+        if (Number(numeroQualifiche) !== 0) {
+          const qualifiche: any[] = [];
+          for (let i = 0; i < numeroQualifiche; i++) {
+            qualifiche.push(from(this.parametri.instance.methods.getQualifica(i).call()));
+          }
+          return forkJoin(qualifiche); // fare nested forkjoin con object of array
+        } else {
+          return of([]);
+        }
+      }),
+      take(1), // per sicurezza anche se gli observable generati da promise completano dopo una singola emissione
+    );
+  }
+
+  getAttrezzature() {
+    return defer(() =>
+    from(this.parametri.instance.methods.numeroAttrezzature().call()))
+    .pipe(
+      concatMap(numeroAttrezzature => {
+        if (Number(numeroAttrezzature) !== 0) {
+          const attrezzature: any[] = [];
+          for (let i = 0; i < numeroAttrezzature; i++) {
+            attrezzature.push(from(this.parametri.instance.methods.getAttrezzatura(i).call()));
+          }
+          return forkJoin(attrezzature); // fare nested forkjoin con object of array
+        } else {
+          return of([]);
+        }
+      }),
+      take(1), // per sicurezza anche se gli observable generati da promise completano dopo una singola emissione
+    );
+  }
+
   formatSoglie(soglie) {
     const formatted: Soglia[] = [];
     soglie.forEach(soglia => {
@@ -218,6 +320,22 @@ export class ParametriService {
     const formatted: Struttura[] = [];
     strutture.forEach(struttura => {
       formatted.push({nome: struttura});
+    });
+    return formatted;
+  }
+
+  formatQualifiche(qualifiche) {
+    const formatted: Qualifica[] = [];
+    qualifiche.forEach(qualifica => {
+      formatted.push({nome: qualifica});
+    });
+    return formatted;
+  }
+
+  formatAttrezzature(attrezzature) {
+    const formatted: Tipologia[] = [];
+    attrezzature.forEach(attrezzatura => {
+      formatted.push({nome: attrezzatura});
     });
     return formatted;
   }

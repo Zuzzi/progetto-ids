@@ -3,6 +3,7 @@ import { Subject, Observable, ReplaySubject, of, defer, from } from 'rxjs';
 import { Giornale, SmartContract, SmartContractType } from '@app/interfaces';
 import { BlockchainService } from '../blockchain/blockchain.service';
 import { withLatestFrom, tap, map, concatMapTo, takeUntil, take } from 'rxjs/operators';
+import { CompileShallowModuleMetadata } from '@angular/compiler';
 
 @Injectable({
   providedIn: 'root'
@@ -66,6 +67,19 @@ export class GiornaleService {
     .pipe(
       take(1), // per sicurezza anche se gli observable generati da promise completano dopo una singola emissione
     );
+  }
+
+  insertGiornale(giornale) {
+    const operai = giornale.operai;
+    const attrezzature = giornale.attrezzature;
+    const voceGiornale = {no: giornale.no,
+      data: this.blockchainService.dateToEpoch(giornale.data),
+      descrizioneLocazione: giornale.descrizioneLocazione,
+      allegati: giornale.allegati,
+    };
+    const insert = this.giornale.instance.methods.inserisciGiornale(
+      voceGiornale, operai, attrezzature);
+    return this.blockchainService.newTransaction(insert, this.giornale.instance.address);
   }
 
   formatGiornale(giornale): Giornale {

@@ -56,7 +56,7 @@
                                 <div data-name="Categoria">
                                     <!-- <select [(ngModel)]="data.categoriaContabile" name="Categoria"> -->
                                     <select id="categoriaContabile" formControlName="categoriaContabile" name="Categoria">
-                                        <option value="">Selezione Categoria</option>
+                                        <option selected value="">Selezione Categoria</option>
                                         <option *ngFor="let categoria of (formOptions.elencoCategorie | async)?.data" [value]="categoria.nome">{{categoria.nome}}</option>
                                         <!-- <option value="">Selezione Categoria </option>
                                         <option value="Pavimentazione">Pavimentazione</option>

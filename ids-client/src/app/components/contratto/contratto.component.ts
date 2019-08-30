@@ -47,10 +47,13 @@ export class ContrattoComponent implements OnInit, OnDestroy {
   loadContract() {
     return forkJoin(
       this.librettoService.loadMisure(),
-      this.registroService.loadContabilita(), this.salService.loadSal(),
-      this.parametriService.loadSoglie(),
+      this.registroService.loadContabilita(),
+      this.salService.loadSal(),
+      /// this.parametriService.loadSoglie(),
       this.parametriService.loadCategorieContabili(),
-      this.parametriService.loadStrutture()
+      this.parametriService.loadStrutture(),
+      this.parametriService.loadQualifiche(),
+      this.parametriService.loadAttrezzature(),
     );
   }
 

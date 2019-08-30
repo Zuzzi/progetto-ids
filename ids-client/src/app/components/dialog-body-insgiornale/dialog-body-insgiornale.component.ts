@@ -1,6 +1,7 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { Router } from '@angular/router';
+import { FormGroup, FormControl } from '@angular/forms';
 
 
 @Component({
@@ -11,17 +12,25 @@ import { Router } from '@angular/router';
 export class DialogBodyInsgiornaleComponent implements OnInit {
 
   form;
-  createFormOperai;
-  createFormAttrezzature;
+  formOptions = {elencoQualifiche: [], elencoAttrezzature: []};
 
   constructor(public dialogRef: MatDialogRef<DialogBodyInsgiornaleComponent>, @Inject(MAT_DIALOG_DATA) public data) {
     this.form = this.data.formInserimento;
-    this.createFormOperai = this.data.createFormOperai;
-    this.createFormAttrezzature = this.data.createFormAttrezzature;
+    this.formOptions.elencoQualifiche = this.data.elencoQualifiche;
+    this.formOptions.elencoAttrezzature = this.data.elencoAttrezzature;
    }
 
   ngOnInit() {
 
+  }
+
+  createFormOperai() {
+    return new FormGroup({
+      nome: new FormControl(''),
+      cognome: new FormControl(''),
+      qualifica: new FormControl(''),
+      orePresenza: new FormControl(null),
+    });
   }
 
   addOperaio() {
@@ -30,6 +39,13 @@ export class DialogBodyInsgiornaleComponent implements OnInit {
 
   removeOperaio(index: number) {
     this.form.get('operai').removeAt(index);
+  }
+
+  createFormAttrezzature() {
+    return new FormGroup({
+      tipologia: new FormControl(''),
+      quantita: new FormControl(''),
+    });
   }
 
   addAttrezzatura() {
@@ -45,8 +61,10 @@ export class DialogBodyInsgiornaleComponent implements OnInit {
     this.dialogRef.close();
   }
 
-  confirm() {
-    console.log('funziona!');
+  onSubmit() {
+    if (this.form.valid) {
+      this.dialogRef.close(true);
+    }
   }
 
 

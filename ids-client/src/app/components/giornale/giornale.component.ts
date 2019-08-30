@@ -8,7 +8,8 @@ import { UserTitle } from '@app/interfaces';
 import { UserService } from '@app/services/user/user.service';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { GiornaleService } from '@app/services/giornale/giornale.service';
-import { tap, publishReplay, refCount } from 'rxjs/operators';
+import { tap, publishReplay, refCount, filter, concatMapTo } from 'rxjs/operators';
+import { ParametriService } from '@app/services/parametri/parametri.service';
 
 @Component({
   selector: 'app-giornale',
@@ -29,9 +30,22 @@ export class GiornaleComponent implements OnInit, OnDestroy {
     publishReplay(1),
     refCount()
   );
+  qualificheSource = this.parametriService.qualifiche.pipe(
+    tap(value => console.log(value)),
+    publishReplay(1),
+    refCount()
+  );
+  attrezzatureSource = this.parametriService.attrezzature.pipe(
+    tap(value => console.log(value)),
+    publishReplay(1),
+    refCount()
+  );
+
 
   constructor(private dialog: MatDialog, private userService: UserService, private activatedRoute: ActivatedRoute,
-              private giornaleService: GiornaleService, private fb: FormBuilder) { }
+              private giornaleService: GiornaleService,
+              private parametriService: ParametriService,
+              private fb: FormBuilder) { }
 
   ngOnInit() {
     this.isDirettoreLogged = this.userService.titleCheck(UserTitle.Direttore);
@@ -53,30 +67,15 @@ export class GiornaleComponent implements OnInit, OnDestroy {
       data: this.date,
       descrizioneLocazione: '',
       allegati: '',
-      operai: this.fb.array([this.createFormOperai()]),
-      attrezzature: this.fb.array([this.createFormAttrezzature()]),
-    });
-  }
-
-  createFormOperai() {
-    return new FormGroup({
-      nome: new FormControl(''),
-      cognome: new FormControl(''),
-      qualifica: new FormControl(''),
-      orePresenza: new FormControl(null),
-    });
-  }
-
-  createFormAttrezzature() {
-    return new FormGroup({
-      tipologia: new FormControl(''),
-      quantita: new FormControl(''),
+      operai: this.fb.array([]),
+      attrezzature: this.fb.array([]),
     });
   }
 
   onDateChange(type: string, event: MatDatepickerInputEvent<Date>) {
     this.date = event;
     this.giornaleService.loadGiornale(this.date).subscribe();
+    this.formInserimento = this.createFormInserimento();
     console.log(this.date);
   }
 
@@ -85,14 +84,22 @@ export class GiornaleComponent implements OnInit, OnDestroy {
     const options = {
       data: {
         formInserimento: this.formInserimento,
-        createFormOperai: this.createFormOperai,
-        createFormAttrezzature: this.createFormAttrezzature,
+        elencoQualifiche: this.qualificheSource,
+        elencoAttrezzature: this.attrezzatureSource,
       }
     };
     const dialogRef = this.dialog.open(DialogBodyInsgiornaleComponent, options);
-    dialogRef.afterClosed().subscribe(value => {
-      console.log(`Dialog sent: ${value}`);
+    dialogRef.afterClosed().pipe(filter(action => action))
+      .subscribe( () => {
+        this.inserisciGiornale(this.formInserimento.value);
     });
+  }
+
+  inserisciGiornale(giornale) {
+    this.giornaleService.insertGiornale(giornale).pipe(
+      concatMapTo(this.giornaleService.loadGiornale(this.date)),
+    ).subscribe();
+    this.formInserimento = this.createFormInserimento();
   }
 
   openDialogAllegati() {

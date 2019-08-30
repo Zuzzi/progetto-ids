@@ -36,10 +36,12 @@ export class LibrettoComponent implements OnInit, OnDestroy {
     refCount()
   );
   categorieSource = this.parametriService.categorie.pipe(
+    tap(value => console.log(value)),
     publishReplay(1),
     refCount()
   );
   struttureSource = this.parametriService.strutture.pipe(
+    tap(value => console.log(value)),
     publishReplay(1),
     refCount()
   );

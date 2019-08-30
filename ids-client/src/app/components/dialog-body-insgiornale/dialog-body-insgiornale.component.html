@@ -35,7 +35,8 @@
     <div formArrayName="operai" class="row" style="font-family: Arial, Helvetica, sans-serif; font-size: 1rem;">
       <fieldset class="scheduler-border" style="width: 100%">
         <legend class="scheduler-border"> Operaio </legend>
-        <div *ngFor="let operaio of form.get('operai').controls; let i = index; let last = last;" class="control-group border">
+        <div *ngFor="let operaio of form.get('operai').controls; let i = index; let last = last;"
+          class="control-group border">
           <div [formGroupName]="i" class="controls bootstrap-timepicker">
             <div class="input-group">
               <div class="container fluid">
@@ -56,10 +57,11 @@
                     Qualifica
                     <div data-name="Qualifica">
                       <select formControlName="qualifica" name="Qualifica">
-                        <option value="">Selezione Qualifica</option>
-                        <option value="1">MDO - Operaio Comune</option>
+                          <option selected value="">Selezione Qualifica</option>
+                        <option *ngFor="let qualifica of (formOptions.elencoQualifiche | async)?.data" [value]="qualifica.nome">{{qualifica.nome}}</option>
+                        <!-- <option value="1">MDO - Operaio Comune</option>
                         <option value="2">MDO - Operaio Specializzato</option>
-                        <option value="3">MDO - Capo Squadra</option>
+                        <option value="3">MDO - Capo Squadra</option> -->
                       </select>
                     </div>
                   </div>
@@ -68,7 +70,7 @@
                     Ore di Presenza
                     <div class="row" style="font-family: Arial, Helvetica, sans-serif; font-size: 1rem;">
                       <div class="col">
-                        <input formControlName="orePresenza" type="text" name="Ore" style="text-align: center"
+                        <input formControlName="orePresenza" type="number" name="Ore" style="text-align: center"
                           class="form-control" />
                       </div>
                     </div>
@@ -77,23 +79,11 @@
                   <div class="col-md">
                     <div class="row" style="font-family: Arial, Helvetica, sans-serif; font-size: 1rem;">
                       <div class="col">
-                        <button type="button" name="del0" (click)="removeOperaio(i)" class='btn btn-outline-danger  btn-sm'>Rimuovi</button>
+                        <button type="button" name="del0" (click)="removeOperaio(i)"
+                          class='btn btn-outline-danger  btn-sm'>Rimuovi</button>
                       </div>
                     </div>
                   </div>
-                </div>
-
-
-                <div class="row" style="text-align: center; margin-top:4%">
-                  <div class="col-md"></div>
-                  <div class="col-md">
-                    <button *ngIf="last" type="button" name="del0" (click)="addOperaio()" class='btn btn-outline-success  btn-sm'>Aggiungi
-                      altro</button>
-                  </div>
-                  <div class="col-md"></div>
-
-
-
                 </div>
 
 
@@ -102,14 +92,25 @@
           </div>
 
         </div>
+        <div class="row" style="text-align: center; margin-top: 3%">
+          <div class="col-md"></div>
+          <div class="col-md">
+            <button type="button" name="del0" (click)="addOperaio()"
+              class='btn btn-outline-success  btn-sm'>Aggiungi</button>
+          </div>
+          <div class="col-md"></div>
+        </div>
+
       </fieldset>
     </div>
+
 
 
     <div formArrayName="attrezzature" class="row" style="font-family: Arial, Helvetica, sans-serif; font-size: 1rem;">
       <fieldset class="scheduler-border" style="width: 100%">
         <legend class="scheduler-border">Attrezzatura </legend>
-        <div *ngFor="let attrezzatura of form.get('attrezzature').controls; let i = index; let last = last;" class="control-group border">
+        <div *ngFor="let attrezzatura of form.get('attrezzature').controls; let i = index; let last = last;"
+          class="control-group border">
           <div [formGroupName]="i" class="controls bootstrap-timepicker">
             <div class="input-group">
               <div class="container fluid">
@@ -118,10 +119,11 @@
                     Attrezzatura
                     <div data-name="Tipologia">
                       <select formControlName="tipologia" name="Tipologia">
-                        <option value="">Seleziona Attrezzatura</option>
-                        <option value="1">MAC - Dumper</option>
+                        <option selected value="">Selezione Tipologia</option>
+                        <option *ngFor="let attrezzatura of (formOptions.elencoAttrezzature | async)?.data" [value]="attrezzatura.nome">{{attrezzatura.nome}}</option>
+                        <!-- <option value="1">MAC - Dumper</option>
                         <option value="2">MAC - Gru a Torre</option>
-                        <option value="3">MAC - Autocarro</option>
+                        <option value="3">MAC - Autocarro</option> -->
                       </select>
                     </div>
                   </div>
@@ -131,7 +133,8 @@
                     Quantità
                     <div class="row" style="font-family: Arial, Helvetica, sans-serif; font-size: 1rem;">
                       <div class="col">
-                        <input formControlName="quantita" type="text" name="Quantita" style="text-align: center" class="form-control" />
+                        <input formControlName="quantita" type="number" name="Quantita" style="text-align: center"
+                          class="form-control" />
                       </div>
                     </div>
                   </div>
@@ -139,24 +142,26 @@
                   <div class="col-md">
                     <div class="row" style="font-family: Arial, Helvetica, sans-serif; font-size: 1rem;">
                       <div class="col">
-                        <button type="button" name="del0" (click)="removeAttrezzatura(i)" class='btn btn-outline-danger  btn-sm'>Rimuovi</button>
+                        <button type="button" name="del0" (click)="removeAttrezzatura(i)"
+                          class='btn btn-outline-danger  btn-sm'>Rimuovi</button>
                       </div>
                     </div>
                   </div>
 
                 </div>
 
-                <div class="row" style="text-align: center; margin-top:4%">
-                  <div class="col-md"></div>
-                  <div class="col-md">
-                    <button *ngIf="last" type="button" name="del0" (click)="addAttrezzatura()" class='btn btn-outline-success  btn-sm'>Aggiungi
-                      altro</button>
-                  </div>
-                  <div class="col-md"></div>
-                </div>
+
               </div>
             </div>
           </div>
+        </div>
+        <div class="row" style="text-align: center; margin-top: 3%">
+          <div class="col-md"></div>
+          <div class="col-md">
+            <button type="button" name="del0" (click)="addAttrezzatura()"
+              class='btn btn-outline-success  btn-sm'>Aggiungi</button>
+          </div>
+          <div class="col-md"></div>
         </div>
       </fieldset>
     </div>
@@ -169,7 +174,7 @@
     <div class="row  text-center" style=" font-family: Arial, Helvetica, sans-serif; font-size: 1rem;">
       <div class="col-md text-center">
         <button type="button" class="btn btn-outline-secondary btn-sm" style="margin-right: 2%"
-          (click)="confirm()">Conferma</button>
+          (click)="onSubmit()">Conferma</button>
 
 
         <button type="button" class="btn btn-outline-secondary btn-sm" (click)="close()">Annulla</button>

@@ -91,6 +91,14 @@ export interface CategoriaContabile {
 export interface Struttura {
   nome: string;
 }
+// Tipologia di attrezzatura
+export interface Tipologia {
+  nome: string;
+}
+
+export interface Qualifica {
+  nome: string;
+}
 
 export class User {
   username: string;
