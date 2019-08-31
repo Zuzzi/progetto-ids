@@ -9,7 +9,8 @@ const Contract = require('./model/contract');
 const jwt = require('jsonwebtoken');
 const fs = require('fs')
 //TODO Dove mettere sta chiave:
-const RSA_PRIVATE_TOKEN_KEY = fs.readFileSync('token_rsa.key').toString();
+const RSA_PRIVATE_TOKEN_KEY = fs.readFileSync('rsa_private_token.key').toString();
+const RSA_PUBLIC_TOKEN_KEY = fs.readFileSync('rsa_public_token.key').toString();
 // const ContractSources = require('./model/contractSource');
  
 app.use(bodyParser.json())
@@ -33,29 +34,51 @@ app.post('/api/user/login', (req,res) => {
             .exec().then(user => {
                     console.log(user);
                     user.comparePassword(password).then(isMatch => {
-                        console.log(isMatch);
-                            const token = jwt.sign({},RSA_PRIVATE_TOKEN_KEY,{
+                        if (isMatch) {
+                            const token = jwt.sign({username: user.username},RSA_PRIVATE_TOKEN_KEY,{
                                 algorithm: 'RS256',
-                                subject: user.username
-                            })
-                            console.log(token);
+                            });
                             return res.status(200).json({
                                 valid: true,
                                 data: user,
                                 JWTtoken: token,
                             });
-                    }).catch(error => res.status(200).json(invalidResult));
+                        }
+                        else {
+                            return res.status(200).json(invalidResult);
+                        }
+                    })
             }).catch(error => res.status(200).json(invalidResult));
         });
-    })
+    });
 
-// app.post('/api/user/setUser', (req,res) => {
-//     mongoose.connect(url, function(err){
-//         if(err) throw err;
-//         let username = req.body.username
-//         User.findOne({username: username})
-    
-//     })
-// })
+    app.post('/api/user/tokenLogin', (req,res) => {
+        mongoose.connect(url, function(err){
+            if(err) throw err;
+            const invalidResult = {
+                valid: false,
+                data: null,
+                JWTtoken: null,
+            };
+            var decodedToken;
+            try {
+            decodedToken = jwt.verify(req.body.JWTtoken, RSA_PUBLIC_TOKEN_KEY);
+            console.log(decodedToken);
+            }
+            catch (error) {
+                console.log(error);
+                return res.status(200).json(invalidResult); 
+            }
+            username = decodedToken.username;
+            User.findOne({username: username})
+            .populate('contracts')
+            .exec().then(user => res.status(200).json({
+                valid: true,
+                data: user,
+                // TODO per adesso null ma potrebbe servire per il refresh
+                JWTtoken: null,
+            })).catch(error => res.status(200).json(invalidResult));
+        });
+    });
  
 app.listen(3000, () => console.log('App server running on port 3000!'))

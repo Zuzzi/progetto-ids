@@ -6,6 +6,7 @@ import { userInfo } from 'os';
 import { UserProfileComponent } from '@app/components/user-profile/user-profile.component';
 import { BlockchainService } from '@app/services/blockchain/blockchain.service';
 import { UserService} from '@app/services/user/user.service';
+import { of } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -29,17 +30,40 @@ export class AuthService {
     })
     .pipe(
       map(result => {
+        console.log(result);
         if (result['valid']) {
           const user = result['data'];
           const token = result['JWTtoken'];
           this.login(user);
           this.setSession(token);
           this.islogged = true;
-          }
+        }
         return result['valid'];
       }),
       shareReplay()
     );
+  }
+
+  tokenLogin() {
+    const token = localStorage.getItem('jwt_token');
+    if (token) {
+      return this.http.post('/api/user/tokenlogin', {
+        JWTtoken: token,
+      }).pipe(
+        map(result => {
+          if (result['valid']) {
+            const user = result['data'];
+            this.login(user);
+            // TODO per il refresh da qui
+            this.islogged = true;
+          }
+          return result['valid'];
+        }),
+        shareReplay()
+      );
+    } else {
+      return of(false).pipe(shareReplay());
+    }
   }
 
   private login(user) {

@@ -39,6 +39,7 @@ export class DialogBodyLoginComponent implements OnInit {
       const password = this.formLogin.value.password;
       this.authService.validateLogin(username, password)
         .subscribe(result => {
+          console.log(result);
           if (result) {
             const firstContract = this.userService.getContracts()[0];
             this.dialogRef.close();
