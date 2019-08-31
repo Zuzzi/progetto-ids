@@ -13,7 +13,7 @@ import {AuthGuard} from '@app/guards/auth-guard';
 // TODO: gestire url non consentiti (considera anche parametri illegali o nulli)
 
 const routes: Routes = [
-  {path: 'login', component: WelcomeComponent},
+  {path: '', component: WelcomeComponent},
   {path: 'area-riservata/contract/:contractId', component: AreaRiservataComponent, canActivate: [AuthGuard],
    children: [
     {
