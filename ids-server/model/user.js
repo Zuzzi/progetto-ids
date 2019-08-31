@@ -21,12 +21,9 @@ const userSchema = new Schema({
   contracts : { type: [{ type: Schema.Types.ObjectId, ref:'Contract' }] }
 }, { collection : 'Users' });
 
-userSchema.methods.comparePassword = function(candidatePassword, cb) {
-  bcrypt.compare(candidatePassword, this.password, (err, isMatch) => {
-    if (err) return cb(err);
-    cb(null, isMatch)
-  })
-}
+userSchema.methods.comparePassword = function(candidatePassword) {
+  return bcrypt.compare(candidatePassword, this.password) 
+  }
  
 const User = mongoose.model('User', userSchema);
  

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import {map} from 'rxjs/operators';
+import {map, shareReplay} from 'rxjs/operators';
 import {User, SmartContractType, UserTitle} from '@app/interfaces';
 import { userInfo } from 'os';
 import { UserProfileComponent } from '@app/components/user-profile/user-profile.component';
@@ -14,6 +14,7 @@ import { UserService} from '@app/services/user/user.service';
 export class AuthService {
 
   // private user: User;
+  islogged = false;
 
   constructor(private http: HttpClient, private blockchainService: BlockchainService,
               private userService: UserService) {
@@ -22,48 +23,37 @@ export class AuthService {
 
   validateLogin(username, password) {
     //console.log(username + ' ' + password);
-    return this.http.post('/api/user/getUser', {
+    return this.http.post('/api/user/login', {
       username,
       password
     })
-    .pipe(map(result => {
-      if (result['status'] === 'success' ) {
-        const user = result['data'];
-        this.userService.setUser(user);
-        this.blockchainService.unlockAccount(user.keystore, password);
-        return {success: true, userDetail: user};
-      } else {
-        return {success: false, userDetail: null };
-      }
-    }));
+    .pipe(
+      map(result => {
+        if (result['valid']) {
+          const user = result['data'];
+          const token = result['JWTtoken'];
+          this.login(user);
+          this.setSession(token);
+          this.islogged = true;
+          }
+        return result['valid'];
+      }),
+      shareReplay()
+    );
   }
 
-  // getUser() {
-  //   console.log(this.user);
-  //   return this.user;
-  // }
+  private login(user) {
+    this.userService.setUser(user);
+    // TODO spostare unlock in backend con master password
+    this.blockchainService.unlockAccount(user.keystore, '123');
+  }
 
-  // getContracts() {
-  //   return this.user.contracts;
-  // }
+  private setSession(token) {
+    localStorage.setItem('jwt_token', token);
+  }
 
-  // titleCheck(title: UserTitle) {
-  //   let test = false;
-  //   if (this.user.title !== null ) {
-  //     if (this.user.title === title) {
-  //               test = true;
-  //     } else {
-  //       test = false;
-  //     }
-  //   }
-  //   return test;
-  // }
-
-  // getAddress(contractId: string, type: SmartContractType): string {
-  //   const contract = this.user.contracts.find(element => element._id === contractId);
-  //   return contract[type].address;
-  // }
-
-
+  logout() {
+    localStorage.removeItem('jwt_token');
+  }
 }
 

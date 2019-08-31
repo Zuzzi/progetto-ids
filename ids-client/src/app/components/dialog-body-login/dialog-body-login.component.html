@@ -1,20 +1,20 @@
 <h1 mat-dialog-title style="font-family: Arial, Helvetica, sans-serif;">Accesso all'area riservata</h1>
 <div *ngIf="credentialsMistake" class="isa_error" style="font-family: Arial, Helvetica, sans-serif; font-size: 1rem;">
         <i class="fa fa-times-circle"></i>
-        Accesso negato!
+        Credenziali Errate!
 </div>
 
-<mat-dialog-content style="font-family: Arial, Helvetica, sans-serif; font-size: 1rem;">
+<mat-dialog-content [formGroup]="formLogin" style="font-family: Arial, Helvetica, sans-serif; font-size: 1rem;">
 
         <p> Username </p>
         <mat-form-field style="width: 100%">
-                <input matInput [(ngModel)]="username" style="width: 100%;  ">
+                <input matInput formControlName="username" style="width: 100%;  ">
         </mat-form-field>
 
 
         <p> Password</p>
         <mat-form-field style="width: 100%">
-                <input matInput [(ngModel)]="password" type="password" style="width: 100%">
+                <input matInput formControlName="password" type="password" style="width: 100%">
         </mat-form-field>
 </mat-dialog-content>
 
@@ -23,16 +23,16 @@
         <div class="container-fluid" style="align-items: center">
                 <div class="row" style=" font-family: Arial, Helvetica, sans-serif; font-size: 1rem; ">
                         <div class="col-md text-center">
-                       
-                                <button type="button" class="btn btn-outline-secondary btn-sm" style="margin-right: 2%;"
-                                        (click)="validateLogin()">Login</button>
+
+                                <button type="button" [disabled]="formLogin.invalid" class="btn btn-outline-secondary btn-sm" style="margin-right: 2%;"
+                                        (click)="login()">Login</button>
                                 <button type="button" class="btn btn-outline-secondary btn-sm"
                                         (click)="close()">Close</button>
                         </div>
-                        
+
                 </div>
         </div>
-        
+
 </mat-dialog-actions>
 
 
