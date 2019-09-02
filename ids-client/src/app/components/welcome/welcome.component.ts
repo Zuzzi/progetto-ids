@@ -21,10 +21,7 @@ export class WelcomeComponent implements OnInit {
   constructor( private router: Router, private dialog: MatDialog, private authService: AuthService, private userService: UserService) { }
 
   ngOnInit() {
-    if (this.authService.islogged) {
-      const firstContract = this.userService.getContracts()[0];
-      this.router.navigate(['/area-riservata/contract', firstContract._id, 'libretto']);
-    }
+
 }
 
 onSubmit() {

@@ -15,7 +15,7 @@ import { of } from 'rxjs';
 export class AuthService {
 
   // private user: User;
-  islogged = false;
+  isLogged = false;
 
   constructor(private http: HttpClient, private blockchainService: BlockchainService,
               private userService: UserService) {
@@ -36,7 +36,7 @@ export class AuthService {
           const token = result['JWTtoken'];
           this.login(user);
           this.setSession(token);
-          this.islogged = true;
+          this.isLogged = true;
         }
         return result['valid'];
       }),
@@ -44,25 +44,28 @@ export class AuthService {
     );
   }
 
-  tokenLogin() {
-    const token = localStorage.getItem('jwt_token');
-    if (token) {
-      return this.http.post('/api/user/tokenlogin', {
-        JWTtoken: token,
-      }).pipe(
-        map(result => {
-          if (result['valid']) {
-            const user = result['data'];
-            this.login(user);
-            // TODO per il refresh da qui
-            this.islogged = true;
-          }
-          return result['valid'];
-        }),
-        shareReplay()
-      );
+  isLoggedIn() {
+    if (this.isLogged) {
+      return of(true).pipe(shareReplay());
     } else {
-      return of(false).pipe(shareReplay());
+      const token = localStorage.getItem('jwt_token');
+      if (token) {
+        return this.http.post('/api/user/tokenlogin', {
+          JWTtoken: token,
+        }).pipe(
+          map(result => {
+            if (result['valid']) {
+              const user = result['data'];
+              this.login(user);
+              this.isLogged = true;
+            }
+            return result['valid'];
+          }),
+          shareReplay()
+        );
+      } else {
+        return of(false).pipe(shareReplay());
+      }
     }
   }
 
@@ -77,6 +80,7 @@ export class AuthService {
   }
 
   logout() {
+    this.isLogged = false;
     localStorage.removeItem('jwt_token');
   }
 }
