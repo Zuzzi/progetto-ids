@@ -1,11 +1,8 @@
 import { Injectable, Inject } from '@angular/core';
 import Web3 from 'web3';
-import {WEB3} from '@app/web3.token';
-import {writeFileSync, fstat} from 'fs';
-import { EncryptedKeystoreV3Json, Account } from 'web3-eth-accounts';
-import { from, Observable, BehaviorSubject, ReplaySubject, Subject, } from 'rxjs';
+import { Account } from 'web3-eth-accounts';
+import { from, Observable, Subject, } from 'rxjs';
 import { concatMap, take, tap } from 'rxjs/operators';
-import {map} from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
 import {Misura, SmartContractType, SmartContract} from '../../interfaces';
 import ParametriAbi from '@app/model/ABIs/ContractParametri.json';
@@ -13,12 +10,8 @@ import LibrettoAbi from '@app/model/ABIs/ContractMisure.json';
 import SalAbi from '@app/model/ABIs/ContractSal.json';
 import GiornaleAbi from '@app/model/ABIs/ContractGiornale.json';
 import RegistroAbi from '@app/model/ABIs/ContractRegistro.json';
-import { AssertionError } from 'assert';
 import { AbiItem } from 'web3-utils';
 import { UserService } from '../user/user.service';
-// import { AuthService } from '@app/services/auth/auth.service';
-
-
 
 @Injectable({
   providedIn: 'root'
@@ -38,10 +31,6 @@ export class BlockchainService {
       defaultGas: 4500000,
       transactionConfirmationBlocks: 1,
     };
-    // this.web3 = new Web3(new Web3.providers.HttpProvider(
-    //   'http://localhost:22000', {headers: [{name: 'Access-Control-Allow-Origin', value: '*'}]}),
-    //   null,
-    //   options);
     this.web3 = new Web3(new Web3.providers.WebsocketProvider(
       'ws://localhost:22000'),
       null,

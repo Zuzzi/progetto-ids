@@ -148,7 +148,7 @@ export class SalService {
   approvaRegistro() {
     const approva = this.sal.instance.methods.approvaRegistro();
     return this.blockchainService.newTransaction(approva, this.sal.instance.address).pipe(
-      concatMapTo(this.loadSal()),
+      concatMapTo(forkJoin(this.loadSal(), this.loadInfoPagamento())),
       takeUntil(this.isContractChanged)
     );
   }

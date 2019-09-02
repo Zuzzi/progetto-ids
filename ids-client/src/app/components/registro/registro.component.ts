@@ -11,6 +11,7 @@ import { BlockchainService } from '@app/services/blockchain/blockchain.service';
 import { UserService } from '@app/services/user/user.service';
 import { SalService } from '@app/services/sal/sal.service';
 import { Observable } from 'rxjs';
+import { LibrettoService } from '@app/services/libretto/libretto.service';
 
 @Component({
   selector: 'app-registro',
@@ -32,7 +33,8 @@ export class RegistroComponent implements OnInit, OnDestroy {
 
   constructor(private dialog: MatDialog, private userService: UserService,
               private activatedRoute: ActivatedRoute, private blockchainService: BlockchainService,
-              private registroService: RegistroService, private salService: SalService) { }
+              private registroService: RegistroService, private salService: SalService,
+              private librettoService: LibrettoService) { }
 
   ngOnInit() {
     // TODO: rimuovere questa modifica temporanea per testare conferma registro.
@@ -71,7 +73,7 @@ export class RegistroComponent implements OnInit, OnDestroy {
 
   approvaRegistro() {
     this.salService.approvaRegistro().pipe(
-       concatMapTo(this.registroService.loadContabilita())
+       concatMapTo(this.librettoService.loadMisure())
       ).subscribe();
   }
 

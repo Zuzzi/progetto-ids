@@ -146,8 +146,9 @@ export class LibrettoComponent implements OnInit, OnDestroy {
   }
 
   invalidaMisura(noMisura: Misura['no']) {
-    this.librettoService.invalidaMisura(noMisura)
-      .subscribe();
+    this.librettoService.invalidaMisura(noMisura).pipe(
+      concatMapTo(this.registroService.loadContabilita())
+    ).subscribe();
   }
 
   ngOnDestroy(): void {
