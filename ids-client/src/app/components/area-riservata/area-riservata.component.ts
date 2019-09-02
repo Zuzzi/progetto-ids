@@ -22,7 +22,7 @@ export class AreaRiservataComponent implements OnInit {
   isDittaLogged: boolean;
   user;
 
-  constructor(private userService: UserService, private router: Router) { }
+  constructor(private userService: UserService, private router: Router, private authService: AuthService) { }
 
   ngOnInit() {
     this.isDirettoreLogged = this.userService.titleCheck(UserTitle.Direttore);
@@ -45,7 +45,7 @@ export class AreaRiservataComponent implements OnInit {
   }
 
   logOut() {
-    localStorage.clear();
-    this.router.navigate(['/welcome']);
+    this.authService.logout();
+    this.router.navigate(['/login']);
   }
 }
