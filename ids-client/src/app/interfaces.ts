@@ -145,6 +145,11 @@ export interface Attrezzatura {
   quantita: string;
 }
 
+export interface InfoPagamento {
+  totaleLavoriAcorpo: number;
+  percentualeLavoriAcorpo: number;
+  totalePagato: number;
+}
 
 
 

@@ -34,6 +34,11 @@ export class ParametriService {
   private attrezzatureStore: Tipologia[];
   private isLoadingAttrezzature: Subject<boolean> = new ReplaySubject(1);
 
+  private valoreTotaleStream: Subject<number> = new ReplaySubject(1);
+  valoretotale: Observable<any>;
+  private valoreTotaleStore: number;
+  private isLoadingValoreTotale: Subject<boolean> = new ReplaySubject(1);
+
 
   // isLoadingObs: Observable<boolean>;
   private isContractChanged: Subject<any>;
@@ -99,6 +104,18 @@ export class ParametriService {
           return {isLoading, data: []};
         } else {
           return {isLoading, data: attrezzature};
+        }
+      }),
+    );
+
+    this.valoretotale = this.isLoadingValoreTotale.pipe(
+      withLatestFrom(this.valoreTotaleStream),
+      tap(([isLoading, valoreTotale]) => console.log('valoreTotale: ' + valoreTotale, 'isloading: ' + isLoading)),
+      map(([isLoading, valoreTotale]) => {
+        if (isLoading) {
+          return {isLoading, data: null};
+        } else {
+          return {isLoading, data: valoreTotale};
         }
       }),
     );
@@ -171,6 +188,19 @@ export class ParametriService {
     )));
   }
 
+  loadValoreTotale() {
+    return of(true).pipe(
+      tap(() => this.isLoadingValoreTotale.next(true)),
+      concatMapTo(defer(() =>
+      from(this.parametri.instance.methods.valoreTotale().call()))
+      .pipe(take(1))
+      ),
+      takeUntil(this.isContractChanged),
+      map(valoreTotale => this.blockchainService.signed64x64ToNumber(valoreTotale)),
+      tap(valoreTotale => this.updateValoreTotale(valoreTotale)),
+    );
+  }
+
   updateSoglie(soglie) {
     this.soglieStore = soglie;
     this.soglieStream.next(Object.assign([], this.soglieStore));
@@ -199,6 +229,12 @@ export class ParametriService {
     this.attrezzatureStore = attrezzature;
     this.attrezzatureStream.next(Object.assign([], this.attrezzatureStore));
     this.isLoadingAttrezzature.next(false);
+  }
+
+  updateValoreTotale(valoreTotale) {
+    this.valoreTotaleStore = valoreTotale;
+    this.valoreTotaleStream.next(this.valoreTotaleStore);
+    this.isLoadingValoreTotale.next(false);
   }
 
   getSoglie() {

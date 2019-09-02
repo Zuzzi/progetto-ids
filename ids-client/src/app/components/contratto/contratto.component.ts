@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { LibrettoService } from '@app/services/libretto/libretto.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import { switchMap, map, concatMap, filter, tap, catchError, onErrorResumeNext } from 'rxjs/operators';
+import { switchMap, map, concatMap, filter, tap, catchError, onErrorResumeNext, publishReplay, refCount } from 'rxjs/operators';
 import { BlockchainService } from '@app/services/blockchain/blockchain.service';
 import { SmartContractType, SmartContract } from '@app/interfaces';
 import { Observable, of, EMPTY, forkJoin } from 'rxjs';
@@ -20,6 +20,8 @@ export class ContrattoComponent implements OnInit, OnDestroy {
 
   contractId: string;
   routeSub: any;
+  infoPagamentoSource;
+  valoreTotaleSource;
 
   constructor(private activatedRoute: ActivatedRoute, private librettoService: LibrettoService,
               private registroService: RegistroService, private salService: SalService,
@@ -48,6 +50,17 @@ export class ContrattoComponent implements OnInit, OnDestroy {
       }),
       filter(value => value),
     ).subscribe();
+
+    this.infoPagamentoSource = this.salService.infoPagamento.pipe(
+      tap(value => console.log(value)),
+      publishReplay(1),
+      refCount()
+    );
+    this.valoreTotaleSource = this.parametriService.valoretotale.pipe(
+      tap(value => console.log(value)),
+      publishReplay(1),
+      refCount()
+    );
   }
 
   loadContract() {
@@ -55,11 +68,12 @@ export class ContrattoComponent implements OnInit, OnDestroy {
       this.librettoService.loadMisure(),
       this.registroService.loadContabilita(),
       this.salService.loadSal(),
-      /// this.parametriService.loadSoglie(),
+      this.salService.loadInfoPagamento(),
       this.parametriService.loadCategorieContabili(),
       this.parametriService.loadStrutture(),
       this.parametriService.loadQualifiche(),
       this.parametriService.loadAttrezzature(),
+      this.parametriService.loadValoreTotale(),
     );
   }
 

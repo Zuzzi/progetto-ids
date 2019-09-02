@@ -29,10 +29,8 @@ export class BlockchainService {
   private account: Account;
   private txEventsStream: Subject<any>;
   txEvents: Observable<Misura[]>;
-  // private contracts: Array<any>;
-  //private contractsSources: Array<any>;
-  //TODO: eliminare web3 injectionProvider
-  constructor(private http: HttpClient, @Inject(WEB3) private _web3: Web3,
+
+  constructor(private http: HttpClient,
               private userService: UserService) {
     const options = {
       defaultAccount: '0xed9d02e382b34818e88b88a309c7fe71e65f419d',
@@ -51,41 +49,9 @@ export class BlockchainService {
     this.txEventsStream = new Subject();
     this.txEvents = this.txEventsStream.asObservable();
   }
-  // TODO: probabilmente questa funzione non serve
-  // registerAccount(password: string) {
-  //   const newAccount = this.web3.eth.accounts.create();
-  //   const newAddress = newAccount.address;
-  //   const newPrivateKey = newAccount.privateKey;
-  //   const keystore = this.web3.eth.accounts.encrypt(newPrivateKey, password);
-  //   // soluzione temporanea, il keystore andrà salvato nel db
-  //   try {
-  //     writeFileSync('../../../keys/' + newAddress, keystore);
-  //     console.log('keystore written in file succesfully');
-  //   } catch (err) {
-  //     console.log('error in writing keystore to file:');
-  //     console.log(err);
-  //   }
-  //   // salvare indirizzo account nel database
-  // }
-
-  /* getAccount() {
-    return this.account;
-  } */
-
-  // getWeb3() {
-  //   return this.web3;
-  // }
-
-  // loadContracts(contracts) {
-  //   this.contracts = contracts;
-  // }
 
   unlockAccount(keystore, password: string) {
     this.account = this.web3.eth.accounts.decrypt(keystore, password);
-  }
-
-  lockAccount() {
-    delete this.account;
   }
 
   getSmartContract(contractId: string, type: SmartContractType) {

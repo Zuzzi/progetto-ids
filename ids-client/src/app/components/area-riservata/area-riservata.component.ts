@@ -40,7 +40,6 @@ export class AreaRiservataComponent implements OnInit {
       this.nascondi = '';
       this.arrow = 'arrowLeft';
       this.collapse = false;
-      console.log('oooooo');
     }
   }
 

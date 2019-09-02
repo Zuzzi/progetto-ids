@@ -6,6 +6,7 @@ import { switchMap, tap, shareReplay, publishReplay, refCount, pluck } from 'rxj
 import { SmartContract, SmartContractType, Sal } from '@app/interfaces';
 import { BlockchainService } from '@app/services/blockchain/blockchain.service';
 import { Observable } from 'rxjs';
+import { ParametriService } from '@app/services/parametri/parametri.service';
 
 
 @Component({
@@ -27,10 +28,12 @@ export class SalComponent implements OnInit, OnDestroy {
   'percentuale', 'prezzoValore', 'prezzoPercentuale', 'debitoValore', 'debitoPercentuale'];
   vociSal;
   vociSalSource;
+  infoPagamentoSource;
+  valoreTotaleSource;
   expandedElement: Sal[] | null;
   isLoadingSal: Observable<boolean>;
 
-  constructor(private salService: SalService, private activatedRoute: ActivatedRoute,
+  constructor(private salService: SalService, private parametriService: ParametriService, private activatedRoute: ActivatedRoute,
               private blockchainService: BlockchainService) { }
 
   ngOnInit() {
@@ -42,11 +45,16 @@ export class SalComponent implements OnInit, OnDestroy {
     this.vociSal = this.vociSalSource.pipe(
       pluck('data')
     );
-    // this.isLoadingSal = this.salService.isLoadingObs.pipe(
-    //   tap(value => console.log(value)),
-    //   publishReplay(1),
-    //   refCount()
-    // );
+    this.infoPagamentoSource = this.salService.infoPagamento.pipe(
+      tap(value => console.log(value)),
+      publishReplay(1),
+      refCount()
+    );
+    this.valoreTotaleSource = this.parametriService.valoretotale.pipe(
+      tap(value => console.log(value)),
+      publishReplay(1),
+      refCount()
+    );
   }
 
   ngOnDestroy(): void {

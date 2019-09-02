@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Sal, SmartContractType, SmartContract } from '@app/interfaces';
+import { Sal, SmartContractType, SmartContract, InfoPagamento } from '@app/interfaces';
 import { Observable, Subject, from, forkJoin, ReplaySubject, combineLatest, of, concat, defer } from 'rxjs';
 import { concatMap, take, map, tap, filter, takeUntil, concatMapTo, finalize, withLatestFrom } from 'rxjs/operators';
 import { BlockchainService } from '../blockchain/blockchain.service';
@@ -16,16 +16,25 @@ export class SalService {
   vociSal: Observable<any>;
   private vociSalStore: Sal[];
   private isLoading: Subject<boolean>;
-  isLoadingObs: Observable<boolean>;
+
+  private infoStream: Subject<InfoPagamento>;
+  infoPagamento: Observable<any>;
+  private infoStore: InfoPagamento;
+  private isLoadingInfo: Subject<boolean>;
+
+  // isLoadingObs: Observable<boolean>;
   private isContractChanged: Subject<any>;
   sal: SmartContract<SmartContractType.Sal>;
   private contractId: string;
+
 
   constructor(private blockchainService: BlockchainService,
               private parametriService: ParametriService) {
     this.vociSalStream =  new ReplaySubject(1) as ReplaySubject<any>;
     this.isLoading = new ReplaySubject(1) as ReplaySubject<boolean>;
     this.isContractChanged = new Subject();
+    this.infoStream = new ReplaySubject(1) as ReplaySubject<InfoPagamento>;
+    this.isLoadingInfo = new ReplaySubject(1) as ReplaySubject<boolean>;
     // this.isLoadingObs = this.isLoading.asObservable();
     this.vociSal = this.isLoading.pipe(
       withLatestFrom(this.vociSalStream),
@@ -38,12 +47,17 @@ export class SalService {
         }
       }),
     );
-    // this.vociSal = combineLatest(this.vociSalStream,
-    //   this.isLoading).pipe(
-    //     tap(([vociSal, isLoading]) => console.log('misure: ' + vociSal.length, 'isloading: ' + isLoading)),
-    //     filter(([_, isLoading]) => !isLoading),
-    //     map(([vociSal, _]) => vociSal)
-    //   );
+    this.infoPagamento = this.isLoadingInfo.pipe(
+      withLatestFrom(this.infoStream),
+      tap(([isLoading, info]) => console.log('infoPagamento: ' + info, 'isloading: ' + isLoading)),
+      map(([isLoading, info]) => {
+        if (isLoading) {
+          return {isLoading, data: {} };
+        } else {
+          return {isLoading, data: info};
+        }
+      }),
+    );
    }
 
    switchToContract(contractId: string) {
@@ -80,10 +94,28 @@ export class SalService {
     );
   }
 
+  loadInfoPagamento() {
+    return of(true).pipe(
+      tap(() => this.isLoadingInfo.next(true)),
+      concatMapTo(this.getInfoPagamento().pipe(
+        takeUntil(this.isContractChanged),
+        map(info => {
+          return this.formatInfoPagamento(info);
+        }),
+        tap(info => this.updateInfoPagamento(info))
+      )));
+  }
+
   updateSal(sal) {
     this.vociSalStore = sal;
     this.vociSalStream.next(Object.assign([], this.vociSalStore));
     this.isLoading.next(false);
+  }
+
+  updateInfoPagamento(info) {
+    this.infoStore = info;
+    this.infoStream.next(Object.assign([], this.infoStore));
+    this.isLoadingInfo.next(false);
   }
 
   getSal() {
@@ -106,8 +138,10 @@ export class SalService {
   }
 
   getInfoPagamento() {
-    return from(this.sal.instance.methods.getInfoPagamento().call().pipe(
-      takeUntil(this.isContractChanged)
+    return defer(() =>
+    from(this.sal.instance.methods.getInfoPagamento().call())
+    .pipe(
+      take(1), // per sicurezza anche se gli observable generati da promise completano dopo una singola emissione
     ));
   }
 
@@ -152,6 +186,14 @@ export class SalService {
       debitoPercentuale: this.blockchainService.signed64x64ToNumber(sal['9'])});
     });
     return formatted;
+  }
+
+  formatInfoPagamento(info): InfoPagamento {
+    return {
+      totaleLavoriAcorpo: this.blockchainService.signed64x64ToNumber(info[0]),
+      percentualeLavoriAcorpo: this.blockchainService.signed64x64ToNumber(info[1]),
+      totalePagato: this.blockchainService.signed64x64ToNumber(info[2]),
+    };
   }
 
 }
