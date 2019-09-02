@@ -69,7 +69,7 @@
                             </div>
                             <div class="col-md" >
                                 Percentuale
-
+                                <div>
                                 <!-- <input mdInput [(ngModel)]="data.percentuale" type="number" min="0" max="100" /> -->
                                 <input mdInput id="percentuale" formControlName="percentuale" type="number" min="0" max="100" />
                                 <div *ngIf="(percentuale.invalid || form.hasError('maxPercentuale')) && (percentuale.dirty || percentuale.touched)" class="alert alert-danger">
@@ -77,7 +77,7 @@
                                     <div *ngIf="percentuale.hasError('max') || percentuale.hasError('min')">Inserisci un valore intero compreso tra 1 e 100 !</div>
                                     <div *ngIf="form.hasError('maxPercentuale') && !percentuale.hasError('max')">La percentuale totale è oltre il 100%</div>
                                   </div>
-
+                                </div>
                             </div>
 
                         </div>

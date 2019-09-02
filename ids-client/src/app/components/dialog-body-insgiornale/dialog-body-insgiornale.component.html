@@ -1,11 +1,11 @@
 <mat-dialog-content [formGroup]="form" class="scrollbar-black bordered-black thin">
   <div class="container-fluid ">
-    <div class="row" style="font-family: Arial, Helvetica, sans-serif; font-size: 1rem; margin-top:1%">
-      <div class="col-md"></div>
+    <div class="row" style="font-family: Arial, Helvetica, sans-serif; font-size: 1rem; margin-top:2%">
+     
 
       <div class="col-md">
         <div class="row">
-          <div class="col-md" style="text-align: right;">
+          <div class="col-md" style= "text-align: right;">
             Allegati e Foto:
           </div>
           <div class="col-md">
@@ -40,7 +40,7 @@
           <div [formGroupName]="i" class="controls bootstrap-timepicker">
             <div class="input-group">
               <div class="container fluid">
-                <div class="row">
+                <div class="row" style = "margin-top: 2%">
                   <div class="col-md">
                     Nome
                     <input formControlName="nome" type="text" style="text-align: center" name='Operaio'
@@ -70,18 +70,20 @@
                     Ore di Presenza
                     <div class="row" style="font-family: Arial, Helvetica, sans-serif; font-size: 1rem;">
                       <div class="col">
-                        <input formControlName="orePresenza" type="number" name="Ore" style="text-align: center"
+                        <input formControlName="orePresenza" type="number" name="Ore" style="text-align: center; margin-bottom: 4%"
                           class="form-control" />
                       </div>
                     </div>
                   </div>
 
-                  <div class="col-md">
-                    <div class="row" style="font-family: Arial, Helvetica, sans-serif; font-size: 1rem;">
-                      <div class="col">
+                  <div class="col-md" > 
+                    <div class="row" style="font-family: Arial, Helvetica, sans-serif; font-size: 1rem; ">
+                      <div class="col-md"></div>
+                      <div class="col-md" style= "margin-top: 10%; margin-bottom:2%" >
                         <button type="button" name="del0" (click)="removeOperaio(i)"
                           class='btn btn-outline-danger  btn-sm'>Rimuovi</button>
                       </div>
+                      <div class="col-md"></div>
                     </div>
                   </div>
                 </div>
@@ -96,7 +98,7 @@
           <div class="col-md"></div>
           <div class="col-md">
             <button type="button" name="del0" (click)="addOperaio()"
-              class='btn btn-outline-success  btn-sm'>Aggiungi</button>
+              class='btn btn-outline-success  btn-sm'>Aggiungi Nuovo</button>
           </div>
           <div class="col-md"></div>
         </div>
@@ -114,7 +116,7 @@
           <div [formGroupName]="i" class="controls bootstrap-timepicker">
             <div class="input-group">
               <div class="container fluid">
-                <div class="row">
+                <div class="row" style = "margin-top: 2%">
                   <div class="col-md">
                     Attrezzatura
                     <div data-name="Tipologia">
@@ -132,8 +134,8 @@
 
                     Quantità
                     <div class="row" style="font-family: Arial, Helvetica, sans-serif; font-size: 1rem;">
-                      <div class="col">
-                        <input formControlName="quantita" type="number" name="Quantita" style="text-align: center"
+                      <div class="col" style= "margin-bottom: 4%">
+                        <input formControlName="quantita" type="number" name="Quantita" style="text-align: center;"
                           class="form-control" />
                       </div>
                     </div>
@@ -141,10 +143,12 @@
 
                   <div class="col-md">
                     <div class="row" style="font-family: Arial, Helvetica, sans-serif; font-size: 1rem;">
-                      <div class="col">
+                      <div class = "col-md"></div>
+                      <div class="col-md" style="margin-top: 10%; margin-bottom: 2%">
                         <button type="button" name="del0" (click)="removeAttrezzatura(i)"
                           class='btn btn-outline-danger  btn-sm'>Rimuovi</button>
                       </div>
+                      <div class="col-md"></div>
                     </div>
                   </div>
 
@@ -159,7 +163,7 @@
           <div class="col-md"></div>
           <div class="col-md">
             <button type="button" name="del0" (click)="addAttrezzatura()"
-              class='btn btn-outline-success  btn-sm'>Aggiungi</button>
+              class='btn btn-outline-success  btn-sm'>Aggiungi Nuovo</button>
           </div>
           <div class="col-md"></div>
         </div>
