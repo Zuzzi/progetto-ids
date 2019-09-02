@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { LibrettoService } from '@app/services/libretto/libretto.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { switchMap, map, concatMap, filter, tap, catchError, onErrorResumeNext } from 'rxjs/operators';
 import { BlockchainService } from '@app/services/blockchain/blockchain.service';
 import { SmartContractType, SmartContract } from '@app/interfaces';
@@ -8,6 +8,8 @@ import { Observable, of, EMPTY, forkJoin } from 'rxjs';
 import { SalService } from '@app/services/sal/sal.service';
 import { RegistroService } from '@app/services/registro/registro.service';
 import { ParametriService } from '@app/services/parametri/parametri.service';
+import { AuthService } from '@app/services/auth/auth.service';
+import { UserService } from '@app/services/user/user.service';
 
 @Component({
   selector: 'app-contratto',
@@ -21,28 +23,32 @@ export class ContrattoComponent implements OnInit, OnDestroy {
 
   constructor(private activatedRoute: ActivatedRoute, private librettoService: LibrettoService,
               private registroService: RegistroService, private salService: SalService,
-              private parametriService: ParametriService,
-              private blockchainService: BlockchainService) { }
+              private parametriService: ParametriService, private userService: UserService,
+              private blockchainService: BlockchainService, private router: Router) { }
 
   ngOnInit() {
     this.routeSub = this.activatedRoute.paramMap.pipe(
       // tap(() => this.clear()),
       map(params => {
-        return params.get('contractId');
+        const contractId = params.get('contractId');
+        if (contractId === '') {
+          const firstContract = this.userService.getContracts()[0]._id;
+          this.router.navigate(['area-riservata/contract', firstContract]);
+          return false;
+        }
+        else {
+          this.contractId = contractId;
+          return true;
+        }
       }),
-      switchMap(contractId => {
-      // switchToContract per il titolo del contratto
-      this.contractId = contractId;
-      this.switchToContract();
-      return this.loadContract();
+      filter(value => value),
+      concatMap( () => {
+        this.switchToContract();
+        return this.loadContract();
       }),
+      filter(value => value),
     ).subscribe();
   }
-
-  // clear() {
-  //   this.librettoService.clear();
-  //   this.registroService.clear();
-  // }
 
   loadContract() {
     return forkJoin(

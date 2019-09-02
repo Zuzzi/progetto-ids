@@ -9,13 +9,20 @@ import {RegistroComponent} from './components/registro/registro.component';
 import {SalComponent} from './components/sal/sal.component';
 import {UserProfileComponent} from './components/user-profile/user-profile.component';
 import {AuthGuard} from '@app/guards/auth-guard';
+import { ContrattoGuard } from './guards/contratto.guard';
 
 // TODO: gestire url non consentiti (considera anche parametri illegali o nulli)
 
 const routes: Routes = [
-  {path: '', component: WelcomeComponent},
+  {path: 'login', component: WelcomeComponent},
+  {path: '', redirectTo: 'area-riservata/contract/', pathMatch: 'full'},
   {path: 'area-riservata/contract/:contractId', component: AreaRiservataComponent, canActivate: [AuthGuard],
    children: [
+    {
+      path: '',
+     redirectTo: 'home',
+     pathMatch: 'full'
+    },
     {
       path: 'home',
       component: HomeComponent,

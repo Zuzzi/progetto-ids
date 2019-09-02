@@ -6,6 +6,7 @@ import { BlockchainService } from '@app/services/blockchain/blockchain.service';
 import {concatMap} from 'rxjs/operators';
 import { UserService } from '@app/services/user/user.service';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { AreaRiservataComponent } from '../area-riservata/area-riservata.component';
 
 
 
@@ -41,9 +42,8 @@ export class DialogBodyLoginComponent implements OnInit {
         .subscribe(result => {
           console.log(result);
           if (result) {
-            const firstContract = this.userService.getContracts()[0];
             this.dialogRef.close();
-            this.router.navigate(['/area-riservata/contract', firstContract._id, 'libretto']);
+            this.router.navigateByUrl('/area-riservata/contract/');
           } else {
               this.credentialsMistake = true;
             }
