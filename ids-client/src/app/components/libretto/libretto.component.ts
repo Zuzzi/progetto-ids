@@ -12,10 +12,11 @@ import {LibrettoService} from '@app/services/libretto/libretto.service';
 import { DialogInserimentoMisura, Misura, UserTitle, SmartContract, SmartContractType } from '@app/interfaces';
 import { DialogBodyInvalidamisuraComponent } from '@app/components/dialog-body-invalidamisura/dialog-body-invalidamisura.component';
 import { RegistroService } from '@app/services/registro/registro.service';
-import { filter, switchMap } from 'rxjs/operators';
+import { filter, switchMap, map, tap, delay, share, shareReplay, concatMapTo, publishReplay, refCount, pluck } from 'rxjs/operators';
 import {MatButtonModule} from '@angular/material/button';
 import { UserService } from '@app/services/user/user.service';
-import { Observable } from 'rxjs';
+import { Observable, ReplaySubject, combineLatest, Subject, BehaviorSubject, zip } from 'rxjs';
+import { ParametriService } from '@app/services/parametri/parametri.service';
 
 
 
@@ -28,21 +29,39 @@ import { Observable } from 'rxjs';
 export class LibrettoComponent implements OnInit, OnDestroy {
 
   displayedColumns = ['no', 'tariffa', 'data', 'designazione', 'categoriaContabile', 'percentuale', 'allegati', 'riserva', 'invalida'];
-  dataSource;
-  contractId: string;
+  misure;
+  misureSource = this.librettoService.misure.pipe(
+    tap(value => console.log(value)),
+    publishReplay(1),
+    refCount()
+  );
+  categorieSource = this.parametriService.categorie.pipe(
+    tap(value => console.log(value)),
+    publishReplay(1),
+    refCount()
+  );
+  struttureSource = this.parametriService.strutture.pipe(
+    tap(value => console.log(value)),
+    publishReplay(1),
+    refCount()
+  );
+  // disableInput: Subject<boolean>;
+  // contractId: string;
   isDirettoreLogged: boolean;
   isRupLogged: boolean;
   isDittaLogged: boolean;
-  dialogInserimentoData: DialogInserimentoMisura = {categoriaContabile: '',
-  descrizione: '', percentuale: null, riserva: ''};
-  libretto: SmartContract<SmartContractType.Libretto>;
-  registro: SmartContract<SmartContractType.Registro>;
-  routeSub: any;
+
+  isLoadingLibretto: Observable<boolean>;
+  // libretto: SmartContract<SmartContractType.Libretto>;
+  // registro: SmartContract<SmartContractType.Registro>;
+  contractId: ReplaySubject<string>;
+  // routeSub: any;
 
   constructor(private dialog: MatDialog, private userService: UserService,
               private activatedRoute: ActivatedRoute, private blockchainService: BlockchainService,
               private librettoService: LibrettoService,
-              private registroService: RegistroService) { }
+              private registroService: RegistroService,
+              private parametriService: ParametriService) {}
 
   ngOnInit() {
     // TODO: rimuovere questa modifica temporanea per testare conferma registro.
@@ -50,38 +69,40 @@ export class LibrettoComponent implements OnInit, OnDestroy {
     this.isRupLogged = true;
     this.isDirettoreLogged = this.userService.titleCheck(UserTitle.Direttore);
     this.isDittaLogged = this.userService.titleCheck(UserTitle.Ditta);
-    this.dataSource = this.librettoService.misure;
-    this.routeSub = this.activatedRoute.parent.paramMap.pipe(
-      switchMap(params => {
-      this.contractId = params.get('contractId');
-      console.log(this.contractId);
-      // switchToContract per il titolo del contratto
-      this.libretto = this.blockchainService.getSmartContract(this.contractId,
-        SmartContractType.Libretto) as SmartContract<SmartContractType.Libretto>;
-      this.registro = this.blockchainService.getSmartContract(this.contractId,
-        SmartContractType.Registro) as SmartContract<SmartContractType.Registro>;
-      return this.librettoService.loadMisure(this.libretto);
-    })).subscribe(misure => {
-      this.librettoService.updateMisure(misure);
-    });
-}
+    // this.misureSource = this.librettoService.misure.pipe(
+    //   tap(value => console.log(value)),
+    //   publishReplay(1),
+    //   refCount()
+    // );
+    this.misure = this.misureSource.pipe(
+      pluck('data'));
+    // this.struttureSource = this.parametriService.strutture.pipe(
+    //   publishReplay(1),
+    //   refCount()
+    // );
+    // this.isLoadingLibretto = this.librettoService.isLoadingObs.pipe(
+    //   tap(value => console.log(value)),
+    //   publishReplay(1),
+    //   refCount()
+    // );
+  }
   // TODO: Modificare passaggio valori per renderlo più ordinato
   openDialogInserimento(): void {
-    const dialogRef = this.dialog.open(DialogBodyInslibrettoComponent, {
-      data: this.dialogInserimentoData
-    });
-
-    dialogRef.afterClosed().subscribe(value => {
-      if (value) {
+    const dialogRef = this.dialog.open(DialogBodyInslibrettoComponent,
+      {data: {elencoCategorie: this.categorieSource,
+              elencoStrutture: this.struttureSource,
+              percentualiParziali: this.librettoService.getPercentualiParziali() }
+      }
+    );
+    dialogRef.afterClosed().pipe(filter(action => action))
+      .subscribe(value => {
         console.log('Dialog sent: ' + value);
-        this.dialogInserimentoData = value;
-        this.insertMisura();
-    }
+        this.insertMisura(value);
     });
   }
 
-  openDialogVisRiserva() {
-    const dialogRef = this.dialog.open(DialogBodyVisriservaComponent);
+  openDialogVisRiserva(riserva) {
+    const dialogRef = this.dialog.open(DialogBodyVisriservaComponent, {data: riserva});
     dialogRef.afterClosed().subscribe(value => {
       console.log(`Dialog sent: ${value}`);
     });
@@ -110,41 +131,26 @@ export class LibrettoComponent implements OnInit, OnDestroy {
     });
   }
 
-  insertMisura() {
-    console.log(this.dialogInserimentoData);
+  insertMisura(misura) {
+    console.log(misura);
     // TODO: Ripartire da qui per implemetare feedback eventi transazione ad utente
     // const txEvents = this.blockchainService.txEvents;
-    this.librettoService.insertMisura(this.libretto, this.dialogInserimentoData).pipe(
-      switchMap(() => {
-        console.log('Transaction completed !');
-        return this.librettoService.loadMisure(this.libretto);
-      }))
-      .subscribe(misure =>
-        this.librettoService.updateMisure(misure));
+    this.librettoService.insertMisura(misura)
+      .subscribe();
   }
 
   approvaMisure() {
-    this.registroService.approvaMisure(this.registro).pipe(
-      switchMap( () => {
-        console.log('Transaction Completed !');
-        return this.librettoService.loadMisure(this.libretto);
-      }))
-      .subscribe(misure =>
-        this.librettoService.updateMisure(misure));
+    this.registroService.approvaMisure().pipe(
+      concatMapTo(this.librettoService.loadMisure())
+    ).subscribe();
   }
 
   invalidaMisura(noMisura: Misura['no']) {
-    this.librettoService.invalidaMisura(this.libretto, noMisura).pipe(
-      switchMap(() => {
-        console.log('Transaction completed !');
-        return this.librettoService.loadMisure(this.libretto);
-      }))
-      .subscribe(misure =>
-      this.librettoService.updateMisure(misure));
+    this.librettoService.invalidaMisura(noMisura)
+      .subscribe();
   }
 
   ngOnDestroy(): void {
-    this.routeSub.unsubscribe();
   }
 
 }

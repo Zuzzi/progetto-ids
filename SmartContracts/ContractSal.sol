@@ -3,11 +3,10 @@ pragma solidity >=0.5 <0.6.0;
 import './ContractRegistro.sol';
 import './ContractParametri.sol';
 import { ABDKMath64x64 as Math64 } from './ABDKMath64x64.sol';
+import './ContractMisure.sol';
 
 contract ContractSal {
-    
-    
-    
+
     struct Sal {
     uint no;
     string tariffa;
@@ -21,18 +20,21 @@ contract ContractSal {
     int128 debitoPercentuale;
     }
     
-    mapping (uint => Sal) arraySal;
-    uint public numeroSal;
     ContractParametri cp;
     ContractRegistro cr;
-
-    int128 totaleLavoriAcorpo; //somma degli importi a debito
-    int128 aliquota; // percentuale del parziale lavoro a corpo
-    int128 pagamento; // valore della soglia
+    ContractMisure cm;
     
-    modifier onlyRup {
-        require(cp.getIndirizzoRup() == msg.sender); _;
-    }
+    bool public entratoPrimoIf = false;
+    bool public entratoSecondoIf = false;
+    
+    mapping (uint => Sal) sal;
+    uint public numeroSal = 0;
+
+    int128 totaleLavoriAcorpo = 0; //somma degli importi a debito
+    int128 percentualeLavoriAcorpo = 0; // percentuale del parziale lavoro a corpo
+    int128 totalePagato = 0; // valore della soglia
+    
+    modifier onlyRup { require(cp.getIndirizzoRup() == msg.sender); _; }
     
     function setIndirizzoCp (address indirizzo) public {
         cp = ContractParametri(indirizzo);
@@ -41,21 +43,27 @@ contract ContractSal {
         cr = ContractRegistro(indirizzo);
     }
     
-    constructor() public  {
-        numeroSal = 0;
-        totaleLavoriAcorpo = 0;
-        aliquota = 0;
-        pagamento = 0;
+    function setIndirizzoCm (address indirizzo) public {
+        cm = ContractMisure(indirizzo);
+    }
+    
+    constructor() public  { }
+    
+    function getSal(uint index) public view returns (uint, string memory, uint, string memory, string memory, int128, int128, int128, int128, int128) {
+        Sal memory voceSal = sal[index];
+        return (voceSal.no, voceSal.tariffa, voceSal.data, voceSal.categoriaContabile, voceSal.descrizione, 
+                voceSal.percentuale, voceSal.prezzoValore, voceSal.prezzoPercentuale, voceSal.debitoValore, 
+                voceSal.debitoPercentuale);
     }
     
     function approvaRegistro() public onlyRup {
         /* Calcolo valore parziale (metodo del ContractRegistro),
         confronto con la prima soglia da raggiungere,
-        se superata, tutti i valori di arrayContabilit� vengono copiati sull'arraySal */
-        
+        se superata, tutti i valori di arrayContabilit� vengono copiati sull'sal */
         int128 valoreParziale = cr.calcoloValoreParziale();
         (int128 minValue, bool minSuperata, uint idSoglia) = cr.findMinSogliaNotSuperata();
         if (valoreParziale >= minValue && !minSuperata) {
+            entratoPrimoIf = true;
             for (uint i = 0; i<cr.numeroContabilita(); i++) {
 
                 (, string memory tariffa,, string memory categoriaContabile, string memory descrizione, 
@@ -63,49 +71,50 @@ contract ContractSal {
                 int128 debitoPercentuale, bool pagata) = cr.getContabilita(i);
                 
                 if (!pagata) {
+                    entratoSecondoIf = true;
                     creaNuovaVoceSal(tariffa, categoriaContabile, descrizione, percentuale, prezzoValore,
                                      prezzoPercentuale, debitoValore, debitoPercentuale);
                     cr.pagataContabilita(i);
+                    for (uint j = 0; j<cm.numeroMisure(); j++) {
+                        (uint id,,, string memory categoriaContabileMisura, string memory descrizioneMisura,,,,, bool approvata) = cm.getMisura(j);
+                        if(cr.compareStrings(categoriaContabileMisura, categoriaContabile) && cr.compareStrings(descrizioneMisura, descrizione) && approvata)
+                            cm.rendiInvalidabileMisura(id);
+                    }
+                    
                 }
             }
-            
             totaleLavoriAcorpo = valoreParziale;
-            //aliquota = (totaleLavoriAcorpo*100)/cp.getValoreTotale();
-            aliquota = Math64.div(Math64.mul(totaleLavoriAcorpo,1.8446744073709552e21),cp.getValoreTotale());
-            pagamento = minValue;
+            //percentualeLavoriAcorpo = (totaleLavoriAcorpo*100)/cp.getValoreTotale();
+            percentualeLavoriAcorpo = Math64.div(Math64.mul(totaleLavoriAcorpo,1.8446744073709552e21),cp.valoreTotale());
+            totalePagato = minValue;
             cp.setSogliaSuperata(idSoglia);
         }
         
     }
     
+    
+
+    
     function creaNuovaVoceSal(string memory tariffa, string memory categoriaContabile, string memory descrizione, 
                 int128 percentuale, int128 prezzoValore, int128 prezzoPercentuale, int128 debitoValore, 
                 int128 debitoPercentuale) public   {
-                    
-                    arraySal[numeroSal].no = numeroSal;
-                    arraySal[numeroSal].tariffa = tariffa;
-                    arraySal[numeroSal].data = now;
-                    arraySal[numeroSal].categoriaContabile = categoriaContabile;
-                    arraySal[numeroSal].descrizione = descrizione;
-                    arraySal[numeroSal].percentuale = percentuale;
-                    arraySal[numeroSal].prezzoValore = prezzoValore;
-                    arraySal[numeroSal].prezzoPercentuale = prezzoPercentuale;
-                    arraySal[numeroSal].debitoValore = debitoValore;
-                    arraySal[numeroSal].debitoPercentuale = debitoPercentuale;
+                    sal[numeroSal] = Sal({
+                        no: numeroSal,
+                        tariffa: tariffa,
+                        data: now,
+                        categoriaContabile: categoriaContabile,
+                        descrizione: descrizione,
+                        percentuale: percentuale,
+                        prezzoValore: prezzoValore,
+                        prezzoPercentuale: prezzoPercentuale,
+                        debitoValore: debitoValore,
+                        debitoPercentuale:debitoPercentuale
+                    });
                     numeroSal++;
-                
     }
     
     function getInfoPagamento() public view returns (int128, int128, int128) {
-        return (totaleLavoriAcorpo, aliquota, pagamento);
+        return (totaleLavoriAcorpo, percentualeLavoriAcorpo, totalePagato);
     }
-    
-    function getSal(uint index) public view returns (uint, string memory, uint, string memory, string memory, int128, int128, int128, int128, int128) {
-        Sal memory sal = arraySal[index];
-        return (sal.no, sal.tariffa, sal.data, sal.categoriaContabile, sal.descrizione, 
-                sal.percentuale, sal.prezzoValore, sal.prezzoPercentuale, sal.debitoValore, 
-                sal.debitoPercentuale);
-    }
- 
     
 }

@@ -5,27 +5,44 @@
 </h1>
 
 <div class="container-fluid" style="max-height: 100%; margin-top: 3%">
-  <div class="row" style="margin-bottom: 10px">
-    <div class="col-md">
-      Completamento totale: 45%
+  <div class="row" style="margin-bottom: 10px; font-family: Arial, Helvetica, sans-serif; font-size: 0.8rem;">
+    <div *ngIf="(misureSource | async)?.isLoading">
+      <h3>Loading</h3>
     </div>
+    <div class="col-md-6">
+        <fieldset class="scheduler-border">
+          <legend class="scheduler-border"> Lavori a Corpo </legend>
+          <div class="control-group">
+            <div class="controls bootstrap-timepicker">
+              <!-- <input type="text" class="datetime" id="startTime" name="startTime" placeholder="Start Time" /> -->
+              Progetto euro 100.000 <br>
+              Totale valore realizzato: 32.000<br>
+              Completamento totale: 32% 
+            </div>
+          </div>
+        </fieldset>
+      </div>
 
-    <div class="col-md-6" style="text-align: center; margin-bottom: 10px">
+    <div class="col-md-6" style="text-align: center;">
 
-      <button *ngIf="isRupLogged && (dataSource | async)" type="button" class="btn btn-outline-warning btn-sm"
-        style="float: right; top: 20%; position:relative" (click)='openDialogConfermaLibretto()'>Approva Misure</button>
+      <button *ngIf="isRupLogged && !(misureSource | async)?.isLoading" type="button" class="btn btn-outline-warning btn-sm"
+      style="float: right; top: 60%; position:relative; font-size: 0.8rem; " (click)='openDialogConfermaLibretto()'>Approva Misure</button>
 
-      <button *ngIf="isDirettoreLogged && (dataSource | async)" type="button" class="btn btn-outline-warning btn-sm"
-        style="float: right; position:relative" (click)='openDialogInserimento()'>Inserisci nuova voce</button>
+      <button *ngIf="isDirettoreLogged && !(misureSource | async)?.isLoading" type="button" class="btn btn-outline-warning btn-sm"
+      style="float: right; top: 60%; position:relative; font-size: 0.8rem;" (click)='openDialogInserimento()'>Inserisci nuova voce</button>
     </div>
   </div>
-  <div class="row">
 
-    <div class="col-md-12">
 
-      <div class="example-container mat-elevation-z8 scrollbar-black bordered-black thin">
 
-        <table mat-table [dataSource]="dataSource">
+  
+  <div class="row" >
+
+    <div class="col-md-12"style="margin-top: 10px">
+
+      <div class="example-container mat-elevation-z8 scrollbar-black bordered-black thin" style="text-align: center; height: 51vh">
+
+        <table mat-table [dataSource]="misure">
 
 
           <ng-container matColumnDef="no">
@@ -42,7 +59,7 @@
 
           <ng-container matColumnDef="data">
             <th mat-header-cell *matHeaderCellDef> Data </th>
-            <td mat-cell *matCellDef="let element"> {{element.data}} </td>
+            <td mat-cell *matCellDef="let element"> {{element.data | date:'dd/MM/yyyy'}} </td>
           </ng-container>
 
           <ng-container matColumnDef="designazione">
@@ -64,7 +81,7 @@
 
           <ng-container matColumnDef="allegati">
             <th mat-header-cell *matHeaderCellDef> Allegati </th>
-            <td mat-cell *matCellDef="let element"> <a href="javascript:;"><i class="align-middle fas fa-paperclip"
+            <td mat-cell *matCellDef="let element"> <a href="javascript:;" style="color:#868e96"><i class="align-middle fas fa-paperclip"
                   (click)="openDialogVisAllegati()"></i></a></td>
           </ng-container>
 
@@ -73,7 +90,8 @@
             <th mat-header-cell *matHeaderCellDef> Riserva </th>
             <td mat-cell *matCellDef="let element">
                 <div class="row" style="justify-content: center">
-                  <button mat-flat-button (click)="openDialogVisRiserva(element.riserva)">Vedi</button>
+                  <!-- <button mat-raised-button (click)="openDialogVisRiserva(element.riserva)">Vedi</button> -->
+                  <button type="button" class="btn btn-outline-secondary btn-sm" (click)="openDialogVisRiserva(element.riserva)">Vedi</button>
                 </div>
             </td>
           </ng-container>
@@ -82,13 +100,15 @@
             <th mat-header-cell *matHeaderCellDef> Invalida Misura </th>
             <td mat-cell *matCellDef="let element">
                 <div class="row" style="justify-content: center">
-                  <button mat-flat-button class="bg-warning" [disabled]='!element.invalidabile || !element.valida' (click)="openDialogInvalidaMisura(element.no)">Invalida</button>
+                  <!-- <button mat-raised-button class="bg-warning" [disabled]='!element.invalidabile || !element.valida' (click)="openDialogInvalidaMisura(element.no)">Invalida</button> -->
+                  <button type="button" class="btn btn-outline-danger btn-sm" [disabled]='!element.invalidabile || !element.valida' (click)="openDialogInvalidaMisura(element.no)">Invalida</button>
+                  
                 </div>
             </td>
           </ng-container>
 
           <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
-          <tr mat-row *matRowDef="let row; columns: displayedColumns;" [ngClass]="{'bg-secondary':!row.valida,'bg-success text-white':row.approvata && row.valida}"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns;" [ngClass]="{'invalidata':!row.valida,'approvata':row.approvata && row.valida}"></tr>
 
 
         </table>

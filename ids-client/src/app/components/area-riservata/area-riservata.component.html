@@ -30,9 +30,9 @@
       </div>
       <div class="p-1 mb-1 bg-warning text-dark"></div>
       <ul class="list-group">
-        <li *ngFor="let contract of user.contracts;"><a class="list-group-item list-group-item-action bg-dark text-light" id="btn-1" data-toggle="collapse"
-            data-target="#submenu1"><i class="fas fa-briefcase"></i>  {{contract.nome}}</a>
-          <ul class="list-group list-group-item-action bg-dark collapse " id="submenu1">
+        <li *ngFor="let contract of user.contracts;let i = index;"><a href="#" role="button" class="list-group-item list-group-item-action bg-dark text-light" id="btn-1" data-toggle="collapse"
+            [attr.data-target]="'#submenu' + i "><i class="fas fa-briefcase"></i>  {{contract.nome}}</a>
+          <ul class="list-group list-group-item-action bg-dark collapse " [attr.id]="'submenu' + i">
             <li><a class="list-group-item list-group-item-action bg-dark text-light"
                 [routerLink]="['/area-riservata/contract', contract._id, 'home']">Home Page</a>
             </li>
@@ -48,9 +48,6 @@
             <li><a class="list-group-item list-group-item-action bg-dark text-light"
                 [routerLink]="['/area-riservata/contract', contract._id, 'sal']">Stato Avanzamento Lavori</a>
             </li>
-            <li><a class="list-group-item list-group-item-action bg-dark text-light"
-              [routerLink]="['/area-riservata/contract', '0000000', 'giornale']">Giornale dei Lavori</a>
-          </li>
           </ul>
         </li>
       </ul>
@@ -73,7 +70,7 @@
       <div class="collapse navbar-collapse" id="navbarSupportedContent" style="text-align: right">
         <ul class="navbar-nav ml-auto mt-0 mb-0 mt-lg-1">
           <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
+            <a class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-toggle="dropdown"
               aria-haspopup="true" aria-expanded="false">
               <div class="d-inline">{{user.username}}</div>
               <img src="assets/images/user.png" style="max-width: 15%">
@@ -81,7 +78,7 @@
 
             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
               <a class="dropdown-item" [routerLink]="['/area-riservata', 'user-profile']">Modifica Profilo</a>
-              <a class="dropdown-item" href="#" (click)='logOut()' >Log Out</a>
+              <a class="dropdown-item"  (click)='logOut()' >Logout</a>
             </div>
           </li>
         </ul>

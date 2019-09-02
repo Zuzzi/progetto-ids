@@ -5,37 +5,50 @@
 </h1>
 
 <div class="container-fluid" style="max-height: 100%; margin-top: 3%">
-  <div class="row" style="margin-bottom: 10px">
-    <div class="col-md">
-
-      <fieldset class="scheduler-border">
-        <legend class="scheduler-border"> Lavori a Corpo </legend>
-        <div class="control-group">
-          <div class="controls bootstrap-timepicker">
-            <!-- <input type="text" class="datetime" id="startTime" name="startTime" placeholder="Start Time" /> -->
-            Progetto euro 90.792,33 <br>
-            Completamento totale: 45%
-          </div>
+  <div class="row" style="margin-bottom: 10px; font-family: Arial, Helvetica, sans-serif; font-size: 0.8rem;">
+      <div *ngIf="(vociSalSource | async)?.isLoading">
+          <h3>Loading</h3>
         </div>
-      </fieldset>
-    </div>
+        <div *ngIf="!(infoPagamentoSource | async)?.isLoading" class="col-md-6">
+            <fieldset class="scheduler-border">
+              <legend class="scheduler-border"> Lavori a Corpo </legend>
+              <div class="control-group">
+                <div class="controls bootstrap-timepicker">
+                  <!-- <input type="text" class="datetime" id="startTime" name="startTime" placeholder="Start Time" /> -->
+                  <p>Progetto euro: {{(valoreTotaleSource | async)?.data}}</p>
+                  <p>Totale valore realizzato: {{(infoPagamentoSource | async)?.data.totaleLavoriAcorpo}}</p>
+                  <p>Completamento totale: {{(infoPagamentoSource | async)?.data.percentualeLavoriAcorpo}}%</p>
+                </div>
+              </div>
+            </fieldset>
+          </div>
     <div class="col-md" style="text-align: center; margin-bottom: -15px">
 
     </div>
   </div>
 
   <div class="row">
-    <!-- <div class=col-md-1></div> -->
-    <div class="col-md-12">
+
+    <div class="col-md-12" style="margin-top: 10px">
 
       <div class="example-container mat-elevation-z8 scrollbar-black bordered-black thin"
-        style="text-align: center; height: 53vh;">
+        style="text-align: center; height: 51vh;">
 
 
-        <table mat-table [dataSource]="dataSource" multiTemplateDataRows class="mat-elevation-z8">
-          <ng-container matColumnDef="{{column}}" *ngFor="let column of columnsToDisplay">
-            <th mat-header-cell *matHeaderCellDef style="font-family: Helvetica;"> {{column}} </th>
-            <td mat-cell *matCellDef="let element"> {{element[column]}} </td>
+        <table mat-table [dataSource]="vociSal" multiTemplateDataRows class="mat-elevation-z8">
+          <ng-container matColumnDef="no">
+            <th mat-header-cell *matHeaderCellDef > No. </th>
+            <td mat-cell *matCellDef="let element"> {{element.no}} </td>
+          </ng-container>
+
+          <ng-container matColumnDef="valore">
+            <th mat-header-cell *matHeaderCellDef > Valore </th>
+            <td mat-cell *matCellDef="let element"> {{element.valore}} </td>
+          </ng-container>
+
+          <ng-container matColumnDef="data">
+            <th mat-header-cell *matHeaderCellDef > Data del Pagamento</th>
+            <td mat-cell *matCellDef="let element"> {{element.data | date:'dd/MM/yyyy'}} </td>
           </ng-container>
 
           <!-- Expanded Content Column - The detail row is made up of this one column that spans across all columns -->
@@ -43,7 +56,7 @@
             <td mat-cell *matCellDef="let innerElement" [attr.colspan]="internalColumns.length">
               <div class="example-element-detail"
                 [@detailExpand]="innerElement == expandedElement ? 'expanded' : 'collapsed'">
-                <!-- <div class="col-md-1"></div> -->
+
                 <div class="col-md">
 
                     <table mat-table [dataSource]="innerElement.vociSal">
@@ -58,8 +71,8 @@
                         </ng-container>
 
                         <ng-container matColumnDef="data">
-                          <th mat-header-cell *matHeaderCellDef> Data </th>
-                          <td mat-cell *matCellDef="let element"> {{element.data}} </td>
+                          <th mat-header-cell *matHeaderCellDef> Data del Pagamento</th>
+                          <td mat-cell *matCellDef="let element"> {{element.data | date:'dd/MM/yyyy'}} </td>
                         </ng-container>
 
                         <ng-container matColumnDef="categoriaContabile">
@@ -102,7 +115,6 @@
 
                       </table>
                 </div>
-                <!-- <div class="col-md-1"></div> -->
               </div>
             </td>
           </ng-container>
@@ -118,7 +130,6 @@
       </div>
 
     </div>
-    <!-- <div class=col-md-1></div> -->
   </div>
 </div>
 

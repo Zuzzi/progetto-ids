@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
-import { MatDialogRef } from '@angular/material';
+import { Component, OnInit, Inject } from '@angular/core';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
+import { DialogInfoContratto } from '@app/interfaces';
 
 @Component({
   selector: 'app-dialog-body-infocontratto',
@@ -8,13 +9,14 @@ import { MatDialogRef } from '@angular/material';
 })
 export class DialogBodyInfocontrattoComponent implements OnInit {
 
-  constructor(public dialogRef: MatDialogRef<DialogBodyInfocontrattoComponent>) { }
+  constructor(public dialogRef: MatDialogRef<DialogBodyInfocontrattoComponent>,
+              @Inject(MAT_DIALOG_DATA) public data: DialogInfoContratto) { }
 
   ngOnInit() {
   }
 
 
-  close() {
+  close(): void {
     this.dialogRef.close();
   }
 

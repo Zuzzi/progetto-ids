@@ -6,98 +6,78 @@ const mongoose = require('mongoose');
 const url = 'mongodb://localhost/Progetto_IDS';
 const User = require('./model/user');
 const Contract = require('./model/contract');
+const jwt = require('jsonwebtoken');
+const fs = require('fs')
+//TODO Dove mettere sta chiave:
+const RSA_PRIVATE_TOKEN_KEY = fs.readFileSync('rsa_private_token.key').toString();
+const RSA_PUBLIC_TOKEN_KEY = fs.readFileSync('rsa_public_token.key').toString();
 // const ContractSources = require('./model/contractSource');
  
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended : false}))
- 
 
-// TODO: eliminare questa funzione obsoleta
-app.post('/api/user/login', (req, res) => {
-    mongoose.connect(url, function(err){
-        if(err) throw err;
-        // rimuovere il primo log in futuro
-        console.log('connected successfully, username is ',req.body.username,' password is ',req.body.password);
-        console.log('Searching into mongodb/Progetto_IDS database..');
-
-        console.log(req.body.username)
-
-        User.find({
-            username : req.body.username, password: req.body.password
-        }, function(err, user){
-            if(err) throw err;
-            console.log(user);
-            if(user.length === 1){  
-                return res.status(200).json({
-                    status: 'success',
-                    data: user
-                })
-            } else {
-                return res.status(200).json({
-                    status: 'fail',
-                    message: 'Login Failed'
-                })
-            }
-             
-        })
-    });
-})
-
-app.post('/api/user/getUser', (req,res) => {
+app.post('/api/user/login', (req,res) => {
     mongoose.connect(url, function(err){
         if(err) throw err;
         let username = req.body.username
         let password = req.body.password
         console.log('connected successfully, username is ', username);
-        console.log('Searching into mongodb/ProgettoIDS database..');   
+        console.log('Searching into mongodb/ProgettoIDS database..');
+        const invalidResult = {
+            valid: false,
+            data: null,
+            JWTtoken: null,
+        };
         User.findOne({username: username})
             .populate('contracts')
-            .exec(function(err, user) {
-                if (err) throw err;
-                console.log(user);
-                user.comparePassword(password,(err, isMatch) => {
-                    if (err) throw err;
-                    if (isMatch === true) {
-                        return res.status(200).json({
-                            status: 'success',
-                            data: user
-                        });
-                    }
-                    else {
-                        return res.status(200).json({
-                            status: 'fail',
-                            data: null
-                        })
-                    }
-                })
-            })
-    })
-})
+            .exec().then(user => {
+                    console.log(user);
+                    user.comparePassword(password).then(isMatch => {
+                        if (isMatch) {
+                            const token = jwt.sign({username: user.username},RSA_PRIVATE_TOKEN_KEY,{
+                                algorithm: 'RS256',
+                            });
+                            return res.status(200).json({
+                                valid: true,
+                                data: user,
+                                JWTtoken: token,
+                            });
+                        }
+                        else {
+                            return res.status(200).json(invalidResult);
+                        }
+                    })
+            }).catch(error => res.status(200).json(invalidResult));
+        });
+    });
 
-app.post('/api/user/setUser', (req,res) => {
-    mongoose.connect(url, function(err){
-        if(err) throw err;
-        let username = req.body.username
-        User.findOne({username: username})
-    
-    })
-})
-// TODO: rimuovere questa funzione obsoleta
-app.get('/api/contractSources/getContractSources/', (_req, res) => {
-    mongoose.connect(url, function(err) {
-        if(err) throw err;
-        console.log('connected successfully, need to find contractSources');
-        console.log('Searching into mongodb/ProgettoIDS database..');
-
-        ContractSources.find({}, function(err, contractSources){
+    app.post('/api/user/tokenLogin', (req,res) => {
+        mongoose.connect(url, function(err){
             if(err) throw err;
-            console.log(contractSources); 
-            return res.status(200).json({
-                status: 'success',
-                data: contractSources
-            })
-        })
-    })
-})
+            const invalidResult = {
+                valid: false,
+                data: null,
+                JWTtoken: null,
+            };
+            var decodedToken;
+            try {
+            decodedToken = jwt.verify(req.body.JWTtoken, RSA_PUBLIC_TOKEN_KEY);
+            console.log(decodedToken);
+            }
+            catch (error) {
+                console.log(error);
+                return res.status(200).json(invalidResult); 
+            }
+            username = decodedToken.username;
+            User.findOne({username: username})
+            .populate('contracts')
+            .exec().then(user => res.status(200).json({
+                valid: true,
+                data: user,
+                // TODO per adesso null ma potrebbe servire per il refresh
+                JWTtoken: null,
+            })).catch(error => res.status(200).json(invalidResult));
+        });
+    });
  
 app.listen(3000, () => console.log('App server running on port 3000!'))

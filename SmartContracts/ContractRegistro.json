@@ -76,24 +76,6 @@
         "type": "function"
     },
     {
-        "constant": false,
-        "inputs": [
-            {
-                "name": "categoriaContabile",
-                "type": "string"
-            },
-            {
-                "name": "percentuale",
-                "type": "int128"
-            }
-        ],
-        "name": "stornoPercentuale",
-        "outputs": [],
-        "payable": false,
-        "stateMutability": "nonpayable",
-        "type": "function"
-    },
-    {
         "constant": true,
         "inputs": [],
         "name": "numeroContabilita",
@@ -108,33 +90,10 @@
         "type": "function"
     },
     {
-        "constant": true,
+        "constant": false,
         "inputs": [
             {
-                "name": "",
-                "type": "uint256"
-            }
-        ],
-        "name": "arrayContabilita",
-        "outputs": [
-            {
-                "name": "no",
-                "type": "uint256"
-            },
-            {
-                "name": "tariffa",
-                "type": "string"
-            },
-            {
-                "name": "data",
-                "type": "uint256"
-            },
-            {
                 "name": "categoriaContabile",
-                "type": "string"
-            },
-            {
-                "name": "descrizione",
                 "type": "string"
             },
             {
@@ -142,28 +101,14 @@
                 "type": "int128"
             },
             {
-                "name": "prezzoValore",
-                "type": "int128"
-            },
-            {
-                "name": "prezzoPercentuale",
-                "type": "int128"
-            },
-            {
-                "name": "debitoValore",
-                "type": "int128"
-            },
-            {
-                "name": "debitoPercentuale",
-                "type": "int128"
-            },
-            {
-                "name": "pagata",
-                "type": "bool"
+                "name": "descrizione",
+                "type": "string"
             }
         ],
+        "name": "stornoPercentuale",
+        "outputs": [],
         "payable": false,
-        "stateMutability": "view",
+        "stateMutability": "nonpayable",
         "type": "function"
     },
     {
@@ -178,6 +123,29 @@
         "outputs": [],
         "payable": false,
         "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "constant": true,
+        "inputs": [
+            {
+                "name": "a",
+                "type": "string"
+            },
+            {
+                "name": "b",
+                "type": "string"
+            }
+        ],
+        "name": "compareStrings",
+        "outputs": [
+            {
+                "name": "",
+                "type": "bool"
+            }
+        ],
+        "payable": false,
+        "stateMutability": "pure",
         "type": "function"
     },
     {
@@ -300,17 +268,5 @@
         "payable": false,
         "stateMutability": "nonpayable",
         "type": "constructor"
-    },
-    {
-        "anonymous": false,
-        "inputs": [
-            {
-                "indexed": false,
-                "name": "value",
-                "type": "int128"
-            }
-        ],
-        "name": "breakpoint",
-        "type": "event"
     }
 ]

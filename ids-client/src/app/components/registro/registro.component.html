@@ -3,172 +3,106 @@
   <i class="fab fa-leanpub"></i>
   Registro di Contabilità
 </h1>
-<br>
-<div class="container-fluid" style="max-height: 100%; font-size: 0.8rem;">
-  <div class="row" style="margin-bottom: 10px">
+<div class="container-fluid" style="max-height: 100%; margin-top: 3%;">
+  <div class="row" style="margin-bottom: 10px; font-family: Arial, Helvetica, sans-serif; font-size: 0.8rem;">
+      <div *ngIf="(vociRegistroSource | async)?.isLoading">
+          <h3>Loading</h3>
+        </div>
     <div class="col-md-6">
       <fieldset class="scheduler-border">
         <legend class="scheduler-border"> Lavori a Corpo </legend>
         <div class="control-group">
           <div class="controls bootstrap-timepicker">
             <!-- <input type="text" class="datetime" id="startTime" name="startTime" placeholder="Start Time" /> -->
-            Progetto euro 90.792,33 - 100%
+            Progetto euro 100.000 <br>
+            Totale valore realizzato: 32.000<br>
+            Completamento totale: 32% 
           </div>
         </div>
       </fieldset>
     </div>
-    <div class="col-md-6" style="text-align: center; margin-bottom: 10px">
-      <button *ngIf="isRupLogged && ( dataSource | async)" type="button" class="btn btn-outline-warning btn-sm"
-        style="float: right; top: 20%; position:relative" (click)='openDialogConfermaRegistro()'>Approva scritture
-        Registro di Contabilità</button>
 
-      <!-- <button *ngIf="isDirettoreLogged" type="button" class="btn btn-outline-warning btn-sm"
-        style="float: right; top: 20%; position:relative" (click)='openDialogInserimentoRegistro()'>Inserisci nuova
-        voce</button> -->
+
+    <div class="col-md-6" style=" text-align: center;">
+        <button *ngIf="isRupLogged && !(vociRegistroSource | async)?.isLoading" type="button" class="btn btn-outline-warning btn-sm"
+        style="float: right; top: 60%; position:relative; font-size: 0.8rem; " (click)='openDialogConfermaRegistro()'>Approva 
+        Registro</button>
     </div>
+
+
   </div>
 
-  <div class="row" style="max-width: 100%;">
-    <div class="col-lg-8 scrollbar-black bordered-black thin" style="overflow-y:auto; max-height:60vh; min-width:auto;">
-      <table mat-table [dataSource]="dataSource">
+
+
+
+  <div class="row" >
+      <div class="col-md-12"style="margin-top: 10px">
+        <div class="example-container mat-elevation-z8 scrollbar-black bordered-black thin"
+        style="text-align: center; height: 51vh">
+      <table mat-table [dataSource]="vociRegistro" class="mat-elevation-z8" >
 
 
         <ng-container matColumnDef="no">
-          <th mat-header-cell *matHeaderCellDef> No. </th>
-          <td mat-cell *matCellDef="let element"> {{element.no}} </td>
+          <th mat-header-cell *matHeaderCellDef > No. </th>
+          <td mat-cell *matCellDef="let element" > {{element.no}} </td>
         </ng-container>
 
 
         <ng-container matColumnDef="tariffa">
-          <th mat-header-cell *matHeaderCellDef> Tariffa </th>
-          <td mat-cell *matCellDef="let element"> {{element.tariffa}} </td>
+          <th mat-header-cell *matHeaderCellDef > Tariffa </th>
+          <td mat-cell *matCellDef="let element" > {{element.tariffa}} </td>
         </ng-container>
 
 
         <ng-container matColumnDef="data">
-          <th mat-header-cell *matHeaderCellDef> Data </th>
-          <td mat-cell *matCellDef="let element"> {{element.data}} </td>
+          <th mat-header-cell *matHeaderCellDef > Data </th>
+          <td mat-cell *matCellDef="let element" > {{element.data | date:'dd/MM/yyyy'}} </td>
         </ng-container>
 
         <ng-container matColumnDef="designazione">
-          <th mat-header-cell *matHeaderCellDef> Designazione dei Lavori </th>
-          <td mat-cell *matCellDef="let element"> {{element.descrizione}} </td>
+          <th mat-header-cell *matHeaderCellDef > Designazione dei Lavori </th>
+          <td mat-cell *matCellDef="let element" > {{element.descrizione}} </td>
         </ng-container>
 
         <ng-container matColumnDef="categoriaContabile">
-          <th mat-header-cell *matHeaderCellDef> Categoria Contabile </th>
-          <td mat-cell *matCellDef="let element"> {{element.categoriaContabile}} </td>
+          <th mat-header-cell *matHeaderCellDef > Categoria Contabile </th>
+          <td mat-cell *matCellDef="let element" > {{element.categoriaContabile}} </td>
         </ng-container>
 
 
         <ng-container matColumnDef="percentuale">
-          <th mat-header-cell *matHeaderCellDef> Percentuale </th>
-          <td mat-cell *matCellDef="let element"> {{element.percentuale}} </td>
+          <th mat-header-cell *matHeaderCellDef > Percentuale </th>
+          <td mat-cell *matCellDef="let element" > {{element.percentuale}} </td>
         </ng-container>
 
 
         <ng-container matColumnDef="prezzoPercentuale">
-          <th mat-header-cell *matHeaderCellDef> Prezzo Percentuale </th>
-          <td mat-cell *matCellDef="let element"> {{element.prezzoPercentuale}} </td>
+          <th mat-header-cell *matHeaderCellDef > Prezzo Percentuale </th>
+          <td mat-cell *matCellDef="let element" > {{element.prezzoPercentuale}} </td>
         </ng-container>
 
 
         <ng-container matColumnDef="debitoValore">
-          <th mat-header-cell *matHeaderCellDef> Debito Valore </th>
-          <td mat-cell *matCellDef="let element"> {{element.debitoValore}} </td>
+          <th mat-header-cell *matHeaderCellDef > Debito Valore </th>
+          <td mat-cell *matCellDef="let element" > {{element.debitoValore}} </td>
         </ng-container>
 
 
         <ng-container matColumnDef="debitoPercentuale">
-          <th mat-header-cell *matHeaderCellDef> Debito Percentuale </th>
-          <td mat-cell *matCellDef="let element"> {{element.debitoPercentuale}} </td>
+          <th mat-header-cell *matHeaderCellDef > Debito Percentuale </th>
+          <td mat-cell *matCellDef="let element" > {{element.debitoPercentuale}} </td>
         </ng-container>
 
-        <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
-          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        <tr mat-header-row *matHeaderRowDef="displayedColumns;"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns;" ></tr>
 
       </table>
-      <!-- <table class="table">
-        <thead class="thead-dark" style="text-align: center; font-family: Arial, Helvetica, sans-serif;">
-          <tr>
-            <th class="align-middle" scope="col">Num. Ord.<br>Tariffa<br>Data</th>
-            <th class="align-middle" scope="col">Indicazione<br>Lavori e<br>Somministrazioni</th>
-            <th class="align-middle" scope="col">Percentuali</th>
-            <th class="align-middle" scope="col">Prezzo Unitario</th>
-            <th class="align-middle" scope="col">IMPORTI<br>Debito</th>
-          </tr>
-        </thead>
-        <tbody style="text-align: center;vertical-align: middle">
-          <tr>
-            <td class="align-middle">1<br>001.002.001<br>10/02/2019</td>
-            <td class="align-middle">Fabbricato A - Struttura -<br>Struttura di fondazione</td>
-            <td class="align-middle">25</td>
-            <td class="align-middle">9.564,97<br>(10,535%)</td>
-            <td class="align-middle">2.391,24<br>(2,603%)</td>
-          </tr>
-          <tr>
-            <td class="align-middle">2<br>001.002.002<br>28/02/2019</td>
-            <td class="align-middle">Fabbricato A - Struttura -<br>Struttura di elevazione</td>
-            <td class="align-middle">31.20</td>
-            <td class="align-middle">12.303,47<br>(13,441%)</td>
-            <td class="align-middle">3.789,32<br>(4,171%)</td>
-          </tr>
-          <tr>
-            <td class="align-middle">2<br>001.002.002<br>28/02/2019</td>
-            <td class="align-middle">Fabbricato A - Struttura -<br>Struttura di elevazione</td>
-            <td class="align-middle">31.20</td>
-            <td class="align-middle">12.303,47<br>(13,441%)</td>
-            <td class="align-middle">3.789,32<br>(4,171%)</td>
-          </tr>
-          <tr>
-            <td class="align-middle">2<br>001.002.002<br>28/02/2019</td>
-            <td class="align-middle">Fabbricato A - Struttura -<br>Struttura di elevazione</td>
-            <td class="align-middle">31.20</td>
-            <td class="align-middle">12.303,47<br>(13,441%)</td>
-            <td class="align-middle">3.789,32<br>(4,171%)</td>
-          </tr>
-          <tr>
-            <td class="align-middle">2<br>001.002.002<br>28/02/2019</td>
-            <td class="align-middle">Fabbricato A - Struttura -<br>Struttura di elevazione</td>
-            <td class="align-middle">31.20</td>
-            <td class="align-middle">12.303,47<br>(13,441%)</td>
-            <td class="align-middle">3.789,32<br>(4,171%)</td>
-          </tr>
-          <tr>
-            <td class="align-middle">2<br>001.002.002<br>28/02/2019</td>
-            <td class="align-middle">Fabbricato A - Struttura -<br>Struttura di elevazione</td>
-            <td class="align-middle">31.20</td>
-            <td class="align-middle">12.303,47<br>(13,441%)</td>
-            <td class="align-middle">3.789,32<br>(4,171%)</td>
-          </tr>
-          <tr>
-            <td class="align-middle">2<br>001.002.002<br>28/02/2019</td>
-            <td class="align-middle">Fabbricato A - Struttura -<br>Struttura di elevazione</td>
-            <td class="align-middle">31.20</td>
-            <td class="align-middle">12.303,47<br>(13,441%)</td>
-            <td class="align-middle">3.789,32<br>(4,171%)</td>
-          </tr>
-          <tr>
-            <td class="align-middle">2<br>001.002.002<br>28/02/2019</td>
-            <td class="align-middle">Fabbricato A - Struttura -<br>Struttura di elevazione</td>
-            <td class="align-middle">31.20</td>
-            <td class="align-middle">12.303,47<br>(13,441%)</td>
-            <td class="align-middle">3.789,32<br>(4,171%)</td>
-          </tr>
-
-        </tbody>
-      </table> -->
     </div>
-    <div class="col-lg-4" style="max-width: 100%">
-      <div class="row">
-        <div class="col-md-9" style="text-align: justify">
-          Totale valore realizzato<br>Aliquota<br><br>
-          In data 26/02/2019 è stato emesso il CERTIFICATO DI PAGAMENTO n.1 per un importo di euro
-        </div>
-        <div class="col-md-3" style="text-align: left">
-          6.177,90<br>(6,804%)<br><br>13.000
-        </div>
-      </div>
-    </div>
+  </div>
+ 
+    
+     
+        
+    
   </div>
 </div>

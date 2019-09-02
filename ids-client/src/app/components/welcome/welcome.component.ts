@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import {Router} from '@angular/router';
 import { MatDialog} from '@angular/material';
 import { DialogBodyLoginComponent } from '@app/components/dialog-body-login/dialog-body-login.component';
+import { AuthService } from '@app/services/auth/auth.service';
+import { UserService } from '@app/services/user/user.service';
 
 @Component({
   selector: 'app-welcome',
@@ -16,7 +18,7 @@ export class WelcomeComponent implements OnInit {
 
 
 
-  constructor( private router: Router, private dialog: MatDialog) { }
+  constructor( private router: Router, private dialog: MatDialog, private authService: AuthService, private userService: UserService) { }
 
   ngOnInit() {
 

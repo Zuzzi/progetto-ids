@@ -2,6 +2,7 @@ import { Unit } from 'web3-utils';
 import { Timestamp } from 'rxjs/internal/operators/timestamp';
 import { EncryptedKeystoreV3Json } from 'web3-eth-accounts';
 import { Contract } from 'web3-eth-contract';
+import { Observable } from 'rxjs';
 
 export enum SmartContractType {
   Libretto = 'libretto',
@@ -29,7 +30,7 @@ export class SmartContract<T extends SmartContractType> {
 export interface Misura {
   no: number;
   tariffa: string;
-  data: number;
+  data: Date;
   categoriaContabile: string;
   descrizione: string;
   percentuale: number;
@@ -47,10 +48,17 @@ export interface DialogInserimentoMisura {
   riserva: string;
 }
 
+export interface DialogInfoContratto {
+  descrizione: string;
+  elencoCategorie: Observable<any>;
+  elencoStrutture: Observable<any>;
+  elencoSoglie: Observable<any>;
+}
+
 export interface VoceRegistro {
   no: number;
   tariffa: string;
-  data: number;
+  data: Date;
   categoriaContabile: string;
   descrizione: string;
   percentuale: number;
@@ -64,7 +72,7 @@ export interface VoceRegistro {
 export interface Sal {
   no: number;
   tariffa: string;
-  data: number;
+  data: Date;
   categoriaContabile: string;
   descrizione: string;
   percentuale: number;
@@ -73,6 +81,25 @@ export interface Sal {
   debitoValore: number;
   debitoPercentuale: number;
 }
+
+export interface CategoriaContabile {
+  nome: string;
+  valore: number;
+  tariffa: string;
+}
+
+export interface Struttura {
+  nome: string;
+}
+// Tipologia di attrezzatura
+export interface Tipologia {
+  nome: string;
+}
+
+export interface Qualifica {
+  nome: string;
+}
+
 export class User {
   username: string;
   password: string;
@@ -96,6 +123,34 @@ export interface Soglia {
   valore: number;
   superata: boolean;
 }
+
+export interface Giornale {
+  no: number;
+  data: Date;
+  descrizioneLocazione: string;
+  allegati: string;
+  operai: Operai[];
+  attrezzature: Attrezzatura[];
+}
+
+export interface Operai {
+  nome: string;
+  cognome: string;
+  qualifica: string;
+  orePresenza: number;
+}
+
+export interface Attrezzatura {
+  tipologia: string;
+  quantita: string;
+}
+
+export interface InfoPagamento {
+  totaleLavoriAcorpo: number;
+  percentualeLavoriAcorpo: number;
+  totalePagato: number;
+}
+
 
 
 export interface ContractSchema {

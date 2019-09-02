@@ -25,6 +25,9 @@ legend.scheduler-border {
     width: 100%;
   }
 
+
+  
+
   .scrollbar-black::-webkit-scrollbar-track {
     -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.1);
     background-color: #F5F5F5;
@@ -54,6 +57,7 @@ legend.scheduler-border {
 
   .mat-cell {
     text-align: center;
+    font-size: 0.8rem;
   }
 
 
@@ -68,7 +72,7 @@ legend.scheduler-border {
   }
   
   tr.example-element-row:not(.example-expanded-row):hover {
-    background: #777;
+    background: #dbdbdb;
   }
   
   tr.example-element-row:not(.example-expanded-row):active {

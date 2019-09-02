@@ -1,141 +1,190 @@
-<mat-dialog-content class="scrollbar-black bordered-black thin">
-    <div class="container-fluid ">
+<mat-dialog-content [formGroup]="form" class="scrollbar-black bordered-black thin">
+  <div class="container-fluid ">
+    <div class="row" style="font-family: Arial, Helvetica, sans-serif; font-size: 1rem; margin-top:2%">
+
+
+      <div class="col-md">
         <div class="row">
-            <div class="col-md-4">
-                <mat-form-field>
-                    <input matInput [matDatepicker]="picker" placeholder="Seleziona una data">
-                    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-                    <mat-datepicker #picker></mat-datepicker>
-                </mat-form-field>
-            </div>
-            <div class="col-md-4">
-                <div class="row">
-                    <div class="col-md" style="text-align: right;">
-                        Allegati e Foto:
-                    </div>
-                    <div class="col-md">
-                        <!-- <button class="mat-raised-button" style="display:inline-block" >Carica File</button> -->
-                        <button md-raised-button color="primary" type="button" class="btn btn-light"
-                            (click)="fileInput.click()">Carica File</button>
-                        <input hidden type="file" #fileInput>
-                    </div>
-                </div>
+          <div class="col-md" style= "text-align: right;">
+            Allegati e Foto:
+          </div>
+          <div class="col-md">
+            <!-- <button class="mat-raised-button" style="display:inline-block" >Carica File</button> -->
+            <button type="button" class="btn btn-light btn-sm" (click)="fileInput.click()">Carica File</button>
 
-            </div>
-
-
-            <div class="col-md-4"></div>
+            <input hidden type="file" #fileInput>
+          </div>
         </div>
-        <div class="row">
-            <fieldset class="scheduler-border">
-                <legend class="scheduler-border"> Descrizione Locazione </legend>
-                <div class="control-group">
-                    <div class="controls bootstrap-timepicker">
-                        <div class="input-group">
-                            <textarea class="form-control" style="border:white" aria-label="With textarea"></textarea>
-                        </div>
-
-                    </div>
-                </div>
-            </fieldset>
-        </div>
-        <div class="row">
-            <fieldset class="scheduler-border" style="width: 100%">
-                <legend class="scheduler-border"> Operaio </legend>
-                <div class="control-group">
-                    <div class="controls bootstrap-timepicker">
-                        <div class="input-group">
-                            <div class="col-md">
-                                Nome
-                                <input type="text" style="text-align: center" name='Operaio' class="form-control" />
-                            </div>
-                            <div class="col-md">
-                                Cognome
-                                <input type="text" style="text-align: center" name='Operaio' class="form-control" />
-                            </div>
-                            <div class="col-md">
-                                Qualifica
-                                <div data-name="Qualifica">
-                                    <select name="Qualifica">
-                                        <option value="">Selezione Qualifica</option>
-                                        <option value="1">MDO - Operaio Comune</option>
-                                        <option value="2">MDO - Operaio Specializzato</option>
-                                        <option value="3">MDO - Capo Squadra</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="col-md">
-
-                                Ore di Presenza
-                                <div class="row">
-                                    <div class="col">
-                                        <input type="text" name="Ore" style="text-align: center" class="form-control" />
-                                    </div>
-                                    <div class="col-2">
-                                        <button name="del0" style="" class='btn btn-success'><i
-                                                class="fas fa-plus"></i></button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </fieldset>
-        </div>
-
-
-        <div class="row">
-            <fieldset class="scheduler-border" style="width: 100%">
-                <legend class="scheduler-border">Attrezzatura </legend>
-                <div class="control-group">
-                    <div class="controls bootstrap-timepicker">
-                        <div class="input-group">
-
-                            <div class="col-md">
-                                Attrezzatura
-                                <div data-name="Qualifica">
-                                    <select name="Qualifica">
-                                        <option value="">Seleziona Attrezzatura</option>
-                                        <option value="1">MAC - Dumper</option>
-                                        <option value="2">MAC - Gru a Torre</option>
-                                        <option value="3">MAC - Autocarro</option>
-                                    </select>
-                                </div>
-                            </div>
-
-                            <div class="col-md">
-
-                                Quantità
-                                <div class="row">
-                                    <div class="col">
-                                        <input type="text" name="Ore" style="text-align: center" class="form-control" />
-                                    </div>
-                                    <div class="col-2">
-                                        <button name="del0" style="" class='btn btn-success'><i
-                                                class="fas fa-plus"></i></button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </fieldset>
-        </div>
+      </div>
 
     </div>
+    <div class="row" style="font-family: Arial, Helvetica, sans-serif; font-size: 1rem;">
+      <fieldset class="scheduler-border">
+        <legend class="scheduler-border"> Descrizione Locazione </legend>
+        <div class="control-group">
+          <div class="controls bootstrap-timepicker">
+            <div class="input-group">
+              <textarea class="form-control" formControlName="descrizioneLocazione" style="border:white"
+                aria-label="With textarea"></textarea>
+            </div>
+
+          </div>
+        </div>
+      </fieldset>
+    </div>
+    <div formArrayName="operai" class="row" style="font-family: Arial, Helvetica, sans-serif; font-size: 1rem;">
+      <fieldset class="scheduler-border" style="width: 100%">
+        <legend class="scheduler-border"> Operaio </legend>
+        <div *ngFor="let operaio of form.get('operai').controls; let i = index; let last = last;"
+          [ngClass]="{'control-group border': operai.controls[i].valid,
+          'control-group border border-danger': operai.controls[i].invalid && (operai.controls[i].touched || operai.controls[i].dirty)}">
+          <div [formGroupName]="i" class="controls bootstrap-timepicker">
+            <div class="input-group">
+              <div class="container fluid">
+                <div class="row" style = "margin-top: 2%">
+                  <div class="col-md">
+                    Nome
+                    <input formControlName="nome" type="text" style="text-align: center" name='Operaio'
+                      class="form-control" />
+                  </div>
+                  <div class="col-md">
+                    Cognome
+                    <input formControlName="cognome" type="text" style="text-align: center" name='Operaio'
+                      class="form-control" />
+                  </div>
+                </div>
+                <div class="row" style=" margin-top:2%">
+                  <div class="col-md">
+                    Qualifica
+                    <div data-name="Qualifica">
+                      <select formControlName="qualifica" name="Qualifica">
+                          <option selected value="">Selezione Qualifica</option>
+                        <option *ngFor="let qualifica of (formOptions.elencoQualifiche | async)?.data" [value]="qualifica.nome">{{qualifica.nome}}</option>
+                        <!-- <option value="1">MDO - Operaio Comune</option>
+                        <option value="2">MDO - Operaio Specializzato</option>
+                        <option value="3">MDO - Capo Squadra</option> -->
+                      </select>
+                    </div>
+                  </div>
+                  <div class="col-md">
+
+                    Ore di Presenza
+                    <div class="row" style="font-family: Arial, Helvetica, sans-serif; font-size: 1rem;">
+                      <div class="col">
+                        <input formControlName="orePresenza" type="number" name="Ore" style="text-align: center; margin-bottom: 4%"
+                          class="form-control" />
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="col-md" >
+                    <div class="row" style="font-family: Arial, Helvetica, sans-serif; font-size: 1rem; ">
+                      <div class="col-md"></div>
+                      <div class="col-md" style= "margin-top: 10%; margin-bottom:2%" >
+                        <button type="button" name="del0" (click)="removeOperaio(i)"
+                          class='btn btn-outline-danger  btn-sm'>Rimuovi</button>
+                      </div>
+                      <div class="col-md"></div>
+                    </div>
+                  </div>
+                </div>
+
+
+              </div>
+            </div>
+          </div>
+
+        </div>
+        <div class="row" style="text-align: center; margin-top: 3%">
+          <div class="col-md"></div>
+          <div class="col-md">
+            <button type="button" name="del0" (click)="addOperaio()"
+              class='btn btn-outline-success  btn-sm'>Aggiungi Nuovo</button>
+          </div>
+          <div class="col-md"></div>
+        </div>
+
+      </fieldset>
+    </div>
+
+
+
+    <div formArrayName="attrezzature" class="row" style="font-family: Arial, Helvetica, sans-serif; font-size: 1rem;">
+      <fieldset class="scheduler-border" style="width: 100%">
+        <legend class="scheduler-border">Attrezzatura </legend>
+        <div *ngFor="let attrezzatura of form.get('attrezzature').controls; let i = index; let last = last;"
+        [ngClass]="{'control-group border': attrezzature.controls[i].valid,
+        'control-group border border-danger': attrezzature.controls[i].invalid && (attrezzature.controls[i].touched || attrezzature.controls[i].dirty)}">
+          <div [formGroupName]="i" class="controls bootstrap-timepicker">
+            <div class="input-group">
+              <div class="container fluid">
+                <div class="row" style = "margin-top: 2%">
+                  <div class="col-md">
+                    Attrezzatura
+                    <div data-name="Tipologia">
+                      <select formControlName="tipologia" name="Tipologia">
+                        <option selected value="">Selezione Tipologia</option>
+                        <option *ngFor="let attrezzatura of (formOptions.elencoAttrezzature | async)?.data" [value]="attrezzatura.nome">{{attrezzatura.nome}}</option>
+                        <!-- <option value="1">MAC - Dumper</option>
+                        <option value="2">MAC - Gru a Torre</option>
+                        <option value="3">MAC - Autocarro</option> -->
+                      </select>
+                    </div>
+                  </div>
+
+                  <div class="col-md">
+
+                    Quantità
+                    <div class="row" style="font-family: Arial, Helvetica, sans-serif; font-size: 1rem;">
+                      <div class="col" style= "margin-bottom: 4%">
+                        <input formControlName="quantita" type="number" name="Quantita" style="text-align: center;"
+                          class="form-control" />
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="col-md">
+                    <div class="row" style="font-family: Arial, Helvetica, sans-serif; font-size: 1rem;">
+                      <div class = "col-md"></div>
+                      <div class="col-md" style="margin-top: 10%; margin-bottom: 2%">
+                        <button type="button" name="del0" (click)="removeAttrezzatura(i)"
+                          class='btn btn-outline-danger  btn-sm'>Rimuovi</button>
+                      </div>
+                      <div class="col-md"></div>
+                    </div>
+                  </div>
+
+                </div>
+
+
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row" style="text-align: center; margin-top: 3%">
+          <div class="col-md"></div>
+          <div class="col-md">
+            <button type="button" name="del0" (click)="addAttrezzatura()"
+              class='btn btn-outline-success  btn-sm'>Aggiungi Nuovo</button>
+          </div>
+          <div class="col-md"></div>
+        </div>
+      </fieldset>
+    </div>
+
+  </div>
 </mat-dialog-content>
 
 <mat-dialog-actions>
-    <div class="container-fluid" style="align-items: center">
-        <div class="row  text-center">
-            <div class="col-md text-center">
-                <button mat-raised-button (click)="confirm()">Conferma</button>
-            </div>
-        </div>
-        <div class="row top-buffer">
-            <div class="col-md text-center">
-                <button mat-raised-button (click)="close()">Annulla</button>
-            </div>
-        </div>
+  <div class="container-fluid" style="align-items: center">
+    <div class="row  text-center" style=" font-family: Arial, Helvetica, sans-serif; font-size: 1rem;">
+      <div class="col-md text-center">
+        <button type="button" [disabled]="form.invalid" class="btn btn-outline-secondary btn-sm" style="margin-right: 2%"
+          (click)="onSubmit()">Conferma</button>
+
+
+        <button type="button" class="btn btn-outline-secondary btn-sm" (click)="close()">Annulla</button>
+      </div>
     </div>
+  </div>
 </mat-dialog-actions>

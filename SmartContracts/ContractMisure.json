@@ -3,7 +3,7 @@
         "constant": false,
         "inputs": [
             {
-                "name": "id",
+                "name": "index",
                 "type": "uint256"
             }
         ],
@@ -151,17 +151,17 @@
         "type": "function"
     },
     {
-        "constant": true,
-        "inputs": [],
-        "name": "getNumeroMisure",
-        "outputs": [
+        "constant": false,
+        "inputs": [
             {
-                "name": "",
+                "name": "id",
                 "type": "uint256"
             }
         ],
+        "name": "rendiInvalidabileMisura",
+        "outputs": [],
         "payable": false,
-        "stateMutability": "view",
+        "stateMutability": "nonpayable",
         "type": "function"
     },
     {

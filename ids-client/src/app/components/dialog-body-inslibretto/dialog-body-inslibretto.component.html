@@ -1,12 +1,13 @@
-<mat-dialog-content class="scrollbar-black bordered-black thin">
+<mat-dialog-content  class="scrollbar-black bordered-black thin">
+  <form [formGroup]="form">
     <div class="container-fluid ">
-        <div class="row">
+        <div class="row" style=" font-family: Arial, Helvetica, sans-serif; font-size: 1rem; margin-top:1%">
             <div class="col-md">
-                <mat-form-field>
+                <!-- <mat-form-field>
                     <input matInput [matDatepicker]="picker" placeholder="Seleziona una data">
                     <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                     <mat-datepicker #picker></mat-datepicker>
-                </mat-form-field>
+                </mat-form-field> -->
             </div>
             <div class="col-md">
                 <div class="row">
@@ -15,7 +16,7 @@
                     </div>
                     <div class="col-md">
                         <!-- <button class="mat-raised-button" style="display:inline-block" >Carica File</button> -->
-                        <button md-raised-button color="primary" type="button" class="btn btn-light"
+                        <button type="button" class="btn btn-light btn-sm"
                             (click)="fileInput.click()">Carica File</button>
                         <input hidden type="file" #fileInput>
                     </div>
@@ -26,7 +27,7 @@
 
 
         </div>
-        <div class="row">
+        <div class="row" style=" font-family: Arial, Helvetica, sans-serif; font-size: 1rem;">
             <fieldset class="scheduler-border">
                 <legend class="scheduler-border"> Dettagli Misura </legend>
                 <div class="control-group">
@@ -35,30 +36,48 @@
                             <div class="col-md">
                                 Designazione dei Lavori
                                 <div data-name="Designazione" style="width: 100%">
-                                    <select [(ngModel)]="data.descrizione" name="Designazione">
-                                        <option value="">Selezione Struttura</option>
+                                    <!-- <select [(ngModel)]="data.descrizione" name="Designazione"> -->
+                                    <select id="descrizione" formControlName="descrizione" name="Designazione">
+                                      <option value="">Selezione Struttura</option>
+                                        <option *ngFor="let struttura of (formOptions.elencoStrutture | async)?.data" [value]="struttura.nome">{{struttura.nome}}</option>
+                                        <!--
                                         <option value="Fabbricato A">Fabbricato A</option>
                                         <option value="Fabbricato B">Fabbricato B</option>
-                                        <option value="Fabbricato C">Fabbricato C</option>
+                                        <option value="Fabbricato C">Fabbricato C</option> -->
                                     </select>
+                                    <div *ngIf="descrizione.invalid && (descrizione.dirty || descrizione.touched)" class="alert alert-danger">
+                                        <div *ngIf="descrizione.hasError('required')">Inserire un valore!</div>
+                                      </div>
                                 </div>
                             </div>
 
                             <div class="col-md">
                                 Categoria Contabile
                                 <div data-name="Categoria">
-                                    <select [(ngModel)]="data.categoriaContabile" name="Categoria">
-                                        <option value="">Selezione Categoria </option>
+                                    <!-- <select [(ngModel)]="data.categoriaContabile" name="Categoria"> -->
+                                    <select id="categoriaContabile" formControlName="categoriaContabile" name="Categoria">
+                                        <option selected value="">Selezione Categoria</option>
+                                        <option *ngFor="let categoria of (formOptions.elencoCategorie | async)?.data" [value]="categoria.nome">{{categoria.nome}}</option>
+                                        <!-- <option value="">Selezione Categoria </option>
                                         <option value="Pavimentazione">Pavimentazione</option>
-                                        <option value="Colonnato">Colonnato</option>
+                                        <option value="Colonnato">Colonnato</option> -->
                                     </select>
+                                    <div *ngIf="categoriaContabile.invalid && (categoriaContabile.dirty || categoriaContabile.touched)" class="alert alert-danger">
+                                      <div *ngIf="categoriaContabile.hasError('required')">Inserire un valore!</div>
+                                    </div>
                                 </div>
                             </div>
-                            <div class="col-md" style="padding-bottom: 0; margin: 0">
+                            <div class="col-md" >
                                 Percentuale
-
-                                <input mdInput [(ngModel)]="data.percentuale" type="number" min="0" max="100" />
-
+                                <div>
+                                <!-- <input mdInput [(ngModel)]="data.percentuale" type="number" min="0" max="100" /> -->
+                                <input mdInput id="percentuale" formControlName="percentuale" type="number" min="0" max="100" />
+                                <div *ngIf="(percentuale.invalid || form.hasError('maxPercentuale')) && (percentuale.dirty || percentuale.touched)" class="alert alert-danger">
+                                    <div *ngIf="percentuale.hasError('required')">Inserire un valore!</div>
+                                    <div *ngIf="percentuale.hasError('max') || percentuale.hasError('min')">Inserisci un valore intero compreso tra 1 e 100 !</div>
+                                    <div *ngIf="form.hasError('maxPercentuale') && !percentuale.hasError('max')">La percentuale totale è oltre il 100%</div>
+                                  </div>
+                                </div>
                             </div>
 
                         </div>
@@ -70,13 +89,14 @@
 
         </div>
 
-        <div class="row">
+        <div class="row" style=" font-family: Arial, Helvetica, sans-serif; font-size: 1rem;">
             <fieldset class="scheduler-border">
                 <legend class="scheduler-border"> Riserva (Opzionale)</legend>
                 <div class="control-group">
                     <div class="controls bootstrap-timepicker">
                         <div class="input-group">
-                            <textarea [(ngModel)]="data.riserva" class="form-control" style="border:white" aria-label="With textarea"></textarea>
+                            <!-- <textarea [(ngModel)]="data.riserva" class="form-control" style="border:white" aria-label="With textarea"></textarea> -->
+                            <textarea id="riserva" formControlName="riserva" class="form-control" style="border:white" aria-label="With textarea"></textarea>
                         </div>
 
                     </div>
@@ -88,17 +108,18 @@
 
 
     </div>
+  </form>
 </mat-dialog-content>
 
 
 
 <mat-dialog-actions>
     <div class="container-fluid" style="align-items: center">
-        <div class="row  text-center">
+        <div class="row  text-center" style=" font-family: Arial, Helvetica, sans-serif; font-size: 1rem;">
             <div class="col-md text-center">
-                <button mat-raised-button [mat-dialog-close]="data">Conferma</button>
+                <button type="button" class="btn btn-outline-secondary btn-sm" style="margin-right: 2%" [disabled]="form.invalid" (click)="onSubmit()">Conferma</button>
 
-                <button mat-raised-button (click)="close()">Annulla</button>
+                <button type="button" class="btn btn-outline-secondary btn-sm" (click)="close()">Annulla</button>
             </div>
         </div>
     </div>

@@ -10,11 +10,12 @@ import {MatNativeDateModule} from '@angular/material';
 import {MatCardModule} from '@angular/material';
 import {MatButtonModule} from '@angular/material/button';
 import {MatTableModule} from '@angular/material/table';
+import {MatSelectModule} from '@angular/material/select';
 @NgModule ({
     // tslint:disable-next-line:max-line-length
-    imports: [MatButtonToggleModule, MatIconModule, MatDialogModule, FormsModule, MatFormFieldModule, MatInputModule, MatDatepickerModule, MatNativeDateModule, MatCardModule, MatButtonModule, MatTableModule],
+    imports: [MatButtonToggleModule, MatIconModule, MatDialogModule, FormsModule, MatFormFieldModule, MatInputModule, MatDatepickerModule, MatNativeDateModule, MatCardModule, MatButtonModule, MatTableModule, MatSelectModule],
     // tslint:disable-next-line:max-line-length
-    exports: [MatButtonToggleModule, MatIconModule, MatDialogModule, FormsModule, MatFormFieldModule, MatInputModule, MatDatepickerModule, MatNativeDateModule, MatCardModule, MatButtonModule, MatTableModule],
+    exports: [MatButtonToggleModule, MatIconModule, MatDialogModule, FormsModule, MatFormFieldModule, MatInputModule, MatDatepickerModule, MatNativeDateModule, MatCardModule, MatButtonModule, MatTableModule, MatSelectModule],
 })
 
 export class MaterialModule {}

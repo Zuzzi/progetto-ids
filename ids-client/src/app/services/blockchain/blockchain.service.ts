@@ -29,10 +29,8 @@ export class BlockchainService {
   private account: Account;
   private txEventsStream: Subject<any>;
   txEvents: Observable<Misura[]>;
-  // private contracts: Array<any>;
-  //private contractsSources: Array<any>;
-  //TODO: eliminare web3 injectionProvider
-  constructor(private http: HttpClient, @Inject(WEB3) private _web3: Web3,
+
+  constructor(private http: HttpClient,
               private userService: UserService) {
     const options = {
       defaultAccount: '0xed9d02e382b34818e88b88a309c7fe71e65f419d',
@@ -51,41 +49,9 @@ export class BlockchainService {
     this.txEventsStream = new Subject();
     this.txEvents = this.txEventsStream.asObservable();
   }
-  // TODO: probabilmente questa funzione non serve
-  // registerAccount(password: string) {
-  //   const newAccount = this.web3.eth.accounts.create();
-  //   const newAddress = newAccount.address;
-  //   const newPrivateKey = newAccount.privateKey;
-  //   const keystore = this.web3.eth.accounts.encrypt(newPrivateKey, password);
-  //   // soluzione temporanea, il keystore andrà salvato nel db
-  //   try {
-  //     writeFileSync('../../../keys/' + newAddress, keystore);
-  //     console.log('keystore written in file succesfully');
-  //   } catch (err) {
-  //     console.log('error in writing keystore to file:');
-  //     console.log(err);
-  //   }
-  //   // salvare indirizzo account nel database
-  // }
-
-  /* getAccount() {
-    return this.account;
-  } */
-
-  // getWeb3() {
-  //   return this.web3;
-  // }
-
-  // loadContracts(contracts) {
-  //   this.contracts = contracts;
-  // }
 
   unlockAccount(keystore, password: string) {
     this.account = this.web3.eth.accounts.decrypt(keystore, password);
-  }
-
-  lockAccount() {
-    delete this.account;
   }
 
   getSmartContract(contractId: string, type: SmartContractType) {
@@ -130,10 +96,11 @@ export class BlockchainService {
       }),
       concatMap(signedTx => {
         console.log('Transaction Signed!');
-        this.txEventsStream.next({type: 'signed', data: signedTx});
+        // this.txEventsStream.next({type: 'signed', data: signedTx});
         return this.sendSignedTransaction(signedTx);
       }),
-      tap((receipt) => this.txEventsStream.next({type: 'completed', data: receipt})),
+      tap(() => console.log('Transaction Completed!')),
+      // tap((receipt) => this.txEventsStream.next({type: 'completed', data: receipt})),
       take(1), // per sicurezza anche se gli observable generati da promise completano dopo una singola emissione
     );
   }
@@ -170,29 +137,20 @@ export class BlockchainService {
     );
   }
 
-  numberToSigned64x64(number: number): number {
-    return number * Math.pow(2, 64);
+  numberToSigned64x64(number: number): string {
+    return '0x' + (number * Math.pow(2, 64)).toString(16);
   }
 
   signed64x64ToNumber(signed64x64: number): number {
     return signed64x64 / Math.pow(2, 64);
   }
 
+  epochToDate(epoch: number): Date {
+    return new Date(epoch * 1000);
+  }
 
-  // getMisure(contractID) {
-  //   const address: string = this.contracts.find(element => element._id === contractID).address;
-  //   const abi = this.contractsSources.find(element => element.type === 'master').abi;
-  //   const smartContract = new this.web3.eth.Contract(abi, address);
-  //   const misura = from(smartContract.methods.getMisura(0).call())
-  //   .pipe(map(result => this.formatMisura(result))
-  //   );
-  //   return misura;
-  // }
-
-  // formatMisura(misura): Misura  {
-  //   return {no: misura['0'].toNumber(), tariffa: misura['1'], data: misura['2'].toNumber(),
-  //     categoriaContabile: misura['3'], descrizione: misura['4'], percentuale: misura['5'],
-  //     riserva: misura['6']};
-  // }
+  dateToEpoch(date: Date): number {
+    return date.getTime() / 1000.0;
+  }
 
 }

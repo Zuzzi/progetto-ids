@@ -1,21 +1,25 @@
 <mat-dialog-content class="scrollbar-black bordered-black thin">
   <div class="container-fluid ">
-  <div class="row" style="text-align: center">
+  <div class="row" style="text-align: center; font-family: Arial, Helvetica, sans-serif; font-size: 1rem; margin-top:1%">
     Si desidera rendere definitiva l'invalidazione <br> della Misura?
     <br><br>
   </div>
 </div>
 </mat-dialog-content>
 
+
+
+
 <mat-dialog-actions>
-<div class="container-fluid" >
-  <div class="row" >
-    <div class="col-md-1"></div>
-    <div class="col-md-10">
-      <button mat-raised-button [mat-dialog-close]="true">Conferma</button>
-      <button mat-raised-button mat-dialog-close >Annulla</button>
+  <div class="container-fluid" >
+    <div class="row" style=" font-family: Arial, Helvetica, sans-serif; font-size: 1rem; text-align:center" >
+      <div class="col-md-1"></div>
+      <div class="col-md-10">
+        <button type="button" class="btn btn-outline-secondary btn-sm" style="margin-right: 2%" [mat-dialog-close]="true">Conferma</button>
+        <button type="button" class="btn btn-outline-secondary btn-sm"  mat-dialog-close >Annulla</button>
+      </div>
+      <div class="col-md-1"></div>
     </div>
-    <div class="col-md-1"></div>
   </div>
-</div>
-</mat-dialog-actions>
+  </mat-dialog-actions>
+  

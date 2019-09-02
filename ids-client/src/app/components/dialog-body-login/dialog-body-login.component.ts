@@ -5,6 +5,8 @@ import {AuthService} from '@app/services/auth/auth.service';
 import { BlockchainService } from '@app/services/blockchain/blockchain.service';
 import {concatMap} from 'rxjs/operators';
 import { UserService } from '@app/services/user/user.service';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { AreaRiservataComponent } from '../area-riservata/area-riservata.component';
 
 
 
@@ -16,42 +18,37 @@ import { UserService } from '@app/services/user/user.service';
 export class DialogBodyLoginComponent implements OnInit {
 
 
-  username: string;
-  password: string;
-  credentialsMistake: boolean;
+  formLogin: FormGroup;
+  credentialsMistake: boolean = false;
 
   constructor(public dialogRef: MatDialogRef<DialogBodyLoginComponent>, private router: Router,
               private userService: UserService, private authService: AuthService,
-              private blockchainService: BlockchainService) { }
+              private blockchainService: BlockchainService,
+              private fb: FormBuilder) {
+                this.formLogin = this.fb.group({
+                  username: ['', Validators.required],
+                  password: ['', Validators.required]
+                });
+               }
 
-  ngOnInit() {
-    this.credentialsMistake = false;
-  }
+  ngOnInit() { }
 
-  validateLogin() {
-    if (this.username && this.password) {
-        this.authService.validateLogin(this.username, this.password)
+  login() {
+    if (this.formLogin.valid) {
+      this.credentialsMistake = false;
+      const username = this.formLogin.value.username;
+      const password = this.formLogin.value.password;
+      this.authService.validateLogin(username, password)
         .subscribe(result => {
-        if (result.success) {
-          const userDetail = result.userDetail;
-          console.log('contratti:'+ userDetail.contracts);
-          // this.blockchainService.loadContracts(userDetail.contracts);
-          // this.blockchainService.unlockAccount(userDetail.keystore, userDetail.password);
-          //onst userTitle = userDetail.title;
-          // console.log('user data: ' + userTitle);
-          //localStorage.setItem('title', userTitle);
-          const firstContract = this.userService.getContracts()[0];
-          this.dialogRef.close();
-          this.router.navigate(['/area-riservata/contract', firstContract._id, 'home']);
-        } else {
-            alert('Wrong credentials!');
-          }
-        }, error => {
-        console.log('error is ', error);
+          console.log(result);
+          if (result) {
+            this.dialogRef.close();
+            this.router.navigateByUrl('/area-riservata/contract/');
+          } else {
+              this.credentialsMistake = true;
+            }
         });
-    } else {
-        alert('enter user name and password');
-      }
+    }
   }
 
   close() {
