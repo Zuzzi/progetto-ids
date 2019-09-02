@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Sal, SmartContractType, SmartContract, InfoPagamento } from '@app/interfaces';
-import { Observable, Subject, from, forkJoin, ReplaySubject, combineLatest, of, concat, defer } from 'rxjs';
-import { concatMap, take, map, tap, filter, takeUntil, concatMapTo, finalize, withLatestFrom } from 'rxjs/operators';
+import { Observable, Subject, from, forkJoin, ReplaySubject, combineLatest, of, concat, defer, BehaviorSubject } from 'rxjs';
+import { concatMap, take, map, tap, filter, takeUntil, concatMapTo, finalize, withLatestFrom, delay } from 'rxjs/operators';
 import { BlockchainService } from '../blockchain/blockchain.service';
 import { NumberFormatStyle } from '@angular/common';
 import { ParametriService } from '../parametri/parametri.service';
@@ -30,10 +30,10 @@ export class SalService {
 
   constructor(private blockchainService: BlockchainService,
               private parametriService: ParametriService) {
-    this.vociSalStream =  new ReplaySubject(1) as ReplaySubject<any>;
+    this.vociSalStream =  new BehaviorSubject([]) as BehaviorSubject<any>;
     this.isLoading = new ReplaySubject(1) as ReplaySubject<boolean>;
     this.isContractChanged = new Subject();
-    this.infoStream = new ReplaySubject(1) as ReplaySubject<InfoPagamento>;
+    this.infoStream = new BehaviorSubject({}) as BehaviorSubject<InfoPagamento>;
     this.isLoadingInfo = new ReplaySubject(1) as ReplaySubject<boolean>;
     // this.isLoadingObs = this.isLoading.asObservable();
     this.vociSal = this.isLoading.pipe(

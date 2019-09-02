@@ -26,7 +26,7 @@ export class RegistroService {
 
 
   constructor(private blockchainService: BlockchainService) {
-    this.vociRegistroStream =  new ReplaySubject(1) as ReplaySubject<VoceRegistro[]>;
+    this.vociRegistroStream =  new BehaviorSubject([]) as BehaviorSubject<VoceRegistro[]>;
     this.isLoading = new ReplaySubject(1) as ReplaySubject<boolean>;
     this.isContractChanged = new Subject();
     // this.isLoadingObs = this.isLoading.asObservable();

@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { LibrettoService } from '@app/services/libretto/libretto.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import { switchMap, map, concatMap, filter, tap, catchError, onErrorResumeNext, publishReplay, refCount } from 'rxjs/operators';
+import { switchMap, map, concatMap, filter, tap, catchError, onErrorResumeNext, publishReplay, refCount, delay } from 'rxjs/operators';
 import { BlockchainService } from '@app/services/blockchain/blockchain.service';
 import { SmartContractType, SmartContract } from '@app/interfaces';
 import { Observable, of, EMPTY, forkJoin } from 'rxjs';
@@ -48,7 +48,6 @@ export class ContrattoComponent implements OnInit, OnDestroy {
         this.switchToContract();
         return this.loadContract();
       }),
-      filter(value => value),
     ).subscribe();
 
     this.infoPagamentoSource = this.salService.infoPagamento.pipe(

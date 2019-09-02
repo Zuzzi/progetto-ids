@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Subject, Observable, from, forkJoin, ReplaySubject, combineLatest, concat, of, defer } from 'rxjs';
+import { Subject, Observable, from, forkJoin, ReplaySubject, combineLatest, concat, of, defer, BehaviorSubject } from 'rxjs';
 import { Soglia, SmartContract, SmartContractType, Struttura, CategoriaContabile, Qualifica, Tipologia } from '@app/interfaces';
 import { concatMap, take, map, filter, tap, takeUntil, finalize, concatMapTo, withLatestFrom } from 'rxjs/operators';
 import { BlockchainService } from '../blockchain/blockchain.service';
@@ -14,27 +14,27 @@ export class ParametriService {
   private soglieStore: Soglia[];
   private isLoadingSoglie: Subject<boolean> = new ReplaySubject(1);
 
-  private categorieStream: Subject<CategoriaContabile[]> = new ReplaySubject(1);
+  private categorieStream: Subject<CategoriaContabile[]> = new BehaviorSubject([]);
   categorie: Observable<any>;
   private categorieStore: CategoriaContabile[];
   private isLoadingCategorie: Subject<boolean> = new ReplaySubject(1);
 
-  private struttureStream: Subject<Struttura[]> = new ReplaySubject(1);
+  private struttureStream: Subject<Struttura[]> = new BehaviorSubject([]);
   strutture: Observable<any>;
   private struttureStore: Struttura[];
   private isLoadingStrutture: Subject<boolean> = new ReplaySubject(1);
 
-  private qualificheStream: Subject<Qualifica[]> = new ReplaySubject(1);
+  private qualificheStream: Subject<Qualifica[]> = new BehaviorSubject([]);
   qualifiche: Observable<any>;
   private qualificheStore: Qualifica[];
   private isLoadingQualifiche: Subject<boolean> = new ReplaySubject(1);
 
-  private attrezzatureStream: Subject<Tipologia[]> = new ReplaySubject(1);
+  private attrezzatureStream: Subject<Tipologia[]> = new BehaviorSubject([]);
   attrezzature: Observable<any>;
   private attrezzatureStore: Tipologia[];
   private isLoadingAttrezzature: Subject<boolean> = new ReplaySubject(1);
 
-  private valoreTotaleStream: Subject<number> = new ReplaySubject(1);
+  private valoreTotaleStream: Subject<number> = new BehaviorSubject(null);
   valoretotale: Observable<any>;
   private valoreTotaleStore: number;
   private isLoadingValoreTotale: Subject<boolean> = new ReplaySubject(1);

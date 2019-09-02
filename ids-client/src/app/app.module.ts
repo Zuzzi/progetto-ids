@@ -27,6 +27,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { DialogBodyApprovazionemisureComponent } from './components/dialog-body-approvazionemisure/dialog-body-approvazionemisure.component';
 import { UserProfileComponent } from './components/user-profile/user-profile.component';
 import { ContrattoComponent } from './components/contratto/contratto.component';
+import { LoadingComponent } from './components/loading/loading.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -50,6 +51,7 @@ import { ContrattoComponent } from './components/contratto/contratto.component';
     UserProfileComponent,
     DialogBodyInvalidamisuraComponent,
     ContrattoComponent,
+    LoadingComponent,
   ],
   imports: [
     BrowserModule,

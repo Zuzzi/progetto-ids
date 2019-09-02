@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, AfterViewInit, AfterContentInit, AfterContentChecked } from '@angular/core';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
 import { DialogBodyInslibrettoComponent } from '@app/components/dialog-body-inslibretto/dialog-body-inslibretto.component';
 import { DialogBodyVisriservaComponent } from '@app/components/dialog-body-visriserva/dialog-body-visriserva.component';
@@ -30,11 +30,7 @@ export class LibrettoComponent implements OnInit, OnDestroy {
 
   displayedColumns = ['no', 'tariffa', 'data', 'designazione', 'categoriaContabile', 'percentuale', 'allegati', 'riserva', 'invalida'];
   misure;
-  misureSource = this.librettoService.misure.pipe(
-    tap(value => console.log(value)),
-    publishReplay(1),
-    refCount()
-  );
+  misureSource;
   categorieSource = this.parametriService.categorie.pipe(
     tap(value => console.log(value)),
     publishReplay(1),
@@ -69,11 +65,11 @@ export class LibrettoComponent implements OnInit, OnDestroy {
     this.isRupLogged = true;
     this.isDirettoreLogged = this.userService.titleCheck(UserTitle.Direttore);
     this.isDittaLogged = this.userService.titleCheck(UserTitle.Ditta);
-    // this.misureSource = this.librettoService.misure.pipe(
-    //   tap(value => console.log(value)),
-    //   publishReplay(1),
-    //   refCount()
-    // );
+    this.misureSource = this.librettoService.misure.pipe(
+      tap(value => console.log(value)),
+      publishReplay(1),
+      refCount()
+    );
     this.misure = this.misureSource.pipe(
       pluck('data'));
     // this.struttureSource = this.parametriService.strutture.pipe(
@@ -86,6 +82,7 @@ export class LibrettoComponent implements OnInit, OnDestroy {
     //   refCount()
     // );
   }
+
   // TODO: Modificare passaggio valori per renderlo più ordinato
   openDialogInserimento(): void {
     const dialogRef = this.dialog.open(DialogBodyInslibrettoComponent,

@@ -4,7 +4,7 @@
     Giornale dei Lavori
 </h1>
 
-<div class="container-fluid" style="max-height: 100%; margin-top: 3%">
+<div *ngIf="!(giornaleSource | async)?.isLoading; else loading" class="container-fluid" style="max-height: 100%; margin-top: 3%">
     <div class="row" style=" font-family: Arial, Helvetica, sans-serif; font-size: 0.8rem;">
             <div class="col-md-6">
                     <fieldset class="scheduler-border">
@@ -14,7 +14,7 @@
                           <!-- <input type="text" class="datetime" id="startTime" name="startTime" placeholder="Start Time" /> -->
                           Progetto euro 100.000 <br>
                   Totale valore realizzato: 32.000<br>
-                  Completamento totale: 32% 
+                  Completamento totale: 32%
                         </div>
                       </div>
                     </fieldset>
@@ -96,3 +96,7 @@
 
 
 </div>
+
+<ng-template #loading>
+  <app-loading></app-loading>
+</ng-template>

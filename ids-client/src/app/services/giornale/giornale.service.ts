@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
-import { Subject, Observable, ReplaySubject, of, defer, from } from 'rxjs';
+import { Subject, Observable, ReplaySubject, of, defer, from, BehaviorSubject } from 'rxjs';
 import { Giornale, SmartContract, SmartContractType } from '@app/interfaces';
 import { BlockchainService } from '../blockchain/blockchain.service';
-import { withLatestFrom, tap, map, concatMapTo, takeUntil, take } from 'rxjs/operators';
+import { withLatestFrom, tap, map, concatMapTo, takeUntil, take, delay } from 'rxjs/operators';
 import { CompileShallowModuleMetadata } from '@angular/compiler';
 
 @Injectable({
@@ -19,7 +19,7 @@ export class GiornaleService {
   private contractId: string;
 
   constructor(private blockchainService: BlockchainService) {
-    this.giornaleStream = new ReplaySubject(1) as ReplaySubject<Giornale>;
+    this.giornaleStream = new BehaviorSubject({}) as BehaviorSubject<Giornale>;
     this.isLoading = new ReplaySubject(1) as ReplaySubject<boolean>;
     this.isContractChanged = new Subject();
     this.vocegiornale = this.isLoading.pipe(

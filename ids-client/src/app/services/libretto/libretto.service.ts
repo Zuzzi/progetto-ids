@@ -24,8 +24,9 @@ export class LibrettoService {
   private contractId: string;
 
   constructor(private blockchainService: BlockchainService) {
-    this.misureStream =  new ReplaySubject(1) as ReplaySubject<Misura[]>;
+    this.misureStream =  new BehaviorSubject([]) as BehaviorSubject<Misura[]>;
     this.isLoading = new ReplaySubject(1) as ReplaySubject<boolean>;
+    this.isLoading.next(true);
     this.isContractChanged = new Subject();
     // this.isLoadingObs = this.isLoading.asObservable();
     this.misure = this.isLoading.pipe(

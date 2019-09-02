@@ -4,11 +4,8 @@
   Libretto delle Misure
 </h1>
 
-<div class="container-fluid" style="max-height: 100%; margin-top: 3%">
+<div *ngIf="!(misureSource | async)?.isLoading; else loading" class="container-fluid" style="max-height: 100%; margin-top: 3%">
   <div class="row" style="margin-bottom: 10px; font-family: Arial, Helvetica, sans-serif; font-size: 0.8rem;">
-    <div *ngIf="(misureSource | async)?.isLoading">
-      <h3>Loading</h3>
-    </div>
     <div class="col-md-6">
         <fieldset class="scheduler-border">
           <legend class="scheduler-border"> Lavori a Corpo </legend>
@@ -17,7 +14,7 @@
               <!-- <input type="text" class="datetime" id="startTime" name="startTime" placeholder="Start Time" /> -->
               Progetto euro 100.000 <br>
               Totale valore realizzato: 32.000<br>
-              Completamento totale: 32% 
+              Completamento totale: 32%
             </div>
           </div>
         </fieldset>
@@ -35,7 +32,7 @@
 
 
 
-  
+
   <div class="row" >
 
     <div class="col-md-12"style="margin-top: 10px">
@@ -102,7 +99,7 @@
                 <div class="row" style="justify-content: center">
                   <!-- <button mat-raised-button class="bg-warning" [disabled]='!element.invalidabile || !element.valida' (click)="openDialogInvalidaMisura(element.no)">Invalida</button> -->
                   <button type="button" class="btn btn-outline-danger btn-sm" [disabled]='!element.invalidabile || !element.valida' (click)="openDialogInvalidaMisura(element.no)">Invalida</button>
-                  
+
                 </div>
             </td>
           </ng-container>
@@ -118,3 +115,9 @@
 
   </div>
 </div>
+
+<ng-template #loading>
+  <app-loading></app-loading>
+</ng-template>
+
+
