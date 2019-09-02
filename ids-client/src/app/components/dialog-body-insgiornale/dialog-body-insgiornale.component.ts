@@ -1,7 +1,7 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { Router } from '@angular/router';
-import { FormGroup, FormControl } from '@angular/forms';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
 
 
 @Component({
@@ -26,10 +26,10 @@ export class DialogBodyInsgiornaleComponent implements OnInit {
 
   createFormOperai() {
     return new FormGroup({
-      nome: new FormControl(''),
-      cognome: new FormControl(''),
-      qualifica: new FormControl(''),
-      orePresenza: new FormControl(null),
+      nome: new FormControl('', [Validators.required]),
+      cognome: new FormControl('', [Validators.required]),
+      qualifica: new FormControl('', [Validators.required]),
+      orePresenza: new FormControl(null, [Validators.required]),
     });
   }
 
@@ -43,8 +43,8 @@ export class DialogBodyInsgiornaleComponent implements OnInit {
 
   createFormAttrezzature() {
     return new FormGroup({
-      tipologia: new FormControl(''),
-      quantita: new FormControl(''),
+      tipologia: new FormControl('', [Validators.required]),
+      quantita: new FormControl('', [Validators.required]),
     });
   }
 
@@ -54,6 +54,14 @@ export class DialogBodyInsgiornaleComponent implements OnInit {
 
   removeAttrezzatura(index: number) {
     this.form.get('attrezzature').removeAt(index);
+  }
+
+  get attrezzature() {
+    return this.form.get('attrezzature');
+  }
+
+  get operai() {
+    return this.form.get('operai');
   }
 
 

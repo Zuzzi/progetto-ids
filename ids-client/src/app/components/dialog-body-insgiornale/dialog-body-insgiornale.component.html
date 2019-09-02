@@ -1,7 +1,7 @@
 <mat-dialog-content [formGroup]="form" class="scrollbar-black bordered-black thin">
   <div class="container-fluid ">
     <div class="row" style="font-family: Arial, Helvetica, sans-serif; font-size: 1rem; margin-top:2%">
-     
+
 
       <div class="col-md">
         <div class="row">
@@ -36,7 +36,8 @@
       <fieldset class="scheduler-border" style="width: 100%">
         <legend class="scheduler-border"> Operaio </legend>
         <div *ngFor="let operaio of form.get('operai').controls; let i = index; let last = last;"
-          class="control-group border">
+          [ngClass]="{'control-group border': operai.controls[i].valid,
+          'control-group border border-danger': operai.controls[i].invalid && (operai.controls[i].touched || operai.controls[i].dirty)}">
           <div [formGroupName]="i" class="controls bootstrap-timepicker">
             <div class="input-group">
               <div class="container fluid">
@@ -76,7 +77,7 @@
                     </div>
                   </div>
 
-                  <div class="col-md" > 
+                  <div class="col-md" >
                     <div class="row" style="font-family: Arial, Helvetica, sans-serif; font-size: 1rem; ">
                       <div class="col-md"></div>
                       <div class="col-md" style= "margin-top: 10%; margin-bottom:2%" >
@@ -112,7 +113,8 @@
       <fieldset class="scheduler-border" style="width: 100%">
         <legend class="scheduler-border">Attrezzatura </legend>
         <div *ngFor="let attrezzatura of form.get('attrezzature').controls; let i = index; let last = last;"
-          class="control-group border">
+        [ngClass]="{'control-group border': attrezzature.controls[i].valid,
+        'control-group border border-danger': attrezzature.controls[i].invalid && (attrezzature.controls[i].touched || attrezzature.controls[i].dirty)}">
           <div [formGroupName]="i" class="controls bootstrap-timepicker">
             <div class="input-group">
               <div class="container fluid">
@@ -177,7 +179,7 @@
   <div class="container-fluid" style="align-items: center">
     <div class="row  text-center" style=" font-family: Arial, Helvetica, sans-serif; font-size: 1rem;">
       <div class="col-md text-center">
-        <button type="button" class="btn btn-outline-secondary btn-sm" style="margin-right: 2%"
+        <button type="button" [disabled]="form.invalid" class="btn btn-outline-secondary btn-sm" style="margin-right: 2%"
           (click)="onSubmit()">Conferma</button>
 
 
