@@ -12,6 +12,7 @@ import { UserService } from '@app/services/user/user.service';
 import { SalService } from '@app/services/sal/sal.service';
 import { Observable } from 'rxjs';
 import { LibrettoService } from '@app/services/libretto/libretto.service';
+import { ParametriService } from '@app/services/parametri/parametri.service';
 
 @Component({
   selector: 'app-registro',
@@ -30,11 +31,14 @@ export class RegistroComponent implements OnInit, OnDestroy {
   registro: SmartContract<SmartContractType.Registro>;
   sal: SmartContract<SmartContractType.Sal>;
   isLoadingRegistro: Observable<boolean>;
+  infoPagamentoSource;
+  valoreTotaleSource;
 
   constructor(private dialog: MatDialog, private userService: UserService,
               private activatedRoute: ActivatedRoute, private blockchainService: BlockchainService,
               private registroService: RegistroService, private salService: SalService,
-              private librettoService: LibrettoService) { }
+              private librettoService: LibrettoService,
+              private parametriService: ParametriService) { }
 
   ngOnInit() {
     // TODO: rimuovere questa modifica temporanea per testare conferma registro.
@@ -54,6 +58,18 @@ export class RegistroComponent implements OnInit, OnDestroy {
     //   publishReplay(1),
     //   refCount()
     // );
+
+    this.infoPagamentoSource = this.salService.infoPagamento.pipe(
+      tap(value => console.log(value)),
+      publishReplay(1),
+      refCount()
+    );
+    this.valoreTotaleSource = this.parametriService.valoretotale.pipe(
+      tap(value => console.log(value)),
+      publishReplay(1),
+      refCount()
+    );
+
   }
 
   openDialogInserimentoRegistro() {

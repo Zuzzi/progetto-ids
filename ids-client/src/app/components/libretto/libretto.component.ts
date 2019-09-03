@@ -17,6 +17,7 @@ import {MatButtonModule} from '@angular/material/button';
 import { UserService } from '@app/services/user/user.service';
 import { Observable, ReplaySubject, combineLatest, Subject, BehaviorSubject, zip } from 'rxjs';
 import { ParametriService } from '@app/services/parametri/parametri.service';
+import { SalService } from '@app/services/sal/sal.service';
 
 
 
@@ -52,12 +53,15 @@ export class LibrettoComponent implements OnInit, OnDestroy {
   // registro: SmartContract<SmartContractType.Registro>;
   contractId: ReplaySubject<string>;
   // routeSub: any;
+  infoPagamentoSource;
+  valoreTotaleSource;
 
   constructor(private dialog: MatDialog, private userService: UserService,
               private activatedRoute: ActivatedRoute, private blockchainService: BlockchainService,
               private librettoService: LibrettoService,
               private registroService: RegistroService,
-              private parametriService: ParametriService) {}
+              private parametriService: ParametriService,
+              private salService: SalService) {}
 
   ngOnInit() {
     // TODO: rimuovere questa modifica temporanea per testare conferma registro.
@@ -81,6 +85,16 @@ export class LibrettoComponent implements OnInit, OnDestroy {
     //   publishReplay(1),
     //   refCount()
     // );
+    this.infoPagamentoSource = this.salService.infoPagamento.pipe(
+      tap(value => console.log(value)),
+      publishReplay(1),
+      refCount()
+    );
+    this.valoreTotaleSource = this.parametriService.valoretotale.pipe(
+      tap(value => console.log(value)),
+      publishReplay(1),
+      refCount()
+    );
   }
 
   // TODO: Modificare passaggio valori per renderlo più ordinato
