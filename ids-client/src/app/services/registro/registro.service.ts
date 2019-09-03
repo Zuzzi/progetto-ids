@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, from, forkJoin, Subject, ReplaySubject, EMPTY, combineLatest, of, concat, defer } from 'rxjs';
 import { concatMap, take, tap, map, filter, takeUntil, concatMapTo, finalize, withLatestFrom } from 'rxjs/operators';
 import {VoceRegistro, DialogInserimentoMisura, SmartContractType, SmartContract} from '@app/interfaces';
-import {WEB3} from '@app/web3.token';
 import Web3 from 'web3';
 import { Contract } from 'web3-eth-contract';
 import { BlockchainService } from '@app/services/blockchain/blockchain.service';

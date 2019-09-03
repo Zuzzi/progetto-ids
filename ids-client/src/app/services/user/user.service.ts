@@ -24,7 +24,7 @@ export class UserService {
   }
 
   getContractByIndex(index: number) {
-    return this.user.contracts[0];
+    return this.user.contracts[index];
   }
 
   titleCheck(title: UserTitle) {
