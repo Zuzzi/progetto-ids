@@ -6,8 +6,10 @@
             <fieldset class="scheduler-border">
                 <legend class="scheduler-border">Valore dell'opera e Soglie di Pagamento </legend>
                 <div class="control-group">
-
+                    
                     <div class="controls bootstrap-timepicker" style="text-align: center">
+                        Il valore totale dell'opera è pari a €{{(valoreTotaleSource | async)?.data}} <br><br>
+                        Le soglie previste da contratto sono le seguenti: <br><br>
                       <p *ngFor="let soglia of (data.elencoSoglie | async)?.data">{{soglia.no}}: {{soglia.valore}}</p>
                     </div>
                 </div>
@@ -32,7 +34,8 @@
                 <div class="control-group">
 
                     <div class="controls bootstrap-timepicker" style="text-align: center">
-                        <p *ngFor="let categoria of (data.elencoCategorie | async)?.data">{{categoria.nome}}</p>
+                        Le categorie contabili e relativo valore sono:<br><br>
+                        <p *ngFor="let categoria of (data.elencoCategorie | async)?.data">{{categoria.nome}}: €{{conversione(categoria.valore)}}</p>
                         
                     </div>
                 </div>
