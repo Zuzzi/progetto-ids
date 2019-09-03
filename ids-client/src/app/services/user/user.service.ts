@@ -18,8 +18,13 @@ export class UserService {
     return this.user;
   }
 
-  getContracts() {
-    return this.user.contracts;
+  getContractById(contractId: string) {
+    const contract = this.user.contracts.find(element => element._id === contractId);
+    return contract ? contract : false;
+  }
+
+  getContractByIndex(index: number) {
+    return this.user.contracts[0];
   }
 
   titleCheck(title: UserTitle) {
@@ -34,8 +39,4 @@ export class UserService {
     return test;
   }
 
-  getAddress(contractId: string, type: SmartContractType): string {
-    const contract = this.user.contracts.find(element => element._id === contractId);
-    return contract[type].address;
-  }
 }

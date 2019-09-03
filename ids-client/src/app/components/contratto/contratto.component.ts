@@ -22,7 +22,7 @@ export class ContrattoComponent implements OnInit, OnDestroy {
   routeSub: any;
   infoPagamentoSource;
   valoreTotaleSource;
-  txEventsSource = this.blockchainService.txEvents
+  txEventsSource = this.blockchainService.txEvents;
 
   constructor(private activatedRoute: ActivatedRoute, private librettoService: LibrettoService,
               private registroService: RegistroService, private salService: SalService,
@@ -33,9 +33,9 @@ export class ContrattoComponent implements OnInit, OnDestroy {
     this.routeSub = this.activatedRoute.paramMap.pipe(
       map(params => {
         const contractId = params.get('contractId');
-        // TODO: gestire il caso in cui l'id del contratto non si trova tra quelli dell'utente
-        if (contractId === '') {
-          const firstContract = this.userService.getContracts()[0]._id;
+        const contract = this.userService.getContractById(contractId);
+        if (!contract) {
+          const firstContract = this.userService.getContractByIndex(0)._id;
           this.router.navigate(['area-riservata/contract', firstContract]);
           return false;
         }

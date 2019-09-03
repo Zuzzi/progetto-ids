@@ -72,7 +72,7 @@ export class BlockchainService {
         throw new Error('Invalid Smart Contract Type');
       }
     }
-    const address = this.userService.getAddress(contractId, type);
+    const address = this.userService.getContractById(contractId)[type].address;
     const contractInstance = new this.web3.eth.Contract(abi, address);
     return new SmartContract(type, contractInstance);
   }
