@@ -11,6 +11,7 @@ import { GiornaleService } from '@app/services/giornale/giornale.service';
 import { tap, publishReplay, refCount, filter, concatMapTo } from 'rxjs/operators';
 import { ParametriService } from '@app/services/parametri/parametri.service';
 import { BlockchainService } from '@app/services/blockchain/blockchain.service';
+import { SalService } from '@app/services/sal/sal.service';
 
 @Component({
   selector: 'app-giornale',
@@ -42,11 +43,14 @@ export class GiornaleComponent implements OnInit, OnDestroy {
     publishReplay(1),
     refCount()
   );
+  infoPagamentoSource;
+  valoreTotaleSource;
 
 
   constructor(private dialog: MatDialog, private userService: UserService, private activatedRoute: ActivatedRoute,
               private blockchainService: BlockchainService, private giornaleService: GiornaleService,
-              private parametriService: ParametriService, private fb: FormBuilder) { }
+              private parametriService: ParametriService, private fb: FormBuilder,
+              private salService: SalService) { }
 
   ngOnInit() {
     this.isDirettoreLogged = this.userService.titleCheck(UserTitle.Direttore);
@@ -60,6 +64,17 @@ export class GiornaleComponent implements OnInit, OnDestroy {
       this.formInserimento = this.createFormInserimento();
       console.log(params.get('contractId'));
     });
+
+    this.infoPagamentoSource = this.salService.infoPagamento.pipe(
+      tap(value => console.log(value)),
+      publishReplay(1),
+      refCount()
+    );
+    this.valoreTotaleSource = this.parametriService.valoretotale.pipe(
+      tap(value => console.log(value)),
+      publishReplay(1),
+      refCount()
+    );
   }
 
   createFormInserimento() {

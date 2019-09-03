@@ -12,9 +12,9 @@
               <div class="control-group">
                 <div class="controls bootstrap-timepicker">
                   <!-- <input type="text" class="datetime" id="startTime" name="startTime" placeholder="Start Time" /> -->
-                  <p>Progetto euro: {{(valoreTotaleSource | async)?.data}}</p>
-                  <p>Totale valore realizzato: {{(infoPagamentoSource | async)?.data.totaleLavoriAcorpo}}</p>
-                  <p>Completamento totale: {{(infoPagamentoSource | async)?.data.percentualeLavoriAcorpo}}%</p>
+                  Progetto euro: {{(valoreTotaleSource | async)?.data}}<br>
+                  Totale valore realizzato: {{(infoPagamentoSource | async)?.data.totaleLavoriAcorpo}}<br>
+                  Completamento totale: {{(infoPagamentoSource | async)?.data.percentualeLavoriAcorpo}}%
                 </div>
               </div>
             </fieldset>

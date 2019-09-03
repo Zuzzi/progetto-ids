@@ -12,9 +12,9 @@
                       <div class="control-group">
                         <div class="controls bootstrap-timepicker">
                           <!-- <input type="text" class="datetime" id="startTime" name="startTime" placeholder="Start Time" /> -->
-                          Progetto euro 100.000 <br>
-                  Totale valore realizzato: 32.000<br>
-                  Completamento totale: 32%
+                          Progetto euro: {{(valoreTotaleSource | async)?.data}}<br>
+                          Totale valore realizzato: {{(infoPagamentoSource | async)?.data.totaleLavoriAcorpo}}<br>
+                          Completamento totale: {{(infoPagamentoSource | async)?.data.percentualeLavoriAcorpo}}%
                         </div>
                       </div>
                     </fieldset>
@@ -84,7 +84,7 @@
             <mat-datepicker #picker></mat-datepicker>
           </mat-form-field> -->
 
-            <mat-card style="max-width:100%;">
+            <mat-card style="width:80%; float: right;">
                 <mat-calendar [selected]="date" (selectedChange)="onDateChange('change',$event)"></mat-calendar>
             </mat-card>
 
