@@ -20,7 +20,7 @@
                     </fieldset>
                   </div>
         <div class="col-md" style="text-align: center; margin-bottom: 10px">
-            <button *ngIf="isDirettoreLogged && !((giornaleSource | async)?.isLoading) && ((giornaleSource | async)?.data.no == 0)" type="button" class="btn btn-outline-warning btn-sm"
+            <button *ngIf="isDirettoreLogged && !((giornaleSource | async)?.isLoading) && ((giornaleSource | async)?.data.no == 0) && !(txEventsSource | async)?.isTransacting" type="button" class="btn btn-outline-warning btn-sm"
                 style="float: right;top: 60%; position:relative; font-size: 0.8rem;" (click)='openDialogInserimento()'>Inserisci nuova voce</button>
 
             </div>

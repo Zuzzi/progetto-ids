@@ -22,6 +22,7 @@ export class RegistroComponent implements OnInit, OnDestroy {
 
   displayedColumns = ['no', 'tariffa', 'data', 'designazione', 'categoriaContabile',
    'percentuale', 'prezzoPercentuale', 'debitoValore', 'debitoPercentuale'];
+  txEventsSource = this.blockchainService.txEvents;
   vociRegistro;
   vociRegistroSource;
   isDirettoreLogged: boolean;

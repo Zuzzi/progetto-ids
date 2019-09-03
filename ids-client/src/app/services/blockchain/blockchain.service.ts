@@ -1,8 +1,8 @@
 import { Injectable, Inject } from '@angular/core';
 import Web3 from 'web3';
 import { Account } from 'web3-eth-accounts';
-import { from, Observable, Subject, } from 'rxjs';
-import { concatMap, take, tap } from 'rxjs/operators';
+import { from, Observable, Subject, BehaviorSubject, interval, } from 'rxjs';
+import { concatMap, take, tap, delay, publishReplay, refCount } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
 import {Misura, SmartContractType, SmartContract} from '../../interfaces';
 import ParametriAbi from '@app/model/ABIs/ContractParametri.json';
@@ -20,8 +20,12 @@ export class BlockchainService {
 
   private web3: Web3;
   private account: Account;
-  private txEventsStream: Subject<any>;
-  txEvents: Observable<Misura[]>;
+  private txEventsStream = new BehaviorSubject({isTransacting: false, message: ''}) as BehaviorSubject<any>;
+  txEvents = this.txEventsStream.asObservable().pipe(
+    tap(value => console.log(value)),
+    publishReplay(1),
+    refCount()
+  ) as Observable<any>;
 
   constructor(private http: HttpClient,
               private userService: UserService) {
@@ -35,8 +39,6 @@ export class BlockchainService {
       'ws://localhost:22000'),
       null,
       options);
-    this.txEventsStream = new Subject();
-    this.txEvents = this.txEventsStream.asObservable();
   }
 
   unlockAccount(keystore, password: string) {
@@ -70,26 +72,30 @@ export class BlockchainService {
         throw new Error('Invalid Smart Contract Type');
       }
     }
-    // TODO: gestire il caso in cui l'id del contratto non si trova tra quelli dell'utente
     const address = this.userService.getAddress(contractId, type);
     const contractInstance = new this.web3.eth.Contract(abi, address);
     return new SmartContract(type, contractInstance);
   }
 
   newTransaction(data, contractAddress) {
+    this.txEventsStream.next({isTransacting: true, message: 'Inizio Transazione'});
     const encodedData = data.encodeABI();
     return this.getTransactionCount().pipe(
       concatMap(nonce => {
         console.log('Transaction count: ' + nonce);
+        this.txEventsStream.next({isTransacting: true, message: 'Numero Transazione: ' + nonce});
         return this.signTransaction(encodedData, nonce, contractAddress);
       }),
       concatMap(signedTx => {
         console.log('Transaction Signed!');
-        // this.txEventsStream.next({type: 'signed', data: signedTx});
+        this.txEventsStream.next({isTransacting: true, message: 'Transazione Firmata'});
         return this.sendSignedTransaction(signedTx);
       }),
-      tap(() => console.log('Transaction Completed!')),
-      // tap((receipt) => this.txEventsStream.next({type: 'completed', data: receipt})),
+      tap(() => {
+        console.log('Transaction Completed!');
+        this.txEventsStream.next({isTransacting: true, message: 'Transazione Completata'});
+        this.txEventsStream.next({isTransacting: false, message: ''});
+      }),
       take(1), // per sicurezza anche se gli observable generati da promise completano dopo una singola emissione
     );
   }
@@ -109,7 +115,7 @@ export class BlockchainService {
     console.log('Sending Transaction...');
     // TODO: implementare da soli la conversione da promise a observable
     // per separare la promise dagli eventi (con from(promise.on()) non vengono emessi valori)
-    return from(this.web3.eth.sendSignedTransaction(signedTx.rawTransaction)
+    return from(this.web3.eth.sendSignedTransaction(signedTx.rawTransaction));
       // .on('transactionHash', hash => {
       //   console.log('Transaction Hash ' + hash);
       //   this.txEventsStream.next({type: 'confirmation', data: hash});
@@ -123,7 +129,6 @@ export class BlockchainService {
       //   this.txEventsStream.next({type: 'confirmation',
       //                             data: confirmationNumber});
       // })
-    );
   }
 
   numberToSigned64x64(number: number): string {

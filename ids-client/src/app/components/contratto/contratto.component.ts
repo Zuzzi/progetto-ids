@@ -1,10 +1,10 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { LibrettoService } from '@app/services/libretto/libretto.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import { switchMap, map, concatMap, filter, tap, catchError, onErrorResumeNext, publishReplay, refCount, delay } from 'rxjs/operators';
+import { switchMap, map, concatMap, filter, tap, catchError, onErrorResumeNext, publishReplay, refCount, delay, delayWhen } from 'rxjs/operators';
 import { BlockchainService } from '@app/services/blockchain/blockchain.service';
 import { SmartContractType, SmartContract } from '@app/interfaces';
-import { Observable, of, EMPTY, forkJoin } from 'rxjs';
+import { Observable, of, EMPTY, forkJoin, interval } from 'rxjs';
 import { SalService } from '@app/services/sal/sal.service';
 import { RegistroService } from '@app/services/registro/registro.service';
 import { ParametriService } from '@app/services/parametri/parametri.service';
@@ -22,6 +22,7 @@ export class ContrattoComponent implements OnInit, OnDestroy {
   routeSub: any;
   infoPagamentoSource;
   valoreTotaleSource;
+  txEventsSource = this.blockchainService.txEvents
 
   constructor(private activatedRoute: ActivatedRoute, private librettoService: LibrettoService,
               private registroService: RegistroService, private salService: SalService,
@@ -30,9 +31,9 @@ export class ContrattoComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.routeSub = this.activatedRoute.paramMap.pipe(
-      // tap(() => this.clear()),
       map(params => {
         const contractId = params.get('contractId');
+        // TODO: gestire il caso in cui l'id del contratto non si trova tra quelli dell'utente
         if (contractId === '') {
           const firstContract = this.userService.getContracts()[0]._id;
           this.router.navigate(['area-riservata/contract', firstContract]);

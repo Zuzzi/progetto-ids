@@ -10,6 +10,7 @@ import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { GiornaleService } from '@app/services/giornale/giornale.service';
 import { tap, publishReplay, refCount, filter, concatMapTo } from 'rxjs/operators';
 import { ParametriService } from '@app/services/parametri/parametri.service';
+import { BlockchainService } from '@app/services/blockchain/blockchain.service';
 
 @Component({
   selector: 'app-giornale',
@@ -18,6 +19,7 @@ import { ParametriService } from '@app/services/parametri/parametri.service';
 })
 export class GiornaleComponent implements OnInit, OnDestroy {
 
+  txEventsSource = this.blockchainService.txEvents;
   date;
   formInserimento;
   isDirettoreLogged: boolean;
@@ -43,9 +45,8 @@ export class GiornaleComponent implements OnInit, OnDestroy {
 
 
   constructor(private dialog: MatDialog, private userService: UserService, private activatedRoute: ActivatedRoute,
-              private giornaleService: GiornaleService,
-              private parametriService: ParametriService,
-              private fb: FormBuilder) { }
+              private blockchainService: BlockchainService, private giornaleService: GiornaleService,
+              private parametriService: ParametriService, private fb: FormBuilder) { }
 
   ngOnInit() {
     this.isDirettoreLogged = this.userService.titleCheck(UserTitle.Direttore);

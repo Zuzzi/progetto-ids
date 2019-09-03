@@ -29,6 +29,7 @@ import { ParametriService } from '@app/services/parametri/parametri.service';
 export class LibrettoComponent implements OnInit, OnDestroy {
 
   displayedColumns = ['no', 'tariffa', 'data', 'designazione', 'categoriaContabile', 'percentuale', 'allegati', 'riserva', 'invalida'];
+  txEventsSource = this.blockchainService.txEvents;
   misure;
   misureSource;
   categorieSource = this.parametriService.categorie.pipe(
@@ -54,10 +55,8 @@ export class LibrettoComponent implements OnInit, OnDestroy {
   // routeSub: any;
 
   constructor(private dialog: MatDialog, private userService: UserService,
-              private activatedRoute: ActivatedRoute, private blockchainService: BlockchainService,
-              private librettoService: LibrettoService,
-              private registroService: RegistroService,
-              private parametriService: ParametriService) {}
+              private blockchainService: BlockchainService, private librettoService: LibrettoService,
+              private registroService: RegistroService, private parametriService: ParametriService) {}
 
   ngOnInit() {
     // TODO: rimuovere questa modifica temporanea per testare conferma registro.

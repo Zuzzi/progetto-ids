@@ -22,10 +22,10 @@
 
     <div class="col-md-6" style="text-align: center;">
 
-      <button *ngIf="isRupLogged && !(misureSource | async)?.isLoading" type="button" class="btn btn-outline-warning btn-sm"
+      <button *ngIf="isRupLogged && !(misureSource | async)?.isLoading && !(txEventsSource | async)?.isTransacting" type="button" class="btn btn-outline-warning btn-sm"
       style="float: right; top: 60%; position:relative; font-size: 0.8rem; " (click)='openDialogConfermaLibretto()'>Approva Misure</button>
 
-      <button *ngIf="isDirettoreLogged && !(misureSource | async)?.isLoading" type="button" class="btn btn-outline-warning btn-sm"
+      <button *ngIf="isDirettoreLogged && !(misureSource | async)?.isLoading && !(txEventsSource | async)?.isTransacting" type="button" class="btn btn-outline-warning btn-sm"
       style="float: right; top: 60%; position:relative; font-size: 0.8rem;" (click)='openDialogInserimento()'>Inserisci nuova voce</button>
     </div>
   </div>

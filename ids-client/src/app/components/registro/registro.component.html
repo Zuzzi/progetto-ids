@@ -21,7 +21,7 @@
 
 
     <div class="col-md-6" style=" text-align: center;">
-        <button *ngIf="isRupLogged && !(vociRegistroSource | async)?.isLoading" type="button" class="btn btn-outline-warning btn-sm"
+        <button *ngIf="isRupLogged && !(vociRegistroSource | async)?.isLoading && !(txEventsSource | async)?.isTransacting" type="button" class="btn btn-outline-warning btn-sm"
         style="float: right; top: 60%; position:relative; font-size: 0.8rem; " (click)='openDialogConfermaRegistro()'>Approva
         Registro</button>
     </div>
