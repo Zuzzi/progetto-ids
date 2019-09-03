@@ -5,14 +5,14 @@
 </h1>
 <br>
 
-<div *ngIf="!(soglieSource | async)?.isLoading; else loading" class="container-fluid">
+<div class="container-fluid">
   <div class="row" style="font-family: Arial, Helvetica, sans-serif; font-size: 1rem;">
     <div class="col-md">
       Completamento totale:<br>
       <div class="progress" id="progress-bar" style="width: 100%">
           <div class="progress-bar" role="progressbar" style="width: 25%; color: #343a40; font-weight: bold; background-color: #ffc107" aria-valuenow="25" aria-valuemin="0"
           aria-valuemax="100">25%</div>
-     
+
       </div>
     </div>
     <!-- <div class = "box" style = "display: inline-block; width: 25%; text-align: center;"> -->

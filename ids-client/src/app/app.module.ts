@@ -28,6 +28,10 @@ import { DialogBodyApprovazionemisureComponent } from './components/dialog-body-
 import { UserProfileComponent } from './components/user-profile/user-profile.component';
 import { ContrattoComponent } from './components/contratto/contratto.component';
 import { LoadingComponent } from './components/loading/loading.component';
+import { registerLocaleData } from '@angular/common';
+import  localeIt  from '@angular/common/locales/it';
+
+registerLocaleData(localeIt, 'it');
 @NgModule({
   declarations: [
     AppComponent,

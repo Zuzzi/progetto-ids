@@ -42,7 +42,7 @@ export class ParametriService {
 
   // isLoadingObs: Observable<boolean>;
   private isContractChanged: Subject<any>;
-  private contractId: string;
+  contractId: string;
   private parametri: SmartContract<SmartContractType.Parametri>;
 
   constructor(private blockchainService: BlockchainService, ) {
