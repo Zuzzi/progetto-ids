@@ -107,6 +107,7 @@ export class BlockchainService {
   private signTransaction(encodedData, nonce: number, contractAddress: string) {
     const tx = {from: this.account.address, to: contractAddress,
       gas: this.web3.defaultGas, data: encodedData, chainId: 10, nonce: nonce};
+    console.log(tx.gas);
     return from(this.web3.eth.accounts
       .signTransaction(tx, this.account.privateKey));
   }
