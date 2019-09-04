@@ -29,7 +29,9 @@ import { SalService } from '@app/services/sal/sal.service';
 
 export class LibrettoComponent implements OnInit, OnDestroy {
 
-  displayedColumns = ['no', 'tariffa', 'data', 'designazione', 'categoriaContabile', 'percentuale', 'allegati', 'riserva', 'invalida'];
+  displayedColumns = ['no', 'tariffa', 'data', 'designazione', 'categoriaContabile', 'percentuale',
+  // 'allegati',
+  'riserva', 'invalida'];
   txEventsSource = this.blockchainService.txEvents;
   misure;
   misureSource;

@@ -18,6 +18,7 @@ import { UserService } from '@app/services/user/user.service';
 })
 export class ContrattoComponent implements OnInit, OnDestroy {
 
+  contractName: string;
   contractId: string;
   routeSub: any;
   infoPagamentoSource;
@@ -40,6 +41,7 @@ export class ContrattoComponent implements OnInit, OnDestroy {
           return false;
         }
         else {
+          this.contractName = contract.nome;
           this.contractId = contractId;
           return true;
         }
