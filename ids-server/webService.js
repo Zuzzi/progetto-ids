@@ -14,7 +14,7 @@ const web3 = new Web3('ws://localhost:22000');
 const RSA_PRIVATE_TOKEN_KEY = fs.readFileSync('rsa_private_token.key').toString();
 const RSA_PUBLIC_TOKEN_KEY = fs.readFileSync('rsa_public_token.key').toString();
 const KEYSTORE_MASTER_KEY = '123';
-// const KEYSTORE_MASTER_KEY = 'Progetto-IDS'
+// const KEYSTORE_MASTER_KEY = fs.readFileSync('keystore_master.key').toString()
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended : false}))
 
