@@ -42,9 +42,7 @@ export class RegistroComponent implements OnInit, OnDestroy {
               private parametriService: ParametriService) { }
 
   ngOnInit() {
-    // TODO: rimuovere questa modifica temporanea per testare conferma registro.
-    // this.isRupLogged = this.userService.titleCheck(UserTitle.Rup);
-    this.isRupLogged = true;
+    this.isRupLogged = this.userService.titleCheck(UserTitle.Rup);
     this.isDirettoreLogged = this.userService.titleCheck(UserTitle.Direttore);
     this.isDittaLogged = this.userService.titleCheck(UserTitle.Ditta);
     this.vociRegistroSource = this.registroService.vociRegistro.pipe(

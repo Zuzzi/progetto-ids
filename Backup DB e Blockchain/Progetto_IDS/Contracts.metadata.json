@@ -1,1 +1,1 @@
-{"options":{},"indexes":[{"v":{"$numberInt":"2"},"key":{"_id":{"$numberInt":"1"}},"name":"_id_","ns":"Progetto_IDS.Contracts"}],"uuid":"93791b516c664f8e80ba8850bdaa3d35"}
+{"options":{},"indexes":[{"v":2,"key":{"_id":1},"name":"_id_","ns":"Progetto_IDS.Contracts"}],"uuid":"5f0baa68b03b4f7ba49a3b56a8d56db8"}

@@ -65,9 +65,7 @@ export class LibrettoComponent implements OnInit, OnDestroy {
               private activatedRoute: ActivatedRoute, private salService: SalService) {}
 
   ngOnInit() {
-    // TODO: rimuovere questa modifica temporanea per testare conferma registro.
-    // this.isRupLogged = this.userService.titleCheck(UserTitle.Rup);
-    this.isRupLogged = true;
+    this.isRupLogged = this.userService.titleCheck(UserTitle.Rup);
     this.isDirettoreLogged = this.userService.titleCheck(UserTitle.Direttore);
     this.isDittaLogged = this.userService.titleCheck(UserTitle.Ditta);
     this.misureSource = this.librettoService.misure.pipe(
