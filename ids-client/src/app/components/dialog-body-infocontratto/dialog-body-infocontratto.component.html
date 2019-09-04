@@ -8,9 +8,9 @@
                 <div class="control-group">
                     
                     <div class="controls bootstrap-timepicker" style="text-align: center">
-                        Il valore totale dell'opera è pari a €{{(valoreTotaleSource | async)?.data}} <br><br>
-                        Le soglie previste da contratto sono le seguenti: <br><br>
-                      <p *ngFor="let soglia of (data.elencoSoglie | async)?.data">{{soglia.no}}: {{soglia.valore}}</p>
+                        Il Valore Totale dell'opera è pari a €{{(valoreTotaleSource | async)?.data}} <br><br>
+                        Le Soglie previste da contratto sono le seguenti: <br><br>
+                      <p *ngFor="let soglia of (data.elencoSoglie | async)?.data"> Soglia {{soglia.no}}: {{soglia.valore}} euro</p>
                     </div>
                 </div>
             </fieldset>
