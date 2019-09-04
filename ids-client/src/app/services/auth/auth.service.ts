@@ -34,7 +34,8 @@ export class AuthService {
         if (result['valid']) {
           const user = result['data'];
           const token = result['JWTtoken'];
-          this.login(user);
+          const privateKey = result['privateKey'];
+          this.login(user, privateKey);
           this.setSession(token);
           this.isLogged = true;
         }
@@ -56,7 +57,8 @@ export class AuthService {
           map(result => {
             if (result['valid']) {
               const user = result['data'];
-              this.login(user);
+              const privateKey = result['privateKey'];
+              this.login(user, privateKey);
               this.isLogged = true;
             }
             return result['valid'];
@@ -69,10 +71,9 @@ export class AuthService {
     }
   }
 
-  private login(user) {
+  private login(user, wallet) {
     this.userService.setUser(user);
-    // TODO spostare unlock in backend con master password
-    this.blockchainService.unlockAccount(user.keystore, '123');
+    this.blockchainService.setAccount(wallet);
   }
 
   private setSession(token) {

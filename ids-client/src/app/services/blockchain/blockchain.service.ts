@@ -41,8 +41,8 @@ export class BlockchainService {
       options);
   }
 
-  unlockAccount(keystore, password: string) {
-    this.account = this.web3.eth.accounts.decrypt(keystore, password);
+  setAccount(privateKey) {
+    this.account = this.web3.eth.accounts.privateKeyToAccount(privateKey);
   }
 
   getSmartContract(contractId: string, type: SmartContractType) {
