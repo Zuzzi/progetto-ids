@@ -15,8 +15,14 @@ const path = require('path');
 
 const RSA_PRIVATE_TOKEN_KEY = fs.readFileSync('rsa_private_token.key').toString();
 const RSA_PUBLIC_TOKEN_KEY = fs.readFileSync('rsa_public_token.key').toString();
-const KEYSTORE_MASTER_KEY = '123';
 // const KEYSTORE_MASTER_KEY = fs.readFileSync('keystore_master.key').toString()
+const KEYSTORE_MASTER_KEY = '123';
+const invalidResult = {
+    valid: false,
+    data: null,
+    wallet: null,
+    JWTtoken: null,
+};
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended : false}))
 
@@ -30,12 +36,6 @@ app.post('/api/user/login', (req,res) => {
         let password = req.body.password
         console.log('connected successfully, username is ', username);
         console.log('Searching into mongodb/ProgettoIDS database..');
-        const invalidResult = {
-            valid: false,
-            data: null,
-            wallet: null,
-            JWTtoken: null,
-        };
         User.findOne({username: username})
             .populate('contracts')
             .exec().then(user => {
