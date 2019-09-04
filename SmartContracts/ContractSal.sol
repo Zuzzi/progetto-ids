@@ -70,18 +70,18 @@ contract ContractSal {
                 int128 percentuale, int128 prezzoValore, int128 prezzoPercentuale, int128 debitoValore, 
                 int128 debitoPercentuale, bool pagata) = cr.getContabilita(i);
                 
-                if (!pagata) {
-                    entratoSecondoIf = true;
-                    creaNuovaVoceSal(tariffa, categoriaContabile, descrizione, percentuale, prezzoValore,
-                                     prezzoPercentuale, debitoValore, debitoPercentuale);
-                    cr.pagataContabilita(i);
-                    for (uint j = 0; j<cm.numeroMisure(); j++) {
-                        (uint id,,, string memory categoriaContabileMisura, string memory descrizioneMisura,,,,, bool approvata) = cm.getMisura(j);
-                        if(cr.compareStrings(categoriaContabileMisura, categoriaContabile) && cr.compareStrings(descrizioneMisura, descrizione) && approvata)
-                            cm.rendiInvalidabileMisura(id);
-                    }
-                    
+                
+                entratoSecondoIf = true;
+                creaNuovaVoceSal(tariffa, categoriaContabile, descrizione, percentuale, prezzoValore,
+                                prezzoPercentuale, debitoValore, debitoPercentuale);
+                cr.pagataContabilita(i);
+                for (uint j = 0; j<cm.numeroMisure(); j++) {
+                    (uint id,,, string memory categoriaContabileMisura, string memory descrizioneMisura,,,,, bool approvata) = cm.getMisura(j);
+                    if(cr.compareStrings(categoriaContabileMisura, categoriaContabile) && cr.compareStrings(descrizioneMisura, descrizione) && approvata)
+                        cm.rendiInvalidabileMisura(id);
                 }
+                    
+                
             }
             totaleLavoriAcorpo = valoreParziale;
             //percentualeLavoriAcorpo = (totaleLavoriAcorpo*100)/cp.getValoreTotale();
