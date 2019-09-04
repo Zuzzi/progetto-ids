@@ -72,7 +72,7 @@ per avviare i nodi:
 ```
 sudo ./istanbul-x-start.sh
 ```
-
+La blockchain sarà in ascolto sulla porta 22000
 ## Modifica Genesis file per supportare solc0.5.5+
 
 ```
