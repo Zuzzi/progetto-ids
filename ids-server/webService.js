@@ -37,10 +37,7 @@ app.post('/api/user/login', (req,res) => {
                     console.log(user);
                     user.comparePassword(password).then(isMatch => {
                         if (isMatch) {
-                            // delete Object.getPrototypeOf(user).password;
-                            const keystore = user.keystore;
-                            const privateKey = web3.eth.accounts.decrypt(keystore, KEYSTORE_MASTER_KEY).privateKey;
-                            // delete Object.getPrototypeOf(user).keystore;
+                            const privateKey = web3.eth.accounts.decrypt(user.keystore, KEYSTORE_MASTER_KEY).privateKey;
                             const token = jwt.sign({username: user.username},RSA_PRIVATE_TOKEN_KEY,{
                                 algorithm: 'RS256',
                             });
@@ -75,10 +72,7 @@ app.post('/api/user/login', (req,res) => {
             User.findOne({username: username})
             .populate('contracts')
             .exec().then(user => {
-                // delete Object.getPrototypeOf(user).password;
-                const keystore = user.keystore;
-                const privateKey = web3.eth.accounts.decrypt(keystore, KEYSTORE_MASTER_KEY).privateKey;
-                // delete Object.getPrototypeOf(user).keystore;
+                const privateKey = web3.eth.accounts.decrypt(user.keystore, KEYSTORE_MASTER_KEY).privateKey;
                 return res.status(200).json({
                     valid: true,
                     data: user,

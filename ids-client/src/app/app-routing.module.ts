@@ -7,7 +7,6 @@ import {GiornaleComponent} from './components/giornale/giornale.component';
 import {LibrettoComponent} from './components/libretto/libretto.component';
 import {RegistroComponent} from './components/registro/registro.component';
 import {SalComponent} from './components/sal/sal.component';
-import {UserProfileComponent} from './components/user-profile/user-profile.component';
 import {AuthGuard} from '@app/guards/auth-guard';
 import { PrefixNot } from '@angular/compiler';
 
@@ -45,12 +44,6 @@ const routes: Routes = [
       component: SalComponent,
     },
   ]},
-  // {path: 'area-riservata', component: AreaRiservataComponent, children: [
-  //   {
-  //     path: 'user-profile',
-  //     component: UserProfileComponent,
-  //   },
-  // ]}
 ];
 
 @NgModule({

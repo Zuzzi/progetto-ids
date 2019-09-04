@@ -25,7 +25,6 @@ import { DialogBodyApprovazioneComponent } from './components/dialog-body-approv
 import { DialogBodyInvalidamisuraComponent } from './components/dialog-body-invalidamisura/dialog-body-invalidamisura.component';
 import { HttpClientModule } from '@angular/common/http';
 import { DialogBodyApprovazionemisureComponent } from './components/dialog-body-approvazionemisure/dialog-body-approvazionemisure.component';
-import { UserProfileComponent } from './components/user-profile/user-profile.component';
 import { ContrattoComponent } from './components/contratto/contratto.component';
 import { LoadingComponent } from './components/loading/loading.component';
 import { registerLocaleData } from '@angular/common';
@@ -52,7 +51,6 @@ registerLocaleData(localeIt, 'it');
     DialogBodyVisriservaComponent,
     DialogBodyApprovazioneComponent,
     DialogBodyApprovazionemisureComponent,
-    UserProfileComponent,
     DialogBodyInvalidamisuraComponent,
     ContrattoComponent,
     LoadingComponent,

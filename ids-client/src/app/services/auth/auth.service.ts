@@ -3,7 +3,6 @@ import { HttpClient } from '@angular/common/http';
 import {map, shareReplay} from 'rxjs/operators';
 import {User, SmartContractType, UserTitle} from '@app/interfaces';
 import { userInfo } from 'os';
-import { UserProfileComponent } from '@app/components/user-profile/user-profile.component';
 import { BlockchainService } from '@app/services/blockchain/blockchain.service';
 import { UserService} from '@app/services/user/user.service';
 import { of } from 'rxjs';
