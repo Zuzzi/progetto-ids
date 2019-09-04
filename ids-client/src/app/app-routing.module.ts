@@ -8,9 +8,6 @@ import {LibrettoComponent} from './components/libretto/libretto.component';
 import {RegistroComponent} from './components/registro/registro.component';
 import {SalComponent} from './components/sal/sal.component';
 import {AuthGuard} from '@app/guards/auth-guard';
-import { PrefixNot } from '@angular/compiler';
-
-// TODO: gestire url non consentiti (considera anche parametri illegali o nulli)
 
 const routes: Routes = [
   {path: 'login', component: WelcomeComponent},

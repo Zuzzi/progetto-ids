@@ -10,7 +10,7 @@
     <div  *ngIf="!(infoPagamentoSource | async)?.isLoading"  class="col-md">
       Completamento totale:<br>
       <div class="progress" id="progress-bar" style="width: '50%'">
-          <div class="progress-bar bg-warning" role="progressbar" [style.width.%]="(infoPagamentoSource | async).data.percentualeLavoriAcorpo"  [attr.aria-valuenow]="(infoPagamentoSource | async).data.percentualeLavoriAcorpo" aria-valuemin="0"
+          <div class="progress-bar bg-warning" role="progressbar" [style.width.%]="(infoPagamentoSource | async)?.data.percentualeLavoriAcorpo"  [attr.aria-valuenow]="(infoPagamentoSource | async)?.data.percentualeLavoriAcorpo" aria-valuemin="0"
           aria-valuemax="100">{{(infoPagamentoSource | async)?.data.percentualeLavoriAcorpo}}%</div>
       </div>
     </div>
