@@ -4,7 +4,7 @@
     Giornale dei Lavori
 </h3>
 
-<div *ngIf="!(giornaleSource | async)?.isLoading; else loading" class="container-fluid" style="max-height: 100%; margin-top: 3%">
+<div *ngIf="!(giornaleSource | async)?.isLoading; else loading" class="container-fluid" style="height: 100%; margin-top: 1%">
     <div class="row" style=" font-family: Arial, Helvetica, sans-serif; font-size: 0.8rem;">
             <div class="col-md-6">
                     <fieldset class="scheduler-border">
@@ -26,7 +26,7 @@
             </div>
     </div>
     <div class="row" style="margin-bottom: 10px; font-family: Arial, Helvetica, sans-serif; font-size: 0.8rem; height:51vh">
-        <div class="col-md-8 scrollbar-black bordered-black thin" style="overflow-y:auto; max-height:51vh ">
+        <div class="col-md-8 scrollbar-black bordered-black thin" style="overflow-y:auto; height:51vh ">
             <div class="row">
              <div class="col-md">
                 <!--DESCRIZIONE LOCAZIONE-->
@@ -84,7 +84,7 @@
             <mat-datepicker #picker></mat-datepicker>
           </mat-form-field> -->
 
-            <mat-card style="width:80%; float: right;">
+            <mat-card style="width:70%; float: right;">
                 <mat-calendar [selected]="date" (selectedChange)="onDateChange('change',$event)"></mat-calendar>
             </mat-card>
 
