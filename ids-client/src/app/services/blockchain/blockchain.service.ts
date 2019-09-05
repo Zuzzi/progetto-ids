@@ -88,7 +88,7 @@ export class BlockchainService {
       }),
       concatMap(signedTx => {
         console.log('Transaction Signed!');
-        this.txEventsStream.next({isTransacting: true, message: 'Transazione in corso'});
+        this.txEventsStream.next({isTransacting: true, message: 'Transazione Firmata'});
         return this.sendSignedTransaction(signedTx);
       }),
       tap(() => {
