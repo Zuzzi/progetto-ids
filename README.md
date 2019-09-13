@@ -178,7 +178,7 @@ sudo cp -a qdata_backup/. qdata
 ```
 
 ## Spostare il backup all'interno e all'esterno della macchina virtuale
-utilizziamo la cartella condivisa  `/vagrant/vagrant` della macchina virtuale collegata all'esterno a `quorum-examples/vagrant`
+utilizziamo la cartella condivisa  `/vagrant/vagrant` della macchina virtuale collegata all'esterno a `quorum-examples/vagrant`.
 
 ### Comprime e sposta all'esterno
 ```
